@@ -15,10 +15,16 @@
           </transition>
         </region>
       </ownedBehavior>
-      <ownedOperation xmi:id="_eMlOIB9XEeGILI_QWNoihg" name="Open"/>
+      <ownedOperation xmi:id="_eMlOIB9XEeGILI_QWNoihg" name="Open">
+        <ownedParameter xmi:id="_9JWYkB9oEeGLJamEGvEssA" name="page" visibility="public" type="_HRwzAB9pEeGLJamEGvEssA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9JWYkR9oEeGLJamEGvEssA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_9JWYkh9oEeGLJamEGvEssA" value="1"/>
+        </ownedParameter>
+      </ownedOperation>
       <ownedOperation xmi:id="_e9twIB9XEeGILI_QWNoihg" name="Close"/>
     </packagedElement>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_ecuGcB9YEeGILI_QWNoihg" name="OpenEvent" operation="_eMlOIB9XEeGILI_QWNoihg"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_4J090B9YEeGILI_QWNoihg" name="CloseEvent" operation="_e9twIB9XEeGILI_QWNoihg"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_HRwzAB9pEeGLJamEGvEssA" name="Integer"/>
   </packagedElement>
 </uml:Model>
