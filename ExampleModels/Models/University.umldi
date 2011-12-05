@@ -31,7 +31,7 @@
         </semanticModel>
       </contained>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_gFKLQB9VEeGILI_QWNoihg" position="362,103" size="100,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_gFKLQB9VEeGILI_QWNoihg" position="400,103" size="100,-1">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gFKLQR9VEeGILI_QWNoihg" presentation="default">
         <element href="University.uml#_gFNOkB9VEeGILI_QWNoihg"/>
       </semanticModel>
@@ -46,6 +46,11 @@
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gFKLRx9VEeGILI_QWNoihg" presentation="default">
           <element href="University.uml#_gFNOkB9VEeGILI_QWNoihg"/>
         </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_ftjGER9hEeGLJamEGvEssA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ftjGEh9hEeGLJamEGvEssA" presentation="default">
+            <element href="University.uml#_ft_K8B9hEeGLJamEGvEssA"/>
+          </semanticModel>
+        </contained>
       </contained>
     </contained>
   </diagrams>
