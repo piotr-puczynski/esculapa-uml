@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Book">
+    <packagedElement xmi:type="uml:Class" xmi:id="_1keXEB9WEeGILI_QWNoihg" name="Book" classifierBehavior="_70gVQB9XEeGILI_QWNoihg">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_70gVQB9XEeGILI_QWNoihg" name="StateMachine">
+        <region xmi:id="_70gVQR9XEeGILI_QWNoihg" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_NjqeoB9YEeGILI_QWNoihg" name="Start"/>
+          <subvertex xmi:type="uml:State" xmi:id="_P7ClsB9YEeGILI_QWNoihg" name="Opened"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_-uJmcB9YEeGILI_QWNoihg" name="Stop" kind="exitPoint"/>
+          <transition xmi:id="_TxerwB9YEeGILI_QWNoihg" name="Open" source="_NjqeoB9YEeGILI_QWNoihg" target="_P7ClsB9YEeGILI_QWNoihg">
+            <trigger xmi:id="_ZWgakB9YEeGILI_QWNoihg" name="Open" event="_ecuGcB9YEeGILI_QWNoihg"/>
+          </transition>
+          <transition xmi:id="_JUViBB9ZEeGILI_QWNoihg" name="Transition1" source="_P7ClsB9YEeGILI_QWNoihg" target="_-uJmcB9YEeGILI_QWNoihg">
+            <trigger xmi:id="_KNZ4AB9ZEeGILI_QWNoihg" name="" event="_4J090B9YEeGILI_QWNoihg"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_eMlOIB9XEeGILI_QWNoihg" name="Open"/>
+      <ownedOperation xmi:id="_e9twIB9XEeGILI_QWNoihg" name="Close"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_ecuGcB9YEeGILI_QWNoihg" name="OpenEvent" operation="_eMlOIB9XEeGILI_QWNoihg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_4J090B9YEeGILI_QWNoihg" name="CloseEvent" operation="_e9twIB9XEeGILI_QWNoihg"/>
+  </packagedElement>
+</uml:Model>

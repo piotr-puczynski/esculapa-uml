@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_4N8QgB9SEeGILI_QWNoihg" activeDiagram="_4N8QgR9SEeGILI_QWNoihg">
+  <model href="University.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+  <diagrams xmi:id="_4N8QgR9SEeGILI_QWNoihg" position="0,0" size="100,100" name="University" viewport="0,0">
+    <property xmi:id="_4b50AB9SEeGILI_QWNoihg" key="pageFormatName" value="A4"/>
+    <property xmi:id="_4b50AR9SEeGILI_QWNoihg" key="diagramWidth" value="840"/>
+    <property xmi:id="_4b50Ah9SEeGILI_QWNoihg" key="diagramHeight" value="1188"/>
+    <property xmi:id="_4b50Ax9SEeGILI_QWNoihg" key="pageMarginName" value="Small Margin"/>
+    <property xmi:id="_4b50BB9SEeGILI_QWNoihg" key="diagramTopMargin" value="20"/>
+    <property xmi:id="_4b50BR9SEeGILI_QWNoihg" key="diagramBottomMargin" value="20"/>
+    <property xmi:id="_4b50Bh9SEeGILI_QWNoihg" key="diagramLeftMargin" value="20"/>
+    <property xmi:id="_4b50Bx9SEeGILI_QWNoihg" key="diagramRightMargin" value="20"/>
+    <property xmi:id="_4b50CB9SEeGILI_QWNoihg" key="orientation" value="portrait"/>
+    <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4N8Qgh9SEeGILI_QWNoihg" presentation="org.topcased.modeler.uml.classdiagram">
+      <element href="University.uml#_w8IxIM37EdqwVrslYOdUDA"/>
+    </semanticModel>
+    <contained xsi:type="di:GraphNode" xmi:id="_ph_HgB9UEeGILI_QWNoihg" position="142,102" size="100,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ph_HgR9UEeGILI_QWNoihg" presentation="default">
+        <element href="University.uml#_plfHcB9UEeGILI_QWNoihg"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_ph_Hgh9UEeGILI_QWNoihg">
+        <property xmi:id="_ph_Hgx9UEeGILI_QWNoihg" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ph_HhB9UEeGILI_QWNoihg" presentation="default">
+          <element href="University.uml#_plfHcB9UEeGILI_QWNoihg"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_ph_HhR9UEeGILI_QWNoihg">
+        <property xmi:id="_ph_Hhh9UEeGILI_QWNoihg" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ph_Hhx9UEeGILI_QWNoihg" presentation="default">
+          <element href="University.uml#_plfHcB9UEeGILI_QWNoihg"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_gFKLQB9VEeGILI_QWNoihg" position="362,103" size="100,-1">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gFKLQR9VEeGILI_QWNoihg" presentation="default">
+        <element href="University.uml#_gFNOkB9VEeGILI_QWNoihg"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_gFKLQh9VEeGILI_QWNoihg">
+        <property xmi:id="_gFKLQx9VEeGILI_QWNoihg" key="eStructuralFeatureID" value="37"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gFKLRB9VEeGILI_QWNoihg" presentation="default">
+          <element href="University.uml#_gFNOkB9VEeGILI_QWNoihg"/>
+        </semanticModel>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_gFKLRR9VEeGILI_QWNoihg">
+        <property xmi:id="_gFKLRh9VEeGILI_QWNoihg" key="eStructuralFeatureID" value="47 50 "/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_gFKLRx9VEeGILI_QWNoihg" presentation="default">
+          <element href="University.uml#_gFNOkB9VEeGILI_QWNoihg"/>
+        </semanticModel>
+      </contained>
+    </contained>
+  </diagrams>
+</diagrams:Diagrams>
