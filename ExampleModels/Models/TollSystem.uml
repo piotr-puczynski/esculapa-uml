@@ -4,9 +4,11 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_pdk5oB_5EeGQMYBUy7N72A" name="Lane" isAbstract="true">
       <ownedAttribute xmi:id="_t_F9AB_5EeGQMYBUy7N72A" name="id" visibility="protected"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A">
+    <packagedElement xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A _iX9_gCASEeGQMYBUy7N72A _Z_FdcCAcEeGwRqejfhyScQ">
       <generalization xmi:id="_4F9fUB_5EeGQMYBUy7N72A" general="_pdk5oB_5EeGQMYBUy7N72A"/>
       <interfaceRealization xmi:id="_Xhem0CABEeGQMYBUy7N72A" name="InterfaceRealization1" supplier="_0DkZMB__EeGQMYBUy7N72A" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_0DkZMB__EeGQMYBUy7N72A"/>
+      <interfaceRealization xmi:id="_iX9_gCASEeGQMYBUy7N72A" name="InterfaceRealization2" supplier="_ZDVn4CAREeGQMYBUy7N72A" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_ZDVn4CAREeGQMYBUy7N72A"/>
+      <interfaceRealization xmi:id="_Z_FdcCAcEeGwRqejfhyScQ" name="InterfaceRealization3" supplier="_U4YpYCAcEeGwRqejfhyScQ" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_U4YpYCAcEeGwRqejfhyScQ"/>
       <ownedOperation xmi:id="_lRG8Yh_9EeGQMYBUy7N72A" name="buyTicket">
         <ownedParameter xmi:id="_oa_ecB_9EeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
       </ownedOperation>
@@ -14,6 +16,7 @@
       <ownedOperation xmi:id="_yp9L0iAIEeGQMYBUy7N72A" name="readCCInfo">
         <ownedParameter xmi:id="_4bz1sCAIEeGQMYBUy7N72A" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
       </ownedOperation>
+      <ownedOperation xmi:id="_tK7x0CAdEeGwRqejfhyScQ" name="payCash" method="_UmGxICAdEeGwRqejfhyScQ"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Enumeration" xmi:id="_ZK3qsB_6EeGQMYBUy7N72A" name="VehicleType">
       <ownedLiteral xmi:id="_bxDCwh_6EeGQMYBUy7N72A" name="motorbike"/>
@@ -25,6 +28,7 @@
         <ownedParameter xmi:id="_IVl2ACACEeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
       </ownedOperation>
       <ownedOperation xmi:id="_6nBXwCACEeGQMYBUy7N72A" name="cancelPayment"/>
+      <ownedOperation xmi:id="_SVB70CAcEeGwRqejfhyScQ" name="payCash"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_SR71QCAAEeGQMYBUy7N72A" name="Touchscreen"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_ObrDcCACEeGQMYBUy7N72A" name="A_&lt;touchscreen>_&lt;normalLaneCheckInToTouchscreen>" memberEnd="_ObrDcSACEeGQMYBUy7N72A _ObrDdCACEeGQMYBUy7N72A" navigableOwnedEnd="_ObrDdCACEeGQMYBUy7N72A">
@@ -44,7 +48,7 @@
     <packagedElement xmi:type="uml:Interface" xmi:id="_L_r9oCAMEeGQMYBUy7N72A" name="PrinterToNormalLineCheckIn">
       <ownedOperation xmi:id="_SUzsoiAMEeGQMYBUy7N72A" name="printTicket"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:DataType" xmi:id="_Wt2JcCAMEeGQMYBUy7N72A" name="CreditCardInformation"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_Wt2JcCAMEeGQMYBUy7N72A" name="CreditCardInformationType"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_i9wb4CAMEeGQMYBUy7N72A" name="A_&lt;normalLaneCheckIn>_&lt;printerToNormalLineCheckIn>" memberEnd="_i9wb4SAMEeGQMYBUy7N72A _i9wb5CAMEeGQMYBUy7N72A" navigableOwnedEnd="_i9wb5CAMEeGQMYBUy7N72A">
       <ownedEnd xmi:id="_i9wb4SAMEeGQMYBUy7N72A" name="normalLaneCheckIn" type="_y3XTgB_5EeGQMYBUy7N72A" association="_i9wb4CAMEeGQMYBUy7N72A">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_i9wb4iAMEeGQMYBUy7N72A" value="1"/>
@@ -58,7 +62,17 @@
     <packagedElement xmi:type="uml:Interface" xmi:id="_EcGa8CANEeGQMYBUy7N72A" name="BarrierToLine">
       <ownedOperation xmi:id="_GUKv0iANEeGQMYBUy7N72A" name="allowPassage"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_I_GsECANEeGQMYBUy7N72A" name="Barrier" clientDependency="_OLUSQCANEeGQMYBUy7N72A">
+    <packagedElement xmi:type="uml:Class" xmi:id="_I_GsECANEeGQMYBUy7N72A" name="Barrier" clientDependency="_OLUSQCANEeGQMYBUy7N72A" classifierBehavior="__QOgECAZEeGwRqejfhyScQ">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="__QOgECAZEeGwRqejfhyScQ" name="StateMachine">
+        <region xmi:id="__QOgESAZEeGwRqejfhyScQ" name="Region">
+          <subvertex xmi:type="uml:State" xmi:id="_IZysoCAaEeGwRqejfhyScQ" name="Idle"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_4TZJcCAcEeGwRqejfhyScQ" name="Start"/>
+          <transition xmi:id="_MVqsVSAaEeGwRqejfhyScQ" name="Transition2" source="_IZysoCAaEeGwRqejfhyScQ" target="_IZysoCAaEeGwRqejfhyScQ">
+            <trigger xmi:id="_RF6vQCAaEeGwRqejfhyScQ" name="allowPassage" event="_Xs5DQCAaEeGwRqejfhyScQ"/>
+          </transition>
+          <transition xmi:id="_5doH9SAcEeGwRqejfhyScQ" name="Transition1" source="_4TZJcCAcEeGwRqejfhyScQ" target="_IZysoCAaEeGwRqejfhyScQ"/>
+        </region>
+      </ownedBehavior>
       <interfaceRealization xmi:id="_OLUSQCANEeGQMYBUy7N72A" name="InterfaceRealization1" supplier="_EcGa8CANEeGQMYBUy7N72A" client="_I_GsECANEeGQMYBUy7N72A" contract="_EcGa8CANEeGQMYBUy7N72A"/>
       <ownedOperation xmi:id="_KZat8CANEeGQMYBUy7N72A" name="printTicket"/>
       <ownedOperation xmi:id="_K93e0CANEeGQMYBUy7N72A" name="allowPassage"/>
@@ -71,6 +85,100 @@
       <ownedEnd xmi:id="_PxFWNCANEeGQMYBUy7N72A" name="barrier" visibility="protected" type="_EcGa8CANEeGQMYBUy7N72A" association="_PxFWMCANEeGQMYBUy7N72A">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PxFWNSANEeGQMYBUy7N72A" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PxFWNiANEeGQMYBUy7N72A" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_7anW4CANEeGQMYBUy7N72A" name="EnterpriseServer" clientDependency="_gOSTACAOEeGQMYBUy7N72A">
+      <interfaceRealization xmi:id="_gOSTACAOEeGQMYBUy7N72A" name="InterfaceRealization1" supplier="_PPDxwCAOEeGQMYBUy7N72A" client="_7anW4CANEeGQMYBUy7N72A" contract="_PPDxwCAOEeGQMYBUy7N72A"/>
+      <ownedOperation xmi:id="__HnNEiANEeGQMYBUy7N72A" name="generateSingleTicket">
+        <ownedParameter xmi:id="_CjDZMCAOEeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
+        <ownedParameter xmi:id="_wWpoQCAPEeGQMYBUy7N72A" name="singleTicket" type="_dBTkMCAPEeGQMYBUy7N72A" direction="return"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_PPDxwCAOEeGQMYBUy7N72A" name="EnterpriseServerToLane">
+      <ownedOperation xmi:id="_VIylQCAOEeGQMYBUy7N72A" name="generateSingleTicket">
+        <ownedParameter xmi:id="_VIylQSAOEeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
+        <ownedParameter xmi:id="_FCaiICAPEeGQMYBUy7N72A" name="singleTicket" type="_dBTkMCAPEeGQMYBUy7N72A" direction="return"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_h0gC4CAOEeGQMYBUy7N72A" name="A_&lt;lane>_&lt;enterpriseServerToLane>" memberEnd="_h0gC4SAOEeGQMYBUy7N72A _h0gC5CAOEeGQMYBUy7N72A" navigableOwnedEnd="_h0gC5CAOEeGQMYBUy7N72A">
+      <ownedEnd xmi:id="_h0gC4SAOEeGQMYBUy7N72A" name="lane" type="_pdk5oB_5EeGQMYBUy7N72A" association="_h0gC4CAOEeGQMYBUy7N72A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_h0gC4iAOEeGQMYBUy7N72A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_h0gC4yAOEeGQMYBUy7N72A" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_h0gC5CAOEeGQMYBUy7N72A" name="enterpriseServer" visibility="protected" type="_PPDxwCAOEeGQMYBUy7N72A" association="_h0gC4CAOEeGQMYBUy7N72A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_h0gC5SAOEeGQMYBUy7N72A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_h0gC5iAOEeGQMYBUy7N72A" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_P7HKACAPEeGQMYBUy7N72A" name="Ticket" isAbstract="true">
+      <ownedAttribute xmi:id="_YHPd8iAPEeGQMYBUy7N72A" name="id" visibility="protected"/>
+      <ownedAttribute xmi:id="_6EP_4CAYEeGwRqejfhyScQ" name="isVaild" visibility="protected"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_dBTkMCAPEeGQMYBUy7N72A" name="SingleTicket">
+      <generalization xmi:id="_eEjJ4CAPEeGQMYBUy7N72A" general="_P7HKACAPEeGQMYBUy7N72A"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_i6lrwCAPEeGQMYBUy7N72A" name="Tag">
+      <generalization xmi:id="_kIsdoCAPEeGQMYBUy7N72A" general="_P7HKACAPEeGQMYBUy7N72A"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_UoqzYCAREeGQMYBUy7N72A" name="CreditCardReader"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_ZDVn4CAREeGQMYBUy7N72A" name="NormalLaneCheckInAndStationToCreditCardReader">
+      <ownedOperation xmi:id="_fIYTgCAREeGQMYBUy7N72A" name="readCCInfo">
+        <ownedParameter xmi:id="_fIYTgSAREeGQMYBUy7N72A" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_vPF4YCAREeGQMYBUy7N72A" name="A_&lt;creditCardReader>_&lt;normalLaneCheckInAndStationToCreditCardReader>" memberEnd="_vPF4YSAREeGQMYBUy7N72A _vPF4ZCAREeGQMYBUy7N72A" navigableOwnedEnd="_vPF4ZCAREeGQMYBUy7N72A">
+      <ownedEnd xmi:id="_vPF4YSAREeGQMYBUy7N72A" name="creditCardReader" type="_UoqzYCAREeGQMYBUy7N72A" association="_vPF4YCAREeGQMYBUy7N72A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vPF4YiAREeGQMYBUy7N72A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vPF4YyAREeGQMYBUy7N72A" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_vPF4ZCAREeGQMYBUy7N72A" name="lane" visibility="private" type="_ZDVn4CAREeGQMYBUy7N72A" association="_vPF4YCAREeGQMYBUy7N72A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vPF4ZSAREeGQMYBUy7N72A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vPF4ZiAREeGQMYBUy7N72A" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_GtejgCAUEeGQMYBUy7N72A" name="BankToLane">
+      <ownedOperation xmi:id="_H_wDsiAUEeGQMYBUy7N72A" name="chargeCreditCard">
+        <ownedParameter xmi:id="_cO0lECAUEeGQMYBUy7N72A" name="creditCardInfo" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
+        <ownedParameter xmi:id="_cTbYQCAUEeGQMYBUy7N72A" name="price" type="_LedmQCAUEeGQMYBUy7N72A"/>
+        <ownedParameter xmi:id="_55gk8CAXEeGQMYBUy7N72A" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_LedmQCAUEeGQMYBUy7N72A" name="PriceType"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_lB7ZcCAUEeGQMYBUy7N72A" name="A_&lt;lane>_&lt;bankToLane>" memberEnd="_lB7ZcSAUEeGQMYBUy7N72A _lB7ZdCAUEeGQMYBUy7N72A" navigableOwnedEnd="_lB7ZdCAUEeGQMYBUy7N72A">
+      <ownedEnd xmi:id="_lB7ZcSAUEeGQMYBUy7N72A" name="lane" type="_pdk5oB_5EeGQMYBUy7N72A" association="_lB7ZcCAUEeGQMYBUy7N72A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lB7ZciAUEeGQMYBUy7N72A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lB7ZcyAUEeGQMYBUy7N72A" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lB7ZdCAUEeGQMYBUy7N72A" name="bank" visibility="protected" type="_GtejgCAUEeGQMYBUy7N72A" association="_lB7ZcCAUEeGQMYBUy7N72A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lB7ZdSAUEeGQMYBUy7N72A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lB7ZdiAUEeGQMYBUy7N72A" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_1ryAQCAXEeGQMYBUy7N72A" name="Boolean"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_Xs5DQCAaEeGwRqejfhyScQ" name="allowPassage()" operation="_K93e0CANEeGQMYBUy7N72A"/>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_U4YpYCAcEeGwRqejfhyScQ" name="NormalLaneCheckInAndStationToCashRegister">
+      <ownedOperation xmi:id="_Y69G8CAcEeGwRqejfhyScQ" name="payCash"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_dBF14CAcEeGwRqejfhyScQ" name="CashRegister" classifierBehavior="_tTY_sCAcEeGwRqejfhyScQ">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_tTY_sCAcEeGwRqejfhyScQ" name="StateMachine">
+        <region xmi:id="_tTY_sSAcEeGwRqejfhyScQ" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_xQKXQyAcEeGwRqejfhyScQ" name="Start"/>
+          <subvertex xmi:type="uml:State" xmi:id="_-PNAkiAcEeGwRqejfhyScQ" name="Idle"/>
+          <transition xmi:id="_AbM-FiAdEeGwRqejfhyScQ" name="Transition1" source="_xQKXQyAcEeGwRqejfhyScQ" target="_-PNAkiAcEeGwRqejfhyScQ"/>
+          <transition xmi:id="_BAZV1SAdEeGwRqejfhyScQ" name="Transition2" source="_-PNAkiAcEeGwRqejfhyScQ" target="_-PNAkiAcEeGwRqejfhyScQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_UmGxICAdEeGwRqejfhyScQ" name="lane.payCash()" specification="_tK7x0CAdEeGwRqejfhyScQ"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_gxNRgCAcEeGwRqejfhyScQ" name="A_&lt;cashRegister>_&lt;normalLaneCheckInAndStationToCashRegister>" memberEnd="_gxNRgSAcEeGwRqejfhyScQ _gxNRhCAcEeGwRqejfhyScQ" navigableOwnedEnd="_gxNRhCAcEeGwRqejfhyScQ">
+      <ownedEnd xmi:id="_gxNRgSAcEeGwRqejfhyScQ" name="cashRegister" type="_dBF14CAcEeGwRqejfhyScQ" association="_gxNRgCAcEeGwRqejfhyScQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gxNRgiAcEeGwRqejfhyScQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gxNRgyAcEeGwRqejfhyScQ" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_gxNRhCAcEeGwRqejfhyScQ" name="lane" visibility="private" type="_U4YpYCAcEeGwRqejfhyScQ" association="_gxNRgCAcEeGwRqejfhyScQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gxNRhSAcEeGwRqejfhyScQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gxNRhiAcEeGwRqejfhyScQ" value="1"/>
       </ownedEnd>
     </packagedElement>
   </packagedElement>
