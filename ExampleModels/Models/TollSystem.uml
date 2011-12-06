@@ -4,8 +4,27 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_pdk5oB_5EeGQMYBUy7N72A" name="Lane" isAbstract="true">
       <ownedAttribute xmi:id="_t_F9AB_5EeGQMYBUy7N72A" name="id" visibility="protected"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A _iX9_gCASEeGQMYBUy7N72A _Z_FdcCAcEeGwRqejfhyScQ">
+    <packagedElement xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A _iX9_gCASEeGQMYBUy7N72A _Z_FdcCAcEeGwRqejfhyScQ" classifierBehavior="_frka8CAjEeGwRqejfhyScQ">
       <generalization xmi:id="_4F9fUB_5EeGQMYBUy7N72A" general="_pdk5oB_5EeGQMYBUy7N72A"/>
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_frka8CAjEeGwRqejfhyScQ" name="StateMachine">
+        <region xmi:id="_frka8SAjEeGwRqejfhyScQ" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_h451MSAjEeGwRqejfhyScQ" name="Start"/>
+          <subvertex xmi:type="uml:State" xmi:id="_jmZRwiAjEeGwRqejfhyScQ" name="Idle"/>
+          <subvertex xmi:type="uml:State" xmi:id="_sCvzAiAjEeGwRqejfhyScQ" name="buy single ticket"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_8tpYISAlEeGwRqejfhyScQ" name="" kind="choice"/>
+          <transition xmi:id="_md_J9CAjEeGwRqejfhyScQ" name="Transition1" source="_h451MSAjEeGwRqejfhyScQ" target="_jmZRwiAjEeGwRqejfhyScQ"/>
+          <transition xmi:id="_u7ErBSAjEeGwRqejfhyScQ" name="Transition2" source="_jmZRwiAjEeGwRqejfhyScQ" target="_sCvzAiAjEeGwRqejfhyScQ">
+            <trigger xmi:id="_wQxSoCAjEeGwRqejfhyScQ" name="buyTicket" event="_0-Lc8CAjEeGwRqejfhyScQ"/>
+          </transition>
+          <transition xmi:id="_OmwHtSAmEeGwRqejfhyScQ" name="Transition3" source="_sCvzAiAjEeGwRqejfhyScQ" target="_8tpYISAlEeGwRqejfhyScQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_RQ8dECAmEeGwRqejfhyScQ" name="ticket := enterpriseServer.generateSingleTicket(vehicleType)" specification="__HnNEiANEeGQMYBUy7N72A"/>
+          </transition>
+          <transition xmi:id="_oCFApCAoEeGwRqejfhyScQ" name="Transition4" source="_8tpYISAlEeGwRqejfhyScQ" target="_jmZRwiAjEeGwRqejfhyScQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6bxUwCAoEeGwRqejfhyScQ" name="ticket.invalidate(); enterpriseServer.saveSingleTicket(ticket)"/>
+            <trigger xmi:id="_rmmQQCAoEeGwRqejfhyScQ" name="" event="_uZRMMCAoEeGwRqejfhyScQ"/>
+          </transition>
+        </region>
+      </ownedBehavior>
       <interfaceRealization xmi:id="_Xhem0CABEeGQMYBUy7N72A" name="InterfaceRealization1" supplier="_0DkZMB__EeGQMYBUy7N72A" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_0DkZMB__EeGQMYBUy7N72A"/>
       <interfaceRealization xmi:id="_iX9_gCASEeGQMYBUy7N72A" name="InterfaceRealization2" supplier="_ZDVn4CAREeGQMYBUy7N72A" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_ZDVn4CAREeGQMYBUy7N72A"/>
       <interfaceRealization xmi:id="_Z_FdcCAcEeGwRqejfhyScQ" name="InterfaceRealization3" supplier="_U4YpYCAcEeGwRqejfhyScQ" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_U4YpYCAcEeGwRqejfhyScQ"/>
@@ -13,7 +32,7 @@
         <ownedParameter xmi:id="_oa_ecB_9EeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
       </ownedOperation>
       <ownedOperation xmi:id="__X33oCACEeGQMYBUy7N72A" name="cancelPayment"/>
-      <ownedOperation xmi:id="_yp9L0iAIEeGQMYBUy7N72A" name="readCCInfo">
+      <ownedOperation xmi:id="_yp9L0iAIEeGQMYBUy7N72A" name="readCCInfo" method="_BX-9ICAiEeGwRqejfhyScQ">
         <ownedParameter xmi:id="_4bz1sCAIEeGQMYBUy7N72A" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
       </ownedOperation>
       <ownedOperation xmi:id="_tK7x0CAdEeGwRqejfhyScQ" name="payCash" method="_UmGxICAdEeGwRqejfhyScQ"/>
@@ -87,9 +106,19 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PxFWNiANEeGQMYBUy7N72A" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_7anW4CANEeGQMYBUy7N72A" name="EnterpriseServer" clientDependency="_gOSTACAOEeGQMYBUy7N72A">
+    <packagedElement xmi:type="uml:Class" xmi:id="_7anW4CANEeGQMYBUy7N72A" name="EnterpriseServer" clientDependency="_gOSTACAOEeGQMYBUy7N72A" classifierBehavior="_5pfK8CAiEeGwRqejfhyScQ">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_5pfK8CAiEeGwRqejfhyScQ" name="StateMachine">
+        <region xmi:id="_5pfK8SAiEeGwRqejfhyScQ" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_C1JCMyAjEeGwRqejfhyScQ" name="Start"/>
+          <subvertex xmi:type="uml:State" xmi:id="_DoLBoCAjEeGwRqejfhyScQ" name="Idle"/>
+          <transition xmi:id="_GBj65iAjEeGwRqejfhyScQ" name="Transition1" source="_C1JCMyAjEeGwRqejfhyScQ" target="_DoLBoCAjEeGwRqejfhyScQ"/>
+          <transition xmi:id="_G8LJBCAjEeGwRqejfhyScQ" name="Transition2" source="_DoLBoCAjEeGwRqejfhyScQ" target="_DoLBoCAjEeGwRqejfhyScQ">
+            <trigger xmi:id="_OctiQCAjEeGwRqejfhyScQ" name="" event="_QEG94CAjEeGwRqejfhyScQ"/>
+          </transition>
+        </region>
+      </ownedBehavior>
       <interfaceRealization xmi:id="_gOSTACAOEeGQMYBUy7N72A" name="InterfaceRealization1" supplier="_PPDxwCAOEeGQMYBUy7N72A" client="_7anW4CANEeGQMYBUy7N72A" contract="_PPDxwCAOEeGQMYBUy7N72A"/>
-      <ownedOperation xmi:id="__HnNEiANEeGQMYBUy7N72A" name="generateSingleTicket">
+      <ownedOperation xmi:id="__HnNEiANEeGQMYBUy7N72A" name="generateSingleTicket" method="_RQ8dECAmEeGwRqejfhyScQ">
         <ownedParameter xmi:id="_CjDZMCAOEeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
         <ownedParameter xmi:id="_wWpoQCAPEeGQMYBUy7N72A" name="singleTicket" type="_dBTkMCAPEeGQMYBUy7N72A" direction="return"/>
       </ownedOperation>
@@ -120,7 +149,18 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_i6lrwCAPEeGQMYBUy7N72A" name="Tag">
       <generalization xmi:id="_kIsdoCAPEeGQMYBUy7N72A" general="_P7HKACAPEeGQMYBUy7N72A"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_UoqzYCAREeGQMYBUy7N72A" name="CreditCardReader"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_UoqzYCAREeGQMYBUy7N72A" name="CreditCardReader" classifierBehavior="_Zng4sCAhEeGwRqejfhyScQ">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Zng4sCAhEeGwRqejfhyScQ" name="StateMachine">
+        <region xmi:id="_Zng4sSAhEeGwRqejfhyScQ" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_bahHYCAhEeGwRqejfhyScQ" name="Start"/>
+          <subvertex xmi:type="uml:State" xmi:id="_dsdU0CAhEeGwRqejfhyScQ" name="Idle"/>
+          <transition xmi:id="_e3SwRiAhEeGwRqejfhyScQ" name="Transition1" source="_bahHYCAhEeGwRqejfhyScQ" target="_dsdU0CAhEeGwRqejfhyScQ"/>
+          <transition xmi:id="_gxSXxSAhEeGwRqejfhyScQ" name="Transition2" source="_dsdU0CAhEeGwRqejfhyScQ" target="_dsdU0CAhEeGwRqejfhyScQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_BX-9ICAiEeGwRqejfhyScQ" name="lane.readCCInfo(creditCardInformation)" specification="_yp9L0iAIEeGQMYBUy7N72A"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+    </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_ZDVn4CAREeGQMYBUy7N72A" name="NormalLaneCheckInAndStationToCreditCardReader">
       <ownedOperation xmi:id="_fIYTgCAREeGQMYBUy7N72A" name="readCCInfo">
         <ownedParameter xmi:id="_fIYTgSAREeGQMYBUy7N72A" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
@@ -181,5 +221,8 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gxNRhiAcEeGwRqejfhyScQ" value="1"/>
       </ownedEnd>
     </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_QEG94CAjEeGwRqejfhyScQ" name="generateSingleTicket(vehicleType)" operation="__HnNEiANEeGQMYBUy7N72A"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_0-Lc8CAjEeGwRqejfhyScQ" name="buyTicket(vehicleType)" operation="_lRG8Yh_9EeGQMYBUy7N72A"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_uZRMMCAoEeGwRqejfhyScQ" name="cancelPayment()" operation="__X33oCACEeGQMYBUy7N72A"/>
   </packagedElement>
 </uml:Model>
