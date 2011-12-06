@@ -5,7 +5,7 @@
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_70gVQB9XEeGILI_QWNoihg" name="StateMachine">
         <region xmi:id="_70gVQR9XEeGILI_QWNoihg" name="Region">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_NjqeoB9YEeGILI_QWNoihg" name="Start"/>
-          <subvertex xmi:type="uml:State" xmi:id="_P7ClsB9YEeGILI_QWNoihg" name="Opened"/>
+          <subvertex xmi:type="uml:State" xmi:id="_P7ClsB9YEeGILI_QWNoihg" name="Book Opened"/>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_-uJmcB9YEeGILI_QWNoihg" name="Stop" kind="exitPoint"/>
           <transition xmi:id="_TxerwB9YEeGILI_QWNoihg" name="Open" source="_NjqeoB9YEeGILI_QWNoihg" target="_P7ClsB9YEeGILI_QWNoihg">
             <trigger xmi:id="_ZWgakB9YEeGILI_QWNoihg" name="Open" event="_ecuGcB9YEeGILI_QWNoihg"/>
