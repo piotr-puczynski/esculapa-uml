@@ -98,7 +98,7 @@
             <ownedAttribute xmi:type="uml:Port" xmi:id="_XlSogCGxEeGPecBVZhBvBA" name="LCCA" type="_U4YpYCAcEeGwRqejfhyScQ" aggregation="composite" protocol="_STm_gCKNEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_80PggyGzEeGPecBVZhBvBA" name="LB" clientDependency="_OgI6gCG0EeGPecBVZhBvBA" aggregation="composite" protocol="__GjbICKUEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_LbTJ4yJLEeGRt41VpUk6xQ" name="LCAN" type="_0e9b4CJIEeGRt41VpUk6xQ" aggregation="composite" protocol="_KNhQ4CKHEeGSA7KHJk1Zmg"/>
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_j-t_4yJMEeGRt41VpUk6xQ" name="LSS" clientDependency="_4gHnYyJMEeGRt41VpUk6xQ" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_j-t_4yJMEeGRt41VpUk6xQ" name="LSS" clientDependency="_4gHnYyJMEeGRt41VpUk6xQ" aggregation="composite" protocol="_L2VrACKWEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_8z8NAyJMEeGRt41VpUk6xQ" name="LES" clientDependency="_bHoN9CJNEeGRt41VpUk6xQ" aggregation="composite" protocol="_utvDUCJ4EeG5Y9AWlHoqTA"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A _iX9_gCASEeGQMYBUy7N72A _Z_FdcCAcEeGwRqejfhyScQ" classifierBehavior="_frka8CAjEeGwRqejfhyScQ">
               <generalization xmi:id="_4F9fUB_5EeGQMYBUy7N72A" general="_pdk5oB_5EeGQMYBUy7N72A"/>
@@ -558,7 +558,7 @@
           <ownedAttribute xmi:id="_fT5DMiHCEeGPecBVZhBvBA" name="bankAccountNumber" visibility="private"/>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Component" xmi:id="_WZHs4iJMEeGRt41VpUk6xQ" name="Station Server">
-          <ownedAttribute xmi:type="uml:Port" xmi:id="_hN-WkyJMEeGRt41VpUk6xQ" name="SSL" type="_Z9CZoCHKEeGPecBVZhBvBA" aggregation="composite"/>
+          <ownedAttribute xmi:type="uml:Port" xmi:id="_hN-WkyJMEeGRt41VpUk6xQ" name="SSL" type="_Z9CZoCHKEeGPecBVZhBvBA" aggregation="composite" protocol="_N_4KYCKWEeGSA7KHJk1Zmg"/>
           <ownedAttribute xmi:type="uml:Port" xmi:id="_Zgq4YyJnEeGhopMsbHVl7Q" name="SSES" clientDependency="_bv8MVCJnEeGhopMsbHVl7Q" aggregation="composite" protocol="_FebIsCKAEeG5Y9AWlHoqTA"/>
           <nestedClassifier xmi:type="uml:Class" xmi:id="_Ariu8CHEEeGPecBVZhBvBA" name="Station" clientDependency="_PNIr8CHLEeGPecBVZhBvBA" classifierBehavior="_SkkwUCJkEeGhopMsbHVl7Q">
             <ownedAttribute xmi:id="_CS8KkiHEEeGPecBVZhBvBA" name="id" visibility="private" type="_6lqRoCHKEeGPecBVZhBvBA"/>
@@ -607,7 +607,7 @@
           </nestedClassifier>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Interface" xmi:id="_Z9CZoCHKEeGPecBVZhBvBA" name="StationToLine">
-          <ownedOperation xmi:id="_qVJQgCHKEeGPecBVZhBvBA" name="getStation">
+          <ownedOperation xmi:id="_qVJQgCHKEeGPecBVZhBvBA" name="getStation" method="_h_dE8CKbEeGSA7KHJk1Zmg">
             <ownedParameter xmi:id="_xkucoCHKEeGPecBVZhBvBA" name="return" type="_Ariu8CHEEeGPecBVZhBvBA" direction="return"/>
           </ownedOperation>
           <ownedOperation xmi:id="_2w7bwiHKEeGPecBVZhBvBA" name="notifyProblem" method="_KuYmQCJbEeGhopMsbHVl7Q _tVBl8CJiEeGhopMsbHVl7Q _XRNUACJjEeGhopMsbHVl7Q">
@@ -855,6 +855,32 @@
         <transition xmi:id="_cpKkdCKVEeGSA7KHJk1Zmg" name="Transition1" source="_Vh8qICKVEeGSA7KHJk1Zmg" target="_bvApUCKVEeGSA7KHJk1Zmg"/>
         <transition xmi:id="_eTXccCKVEeGSA7KHJk1Zmg" name="Transition2" source="_bvApUCKVEeGSA7KHJk1Zmg" target="_bvApUCKVEeGSA7KHJk1Zmg">
           <trigger xmi:id="_f2gqMCKVEeGSA7KHJk1Zmg" event="_ga2B4CDKEeGctsL4lIEM3A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_L2VrACKWEeGSA7KHJk1Zmg" name="LaneToStation">
+      <region xmi:id="_aXSZsCKbEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_asvFQCKbEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_bib-MCKbEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_c1_30CKbEeGSA7KHJk1Zmg" name="Transition1" source="_asvFQCKbEeGSA7KHJk1Zmg" target="_bib-MCKbEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_dvvjQCKbEeGSA7KHJk1Zmg" name="Transition2" source="_bib-MCKbEeGSA7KHJk1Zmg" target="_bib-MCKbEeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ewTBUCKbEeGSA7KHJk1Zmg" name="notifyProblem(laneId)"/>
+        </transition>
+        <transition xmi:id="_hBaIVCKbEeGSA7KHJk1Zmg" name="Transition3" source="_bib-MCKbEeGSA7KHJk1Zmg" target="_bib-MCKbEeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_h_dE8CKbEeGSA7KHJk1Zmg" name="getStation()" specification="_qVJQgCHKEeGPecBVZhBvBA"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_N_4KYCKWEeGSA7KHJk1Zmg" name="StationToLane">
+      <region xmi:id="_glYwICKaEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_gy19UCKaEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_hgS5MCKaEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_4DA4MCKaEeGSA7KHJk1Zmg" name="Transition1" source="_gy19UCKaEeGSA7KHJk1Zmg" target="_hgS5MCKaEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_5qOtpCKaEeGSA7KHJk1Zmg" name="Transition2" source="_hgS5MCKaEeGSA7KHJk1Zmg" target="_hgS5MCKaEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_VzRb8CKbEeGSA7KHJk1Zmg" event="_lFNdICJoEeGhopMsbHVl7Q"/>
+        </transition>
+        <transition xmi:id="_G74J4iKbEeGSA7KHJk1Zmg" name="Transition3" source="_hgS5MCKaEeGSA7KHJk1Zmg" target="_hgS5MCKaEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_X0-1ACKbEeGSA7KHJk1Zmg" event="_YqdzsCJoEeGhopMsbHVl7Q"/>
         </transition>
       </region>
     </packagedElement>
