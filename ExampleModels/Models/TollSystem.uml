@@ -90,7 +90,6 @@
     <packagedElement xmi:type="uml:Component" xmi:id="_ifB0MCGbEeGPecBVZhBvBA">
       <nestedClassifier xmi:type="uml:Component" xmi:id="_bnuvwCGcEeGPecBVZhBvBA" name="Toll System">
         <nestedClassifier xmi:type="uml:Component" xmi:id="_gWMqACGcEeGPecBVZhBvBA" name="Lane">
-          <ownedAttribute xmi:type="uml:Port" xmi:id="_XaWqMyG5EeGPecBVZhBvBA" name="LES" clientDependency="_jlVZVCG5EeGPecBVZhBvBA" aggregation="composite"/>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_yHQQ0CGcEeGPecBVZhBvBA" name="Lane Computer">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_8ZPeACGcEeGPecBVZhBvBA" name="LCCR" type="_ZDVn4CAREeGQMYBUy7N72A" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_AmGa0yGvEeGPecBVZhBvBA" name="LCTO" type="_0DkZMB__EeGQMYBUy7N72A" aggregation="composite"/>
@@ -98,6 +97,9 @@
             <ownedAttribute xmi:type="uml:Port" xmi:id="_2UxqECGwEeGPecBVZhBvBA" name="CLBR" clientDependency="_JamrdCGxEeGPecBVZhBvBA" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_XlSogCGxEeGPecBVZhBvBA" name="LCCA" type="_U4YpYCAcEeGwRqejfhyScQ" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_80PggyGzEeGPecBVZhBvBA" name="LB" clientDependency="_OgI6gCG0EeGPecBVZhBvBA" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_LbTJ4yJLEeGRt41VpUk6xQ" name="LCAN" type="_0e9b4CJIEeGRt41VpUk6xQ" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_j-t_4yJMEeGRt41VpUk6xQ" name="LSS" clientDependency="_4gHnYyJMEeGRt41VpUk6xQ" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_8z8NAyJMEeGRt41VpUk6xQ" name="LES" clientDependency="_bHoN9CJNEeGRt41VpUk6xQ" aggregation="composite"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A _iX9_gCASEeGQMYBUy7N72A _Z_FdcCAcEeGwRqejfhyScQ" classifierBehavior="_frka8CAjEeGwRqejfhyScQ">
               <generalization xmi:id="_4F9fUB_5EeGQMYBUy7N72A" general="_pdk5oB_5EeGQMYBUy7N72A"/>
               <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_frka8CAjEeGwRqejfhyScQ" name="StateMachine">
@@ -157,10 +159,24 @@
               <ownedOperation xmi:id="_yp9L0iAIEeGQMYBUy7N72A" name="readCCInfo" method="_BX-9ICAiEeGwRqejfhyScQ">
                 <ownedParameter xmi:id="_4bz1sCAIEeGQMYBUy7N72A" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
               </ownedOperation>
-              <ownedOperation xmi:id="_tK7x0CAdEeGwRqejfhyScQ" name="payCash" method="_UmGxICAdEeGwRqejfhyScQ"/>
+              <ownedOperation xmi:id="_tK7x0CAdEeGwRqejfhyScQ" name="payCash"/>
             </nestedClassifier>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_pdk5oB_5EeGQMYBUy7N72A" name="Lane" isAbstract="true">
               <ownedAttribute xmi:id="_t_F9AB_5EeGQMYBUy7N72A" name="id" visibility="protected" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+            </nestedClassifier>
+            <nestedClassifier xmi:type="uml:Class" xmi:id="_g-H5gCJIEeGRt41VpUk6xQ" name="ExpressLaneCheckIn" clientDependency="_D1A_4CJJEeGRt41VpUk6xQ">
+              <generalization xmi:id="_kc2DICJIEeGRt41VpUk6xQ" general="_pdk5oB_5EeGQMYBUy7N72A"/>
+              <interfaceRealization xmi:id="_D1A_4CJJEeGRt41VpUk6xQ" name="InterfaceRealization1" supplier="_0e9b4CJIEeGRt41VpUk6xQ" client="_g-H5gCJIEeGRt41VpUk6xQ" contract="_0e9b4CJIEeGRt41VpUk6xQ"/>
+              <ownedOperation xmi:id="_ncnm8CJIEeGRt41VpUk6xQ" name="tagDetection">
+                <ownedParameter xmi:id="_pPxmoCJIEeGRt41VpUk6xQ" name="ticketId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+              </ownedOperation>
+            </nestedClassifier>
+            <nestedClassifier xmi:type="uml:Class" xmi:id="_1IHbsCJKEeGRt41VpUk6xQ" name="ExpressLaneCheckOut" clientDependency="_5pxpACJKEeGRt41VpUk6xQ">
+              <generalization xmi:id="_45IPMCJKEeGRt41VpUk6xQ" general="_pdk5oB_5EeGQMYBUy7N72A"/>
+              <interfaceRealization xmi:id="_5pxpACJKEeGRt41VpUk6xQ" name="InterfaceRealization1" supplier="_0e9b4CJIEeGRt41VpUk6xQ" client="_1IHbsCJKEeGRt41VpUk6xQ" contract="_0e9b4CJIEeGRt41VpUk6xQ"/>
+              <ownedOperation xmi:id="_3ts94CJKEeGRt41VpUk6xQ" name="tagDetection">
+                <ownedParameter xmi:id="_3ts94SJKEeGRt41VpUk6xQ" name="ticketId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+              </ownedOperation>
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_5kO_wCGcEeGPecBVZhBvBA" name="Credit Card Reader">
@@ -255,14 +271,34 @@
                   <subvertex xmi:type="uml:State" xmi:id="_-PNAkiAcEeGwRqejfhyScQ" name="Idle"/>
                   <transition xmi:id="_AbM-FiAdEeGwRqejfhyScQ" name="Transition1" source="_xQKXQyAcEeGwRqejfhyScQ" target="_-PNAkiAcEeGwRqejfhyScQ"/>
                   <transition xmi:id="_BAZV1SAdEeGwRqejfhyScQ" name="Transition2" source="_-PNAkiAcEeGwRqejfhyScQ" target="_-PNAkiAcEeGwRqejfhyScQ">
-                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_UmGxICAdEeGwRqejfhyScQ" name="lane.payCash()" specification="_tK7x0CAdEeGwRqejfhyScQ"/>
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_UmGxICAdEeGwRqejfhyScQ" name="lane.payCash()" specification="_Y69G8CAcEeGwRqejfhyScQ"/>
                   </transition>
                 </region>
               </ownedBehavior>
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_U4YpYCAcEeGwRqejfhyScQ" name="NormalLaneCheckInToCashRegister">
-            <ownedOperation xmi:id="_Y69G8CAcEeGwRqejfhyScQ" name="payCash"/>
+            <ownedOperation xmi:id="_Y69G8CAcEeGwRqejfhyScQ" name="payCash" method="_UmGxICAdEeGwRqejfhyScQ"/>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Component" xmi:id="_FTSCwCJLEeGRt41VpUk6xQ" name="Antenna">
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_JuZjMyJLEeGRt41VpUk6xQ" name="AN" clientDependency="_4QqrkyJLEeGRt41VpUk6xQ" aggregation="composite"/>
+            <nestedClassifier xmi:type="uml:Class" xmi:id="_mZICQCJLEeGRt41VpUk6xQ" name="Antenna" classifierBehavior="_xc6N4CJNEeGRt41VpUk6xQ">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_xc6N4CJNEeGRt41VpUk6xQ" name="StateMachine">
+                <region xmi:id="_xc6N4SJNEeGRt41VpUk6xQ" name="Region">
+                  <subvertex xmi:type="uml:Pseudostate" xmi:id="_y-8oYyJNEeGRt41VpUk6xQ" name="Start"/>
+                  <subvertex xmi:type="uml:State" xmi:id="_0g_p8CJNEeGRt41VpUk6xQ" name="Idle"/>
+                  <transition xmi:id="_1rYZdCJNEeGRt41VpUk6xQ" name="Transition1" source="_y-8oYyJNEeGRt41VpUk6xQ" target="_0g_p8CJNEeGRt41VpUk6xQ"/>
+                  <transition xmi:id="_3Od81SJNEeGRt41VpUk6xQ" name="Transition2" source="_0g_p8CJNEeGRt41VpUk6xQ" target="_0g_p8CJNEeGRt41VpUk6xQ">
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_5MyDoCJNEeGRt41VpUk6xQ" name="lane.tagDetection(ticketId)" specification="_3Vp8MCJIEeGRt41VpUk6xQ"/>
+                  </transition>
+                </region>
+              </ownedBehavior>
+            </nestedClassifier>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Interface" xmi:id="_0e9b4CJIEeGRt41VpUk6xQ" name="ExpressLaneToAntenna">
+            <ownedOperation xmi:id="_3Vp8MCJIEeGRt41VpUk6xQ" name="tagDetection" method="_5MyDoCJNEeGRt41VpUk6xQ">
+              <ownedParameter xmi:id="_3Vp8MSJIEeGRt41VpUk6xQ" name="ticketId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+            </ownedOperation>
           </nestedClassifier>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Interface" xmi:id="_GtejgCAUEeGQMYBUy7N72A" name="BankToLane">
@@ -335,6 +371,44 @@
             <ownedParameter xmi:id="_FCaiICAPEeGQMYBUy7N72A" name="singleTicket" type="_dBTkMCAPEeGQMYBUy7N72A" direction="return"/>
           </ownedOperation>
         </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_63PnUCG-EeGPecBVZhBvBA" name="Tag">
+          <generalization xmi:id="_EAXvACG_EeGPecBVZhBvBA" general="_P7HKACAPEeGQMYBUy7N72A"/>
+          <ownedAttribute xmi:id="_5rxn0SHAEeGPecBVZhBvBA" name="monthlyAccumulatedPrice" visibility="private" type="_LedmQCAUEeGQMYBUy7N72A"/>
+          <ownedOperation xmi:id="_lZBq4CHBEeGPecBVZhBvBA" name="checkValidity">
+            <ownedParameter xmi:id="_lZBq4SHBEeGPecBVZhBvBA" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_ZBaRIiHFEeGPecBVZhBvBA" name="setEntryStation">
+            <ownedParameter xmi:id="_c53JYCHFEeGPecBVZhBvBA" name="station" type="_Ariu8CHEEeGPecBVZhBvBA"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_hpzqUiHFEeGPecBVZhBvBA" name="exitHighwayAndUpdatePrice">
+            <ownedParameter xmi:id="_li2YcCHFEeGPecBVZhBvBA" name="exitStation" type="_Ariu8CHEEeGPecBVZhBvBA"/>
+          </ownedOperation>
+        </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_Xx21ICHCEeGPecBVZhBvBA" name="BankAccount">
+          <ownedAttribute xmi:id="_a_6FgiHCEeGPecBVZhBvBA" name="name" visibility="private"/>
+          <ownedAttribute xmi:id="_fT5DMiHCEeGPecBVZhBvBA" name="bankAccountNumber" visibility="private"/>
+        </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Component" xmi:id="_WZHs4iJMEeGRt41VpUk6xQ" name="Station Server">
+          <ownedAttribute xmi:type="uml:Port" xmi:id="_hN-WkyJMEeGRt41VpUk6xQ" name="SSL" type="_Z9CZoCHKEeGPecBVZhBvBA" aggregation="composite"/>
+          <nestedClassifier xmi:type="uml:Class" xmi:id="_Ariu8CHEEeGPecBVZhBvBA" name="Station" clientDependency="_PNIr8CHLEeGPecBVZhBvBA">
+            <ownedAttribute xmi:id="_CS8KkiHEEeGPecBVZhBvBA" name="id" visibility="private" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+            <interfaceRealization xmi:id="_PNIr8CHLEeGPecBVZhBvBA" name="InterfaceRealization1" supplier="_Z9CZoCHKEeGPecBVZhBvBA" client="_Ariu8CHEEeGPecBVZhBvBA" contract="_Z9CZoCHKEeGPecBVZhBvBA"/>
+            <ownedOperation xmi:id="_JFQuwCHLEeGPecBVZhBvBA" name="notifyProblem">
+              <ownedParameter xmi:id="_JFQuwSHLEeGPecBVZhBvBA" name="laneId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+            </ownedOperation>
+            <ownedOperation xmi:id="_JFQuwiHLEeGPecBVZhBvBA" name="getStation">
+              <ownedParameter xmi:id="_JFQuwyHLEeGPecBVZhBvBA" name="return" type="_Ariu8CHEEeGPecBVZhBvBA" direction="return"/>
+            </ownedOperation>
+          </nestedClassifier>
+        </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Interface" xmi:id="_Z9CZoCHKEeGPecBVZhBvBA" name="StationToLine">
+          <ownedOperation xmi:id="_qVJQgCHKEeGPecBVZhBvBA" name="getStation">
+            <ownedParameter xmi:id="_xkucoCHKEeGPecBVZhBvBA" name="return" type="_Ariu8CHEEeGPecBVZhBvBA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_2w7bwiHKEeGPecBVZhBvBA" name="notifyProblem">
+            <ownedParameter xmi:id="_4mnLACHKEeGPecBVZhBvBA" name="laneId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+          </ownedOperation>
+        </nestedClassifier>
       </nestedClassifier>
       <nestedClassifier xmi:type="uml:Component" xmi:id="_1ypGACGzEeGPecBVZhBvBA" name="Bank">
         <ownedAttribute xmi:type="uml:Port" xmi:id="_4eF_oCGzEeGPecBVZhBvBA" name="BankPort" type="_GtejgCAUEeGQMYBUy7N72A" aggregation="composite"/>
@@ -345,24 +419,9 @@
       <packagedElement xmi:type="uml:Dependency" xmi:id="_JamrdCGxEeGPecBVZhBvBA" name="" supplier="_EcGa8CANEeGQMYBUy7N72A" client="_2UxqECGwEeGPecBVZhBvBA"/>
       <packagedElement xmi:type="uml:Dependency" xmi:id="_sWEv1CGxEeGPecBVZhBvBA" name="" supplier="_U4YpYCAcEeGwRqejfhyScQ" client="_Yx0tECGxEeGPecBVZhBvBA"/>
       <packagedElement xmi:type="uml:Dependency" xmi:id="_OgI6gCG0EeGPecBVZhBvBA" name="" supplier="_GtejgCAUEeGQMYBUy7N72A" client="_80PggyGzEeGPecBVZhBvBA"/>
-      <packagedElement xmi:type="uml:Dependency" xmi:id="_jlVZVCG5EeGPecBVZhBvBA" name="" supplier="_PPDxwCAOEeGQMYBUy7N72A" client="_XaWqMyG5EeGPecBVZhBvBA"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_63PnUCG-EeGPecBVZhBvBA" name="Tag">
-      <generalization xmi:id="_EAXvACG_EeGPecBVZhBvBA" general="_P7HKACAPEeGQMYBUy7N72A"/>
-      <ownedAttribute xmi:id="_5rxn0SHAEeGPecBVZhBvBA" name="monthlyAccumulatedPrice" visibility="private" type="_LedmQCAUEeGQMYBUy7N72A"/>
-      <ownedOperation xmi:id="_lZBq4CHBEeGPecBVZhBvBA" name="checkValidity">
-        <ownedParameter xmi:id="_lZBq4SHBEeGPecBVZhBvBA" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
-      </ownedOperation>
-      <ownedOperation xmi:id="_ZBaRIiHFEeGPecBVZhBvBA" name="setEntryStation">
-        <ownedParameter xmi:id="_c53JYCHFEeGPecBVZhBvBA" name="station" type="_Ariu8CHEEeGPecBVZhBvBA"/>
-      </ownedOperation>
-      <ownedOperation xmi:id="_hpzqUiHFEeGPecBVZhBvBA" name="exitHighwayAndUpdatePrice">
-        <ownedParameter xmi:id="_li2YcCHFEeGPecBVZhBvBA" name="exitStation" type="_Ariu8CHEEeGPecBVZhBvBA"/>
-      </ownedOperation>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_Xx21ICHCEeGPecBVZhBvBA" name="BankAccount">
-      <ownedAttribute xmi:id="_a_6FgiHCEeGPecBVZhBvBA" name="name" visibility="private"/>
-      <ownedAttribute xmi:id="_fT5DMiHCEeGPecBVZhBvBA" name="bankAccountNumber" visibility="private"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_4QqrkyJLEeGRt41VpUk6xQ" name="" supplier="_0e9b4CJIEeGRt41VpUk6xQ" client="_JuZjMyJLEeGRt41VpUk6xQ"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_4gHnYyJMEeGRt41VpUk6xQ" name="" supplier="_Z9CZoCHKEeGPecBVZhBvBA" client="_j-t_4yJMEeGRt41VpUk6xQ"/>
+      <packagedElement xmi:type="uml:Dependency" xmi:id="_bHoN9CJNEeGRt41VpUk6xQ" name="" supplier="_PPDxwCAOEeGQMYBUy7N72A" client="_8z8NAyJMEeGRt41VpUk6xQ"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_qo3XYCHCEeGPecBVZhBvBA" name="A_&lt;tag>_&lt;bankAccount>" memberEnd="_qo3XYSHCEeGPecBVZhBvBA _qo3XZCHCEeGPecBVZhBvBA" navigableOwnedEnd="_qo3XZCHCEeGPecBVZhBvBA">
       <ownedEnd xmi:id="_qo3XYSHCEeGPecBVZhBvBA" name="tag" type="_63PnUCG-EeGPecBVZhBvBA" association="_qo3XYCHCEeGPecBVZhBvBA">
@@ -374,25 +433,7 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qo3XZiHCEeGPecBVZhBvBA" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_Ariu8CHEEeGPecBVZhBvBA" name="Station" clientDependency="_PNIr8CHLEeGPecBVZhBvBA">
-      <ownedAttribute xmi:id="_CS8KkiHEEeGPecBVZhBvBA" name="id" visibility="private" type="_6lqRoCHKEeGPecBVZhBvBA"/>
-      <interfaceRealization xmi:id="_PNIr8CHLEeGPecBVZhBvBA" name="InterfaceRealization1" supplier="_Z9CZoCHKEeGPecBVZhBvBA" client="_Ariu8CHEEeGPecBVZhBvBA" contract="_Z9CZoCHKEeGPecBVZhBvBA"/>
-      <ownedOperation xmi:id="_JFQuwCHLEeGPecBVZhBvBA" name="notifyProblem">
-        <ownedParameter xmi:id="_JFQuwSHLEeGPecBVZhBvBA" name="laneId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
-      </ownedOperation>
-      <ownedOperation xmi:id="_JFQuwiHLEeGPecBVZhBvBA" name="getStation">
-        <ownedParameter xmi:id="_JFQuwyHLEeGPecBVZhBvBA" name="return" type="_Ariu8CHEEeGPecBVZhBvBA" direction="return"/>
-      </ownedOperation>
-    </packagedElement>
     <packagedElement xmi:type="uml:DataType" xmi:id="_yp38QCHJEeGPecBVZhBvBA" name="DateTimeType"/>
-    <packagedElement xmi:type="uml:Interface" xmi:id="_Z9CZoCHKEeGPecBVZhBvBA" name="StationToLine">
-      <ownedOperation xmi:id="_qVJQgCHKEeGPecBVZhBvBA" name="getStation">
-        <ownedParameter xmi:id="_xkucoCHKEeGPecBVZhBvBA" name="return" type="_Ariu8CHEEeGPecBVZhBvBA" direction="return"/>
-      </ownedOperation>
-      <ownedOperation xmi:id="_2w7bwiHKEeGPecBVZhBvBA" name="notifyProblem">
-        <ownedParameter xmi:id="_4mnLACHKEeGPecBVZhBvBA" name="laneId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
-      </ownedOperation>
-    </packagedElement>
     <packagedElement xmi:type="uml:DataType" xmi:id="_6lqRoCHKEeGPecBVZhBvBA" name="IDType"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_Rt9C4CHLEeGPecBVZhBvBA" name="A_&lt;lane>_&lt;stationToLine>" memberEnd="_Rt9C4SHLEeGPecBVZhBvBA _Rt9C5CHLEeGPecBVZhBvBA" navigableOwnedEnd="_Rt9C5CHLEeGPecBVZhBvBA">
       <ownedEnd xmi:id="_Rt9C4SHLEeGPecBVZhBvBA" name="lane" type="_pdk5oB_5EeGQMYBUy7N72A" association="_Rt9C4CHLEeGPecBVZhBvBA">
@@ -412,6 +453,16 @@
       <ownedEnd xmi:id="_edFn9CHLEeGPecBVZhBvBA" name="entryStation" type="_Ariu8CHEEeGPecBVZhBvBA" association="_edFn8CHLEeGPecBVZhBvBA">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_edFn9SHLEeGPecBVZhBvBA" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_edFn9iHLEeGPecBVZhBvBA"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_p8xIICJLEeGRt41VpUk6xQ" name="A_&lt;antenna>_&lt;expressLaneToAntenna>" memberEnd="_p8xIISJLEeGRt41VpUk6xQ _p8xIJCJLEeGRt41VpUk6xQ" navigableOwnedEnd="_p8xIJCJLEeGRt41VpUk6xQ">
+      <ownedEnd xmi:id="_p8xIISJLEeGRt41VpUk6xQ" name="antenna" type="_mZICQCJLEeGRt41VpUk6xQ" association="_p8xIICJLEeGRt41VpUk6xQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p8xIIiJLEeGRt41VpUk6xQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p8xIIyJLEeGRt41VpUk6xQ" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_p8xIJCJLEeGRt41VpUk6xQ" name="lane" visibility="private" type="_0e9b4CJIEeGRt41VpUk6xQ" association="_p8xIICJLEeGRt41VpUk6xQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p8xIJSJLEeGRt41VpUk6xQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p8xIJiJLEeGRt41VpUk6xQ" value="1"/>
       </ownedEnd>
     </packagedElement>
   </packagedElement>
