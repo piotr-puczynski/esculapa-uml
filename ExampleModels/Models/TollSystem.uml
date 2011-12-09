@@ -91,12 +91,12 @@
       <nestedClassifier xmi:type="uml:Component" xmi:id="_bnuvwCGcEeGPecBVZhBvBA" name="Toll System">
         <nestedClassifier xmi:type="uml:Component" xmi:id="_gWMqACGcEeGPecBVZhBvBA" name="Lane">
           <nestedClassifier xmi:type="uml:Component" xmi:id="_yHQQ0CGcEeGPecBVZhBvBA" name="Lane Computer">
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_8ZPeACGcEeGPecBVZhBvBA" name="LCCR" type="_ZDVn4CAREeGQMYBUy7N72A" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_8ZPeACGcEeGPecBVZhBvBA" name="LCCR" type="_ZDVn4CAREeGQMYBUy7N72A" aggregation="composite" protocol="_piHbkCKPEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_AmGa0yGvEeGPecBVZhBvBA" name="LCTO" type="_0DkZMB__EeGQMYBUy7N72A" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_ZxEZACGwEeGPecBVZhBvBA" name="LCPR" clientDependency="_b347kCGwEeGPecBVZhBvBA" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_2UxqECGwEeGPecBVZhBvBA" name="CLBR" clientDependency="_JamrdCGxEeGPecBVZhBvBA" aggregation="composite" protocol="_IdE44CKFEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_XlSogCGxEeGPecBVZhBvBA" name="LCCA" type="_U4YpYCAcEeGwRqejfhyScQ" aggregation="composite" protocol="_STm_gCKNEeGSA7KHJk1Zmg"/>
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_80PggyGzEeGPecBVZhBvBA" name="LB" clientDependency="_OgI6gCG0EeGPecBVZhBvBA" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_80PggyGzEeGPecBVZhBvBA" name="LB" clientDependency="_OgI6gCG0EeGPecBVZhBvBA" aggregation="composite" protocol="__GjbICKUEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_LbTJ4yJLEeGRt41VpUk6xQ" name="LCAN" type="_0e9b4CJIEeGRt41VpUk6xQ" aggregation="composite" protocol="_KNhQ4CKHEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_j-t_4yJMEeGRt41VpUk6xQ" name="LSS" clientDependency="_4gHnYyJMEeGRt41VpUk6xQ" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_8z8NAyJMEeGRt41VpUk6xQ" name="LES" clientDependency="_bHoN9CJNEeGRt41VpUk6xQ" aggregation="composite" protocol="_utvDUCJ4EeG5Y9AWlHoqTA"/>
@@ -290,7 +290,7 @@
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_5kO_wCGcEeGPecBVZhBvBA" name="Credit Card Reader">
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_7gzaICGcEeGPecBVZhBvBA" name="CCRL" clientDependency="_HbGLdCGpEeGPecBVZhBvBA" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_7gzaICGcEeGPecBVZhBvBA" name="CCRL" clientDependency="_HbGLdCGpEeGPecBVZhBvBA" aggregation="composite" protocol="_oQmwYCKPEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_UoqzYCAREeGQMYBUy7N72A" name="CreditCardReader" classifierBehavior="_Zng4sCAhEeGwRqejfhyScQ">
               <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Zng4sCAhEeGwRqejfhyScQ" name="StateMachine">
                 <region xmi:id="_Zng4sSAhEeGwRqejfhyScQ" name="Region">
@@ -412,7 +412,7 @@
           </nestedClassifier>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Interface" xmi:id="_GtejgCAUEeGQMYBUy7N72A" name="BankToLane">
-          <ownedOperation xmi:id="_H_wDsiAUEeGQMYBUy7N72A" name="chargeCreditCard" method="_j3rfsCDLEeGctsL4lIEM3A">
+          <ownedOperation xmi:id="_H_wDsiAUEeGQMYBUy7N72A" name="chargeCreditCard" method="_j3rfsCDLEeGctsL4lIEM3A _OHPMECKVEeGSA7KHJk1Zmg">
             <ownedParameter xmi:id="_cO0lECAUEeGQMYBUy7N72A" name="creditCardInfo" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
             <ownedParameter xmi:id="_cTbYQCAUEeGQMYBUy7N72A" name="price" type="_LedmQCAUEeGQMYBUy7N72A"/>
             <ownedParameter xmi:id="_55gk8CAXEeGQMYBUy7N72A" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
@@ -621,7 +621,7 @@
         </nestedClassifier>
       </nestedClassifier>
       <nestedClassifier xmi:type="uml:Component" xmi:id="_1ypGACGzEeGPecBVZhBvBA" name="Bank">
-        <ownedAttribute xmi:type="uml:Port" xmi:id="_4eF_oCGzEeGPecBVZhBvBA" name="BankPort" type="_GtejgCAUEeGQMYBUy7N72A" aggregation="composite"/>
+        <ownedAttribute xmi:type="uml:Port" xmi:id="_4eF_oCGzEeGPecBVZhBvBA" name="BankPort" type="_GtejgCAUEeGQMYBUy7N72A" aggregation="composite" protocol="_ATOpoCKVEeGSA7KHJk1Zmg"/>
       </nestedClassifier>
       <packagedElement xmi:type="uml:Dependency" xmi:id="_HbGLdCGpEeGPecBVZhBvBA" name="" supplier="_ZDVn4CAREeGQMYBUy7N72A" client="_7gzaICGcEeGPecBVZhBvBA"/>
       <packagedElement xmi:type="uml:Dependency" xmi:id="_ItVApCGvEeGPecBVZhBvBA" name="" supplier="_0DkZMB__EeGQMYBUy7N72A" client="_DliAYyGvEeGPecBVZhBvBA"/>
@@ -835,6 +835,26 @@
         <transition xmi:id="_L9v3YCKSEeGSA7KHJk1Zmg" name="Transition1" source="_KF9PUCKSEeGSA7KHJk1Zmg" target="_K7E5cCKSEeGSA7KHJk1Zmg"/>
         <transition xmi:id="_NSbyYCKSEeGSA7KHJk1Zmg" name="Transition2" source="_K7E5cCKSEeGSA7KHJk1Zmg" target="_K7E5cCKSEeGSA7KHJk1Zmg">
           <trigger xmi:id="_OLPCoCKSEeGSA7KHJk1Zmg" name="" event="_ga2B4CDKEeGctsL4lIEM3A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="__GjbICKUEeGSA7KHJk1Zmg" name="LaneToBank">
+      <region xmi:id="_KQfkACKVEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_KjUZYCKVEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_LRMzECKVEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_MIYSsCKVEeGSA7KHJk1Zmg" name="Transition1" source="_KjUZYCKVEeGSA7KHJk1Zmg" target="_LRMzECKVEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_NJysYCKVEeGSA7KHJk1Zmg" name="Transition2" source="_LRMzECKVEeGSA7KHJk1Zmg" target="_LRMzECKVEeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_OHPMECKVEeGSA7KHJk1Zmg" name="chargeCreditCard(creditCardInfo, price)" specification="_H_wDsiAUEeGQMYBUy7N72A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_ATOpoCKVEeGSA7KHJk1Zmg" name="BankToLane">
+      <region xmi:id="_VOwoYCKVEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_Vh8qICKVEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_bvApUCKVEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_cpKkdCKVEeGSA7KHJk1Zmg" name="Transition1" source="_Vh8qICKVEeGSA7KHJk1Zmg" target="_bvApUCKVEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_eTXccCKVEeGSA7KHJk1Zmg" name="Transition2" source="_bvApUCKVEeGSA7KHJk1Zmg" target="_bvApUCKVEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_f2gqMCKVEeGSA7KHJk1Zmg" event="_ga2B4CDKEeGctsL4lIEM3A"/>
         </transition>
       </region>
     </packagedElement>
