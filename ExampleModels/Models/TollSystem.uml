@@ -156,7 +156,7 @@
               <ownedOperation xmi:id="_lRG8Yh_9EeGQMYBUy7N72A" name="buyTicket" method="_bc-I8CDmEeGctsL4lIEM3A">
                 <ownedParameter xmi:id="_oa_ecB_9EeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
               </ownedOperation>
-              <ownedOperation xmi:id="_yp9L0iAIEeGQMYBUy7N72A" name="readCCInfo" method="_BX-9ICAiEeGwRqejfhyScQ">
+              <ownedOperation xmi:id="_yp9L0iAIEeGQMYBUy7N72A" name="readCCInfo">
                 <ownedParameter xmi:id="_4bz1sCAIEeGQMYBUy7N72A" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
               </ownedOperation>
               <ownedOperation xmi:id="_tK7x0CAdEeGwRqejfhyScQ" name="payCash"/>
@@ -164,8 +164,20 @@
             <nestedClassifier xmi:type="uml:Class" xmi:id="_pdk5oB_5EeGQMYBUy7N72A" name="Lane" isAbstract="true">
               <ownedAttribute xmi:id="_t_F9AB_5EeGQMYBUy7N72A" name="id" visibility="protected" type="_6lqRoCHKEeGPecBVZhBvBA"/>
             </nestedClassifier>
-            <nestedClassifier xmi:type="uml:Class" xmi:id="_g-H5gCJIEeGRt41VpUk6xQ" name="ExpressLaneCheckIn" clientDependency="_D1A_4CJJEeGRt41VpUk6xQ">
+            <nestedClassifier xmi:type="uml:Class" xmi:id="_g-H5gCJIEeGRt41VpUk6xQ" name="ExpressLaneCheckIn" clientDependency="_D1A_4CJJEeGRt41VpUk6xQ" classifierBehavior="_vyPiMCJVEeGhopMsbHVl7Q">
               <generalization xmi:id="_kc2DICJIEeGRt41VpUk6xQ" general="_pdk5oB_5EeGQMYBUy7N72A"/>
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_vyPiMCJVEeGhopMsbHVl7Q" name="StateMachine">
+                <region xmi:id="_vyPiMSJVEeGhopMsbHVl7Q" name="Region">
+                  <subvertex xmi:type="uml:Pseudostate" xmi:id="_wmm-YyJVEeGhopMsbHVl7Q" name="Start"/>
+                  <subvertex xmi:type="uml:State" xmi:id="_xhOzkiJVEeGhopMsbHVl7Q" name="Idle"/>
+                  <subvertex xmi:type="uml:State" xmi:id="_feTkMiJWEeGhopMsbHVl7Q" name="check in tag"/>
+                  <transition xmi:id="_5j1YFiJVEeGhopMsbHVl7Q" name="Transition1" source="_wmm-YyJVEeGhopMsbHVl7Q" target="_xhOzkiJVEeGhopMsbHVl7Q"/>
+                  <transition xmi:id="_hM_6pSJWEeGhopMsbHVl7Q" name="Transition2" source="_xhOzkiJVEeGhopMsbHVl7Q" target="_feTkMiJWEeGhopMsbHVl7Q">
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_kfNSQCJWEeGhopMsbHVl7Q" name=""/>
+                    <trigger xmi:id="_h1T30CJWEeGhopMsbHVl7Q" event="_QDgDECJWEeGhopMsbHVl7Q"/>
+                  </transition>
+                </region>
+              </ownedBehavior>
               <interfaceRealization xmi:id="_D1A_4CJJEeGRt41VpUk6xQ" name="InterfaceRealization1" supplier="_0e9b4CJIEeGRt41VpUk6xQ" client="_g-H5gCJIEeGRt41VpUk6xQ" contract="_0e9b4CJIEeGRt41VpUk6xQ"/>
               <ownedOperation xmi:id="_ncnm8CJIEeGRt41VpUk6xQ" name="tagDetection">
                 <ownedParameter xmi:id="_pPxmoCJIEeGRt41VpUk6xQ" name="ticketId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
@@ -188,14 +200,14 @@
                   <subvertex xmi:type="uml:State" xmi:id="_dsdU0CAhEeGwRqejfhyScQ" name="Idle"/>
                   <transition xmi:id="_e3SwRiAhEeGwRqejfhyScQ" name="Transition1" source="_bahHYCAhEeGwRqejfhyScQ" target="_dsdU0CAhEeGwRqejfhyScQ"/>
                   <transition xmi:id="_gxSXxSAhEeGwRqejfhyScQ" name="Transition2" source="_dsdU0CAhEeGwRqejfhyScQ" target="_dsdU0CAhEeGwRqejfhyScQ">
-                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_BX-9ICAiEeGwRqejfhyScQ" name="lane.readCCInfo(creditCardInformation)" specification="_yp9L0iAIEeGQMYBUy7N72A"/>
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_BX-9ICAiEeGwRqejfhyScQ" name="lane.readCCInfo(creditCardInformation)" specification="_fIYTgCAREeGQMYBUy7N72A"/>
                   </transition>
                 </region>
               </ownedBehavior>
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_ZDVn4CAREeGQMYBUy7N72A" name="NormalLaneCheckInToCreditCardReader">
-            <ownedOperation xmi:id="_fIYTgCAREeGQMYBUy7N72A" name="readCCInfo">
+            <ownedOperation xmi:id="_fIYTgCAREeGQMYBUy7N72A" name="readCCInfo" method="_BX-9ICAiEeGwRqejfhyScQ">
               <ownedParameter xmi:id="_fIYTgSAREeGQMYBUy7N72A" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
             </ownedOperation>
           </nestedClassifier>
@@ -356,6 +368,18 @@
                 <transition xmi:id="_G8LJBCAjEeGwRqejfhyScQ" name="Transition2" source="_DoLBoCAjEeGwRqejfhyScQ" target="_DoLBoCAjEeGwRqejfhyScQ">
                   <trigger xmi:id="_OctiQCAjEeGwRqejfhyScQ" name="" event="_QEG94CAjEeGwRqejfhyScQ"/>
                 </transition>
+                <transition xmi:id="_wR6LpCJTEeGRt41VpUk6xQ" name="Transition3" source="_DoLBoCAjEeGwRqejfhyScQ" target="_DoLBoCAjEeGwRqejfhyScQ">
+                  <trigger xmi:id="_4iNN4CJTEeGRt41VpUk6xQ" name="" event="_w2tFUSJUEeGhopMsbHVl7Q"/>
+                </transition>
+                <transition xmi:id="_HKBEdCJXEeGhopMsbHVl7Q" name="Transition4" source="_DoLBoCAjEeGwRqejfhyScQ" target="_DoLBoCAjEeGwRqejfhyScQ">
+                  <trigger xmi:id="_VHGqYCJXEeGhopMsbHVl7Q" event="_MUlr4CJXEeGhopMsbHVl7Q"/>
+                </transition>
+                <transition xmi:id="_Hkc2VCJaEeGhopMsbHVl7Q" name="Transition5" source="_DoLBoCAjEeGwRqejfhyScQ" target="_DoLBoCAjEeGwRqejfhyScQ">
+                  <trigger xmi:id="_dbhQQCJaEeGhopMsbHVl7Q" event="_RiGLMCJaEeGhopMsbHVl7Q"/>
+                </transition>
+                <transition xmi:id="_NiNONCJaEeGhopMsbHVl7Q" name="Transition6" source="_DoLBoCAjEeGwRqejfhyScQ" target="_DoLBoCAjEeGwRqejfhyScQ">
+                  <trigger xmi:id="_fSsNQCJaEeGhopMsbHVl7Q" name="" event="_S_-ecCJaEeGhopMsbHVl7Q"/>
+                </transition>
               </region>
             </ownedBehavior>
             <interfaceRealization xmi:id="_gOSTACAOEeGQMYBUy7N72A" name="InterfaceRealization1" supplier="_PPDxwCAOEeGQMYBUy7N72A" client="_7anW4CANEeGQMYBUy7N72A" contract="_PPDxwCAOEeGQMYBUy7N72A"/>
@@ -363,12 +387,40 @@
               <ownedParameter xmi:id="_CjDZMCAOEeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
               <ownedParameter xmi:id="_wWpoQCAPEeGQMYBUy7N72A" name="singleTicket" type="_dBTkMCAPEeGQMYBUy7N72A" direction="return"/>
             </ownedOperation>
+            <ownedOperation xmi:id="_dDZIUCJTEeGRt41VpUk6xQ" name="getTagRate">
+              <ownedParameter xmi:id="_j4Mc8CJTEeGRt41VpUk6xQ" name="return" type="_LedmQCAUEeGQMYBUy7N72A" direction="return"/>
+            </ownedOperation>
+            <ownedOperation xmi:id="_1zIRIiJWEeGhopMsbHVl7Q" name="ticketExists">
+              <ownedParameter xmi:id="_5AIYoCJWEeGhopMsbHVl7Q" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
+              <ownedParameter xmi:id="_6ieVICJWEeGhopMsbHVl7Q" name="id" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+            </ownedOperation>
+            <ownedOperation xmi:id="_vEOBwiJZEeGhopMsbHVl7Q" name="getTag">
+              <ownedParameter xmi:id="_0wuRkCJZEeGhopMsbHVl7Q" name="id" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+              <ownedParameter xmi:id="_2rwa4CJZEeGhopMsbHVl7Q" name="return" type="_63PnUCG-EeGPecBVZhBvBA" direction="return"/>
+            </ownedOperation>
+            <ownedOperation xmi:id="_51fzACJZEeGhopMsbHVl7Q" name="saveTag">
+              <ownedParameter xmi:id="_8ZlgYCJZEeGhopMsbHVl7Q" name="tag" type="_63PnUCG-EeGPecBVZhBvBA"/>
+            </ownedOperation>
           </nestedClassifier>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Interface" xmi:id="_PPDxwCAOEeGQMYBUy7N72A" name="EnterpriseServerToLane">
           <ownedOperation xmi:id="_VIylQCAOEeGQMYBUy7N72A" name="generateSingleTicket">
             <ownedParameter xmi:id="_VIylQSAOEeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
             <ownedParameter xmi:id="_FCaiICAPEeGQMYBUy7N72A" name="singleTicket" type="_dBTkMCAPEeGQMYBUy7N72A" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_lTsKkCJTEeGRt41VpUk6xQ" name="getTagRate">
+            <ownedParameter xmi:id="_lTsKkSJTEeGRt41VpUk6xQ" name="return" type="_LedmQCAUEeGQMYBUy7N72A" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="__x9RwCJWEeGhopMsbHVl7Q" name="ticketExists">
+            <ownedParameter xmi:id="__x9RwSJWEeGhopMsbHVl7Q" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
+            <ownedParameter xmi:id="__x9RwiJWEeGhopMsbHVl7Q" name="id" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="__n8SwCJZEeGhopMsbHVl7Q" name="getTag">
+            <ownedParameter xmi:id="__n8SwSJZEeGhopMsbHVl7Q" name="id" type="_6lqRoCHKEeGPecBVZhBvBA"/>
+            <ownedParameter xmi:id="__n8SwiJZEeGhopMsbHVl7Q" name="return" type="_63PnUCG-EeGPecBVZhBvBA" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="__n8SwyJZEeGhopMsbHVl7Q" name="saveTag">
+            <ownedParameter xmi:id="__n8SxCJZEeGhopMsbHVl7Q" name="tag" type="_63PnUCG-EeGPecBVZhBvBA"/>
           </ownedOperation>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Class" xmi:id="_63PnUCG-EeGPecBVZhBvBA" name="Tag">
@@ -465,5 +517,10 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p8xIJiJLEeGRt41VpUk6xQ" value="1"/>
       </ownedEnd>
     </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_w2tFUSJUEeGhopMsbHVl7Q" name="getTagRate()" operation="_dDZIUCJTEeGRt41VpUk6xQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_QDgDECJWEeGhopMsbHVl7Q" name="tagDetection(ticketId)" operation="_ncnm8CJIEeGRt41VpUk6xQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MUlr4CJXEeGhopMsbHVl7Q" name="ticketExists(id)" operation="_1zIRIiJWEeGhopMsbHVl7Q"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_RiGLMCJaEeGhopMsbHVl7Q" name="getTag(id)" operation="_vEOBwiJZEeGhopMsbHVl7Q"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_S_-ecCJaEeGhopMsbHVl7Q" name="saveTag(tag)" operation="_51fzACJZEeGhopMsbHVl7Q"/>
   </packagedElement>
 </uml:Model>
