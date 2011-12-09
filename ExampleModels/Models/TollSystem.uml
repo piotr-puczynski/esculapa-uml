@@ -171,10 +171,53 @@
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_wmm-YyJVEeGhopMsbHVl7Q" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_xhOzkiJVEeGhopMsbHVl7Q" name="Idle"/>
                   <subvertex xmi:type="uml:State" xmi:id="_feTkMiJWEeGhopMsbHVl7Q" name="check in tag"/>
+                  <subvertex xmi:type="uml:Pseudostate" xmi:id="__wBbQCJaEeGhopMsbHVl7Q" name="" kind="choice"/>
+                  <subvertex xmi:type="uml:State" xmi:id="_V49BQCJbEeGhopMsbHVl7Q" name="get tag"/>
+                  <subvertex xmi:type="uml:Pseudostate" xmi:id="_puu44CJbEeGhopMsbHVl7Q" name="" kind="choice"/>
                   <transition xmi:id="_5j1YFiJVEeGhopMsbHVl7Q" name="Transition1" source="_wmm-YyJVEeGhopMsbHVl7Q" target="_xhOzkiJVEeGhopMsbHVl7Q"/>
                   <transition xmi:id="_hM_6pSJWEeGhopMsbHVl7Q" name="Transition2" source="_xhOzkiJVEeGhopMsbHVl7Q" target="_feTkMiJWEeGhopMsbHVl7Q">
-                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_kfNSQCJWEeGhopMsbHVl7Q" name=""/>
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_kfNSQCJWEeGhopMsbHVl7Q" name="exists := enterpriseServer.ticketExists(ticketId)" specification="__x9RwCJWEeGhopMsbHVl7Q"/>
                     <trigger xmi:id="_h1T30CJWEeGhopMsbHVl7Q" event="_QDgDECJWEeGhopMsbHVl7Q"/>
+                  </transition>
+                  <transition xmi:id="_B2qXpCJbEeGhopMsbHVl7Q" name="Transition3" source="_feTkMiJWEeGhopMsbHVl7Q" target="__wBbQCJaEeGhopMsbHVl7Q"/>
+                  <transition xmi:id="_C--DhCJbEeGhopMsbHVl7Q" name="Transition4" source="__wBbQCJaEeGhopMsbHVl7Q" target="_xhOzkiJVEeGhopMsbHVl7Q" guard="_HgCa8CJbEeGhopMsbHVl7Q">
+                    <ownedRule xmi:id="_HgCa8CJbEeGhopMsbHVl7Q">
+                      <specification xmi:type="uml:OpaqueExpression" xmi:id="_IS6pYCJbEeGhopMsbHVl7Q" name="else">
+                        <language>ocl</language>
+                        <body>else</body>
+                      </specification>
+                    </ownedRule>
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_KuYmQCJbEeGhopMsbHVl7Q" name="station.notifyProblem(self.id)" specification="_2w7bwiHKEeGPecBVZhBvBA"/>
+                  </transition>
+                  <transition xmi:id="_Xw2-FSJbEeGhopMsbHVl7Q" name="Transition5" source="__wBbQCJaEeGhopMsbHVl7Q" target="_V49BQCJbEeGhopMsbHVl7Q" guard="_aEAFYCJbEeGhopMsbHVl7Q">
+                    <ownedRule xmi:id="_aEAFYCJbEeGhopMsbHVl7Q">
+                      <specification xmi:type="uml:OpaqueExpression" xmi:id="_bA_5ICJbEeGhopMsbHVl7Q" name="exists">
+                        <language>ocl</language>
+                        <body>exists</body>
+                      </specification>
+                    </ownedRule>
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_dxS2gCJbEeGhopMsbHVl7Q" name="tag := enterpriseServer.getTag(ticketId)" specification="__n8SwCJZEeGhopMsbHVl7Q"/>
+                  </transition>
+                  <transition xmi:id="_qmhchSJbEeGhopMsbHVl7Q" name="Transition6" source="_V49BQCJbEeGhopMsbHVl7Q" target="_puu44CJbEeGhopMsbHVl7Q">
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_vVSRsCJbEeGhopMsbHVl7Q" name="valid := tag.checkValidity()" specification="_lZBq4CHBEeGPecBVZhBvBA"/>
+                  </transition>
+                  <transition xmi:id="_49C2JCJbEeGhopMsbHVl7Q" name="Transition7" source="_puu44CJbEeGhopMsbHVl7Q" target="_xhOzkiJVEeGhopMsbHVl7Q" guard="_-lE1oCJbEeGhopMsbHVl7Q">
+                    <ownedRule xmi:id="_-lE1oCJbEeGhopMsbHVl7Q">
+                      <specification xmi:type="uml:OpaqueExpression" xmi:id="__h7fcCJbEeGhopMsbHVl7Q" name="else">
+                        <language>ocl</language>
+                        <body>else</body>
+                      </specification>
+                    </ownedRule>
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_BV-P8CJcEeGhopMsbHVl7Q" name="station.notifyProblem(self.id)"/>
+                  </transition>
+                  <transition xmi:id="_FXpVpCJcEeGhopMsbHVl7Q" name="Transition8" source="_puu44CJbEeGhopMsbHVl7Q" target="_xhOzkiJVEeGhopMsbHVl7Q" guard="_LE4lQCJcEeGhopMsbHVl7Q">
+                    <ownedRule xmi:id="_LE4lQCJcEeGhopMsbHVl7Q" name="">
+                      <specification xmi:type="uml:OpaqueExpression" xmi:id="_My1U0CJcEeGhopMsbHVl7Q" name="valid">
+                        <language>ocl</language>
+                        <body>valid</body>
+                      </specification>
+                    </ownedRule>
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_N0Sx0CJcEeGhopMsbHVl7Q" name="tagStation := station.getStation(); tag.setEntryStation(tagStation); enterpriseServer.saveTag(tag); barrier.allowPassage()"/>
                   </transition>
                 </region>
               </ownedBehavior>
@@ -411,11 +454,11 @@
           <ownedOperation xmi:id="_lTsKkCJTEeGRt41VpUk6xQ" name="getTagRate">
             <ownedParameter xmi:id="_lTsKkSJTEeGRt41VpUk6xQ" name="return" type="_LedmQCAUEeGQMYBUy7N72A" direction="return"/>
           </ownedOperation>
-          <ownedOperation xmi:id="__x9RwCJWEeGhopMsbHVl7Q" name="ticketExists">
+          <ownedOperation xmi:id="__x9RwCJWEeGhopMsbHVl7Q" name="ticketExists" method="_kfNSQCJWEeGhopMsbHVl7Q">
             <ownedParameter xmi:id="__x9RwSJWEeGhopMsbHVl7Q" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
             <ownedParameter xmi:id="__x9RwiJWEeGhopMsbHVl7Q" name="id" type="_6lqRoCHKEeGPecBVZhBvBA"/>
           </ownedOperation>
-          <ownedOperation xmi:id="__n8SwCJZEeGhopMsbHVl7Q" name="getTag">
+          <ownedOperation xmi:id="__n8SwCJZEeGhopMsbHVl7Q" name="getTag" method="_dxS2gCJbEeGhopMsbHVl7Q">
             <ownedParameter xmi:id="__n8SwSJZEeGhopMsbHVl7Q" name="id" type="_6lqRoCHKEeGPecBVZhBvBA"/>
             <ownedParameter xmi:id="__n8SwiJZEeGhopMsbHVl7Q" name="return" type="_63PnUCG-EeGPecBVZhBvBA" direction="return"/>
           </ownedOperation>
@@ -426,7 +469,7 @@
         <nestedClassifier xmi:type="uml:Class" xmi:id="_63PnUCG-EeGPecBVZhBvBA" name="Tag">
           <generalization xmi:id="_EAXvACG_EeGPecBVZhBvBA" general="_P7HKACAPEeGQMYBUy7N72A"/>
           <ownedAttribute xmi:id="_5rxn0SHAEeGPecBVZhBvBA" name="monthlyAccumulatedPrice" visibility="private" type="_LedmQCAUEeGQMYBUy7N72A"/>
-          <ownedOperation xmi:id="_lZBq4CHBEeGPecBVZhBvBA" name="checkValidity">
+          <ownedOperation xmi:id="_lZBq4CHBEeGPecBVZhBvBA" name="checkValidity" method="_vVSRsCJbEeGhopMsbHVl7Q">
             <ownedParameter xmi:id="_lZBq4SHBEeGPecBVZhBvBA" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
           </ownedOperation>
           <ownedOperation xmi:id="_ZBaRIiHFEeGPecBVZhBvBA" name="setEntryStation">
@@ -457,7 +500,7 @@
           <ownedOperation xmi:id="_qVJQgCHKEeGPecBVZhBvBA" name="getStation">
             <ownedParameter xmi:id="_xkucoCHKEeGPecBVZhBvBA" name="return" type="_Ariu8CHEEeGPecBVZhBvBA" direction="return"/>
           </ownedOperation>
-          <ownedOperation xmi:id="_2w7bwiHKEeGPecBVZhBvBA" name="notifyProblem">
+          <ownedOperation xmi:id="_2w7bwiHKEeGPecBVZhBvBA" name="notifyProblem" method="_KuYmQCJbEeGhopMsbHVl7Q">
             <ownedParameter xmi:id="_4mnLACHKEeGPecBVZhBvBA" name="laneId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
           </ownedOperation>
         </nestedClassifier>
