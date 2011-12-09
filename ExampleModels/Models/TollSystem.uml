@@ -93,7 +93,7 @@
           <nestedClassifier xmi:type="uml:Component" xmi:id="_yHQQ0CGcEeGPecBVZhBvBA" name="Lane Computer">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_8ZPeACGcEeGPecBVZhBvBA" name="LCCR" type="_ZDVn4CAREeGQMYBUy7N72A" aggregation="composite" protocol="_piHbkCKPEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_AmGa0yGvEeGPecBVZhBvBA" name="LCTO" type="_0DkZMB__EeGQMYBUy7N72A" aggregation="composite"/>
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_ZxEZACGwEeGPecBVZhBvBA" name="LCPR" clientDependency="_b347kCGwEeGPecBVZhBvBA" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_ZxEZACGwEeGPecBVZhBvBA" name="LCPR" clientDependency="_b347kCGwEeGPecBVZhBvBA" aggregation="composite" protocol="_1YBmsCKcEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_2UxqECGwEeGPecBVZhBvBA" name="CLBR" clientDependency="_JamrdCGxEeGPecBVZhBvBA" aggregation="composite" protocol="_IdE44CKFEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_XlSogCGxEeGPecBVZhBvBA" name="LCCA" type="_U4YpYCAcEeGwRqejfhyScQ" aggregation="composite" protocol="_STm_gCKNEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_80PggyGzEeGPecBVZhBvBA" name="LB" clientDependency="_OgI6gCG0EeGPecBVZhBvBA" aggregation="composite" protocol="__GjbICKUEeGSA7KHJk1Zmg"/>
@@ -332,7 +332,7 @@
             </ownedOperation>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_o4oqgiGvEeGPecBVZhBvBA" name="Printer">
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_Sb0pwCGwEeGPecBVZhBvBA" name="PR" type="_L_r9oCAMEeGQMYBUy7N72A" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_Sb0pwCGwEeGPecBVZhBvBA" name="PR" type="_L_r9oCAMEeGQMYBUy7N72A" aggregation="composite" protocol="_2pz-sCKcEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_rLNiUCAIEeGQMYBUy7N72A" name="Printer" clientDependency="_PmlL0CAMEeGQMYBUy7N72A" classifierBehavior="_esPNMCDZEeGctsL4lIEM3A">
               <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_esPNMCDZEeGctsL4lIEM3A" name="StateMachine">
                 <region xmi:id="_esPNMSDZEeGctsL4lIEM3A" name="Region">
@@ -349,7 +349,7 @@
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_L_r9oCAMEeGQMYBUy7N72A" name="PrinterToNormalLineCheckIn">
-            <ownedOperation xmi:id="_SUzsoiAMEeGQMYBUy7N72A" name="printTicket"/>
+            <ownedOperation xmi:id="_SUzsoiAMEeGQMYBUy7N72A" name="printTicket" method="_kND6ECKdEeGSA7KHJk1Zmg"/>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_0W0voiGwEeGPecBVZhBvBA" name="Barrier">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_6zGPgyGwEeGPecBVZhBvBA" name="BR" type="_EcGa8CANEeGQMYBUy7N72A" aggregation="composite" protocol="_F-uAECKFEeGSA7KHJk1Zmg"/>
@@ -881,6 +881,26 @@
         </transition>
         <transition xmi:id="_G74J4iKbEeGSA7KHJk1Zmg" name="Transition3" source="_hgS5MCKaEeGSA7KHJk1Zmg" target="_hgS5MCKaEeGSA7KHJk1Zmg">
           <trigger xmi:id="_X0-1ACKbEeGSA7KHJk1Zmg" event="_YqdzsCJoEeGhopMsbHVl7Q"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_1YBmsCKcEeGSA7KHJk1Zmg" name="NormalLaneCheckInToPrinter">
+      <region xmi:id="_gEx2ECKdEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_gUTf0CKdEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_hGzTwCKdEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_iiLspCKdEeGSA7KHJk1Zmg" name="Transition1" source="_gUTf0CKdEeGSA7KHJk1Zmg" target="_hGzTwCKdEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_jQZdhCKdEeGSA7KHJk1Zmg" name="Transition2" source="_hGzTwCKdEeGSA7KHJk1Zmg" target="_hGzTwCKdEeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_kND6ECKdEeGSA7KHJk1Zmg" name="printTicket()" specification="_SUzsoiAMEeGQMYBUy7N72A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_2pz-sCKcEeGSA7KHJk1Zmg" name="PrinterToNormalLaneCheckIn">
+      <region xmi:id="_qZK3ACKdEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_qq0nsCKdEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_rUTpkCKdEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_sIQPACKdEeGSA7KHJk1Zmg" name="Transition1" source="_qq0nsCKdEeGSA7KHJk1Zmg" target="_rUTpkCKdEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_sn_fACKdEeGSA7KHJk1Zmg" name="Transition2" source="_rUTpkCKdEeGSA7KHJk1Zmg" target="_rUTpkCKdEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_t7jYoCKdEeGSA7KHJk1Zmg" event="_aSpE0CDbEeGctsL4lIEM3A"/>
         </transition>
       </region>
     </packagedElement>
