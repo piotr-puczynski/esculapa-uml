@@ -94,10 +94,10 @@
             <ownedAttribute xmi:type="uml:Port" xmi:id="_8ZPeACGcEeGPecBVZhBvBA" name="LCCR" type="_ZDVn4CAREeGQMYBUy7N72A" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_AmGa0yGvEeGPecBVZhBvBA" name="LCTO" type="_0DkZMB__EeGQMYBUy7N72A" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_ZxEZACGwEeGPecBVZhBvBA" name="LCPR" clientDependency="_b347kCGwEeGPecBVZhBvBA" aggregation="composite"/>
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_2UxqECGwEeGPecBVZhBvBA" name="CLBR" clientDependency="_JamrdCGxEeGPecBVZhBvBA" aggregation="composite"/>
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_XlSogCGxEeGPecBVZhBvBA" name="LCCA" type="_U4YpYCAcEeGwRqejfhyScQ" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_2UxqECGwEeGPecBVZhBvBA" name="CLBR" clientDependency="_JamrdCGxEeGPecBVZhBvBA" aggregation="composite" protocol="_IdE44CKFEeGSA7KHJk1Zmg"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_XlSogCGxEeGPecBVZhBvBA" name="LCCA" type="_U4YpYCAcEeGwRqejfhyScQ" aggregation="composite" protocol="_STm_gCKNEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_80PggyGzEeGPecBVZhBvBA" name="LB" clientDependency="_OgI6gCG0EeGPecBVZhBvBA" aggregation="composite"/>
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_LbTJ4yJLEeGRt41VpUk6xQ" name="LCAN" type="_0e9b4CJIEeGRt41VpUk6xQ" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_LbTJ4yJLEeGRt41VpUk6xQ" name="LCAN" type="_0e9b4CJIEeGRt41VpUk6xQ" aggregation="composite" protocol="_KNhQ4CKHEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_j-t_4yJMEeGRt41VpUk6xQ" name="LSS" clientDependency="_4gHnYyJMEeGRt41VpUk6xQ" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_8z8NAyJMEeGRt41VpUk6xQ" name="LES" clientDependency="_bHoN9CJNEeGRt41VpUk6xQ" aggregation="composite" protocol="_utvDUCJ4EeG5Y9AWlHoqTA"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A _iX9_gCASEeGQMYBUy7N72A _Z_FdcCAcEeGwRqejfhyScQ" classifierBehavior="_frka8CAjEeGwRqejfhyScQ">
@@ -305,7 +305,7 @@
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_ZDVn4CAREeGQMYBUy7N72A" name="NormalLaneCheckInToCreditCardReader">
-            <ownedOperation xmi:id="_fIYTgCAREeGQMYBUy7N72A" name="readCCInfo" method="_BX-9ICAiEeGwRqejfhyScQ">
+            <ownedOperation xmi:id="_fIYTgCAREeGQMYBUy7N72A" name="readCCInfo" method="_BX-9ICAiEeGwRqejfhyScQ _B9n2QCKSEeGSA7KHJk1Zmg">
               <ownedParameter xmi:id="_fIYTgSAREeGQMYBUy7N72A" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A"/>
             </ownedOperation>
           </nestedClassifier>
@@ -352,7 +352,7 @@
             <ownedOperation xmi:id="_SUzsoiAMEeGQMYBUy7N72A" name="printTicket"/>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_0W0voiGwEeGPecBVZhBvBA" name="Barrier">
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_6zGPgyGwEeGPecBVZhBvBA" name="BR" type="_EcGa8CANEeGQMYBUy7N72A" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_6zGPgyGwEeGPecBVZhBvBA" name="BR" type="_EcGa8CANEeGQMYBUy7N72A" aggregation="composite" protocol="_F-uAECKFEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_I_GsECANEeGQMYBUy7N72A" name="Barrier" clientDependency="_OLUSQCANEeGQMYBUy7N72A" classifierBehavior="__QOgECAZEeGwRqejfhyScQ">
               <ownedBehavior xmi:type="uml:StateMachine" xmi:id="__QOgECAZEeGwRqejfhyScQ" name="StateMachine">
                 <region xmi:id="__QOgESAZEeGwRqejfhyScQ" name="Region">
@@ -370,10 +370,10 @@
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_EcGa8CANEeGQMYBUy7N72A" name="BarrierToLine">
-            <ownedOperation xmi:id="_GUKv0iANEeGQMYBUy7N72A" name="allowPassage"/>
+            <ownedOperation xmi:id="_GUKv0iANEeGQMYBUy7N72A" name="allowPassage" method="_RAoY4CKGEeGSA7KHJk1Zmg"/>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_UPl4AiGxEeGPecBVZhBvBA" name="Cash Register">
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_Yx0tECGxEeGPecBVZhBvBA" name="CA" clientDependency="_sWEv1CGxEeGPecBVZhBvBA" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_Yx0tECGxEeGPecBVZhBvBA" name="CA" clientDependency="_sWEv1CGxEeGPecBVZhBvBA" aggregation="composite" protocol="_RS6-kCKNEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_dBF14CAcEeGwRqejfhyScQ" name="CashRegister" classifierBehavior="_tTY_sCAcEeGwRqejfhyScQ">
               <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_tTY_sCAcEeGwRqejfhyScQ" name="StateMachine">
                 <region xmi:id="_tTY_sSAcEeGwRqejfhyScQ" name="Region">
@@ -388,10 +388,10 @@
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_U4YpYCAcEeGwRqejfhyScQ" name="NormalLaneCheckInToCashRegister">
-            <ownedOperation xmi:id="_Y69G8CAcEeGwRqejfhyScQ" name="payCash" method="_UmGxICAdEeGwRqejfhyScQ"/>
+            <ownedOperation xmi:id="_Y69G8CAcEeGwRqejfhyScQ" name="payCash" method="_UmGxICAdEeGwRqejfhyScQ __g88UCKNEeGSA7KHJk1Zmg"/>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_FTSCwCJLEeGRt41VpUk6xQ" name="Antenna">
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_JuZjMyJLEeGRt41VpUk6xQ" name="AN" clientDependency="_4QqrkyJLEeGRt41VpUk6xQ" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_JuZjMyJLEeGRt41VpUk6xQ" name="AN" clientDependency="_4QqrkyJLEeGRt41VpUk6xQ" aggregation="composite" protocol="_I9FjwCKHEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_mZICQCJLEeGRt41VpUk6xQ" name="Antenna" classifierBehavior="_xc6N4CJNEeGRt41VpUk6xQ">
               <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_xc6N4CJNEeGRt41VpUk6xQ" name="StateMachine">
                 <region xmi:id="_xc6N4SJNEeGRt41VpUk6xQ" name="Region">
@@ -406,7 +406,7 @@
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_0e9b4CJIEeGRt41VpUk6xQ" name="ExpressLaneToAntenna">
-            <ownedOperation xmi:id="_3Vp8MCJIEeGRt41VpUk6xQ" name="tagDetection" method="_5MyDoCJNEeGRt41VpUk6xQ">
+            <ownedOperation xmi:id="_3Vp8MCJIEeGRt41VpUk6xQ" name="tagDetection" method="_5MyDoCJNEeGRt41VpUk6xQ _8BFx8CKHEeGSA7KHJk1Zmg">
               <ownedParameter xmi:id="_3Vp8MSJIEeGRt41VpUk6xQ" name="ticketId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
             </ownedOperation>
           </nestedClassifier>
@@ -755,6 +755,86 @@
         <transition xmi:id="_9xJT9iJ_EeG5Y9AWlHoqTA" name="Transition1" source="_6htjgyJ_EeG5Y9AWlHoqTA" target="_7-NWsCJ_EeG5Y9AWlHoqTA"/>
         <transition xmi:id="__O3PICJ_EeG5Y9AWlHoqTA" name="Transition2" source="_7-NWsCJ_EeG5Y9AWlHoqTA" target="_7-NWsCJ_EeG5Y9AWlHoqTA">
           <trigger xmi:id="___5DcCJ_EeG5Y9AWlHoqTA" event="_w2tFUSJUEeGhopMsbHVl7Q"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_F-uAECKFEeGSA7KHJk1Zmg" name="BarrierToLane">
+      <region xmi:id="_Bf5O4CKGEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_B-uf8CKGEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_C-QqUCKGEeGSA7KHJk1Zmg" name="Idle"/>
+        <transition xmi:id="_EbIQ9iKGEeGSA7KHJk1Zmg" name="Transition1" source="_B-uf8CKGEeGSA7KHJk1Zmg" target="_C-QqUCKGEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_Gs4RICKGEeGSA7KHJk1Zmg" name="Transition2" source="_C-QqUCKGEeGSA7KHJk1Zmg" target="_C-QqUCKGEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_HeyPMCKGEeGSA7KHJk1Zmg" event="_Xs5DQCAaEeGwRqejfhyScQ"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_IdE44CKFEeGSA7KHJk1Zmg" name="LaneToBarrier">
+      <region xmi:id="_M3ickCKGEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_NNzngyKGEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_OFe2YCKGEeGSA7KHJk1Zmg" name="Idle"/>
+        <transition xmi:id="_PfogMSKGEeGSA7KHJk1Zmg" name="Transition1" source="_NNzngyKGEeGSA7KHJk1Zmg" target="_OFe2YCKGEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_P_KU1SKGEeGSA7KHJk1Zmg" name="Transition2" source="_OFe2YCKGEeGSA7KHJk1Zmg" target="_OFe2YCKGEeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_RAoY4CKGEeGSA7KHJk1Zmg" name="allowPassage()" specification="_GUKv0iANEeGQMYBUy7N72A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_I9FjwCKHEeGSA7KHJk1Zmg" name="AntennaToExpressLane">
+      <region xmi:id="_tB-HQCKHEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:State" xmi:id="_trhakCKHEeGSA7KHJk1Zmg" name="Idle"/>
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_uCAA4CKHEeGSA7KHJk1Zmg" name="Start"/>
+        <transition xmi:id="_xS0RZCKHEeGSA7KHJk1Zmg" name="Transition1" source="_uCAA4CKHEeGSA7KHJk1Zmg" target="_trhakCKHEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_56SdgCKHEeGSA7KHJk1Zmg" name="Transition2" source="_trhakCKHEeGSA7KHJk1Zmg" target="_trhakCKHEeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_8BFx8CKHEeGSA7KHJk1Zmg" name="tagDetection(ticketId)" specification="_3Vp8MCJIEeGRt41VpUk6xQ"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_KNhQ4CKHEeGSA7KHJk1Zmg" name="ExpressLaneToAntenna">
+      <region xmi:id="_iQiIgCKIEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_ieP0YCKIEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_jIHQwCKIEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_kTsTECKIEeGSA7KHJk1Zmg" name="Transition1" source="_ieP0YCKIEeGSA7KHJk1Zmg" target="_jIHQwCKIEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_k8bHBCKIEeGSA7KHJk1Zmg" name="Transition2" source="_jIHQwCKIEeGSA7KHJk1Zmg" target="_jIHQwCKIEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_lfZ4QCKIEeGSA7KHJk1Zmg" event="_QDgDECJWEeGhopMsbHVl7Q"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_RS6-kCKNEeGSA7KHJk1Zmg" name="CashRegisterToNormalLaneCheckIn">
+      <region xmi:id="_vKgSUCKNEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_vufJIyKNEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_wVuIQCKNEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_8GGmEyKNEeGSA7KHJk1Zmg" name="Transition1" source="_vufJIyKNEeGSA7KHJk1Zmg" target="_wVuIQCKNEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_94HWRSKNEeGSA7KHJk1Zmg" name="Transition2" source="_wVuIQCKNEeGSA7KHJk1Zmg" target="_wVuIQCKNEeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="__g88UCKNEeGSA7KHJk1Zmg" name="payCash()" specification="_Y69G8CAcEeGwRqejfhyScQ"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_STm_gCKNEeGSA7KHJk1Zmg" name="NormalLaneCheckInToCashRegister">
+      <region xmi:id="_MfzYYCKOEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_NJMToyKOEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_OA1GQCKOEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_PX94UCKOEeGSA7KHJk1Zmg" name="Transition1" source="_NJMToyKOEeGSA7KHJk1Zmg" target="_OA1GQCKOEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_YFAg8CKOEeGSA7KHJk1Zmg" name="Transition2" source="_OA1GQCKOEeGSA7KHJk1Zmg" target="_OA1GQCKOEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_ZFbcICKOEeGSA7KHJk1Zmg" name="" event="_LMos0CDMEeGctsL4lIEM3A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_oQmwYCKPEeGSA7KHJk1Zmg" name="CreditCardReaderToNormalLaneCheckIn">
+      <region xmi:id="_53if8CKREeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_6fFBEyKREeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_7Ub7wCKREeGSA7KHJk1Zmg" name="Start"/>
+        <transition xmi:id="_87WPNCKREeGSA7KHJk1Zmg" name="Transition1" source="_6fFBEyKREeGSA7KHJk1Zmg" target="_7Ub7wCKREeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_-o59NSKREeGSA7KHJk1Zmg" name="Transition2" source="_7Ub7wCKREeGSA7KHJk1Zmg" target="_7Ub7wCKREeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_B9n2QCKSEeGSA7KHJk1Zmg" name="readCCInfo(creditCardInformation)" specification="_fIYTgCAREeGQMYBUy7N72A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_piHbkCKPEeGSA7KHJk1Zmg" name="NormalLaneCheckInToCreditCardReader">
+      <region xmi:id="_Jy4iUCKSEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_KF9PUCKSEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_K7E5cCKSEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_L9v3YCKSEeGSA7KHJk1Zmg" name="Transition1" source="_KF9PUCKSEeGSA7KHJk1Zmg" target="_K7E5cCKSEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_NSbyYCKSEeGSA7KHJk1Zmg" name="Transition2" source="_K7E5cCKSEeGSA7KHJk1Zmg" target="_K7E5cCKSEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_OLPCoCKSEeGSA7KHJk1Zmg" name="" event="_ga2B4CDKEeGctsL4lIEM3A"/>
         </transition>
       </region>
     </packagedElement>
