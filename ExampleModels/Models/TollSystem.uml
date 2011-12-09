@@ -153,7 +153,7 @@
               <interfaceRealization xmi:id="_Xhem0CABEeGQMYBUy7N72A" name="InterfaceRealization1" supplier="_0DkZMB__EeGQMYBUy7N72A" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_0DkZMB__EeGQMYBUy7N72A"/>
               <interfaceRealization xmi:id="_iX9_gCASEeGQMYBUy7N72A" name="InterfaceRealization2" supplier="_ZDVn4CAREeGQMYBUy7N72A" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_ZDVn4CAREeGQMYBUy7N72A"/>
               <interfaceRealization xmi:id="_Z_FdcCAcEeGwRqejfhyScQ" name="InterfaceRealization3" supplier="_U4YpYCAcEeGwRqejfhyScQ" client="_y3XTgB_5EeGQMYBUy7N72A" contract="_U4YpYCAcEeGwRqejfhyScQ"/>
-              <ownedOperation xmi:id="_lRG8Yh_9EeGQMYBUy7N72A" name="buyTicket" method="_bc-I8CDmEeGctsL4lIEM3A">
+              <ownedOperation xmi:id="_lRG8Yh_9EeGQMYBUy7N72A" name="buyTicket">
                 <ownedParameter xmi:id="_oa_ecB_9EeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
               </ownedOperation>
               <ownedOperation xmi:id="_yp9L0iAIEeGQMYBUy7N72A" name="readCCInfo">
@@ -319,7 +319,7 @@
                   <subvertex xmi:type="uml:State" xmi:id="_AEbDciDmEeGctsL4lIEM3A" name="payment"/>
                   <transition xmi:id="_3c7CJiDlEeGctsL4lIEM3A" name="Transition1" source="_01shMCDlEeGctsL4lIEM3A" target="_2Vp4ECDlEeGctsL4lIEM3A"/>
                   <transition xmi:id="_Nh0ctSDmEeGctsL4lIEM3A" name="Transition2" source="_2Vp4ECDlEeGctsL4lIEM3A" target="_AEbDciDmEeGctsL4lIEM3A">
-                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_bc-I8CDmEeGctsL4lIEM3A" name="normalLane.buyTicket(vehicleType: VehicleType)" specification="_lRG8Yh_9EeGQMYBUy7N72A"/>
+                    <effect xmi:type="uml:OpaqueBehavior" xmi:id="_bc-I8CDmEeGctsL4lIEM3A" name="normalLane.buyTicket(vehicleType: VehicleType)" specification="_G1LzMiACEeGQMYBUy7N72A"/>
                   </transition>
                   <transition xmi:id="_rxW9dCDmEeGctsL4lIEM3A" name="Transition3" source="_AEbDciDmEeGctsL4lIEM3A" target="_2Vp4ECDlEeGctsL4lIEM3A"/>
                 </region>
@@ -327,7 +327,7 @@
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_0DkZMB__EeGQMYBUy7N72A" name="NormalLaneCheckInToTouchscreen">
-            <ownedOperation xmi:id="_G1LzMiACEeGQMYBUy7N72A" name="buyTicket">
+            <ownedOperation xmi:id="_G1LzMiACEeGQMYBUy7N72A" name="buyTicket" method="_bc-I8CDmEeGctsL4lIEM3A">
               <ownedParameter xmi:id="_IVl2ACACEeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
             </ownedOperation>
           </nestedClassifier>
@@ -523,9 +523,26 @@
             <ownedParameter xmi:id="__n8SxCJZEeGhopMsbHVl7Q" name="tag" type="_63PnUCG-EeGPecBVZhBvBA"/>
           </ownedOperation>
         </nestedClassifier>
-        <nestedClassifier xmi:type="uml:Class" xmi:id="_63PnUCG-EeGPecBVZhBvBA" name="Tag">
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_63PnUCG-EeGPecBVZhBvBA" name="Tag" classifierBehavior="_pAZD0CJpEeGhopMsbHVl7Q">
           <generalization xmi:id="_EAXvACG_EeGPecBVZhBvBA" general="_P7HKACAPEeGQMYBUy7N72A"/>
           <ownedAttribute xmi:id="_5rxn0SHAEeGPecBVZhBvBA" name="monthlyAccumulatedPrice" visibility="private" type="_LedmQCAUEeGQMYBUy7N72A"/>
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_pAZD0CJpEeGhopMsbHVl7Q" name="StateMachine">
+            <region xmi:id="_pAZD0SJpEeGhopMsbHVl7Q" name="Region">
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_pi6iECJpEeGhopMsbHVl7Q" name="Start"/>
+              <subvertex xmi:type="uml:State" xmi:id="_q327wCJpEeGhopMsbHVl7Q" name="created"/>
+              <transition xmi:id="_uT5k1CJpEeGhopMsbHVl7Q" name="" source="_pi6iECJpEeGhopMsbHVl7Q" target="_q327wCJpEeGhopMsbHVl7Q"/>
+              <transition xmi:id="_3Ra5dSJpEeGhopMsbHVl7Q" name="Transition2" source="_q327wCJpEeGhopMsbHVl7Q" target="_q327wCJpEeGhopMsbHVl7Q">
+                <trigger xmi:id="_HOwf4CJqEeGhopMsbHVl7Q" event="_8B0GUCJpEeGhopMsbHVl7Q"/>
+              </transition>
+              <transition xmi:id="_2SFt9CJqEeGhopMsbHVl7Q" name="Transition3" source="_q327wCJpEeGhopMsbHVl7Q" target="_q327wCJpEeGhopMsbHVl7Q">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6gtqgCJqEeGhopMsbHVl7Q" name="entryStation.calculatePrice(exitStation)" specification="_xcUEEiJlEeGhopMsbHVl7Q"/>
+                <trigger xmi:id="_27J5ECJqEeGhopMsbHVl7Q" event="_uHTd0CJqEeGhopMsbHVl7Q"/>
+              </transition>
+              <transition xmi:id="_DsEm1CJrEeGhopMsbHVl7Q" name="Transition1" source="_q327wCJpEeGhopMsbHVl7Q" target="_q327wCJpEeGhopMsbHVl7Q">
+                <trigger xmi:id="_Ub1vwCJrEeGhopMsbHVl7Q" name="" event="_HU5usCJrEeGhopMsbHVl7Q"/>
+              </transition>
+            </region>
+          </ownedBehavior>
           <ownedOperation xmi:id="_lZBq4CHBEeGPecBVZhBvBA" name="checkValidity" method="_vVSRsCJbEeGhopMsbHVl7Q _F65vgCJjEeGhopMsbHVl7Q">
             <ownedParameter xmi:id="_lZBq4SHBEeGPecBVZhBvBA" name="return" type="_1ryAQCAXEeGQMYBUy7N72A" direction="return"/>
           </ownedOperation>
@@ -583,7 +600,7 @@
               <ownedParameter xmi:id="_rPzT8CJkEeGhopMsbHVl7Q" name="return" type="_oqEn0CJkEeGhopMsbHVl7Q" direction="return"/>
               <ownedParameter xmi:id="_texs8CJkEeGhopMsbHVl7Q" name="otherStation" type="_Ariu8CHEEeGPecBVZhBvBA"/>
             </ownedOperation>
-            <ownedOperation xmi:id="_xcUEEiJlEeGhopMsbHVl7Q" name="calculatePrice">
+            <ownedOperation xmi:id="_xcUEEiJlEeGhopMsbHVl7Q" name="calculatePrice" method="_6gtqgCJqEeGhopMsbHVl7Q">
               <ownedParameter xmi:id="_0bCfACJlEeGhopMsbHVl7Q" name="return" type="_LedmQCAUEeGQMYBUy7N72A" direction="return"/>
               <ownedParameter xmi:id="_11Mv4CJlEeGhopMsbHVl7Q" name="exitStation" type="_Ariu8CHEEeGPecBVZhBvBA"/>
             </ownedOperation>
@@ -680,5 +697,8 @@
     </packagedElement>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_YqdzsCJoEeGhopMsbHVl7Q" name="getStation()" operation="_JFQuwiHLEeGPecBVZhBvBA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_lFNdICJoEeGhopMsbHVl7Q" name="notifyProblem(laneId)" operation="_JFQuwCHLEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_8B0GUCJpEeGhopMsbHVl7Q" name="checkValidity()" operation="_lZBq4CHBEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_uHTd0CJqEeGhopMsbHVl7Q" name="exitHighwayAndUpdatePrice(exitStation)" operation="_hpzqUiHFEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_HU5usCJrEeGhopMsbHVl7Q" name="setEntryStation(station)" operation="_ZBaRIiHFEeGPecBVZhBvBA"/>
   </packagedElement>
 </uml:Model>
