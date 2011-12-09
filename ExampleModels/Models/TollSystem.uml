@@ -92,7 +92,7 @@
         <nestedClassifier xmi:type="uml:Component" xmi:id="_gWMqACGcEeGPecBVZhBvBA" name="Lane">
           <nestedClassifier xmi:type="uml:Component" xmi:id="_yHQQ0CGcEeGPecBVZhBvBA" name="Lane Computer">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_8ZPeACGcEeGPecBVZhBvBA" name="LCCR" type="_ZDVn4CAREeGQMYBUy7N72A" aggregation="composite" protocol="_piHbkCKPEeGSA7KHJk1Zmg"/>
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_AmGa0yGvEeGPecBVZhBvBA" name="LCTO" type="_0DkZMB__EeGQMYBUy7N72A" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_AmGa0yGvEeGPecBVZhBvBA" name="LCTO" type="_0DkZMB__EeGQMYBUy7N72A" aggregation="composite" protocol="_GHjpoCKeEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_ZxEZACGwEeGPecBVZhBvBA" name="LCPR" clientDependency="_b347kCGwEeGPecBVZhBvBA" aggregation="composite" protocol="_1YBmsCKcEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_2UxqECGwEeGPecBVZhBvBA" name="CLBR" clientDependency="_JamrdCGxEeGPecBVZhBvBA" aggregation="composite" protocol="_IdE44CKFEeGSA7KHJk1Zmg"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_XlSogCGxEeGPecBVZhBvBA" name="LCCA" type="_U4YpYCAcEeGwRqejfhyScQ" aggregation="composite" protocol="_STm_gCKNEeGSA7KHJk1Zmg"/>
@@ -310,24 +310,22 @@
             </ownedOperation>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_B63q0CGuEeGPecBVZhBvBA" name="Touchscreen">
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_DliAYyGvEeGPecBVZhBvBA" name="TO" clientDependency="_ItVApCGvEeGPecBVZhBvBA" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_DliAYyGvEeGPecBVZhBvBA" name="TO" clientDependency="_ItVApCGvEeGPecBVZhBvBA" aggregation="composite" protocol="_HDTgMCKeEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_SR71QCAAEeGQMYBUy7N72A" name="Touchscreen" classifierBehavior="_fwFEQCDjEeGctsL4lIEM3A">
               <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_fwFEQCDjEeGctsL4lIEM3A" name="StateMachine">
                 <region xmi:id="_fwFEQSDjEeGctsL4lIEM3A" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_01shMCDlEeGctsL4lIEM3A" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_2Vp4ECDlEeGctsL4lIEM3A" name="idle"/>
-                  <subvertex xmi:type="uml:State" xmi:id="_AEbDciDmEeGctsL4lIEM3A" name="payment"/>
                   <transition xmi:id="_3c7CJiDlEeGctsL4lIEM3A" name="Transition1" source="_01shMCDlEeGctsL4lIEM3A" target="_2Vp4ECDlEeGctsL4lIEM3A"/>
-                  <transition xmi:id="_Nh0ctSDmEeGctsL4lIEM3A" name="Transition2" source="_2Vp4ECDlEeGctsL4lIEM3A" target="_AEbDciDmEeGctsL4lIEM3A">
+                  <transition xmi:id="_Nh0ctSDmEeGctsL4lIEM3A" name="Transition2" source="_2Vp4ECDlEeGctsL4lIEM3A" target="_2Vp4ECDlEeGctsL4lIEM3A">
                     <effect xmi:type="uml:OpaqueBehavior" xmi:id="_bc-I8CDmEeGctsL4lIEM3A" name="normalLane.buyTicket(vehicleType: VehicleType)" specification="_G1LzMiACEeGQMYBUy7N72A"/>
                   </transition>
-                  <transition xmi:id="_rxW9dCDmEeGctsL4lIEM3A" name="Transition3" source="_AEbDciDmEeGctsL4lIEM3A" target="_2Vp4ECDlEeGctsL4lIEM3A"/>
                 </region>
               </ownedBehavior>
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Interface" xmi:id="_0DkZMB__EeGQMYBUy7N72A" name="NormalLaneCheckInToTouchscreen">
-            <ownedOperation xmi:id="_G1LzMiACEeGQMYBUy7N72A" name="buyTicket" method="_bc-I8CDmEeGctsL4lIEM3A">
+            <ownedOperation xmi:id="_G1LzMiACEeGQMYBUy7N72A" name="buyTicket" method="_bc-I8CDmEeGctsL4lIEM3A _Lva0kCKfEeGSA7KHJk1Zmg">
               <ownedParameter xmi:id="_IVl2ACACEeGQMYBUy7N72A" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
             </ownedOperation>
           </nestedClassifier>
@@ -901,6 +899,26 @@
         <transition xmi:id="_sIQPACKdEeGSA7KHJk1Zmg" name="Transition1" source="_qq0nsCKdEeGSA7KHJk1Zmg" target="_rUTpkCKdEeGSA7KHJk1Zmg"/>
         <transition xmi:id="_sn_fACKdEeGSA7KHJk1Zmg" name="Transition2" source="_rUTpkCKdEeGSA7KHJk1Zmg" target="_rUTpkCKdEeGSA7KHJk1Zmg">
           <trigger xmi:id="_t7jYoCKdEeGSA7KHJk1Zmg" event="_aSpE0CDbEeGctsL4lIEM3A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_GHjpoCKeEeGSA7KHJk1Zmg" name="NormalLineCheckInToTouchscreen">
+      <region xmi:id="_Tu_vsCKeEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_UAWlcCKeEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_4eL0cCKeEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_5sh24CKeEeGSA7KHJk1Zmg" name="Transition1" source="_UAWlcCKeEeGSA7KHJk1Zmg" target="_4eL0cCKeEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_7E9CZCKeEeGSA7KHJk1Zmg" name="Transition2" source="_4eL0cCKeEeGSA7KHJk1Zmg" target="_4eL0cCKeEeGSA7KHJk1Zmg">
+          <trigger xmi:id="_COhGECKfEeGSA7KHJk1Zmg" event="_0-Lc8CAjEeGwRqejfhyScQ"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_HDTgMCKeEeGSA7KHJk1Zmg" name="TouchscreenToNormalLineCheckIn">
+      <region xmi:id="_FnIAoCKfEeGSA7KHJk1Zmg" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_F4Pl0CKfEeGSA7KHJk1Zmg" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_HCKbQCKfEeGSA7KHJk1Zmg" name="idle"/>
+        <transition xmi:id="_IStdJCKfEeGSA7KHJk1Zmg" name="Transition1" source="_F4Pl0CKfEeGSA7KHJk1Zmg" target="_HCKbQCKfEeGSA7KHJk1Zmg"/>
+        <transition xmi:id="_Iw7DJCKfEeGSA7KHJk1Zmg" name="Transition2" source="_HCKbQCKfEeGSA7KHJk1Zmg" target="_HCKbQCKfEeGSA7KHJk1Zmg">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Lva0kCKfEeGSA7KHJk1Zmg" name="buyTicket(vehicleType)" specification="_G1LzMiACEeGQMYBUy7N72A"/>
         </transition>
       </region>
     </packagedElement>
