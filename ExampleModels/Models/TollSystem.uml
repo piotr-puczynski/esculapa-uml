@@ -99,7 +99,9 @@
             <ownedAttribute xmi:type="uml:Port" xmi:id="_80PggyGzEeGPecBVZhBvBA" name="LB" clientDependency="_OgI6gCG0EeGPecBVZhBvBA" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_LbTJ4yJLEeGRt41VpUk6xQ" name="LCAN" type="_0e9b4CJIEeGRt41VpUk6xQ" aggregation="composite"/>
             <ownedAttribute xmi:type="uml:Port" xmi:id="_j-t_4yJMEeGRt41VpUk6xQ" name="LSS" clientDependency="_4gHnYyJMEeGRt41VpUk6xQ" aggregation="composite"/>
-            <ownedAttribute xmi:type="uml:Port" xmi:id="_8z8NAyJMEeGRt41VpUk6xQ" name="LES" clientDependency="_bHoN9CJNEeGRt41VpUk6xQ" aggregation="composite"/>
+            <ownedAttribute xmi:type="uml:Port" xmi:id="_8z8NAyJMEeGRt41VpUk6xQ" name="LES" clientDependency="_bHoN9CJNEeGRt41VpUk6xQ" aggregation="composite">
+              <eAnnotations xmi:id="_l2gugCJ5EeG5Y9AWlHoqTA" source="Protocol" references="_utvDUCJ4EeG5Y9AWlHoqTA"/>
+            </ownedAttribute>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A _iX9_gCASEeGQMYBUy7N72A _Z_FdcCAcEeGwRqejfhyScQ" classifierBehavior="_frka8CAjEeGwRqejfhyScQ">
               <generalization xmi:id="_4F9fUB_5EeGQMYBUy7N72A" general="_pdk5oB_5EeGQMYBUy7N72A"/>
               <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_frka8CAjEeGwRqejfhyScQ" name="StateMachine">
@@ -456,7 +458,9 @@
           </ownedBehavior>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Component" xmi:id="_GRS3giG5EeGPecBVZhBvBA" name="Enterprise Server">
-          <ownedAttribute xmi:type="uml:Port" xmi:id="_WejJQyG5EeGPecBVZhBvBA" name="ESL" type="_PPDxwCAOEeGQMYBUy7N72A" aggregation="composite"/>
+          <ownedAttribute xmi:type="uml:Port" xmi:id="_WejJQyG5EeGPecBVZhBvBA" name="ESL" type="_PPDxwCAOEeGQMYBUy7N72A" aggregation="composite">
+            <eAnnotations xmi:id="_5KzmgSJ1EeG5Y9AWlHoqTA" source="Protocol" references="_GFiXkCJ2EeG5Y9AWlHoqTA"/>
+          </ownedAttribute>
           <ownedAttribute xmi:type="uml:Port" xmi:id="_XTCjMCJnEeGhopMsbHVl7Q" name="ESSS" type="_DcWsoCJnEeGhopMsbHVl7Q" aggregation="composite"/>
           <nestedClassifier xmi:type="uml:Class" xmi:id="_7anW4CANEeGQMYBUy7N72A" name="EnterpriseServer" clientDependency="_gOSTACAOEeGQMYBUy7N72A _KXQpQCJnEeGhopMsbHVl7Q" classifierBehavior="_5pfK8CAiEeGwRqejfhyScQ">
             <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_5pfK8CAiEeGwRqejfhyScQ" name="StateMachine">
@@ -519,7 +523,7 @@
             <ownedParameter xmi:id="__n8SwSJZEeGhopMsbHVl7Q" name="id" type="_6lqRoCHKEeGPecBVZhBvBA"/>
             <ownedParameter xmi:id="__n8SwiJZEeGhopMsbHVl7Q" name="return" type="_63PnUCG-EeGPecBVZhBvBA" direction="return"/>
           </ownedOperation>
-          <ownedOperation xmi:id="__n8SwyJZEeGhopMsbHVl7Q" name="saveTag">
+          <ownedOperation xmi:id="__n8SwyJZEeGhopMsbHVl7Q" name="saveTag" method="_V5Sc0CJ5EeG5Y9AWlHoqTA">
             <ownedParameter xmi:id="__n8SxCJZEeGhopMsbHVl7Q" name="tag" type="_63PnUCG-EeGPecBVZhBvBA"/>
           </ownedOperation>
         </nestedClassifier>
@@ -700,5 +704,49 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_8B0GUCJpEeGhopMsbHVl7Q" name="checkValidity()" operation="_lZBq4CHBEeGPecBVZhBvBA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_uHTd0CJqEeGhopMsbHVl7Q" name="exitHighwayAndUpdatePrice(exitStation)" operation="_hpzqUiHFEeGPecBVZhBvBA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_HU5usCJrEeGhopMsbHVl7Q" name="setEntryStation(station)" operation="_ZBaRIiHFEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:StateMachine" xmi:id="_GFiXkCJ2EeG5Y9AWlHoqTA" name="EnterpriseServerToLane">
+      <region xmi:id="_78TL0CJ3EeG5Y9AWlHoqTA" name="Region">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_78TL0SJ3EeG5Y9AWlHoqTA" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_78TL0iJ3EeG5Y9AWlHoqTA" name="Idle"/>
+        <transition xmi:id="_78TL0yJ3EeG5Y9AWlHoqTA" name="Transition1" source="_78TL0SJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA"/>
+        <transition xmi:id="_78TL1CJ3EeG5Y9AWlHoqTA" name="Transition2" source="_78TL0iJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA">
+          <trigger xmi:id="_78TL1SJ3EeG5Y9AWlHoqTA" name="" event="_QEG94CAjEeGwRqejfhyScQ"/>
+        </transition>
+        <transition xmi:id="_78TL1iJ3EeG5Y9AWlHoqTA" name="Transition3" source="_78TL0iJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA">
+          <trigger xmi:id="_78TL1yJ3EeG5Y9AWlHoqTA" name="" event="_w2tFUSJUEeGhopMsbHVl7Q"/>
+        </transition>
+        <transition xmi:id="_78TL2CJ3EeG5Y9AWlHoqTA" name="Transition4" source="_78TL0iJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA">
+          <trigger xmi:id="_78TL2SJ3EeG5Y9AWlHoqTA" event="_MUlr4CJXEeGhopMsbHVl7Q"/>
+        </transition>
+        <transition xmi:id="_78TL2iJ3EeG5Y9AWlHoqTA" name="Transition5" source="_78TL0iJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA">
+          <trigger xmi:id="_78TL2yJ3EeG5Y9AWlHoqTA" event="_RiGLMCJaEeGhopMsbHVl7Q"/>
+        </transition>
+        <transition xmi:id="_78TL3CJ3EeG5Y9AWlHoqTA" name="Transition6" source="_78TL0iJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA">
+          <trigger xmi:id="_78TL3SJ3EeG5Y9AWlHoqTA" name="" event="_S_-ecCJaEeGhopMsbHVl7Q"/>
+        </transition>
+      </region>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:StateMachine" xmi:id="_utvDUCJ4EeG5Y9AWlHoqTA" name="LaneToEnterpriseServer">
+    <region xmi:id="_o9rJMCJ4EeG5Y9AWlHoqTA" name="Region">
+      <subvertex xmi:type="uml:Pseudostate" xmi:id="_o9rJMSJ4EeG5Y9AWlHoqTA" name="Start"/>
+      <subvertex xmi:type="uml:State" xmi:id="_o9rJMiJ4EeG5Y9AWlHoqTA" name="Idle"/>
+      <transition xmi:id="_o9rJMyJ4EeG5Y9AWlHoqTA" name="Transition1" source="_o9rJMSJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA"/>
+      <transition xmi:id="_o9rJNCJ4EeG5Y9AWlHoqTA" name="Transition2" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
+        <trigger xmi:id="_o9rJNSJ4EeG5Y9AWlHoqTA" name="" event="_QEG94CAjEeGwRqejfhyScQ"/>
+      </transition>
+      <transition xmi:id="_o9rJNiJ4EeG5Y9AWlHoqTA" name="Transition3" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
+        <trigger xmi:id="_o9rJNyJ4EeG5Y9AWlHoqTA" name="" event="_w2tFUSJUEeGhopMsbHVl7Q"/>
+      </transition>
+      <transition xmi:id="_o9rJOCJ4EeG5Y9AWlHoqTA" name="Transition4" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
+        <trigger xmi:id="_o9rJOSJ4EeG5Y9AWlHoqTA" event="_MUlr4CJXEeGhopMsbHVl7Q"/>
+      </transition>
+      <transition xmi:id="_o9rJOiJ4EeG5Y9AWlHoqTA" name="Transition5" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
+        <trigger xmi:id="_o9rJOyJ4EeG5Y9AWlHoqTA" event="_RiGLMCJaEeGhopMsbHVl7Q"/>
+      </transition>
+      <transition xmi:id="_o9rJPCJ4EeG5Y9AWlHoqTA" name="Transition6" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
+        <effect xmi:type="uml:OpaqueBehavior" xmi:id="_V5Sc0CJ5EeG5Y9AWlHoqTA" name="saveTag(tag)" specification="__n8SwyJZEeGhopMsbHVl7Q"/>
+      </transition>
+    </region>
   </packagedElement>
 </uml:Model>
