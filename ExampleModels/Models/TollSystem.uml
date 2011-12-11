@@ -154,6 +154,7 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_uHTd0CJqEeGhopMsbHVl7Q" name="exitHighwayAndUpdatePrice(exitStation)" operation="_hpzqUiHFEeGPecBVZhBvBA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_HU5usCJrEeGhopMsbHVl7Q" name="setEntryStation(station)" operation="_ZBaRIiHFEeGPecBVZhBvBA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_DErqASQIEeGc-9TXTCSbBg" name="chargeCreditCard(creditCardInfo)" operation="_H_wDsiAUEeGQMYBUy7N72A"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MaXQ4CQREeGqxothUTvPuA" name="singleTicketReply"/>
     <packagedElement xmi:type="uml:Component" xmi:id="_ifB0MCGbEeGPecBVZhBvBA">
       <nestedClassifier xmi:type="uml:Component" xmi:id="_bnuvwCGcEeGPecBVZhBvBA" name="Toll System">
         <nestedClassifier xmi:type="uml:Component" xmi:id="_gWMqACGcEeGPecBVZhBvBA" name="Lane">
@@ -185,8 +186,7 @@
                   <transition xmi:id="_OmwHtSAmEeGwRqejfhyScQ" name="Transition3" source="_sCvzAiAjEeGwRqejfhyScQ" target="_8tpYISAlEeGwRqejfhyScQ">
                     <effect xmi:type="uml:OpaqueBehavior" xmi:id="_RQ8dECAmEeGwRqejfhyScQ" name="ticket := enterpriseServer.generateSingleTicket(vehicleType)" specification="_VIylQCAOEeGQMYBUy7N72A"/>
                   </transition>
-                  <transition xmi:id="_X8G7BSDKEeGctsL4lIEM3A" name="Transition5" source="_8tpYISAlEeGwRqejfhyScQ" target="_Uo_kcCDKEeGctsL4lIEM3A" guard="_6Ch9ACDmEeGctsL4lIEM3A">
-                    <ownedRule xmi:id="_6Ch9ACDmEeGctsL4lIEM3A"/>
+                  <transition xmi:id="_X8G7BSDKEeGctsL4lIEM3A" name="Transition5" source="_8tpYISAlEeGwRqejfhyScQ" target="_Uo_kcCDKEeGctsL4lIEM3A">
                     <trigger xmi:id="_aDzAQCDKEeGctsL4lIEM3A" event="_ga2B4CDKEeGctsL4lIEM3A"/>
                   </transition>
                   <transition xmi:id="_h7AXpSDLEeGctsL4lIEM3A" name="Transition6" source="_Uo_kcCDKEeGctsL4lIEM3A" target="_faxPgCDLEeGctsL4lIEM3A">
@@ -956,8 +956,8 @@
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_DErqACQIEeGc-9TXTCSbBg" name="MessageOccurrenceSpecification10" covered="_qack4CQHEeGc-9TXTCSbBg" event="_DErqASQIEeGc-9TXTCSbBg" message="_DEsRECQIEeGc-9TXTCSbBg"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_BNbfYCQGEeGc-9TXTCSbBg" name="MessageOccurrenceSpecification7" covered="_8pPX8CQEEeGc-9TXTCSbBg" event="_ga2B4CDKEeGctsL4lIEM3A" message="_BNcGciQGEeGc-9TXTCSbBg"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_BNcGcCQGEeGc-9TXTCSbBg" name="MessageOccurrenceSpecification8" covered="_he4BACNXEeGdZ8zNRlJELw" event="_ga2B4CDKEeGctsL4lIEM3A" message="_BNcGciQGEeGc-9TXTCSbBg"/>
-        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_dMqjsCQBEeGc-9TXTCSbBg" name="MessageOccurrenceSpecification5" covered="_E20pMCNcEeGuPp592qnjIQ" message="_dMqjsyQBEeGc-9TXTCSbBg"/>
-        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_dMqjsSQBEeGc-9TXTCSbBg" name="MessageOccurrenceSpecification6" covered="_he4BACNXEeGdZ8zNRlJELw" message="_dMqjsyQBEeGc-9TXTCSbBg"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_dMqjsCQBEeGc-9TXTCSbBg" name="MessageOccurrenceSpecification5" covered="_E20pMCNcEeGuPp592qnjIQ" event="_MaXQ4CQREeGqxothUTvPuA" message="_dMqjsyQBEeGc-9TXTCSbBg"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_dMqjsSQBEeGc-9TXTCSbBg" name="MessageOccurrenceSpecification6" covered="_he4BACNXEeGdZ8zNRlJELw" event="_MaXQ4CQREeGqxothUTvPuA" message="_dMqjsyQBEeGc-9TXTCSbBg"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_R2v3wCNmEeGuPp592qnjIQ" name="MessageOccurrenceSpecification3" covered="_he4BACNXEeGdZ8zNRlJELw" event="_QEG94CAjEeGwRqejfhyScQ" message="_R2v3wyNmEeGuPp592qnjIQ"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_R2v3wSNmEeGuPp592qnjIQ" name="MessageOccurrenceSpecification4" covered="_E20pMCNcEeGuPp592qnjIQ" event="_QEG94CAjEeGwRqejfhyScQ" message="_R2v3wyNmEeGuPp592qnjIQ"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_FZKeECNYEeGdZ8zNRlJELw" name="MessageOccurrenceSpecification1" covered="_LYTvUCNTEeGdZ8zNRlJELw" event="_0-Lc8CAjEeGwRqejfhyScQ" message="_FZKeEyNYEeGdZ8zNRlJELw"/>
@@ -970,12 +970,14 @@
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_4jrpECQKEeGc-9TXTCSbBg" name="BehaviorExecutionSpecification6" covered="_fCK9sCQKEeGc-9TXTCSbBg" start="_7xK4wCQKEeGc-9TXTCSbBg" finish="_7xK4wCQKEeGc-9TXTCSbBg"/>
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_VepjkCQLEeGc-9TXTCSbBg" name="BehaviorExecutionSpecification7" covered="_MyxYkCQLEeGc-9TXTCSbBg" start="_ZhBz4CQLEeGc-9TXTCSbBg" finish="_ZhBz4CQLEeGc-9TXTCSbBg"/>
         <message xmi:id="_FZKeEyNYEeGdZ8zNRlJELw" name="buyTicket" receiveEvent="_FZKeESNYEeGdZ8zNRlJELw" sendEvent="_FZKeECNYEeGdZ8zNRlJELw">
-          <argument xmi:type="uml:InstanceValue" xmi:id="_LglvUCNYEeGdZ8zNRlJELw" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A"/>
+          <argument xmi:type="uml:InstanceValue" xmi:id="_LglvUCNYEeGdZ8zNRlJELw" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A" instance="_f7888B_6EeGQMYBUy7N72A"/>
         </message>
         <message xmi:id="_R2v3wyNmEeGuPp592qnjIQ" name="generateSingleTicket" receiveEvent="_R2v3wSNmEeGuPp592qnjIQ" sendEvent="_R2v3wCNmEeGuPp592qnjIQ">
           <argument xmi:type="uml:InstanceValue" xmi:id="_hLraYCNmEeGuPp592qnjIQ" name="vehicleType" type="_ZK3qsB_6EeGQMYBUy7N72A" instance="_f7888B_6EeGQMYBUy7N72A"/>
         </message>
-        <message xmi:id="_dMqjsyQBEeGc-9TXTCSbBg" name="singleTicket" messageSort="reply" receiveEvent="_dMqjsSQBEeGc-9TXTCSbBg" sendEvent="_dMqjsCQBEeGc-9TXTCSbBg"/>
+        <message xmi:id="_dMqjsyQBEeGc-9TXTCSbBg" name="singleTicket" messageSort="reply" receiveEvent="_dMqjsSQBEeGc-9TXTCSbBg" sendEvent="_dMqjsCQBEeGc-9TXTCSbBg">
+          <argument xmi:type="uml:LiteralString" xmi:id="_7Hn9wiQQEeGqxothUTvPuA" name="singleTicket" type="_dBTkMCAPEeGQMYBUy7N72A" value="singleTicket"/>
+        </message>
         <message xmi:id="_BNcGciQGEeGc-9TXTCSbBg" name="readCCInfo" receiveEvent="_BNcGcCQGEeGc-9TXTCSbBg" sendEvent="_BNbfYCQGEeGc-9TXTCSbBg">
           <argument xmi:type="uml:LiteralString" xmi:id="_w23EICQGEeGc-9TXTCSbBg" name="creditCardInformation" type="_Wt2JcCAMEeGQMYBUy7N72A" value="creditCardInfo"/>
         </message>
