@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_uuobMCJ4EeG5Y9AWlHoqTA" activeDiagram="_DsX-YSNTEeGdZ8zNRlJELw">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_uuobMCJ4EeG5Y9AWlHoqTA" activeDiagram="_DlcFUyQWEeGqxothUTvPuA">
   <model href="TollSystem.uml#_qb8akM37EdqwVrslYOdUDA"/>
   <subdiagrams xmi:id="_n5mlcR_5EeGQMYBUy7N72A" activeDiagram="_GGlgcCJ2EeG5Y9AWlHoqTA">
     <model href="TollSystem.uml#_w8IxIM37EdqwVrslYOdUDA"/>
-    <diagrams xmi:id="_n5mlch_5EeGQMYBUy7N72A" position="0,0" size="400,400" name="TollSystem" viewport="0,0">
+    <diagrams xmi:id="_n5mlch_5EeGQMYBUy7N72A" position="0,0" size="400,400" name="TollSystem" viewport="-6,0">
       <property xmi:id="_n7FzMB_5EeGQMYBUy7N72A" key="pageFormatName" value="A0"/>
       <property xmi:id="_n7FzMR_5EeGQMYBUy7N72A" key="diagramWidth" value="3364"/>
       <property xmi:id="_n7FzMh_5EeGQMYBUy7N72A" key="diagramHeight" value="4756"/>
@@ -1645,7 +1645,7 @@
       </subdiagrams>
       <subdiagrams xmi:id="_frka8iAjEeGwRqejfhyScQ">
         <model href="TollSystem.uml#_frka8CAjEeGwRqejfhyScQ"/>
-        <diagrams xmi:id="_frka8yAjEeGwRqejfhyScQ" position="0,0" size="100,100" name="NormalLaneCheckIn" viewport="0,80">
+        <diagrams xmi:id="_frka8yAjEeGwRqejfhyScQ" position="0,0" size="100,100" name="NormalLaneCheckIn" viewport="0,0">
           <property xmi:id="_fswtwiAjEeGwRqejfhyScQ" key="pageFormatName" value="A3"/>
           <property xmi:id="_fswtwyAjEeGwRqejfhyScQ" key="diagramWidth" value="1188"/>
           <property xmi:id="_fswtxCAjEeGwRqejfhyScQ" key="diagramHeight" value="1680"/>
@@ -2193,7 +2193,7 @@
       </subdiagrams>
       <subdiagrams xmi:id="_vyPiMiJVEeGhopMsbHVl7Q">
         <model href="TollSystem.uml#_vyPiMCJVEeGhopMsbHVl7Q"/>
-        <diagrams xmi:id="_vysOICJVEeGhopMsbHVl7Q" position="0,0" size="100,100" name="ExpressLaneCheckIn" viewport="-113,486">
+        <diagrams xmi:id="_vysOICJVEeGhopMsbHVl7Q" position="0,0" size="100,100" name="ExpressLaneCheckIn" viewport="-113,530">
           <property xmi:id="_v0Ul0iJVEeGhopMsbHVl7Q" key="pageFormatName" value="A4"/>
           <property xmi:id="_v0Ul0yJVEeGhopMsbHVl7Q" key="diagramWidth" value="840"/>
           <property xmi:id="_v0Ul1CJVEeGhopMsbHVl7Q" key="diagramHeight" value="1188"/>
@@ -3629,10 +3629,10 @@
           </semanticModel>
           <contained xsi:type="di:GraphNode" xmi:id="_EOxukCNYEeGdZ8zNRlJELw" position="90,44" size="20,369">
             <anchorage xmi:id="_FYuZMCNYEeGdZ8zNRlJELw" position="12,6" graphEdge="_FYuZMSNYEeGdZ8zNRlJELw"/>
-            <anchorage xmi:id="_R2TL0CNmEeGuPp592qnjIQ" position="10,25" graphEdge="_R2TL0iNmEeGuPp592qnjIQ"/>
+            <anchorage xmi:id="_R2TL0CNmEeGuPp592qnjIQ" position="10,12" graphEdge="_R2TL0iNmEeGuPp592qnjIQ"/>
             <anchorage xmi:id="_dMEt0SQBEeGc-9TXTCSbBg" position="19,49" graphEdge="_dMEt0iQBEeGc-9TXTCSbBg"/>
-            <anchorage xmi:id="_BM-MYCQGEeGc-9TXTCSbBg" position="8,103" graphEdge="_BM-zcCQGEeGc-9TXTCSbBg"/>
-            <anchorage xmi:id="_DELTsCQIEeGc-9TXTCSbBg" position="13,165" graphEdge="_DEMh0CQIEeGc-9TXTCSbBg"/>
+            <anchorage xmi:id="_BM-MYCQGEeGc-9TXTCSbBg" position="8,93" graphEdge="_BM-zcCQGEeGc-9TXTCSbBg"/>
+            <anchorage xmi:id="_DELTsCQIEeGc-9TXTCSbBg" position="13,148" graphEdge="_DEMh0CQIEeGc-9TXTCSbBg"/>
             <anchorage xmi:id="_7wmRACQKEeGc-9TXTCSbBg" position="11,244" graphEdge="_7woGMCQKEeGc-9TXTCSbBg"/>
             <anchorage xmi:id="_ZghdkCQLEeGc-9TXTCSbBg" position="10,315" graphEdge="_ZgirsSQLEeGc-9TXTCSbBg"/>
             <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_EOxukSNYEeGdZ8zNRlJELw" presentation="default">
@@ -3651,7 +3651,7 @@
             <element href="TollSystem.uml#_E20pMCNcEeGuPp592qnjIQ"/>
           </semanticModel>
           <contained xsi:type="di:GraphNode" xmi:id="_P_Y5ECNcEeGuPp592qnjIQ" position="76,53" size="20,50">
-            <anchorage xmi:id="_R2TL0SNmEeGuPp592qnjIQ" position="12,16" graphEdge="_R2TL0iNmEeGuPp592qnjIQ"/>
+            <anchorage xmi:id="_R2TL0SNmEeGuPp592qnjIQ" position="12,3" graphEdge="_R2TL0iNmEeGuPp592qnjIQ"/>
             <anchorage xmi:id="_dMEt0CQBEeGc-9TXTCSbBg" position="0,40" graphEdge="_dMEt0iQBEeGc-9TXTCSbBg"/>
             <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_P_Y5ESNcEeGuPp592qnjIQ" presentation="default">
               <element href="TollSystem.uml#_P_iDACNcEeGuPp592qnjIQ"/>
@@ -3675,7 +3675,7 @@
             <element href="TollSystem.uml#_8pPX8CQEEeGc-9TXTCSbBg"/>
           </semanticModel>
           <contained xsi:type="di:GraphNode" xmi:id="_5--7sCQFEeGc-9TXTCSbBg" position="40,138" size="20,50">
-            <anchorage xmi:id="_BM8-QCQGEeGc-9TXTCSbBg" position="7,9" graphEdge="_BM-zcCQGEeGc-9TXTCSbBg"/>
+            <anchorage xmi:id="_BM8-QCQGEeGc-9TXTCSbBg" position="7,0" graphEdge="_BM-zcCQGEeGc-9TXTCSbBg"/>
             <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_5--7sSQFEeGc-9TXTCSbBg" presentation="default">
               <element href="TollSystem.uml#_5_AJ0CQFEeGc-9TXTCSbBg"/>
             </semanticModel>
@@ -3692,7 +3692,7 @@
             <element href="TollSystem.uml#_qack4CQHEeGc-9TXTCSbBg"/>
           </semanticModel>
           <contained xsi:type="di:GraphNode" xmi:id="_1LuWICQHEeGc-9TXTCSbBg" position="40,191" size="20,50">
-            <anchorage xmi:id="_DEL6wCQIEeGc-9TXTCSbBg" position="5,18" graphEdge="_DEMh0CQIEeGc-9TXTCSbBg"/>
+            <anchorage xmi:id="_DEL6wCQIEeGc-9TXTCSbBg" position="5,1" graphEdge="_DEMh0CQIEeGc-9TXTCSbBg"/>
             <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_1LuWISQHEeGc-9TXTCSbBg" presentation="default">
               <element href="TollSystem.uml#_1LuWIiQHEeGc-9TXTCSbBg"/>
             </semanticModel>
@@ -3708,7 +3708,7 @@
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_fBmV8SQKEeGc-9TXTCSbBg" presentation="default">
             <element href="TollSystem.uml#_fCK9sCQKEeGc-9TXTCSbBg"/>
           </semanticModel>
-          <contained xsi:type="di:GraphNode" xmi:id="_4jqa8CQKEeGc-9TXTCSbBg" position="40,285" size="20,50">
+          <contained xsi:type="di:GraphNode" xmi:id="_4jqa8CQKEeGc-9TXTCSbBg" position="40,287" size="20,50">
             <anchorage xmi:id="_7wnfICQKEeGc-9TXTCSbBg" position="3,2" graphEdge="_7woGMCQKEeGc-9TXTCSbBg"/>
             <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4jqa8SQKEeGc-9TXTCSbBg" presentation="default">
               <element href="TollSystem.uml#_4jrpECQKEeGc-9TXTCSbBg"/>
@@ -3737,6 +3737,178 @@
             <element href="TollSystem.uml#_ZhCa8SQLEeGc-9TXTCSbBg"/>
           </semanticModel>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_ZgirsyQLEeGc-9TXTCSbBg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+      </diagrams>
+    </subdiagrams>
+    <subdiagrams xmi:id="_DlcFUiQWEeGqxothUTvPuA">
+      <model href="TollSystem.uml#_DlcFUSQWEeGqxothUTvPuA"/>
+      <diagrams xmi:id="_DlcFUyQWEeGqxothUTvPuA" position="0,0" size="100,100" name="CheckIn Tag" viewport="0,0">
+        <property xmi:id="_DmB7MCQWEeGqxothUTvPuA" key="pageFormatName" value="A3"/>
+        <property xmi:id="_DmB7MSQWEeGqxothUTvPuA" key="diagramWidth" value="1188"/>
+        <property xmi:id="_DmB7MiQWEeGqxothUTvPuA" key="diagramHeight" value="1680"/>
+        <property xmi:id="_DmB7MyQWEeGqxothUTvPuA" key="pageMarginName" value="Small Margin"/>
+        <property xmi:id="_DmB7NCQWEeGqxothUTvPuA" key="diagramTopMargin" value="20"/>
+        <property xmi:id="_DmB7NSQWEeGqxothUTvPuA" key="diagramBottomMargin" value="20"/>
+        <property xmi:id="_DmB7NiQWEeGqxothUTvPuA" key="diagramLeftMargin" value="20"/>
+        <property xmi:id="_DmB7NyQWEeGqxothUTvPuA" key="diagramRightMargin" value="20"/>
+        <property xmi:id="_DmB7OCQWEeGqxothUTvPuA" key="orientation" value="portrait"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DlcFVCQWEeGqxothUTvPuA" presentation="org.topcased.modeler.uml.sequencediagram">
+          <element href="TollSystem.uml#_DlcFUSQWEeGqxothUTvPuA"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_MF8t0CQWEeGqxothUTvPuA" position="49,40" size="100,510">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_MF8t0SQWEeGqxothUTvPuA" presentation="default">
+            <element href="TollSystem.uml#_MGijsCQWEeGqxothUTvPuA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_uyFDwCQYEeG6WsX9vb2dpg" position="40,31" size="20,439">
+            <anchorage xmi:id="_WAqtsCQaEeG6WsX9vb2dpg" position="18,2" graphEdge="_WBJO0CQaEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uyFDwSQYEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_uyYlwCQYEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_OngroCQWEeGqxothUTvPuA" position="192,40" size="100,510">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_OngroSQWEeGqxothUTvPuA" presentation="default">
+            <element href="TollSystem.uml#_OoHIkCQWEeGqxothUTvPuA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_61-6gCQYEeG6WsX9vb2dpg" position="40,32" size="20,421">
+            <anchorage xmi:id="_WBIAsCQaEeG6WsX9vb2dpg" position="12,1" graphEdge="_WBJO0CQaEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_buBKsCQdEeG6WsX9vb2dpg" position="10,19" graphEdge="_buC_4SQdEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_0uzSICQeEeG6WsX9vb2dpg" position="12,129" graphEdge="_0uzSIiQeEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_7k_RYSQfEeG6WsX9vb2dpg" position="14,169" graphEdge="_7k_RYiQfEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_X6Gs0CQgEeG6WsX9vb2dpg" position="16,195" graphEdge="_X6Gs0iQgEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_7BIEcCQhEeG6WsX9vb2dpg" position="9,263" graphEdge="_7BIEciQhEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_VYNs8SQiEeG6WsX9vb2dpg" position="14,297" graphEdge="_VYNs8iQiEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_iA8vECQiEeG6WsX9vb2dpg" position="15,320" graphEdge="_iA8vEiQiEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_se4GgCQiEeG6WsX9vb2dpg" position="13,358" graphEdge="_se4GgiQiEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_yZ-WgCQjEeG6WsX9vb2dpg" position="16,389" graphEdge="_yZ-WgiQjEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_61-6gSQYEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_61-6giQYEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_O5EVsCQWEeGqxothUTvPuA" position="345,40" size="100,510">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_O5EVsSQWEeGqxothUTvPuA" presentation="default">
+            <element href="TollSystem.uml#_O5hBoCQWEeGqxothUTvPuA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_9zhpsCQYEeG6WsX9vb2dpg" position="40,49" size="20,50">
+            <anchorage xmi:id="_buC_4CQdEeG6WsX9vb2dpg" position="9,2" graphEdge="_buC_4SQdEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_9zhpsSQYEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_9zqzoCQYEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+          <contained xsi:type="di:GraphNode" xmi:id="_zWiesCQeEeG6WsX9vb2dpg" position="40,160" size="20,50">
+            <anchorage xmi:id="_0uzSISQeEeG6WsX9vb2dpg" position="7,1" graphEdge="_0uzSIiQeEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_7k_RYCQfEeG6WsX9vb2dpg" position="2,41" graphEdge="_7k_RYiQfEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_zWiesSQeEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_zWrooCQeEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+          <contained xsi:type="di:GraphNode" xmi:id="_rKqsoCQiEeG6WsX9vb2dpg" position="40,386" size="20,25">
+            <anchorage xmi:id="_se4GgSQiEeG6WsX9vb2dpg" position="9,4" graphEdge="_se4GgiQiEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_rKqsoSQiEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_rKqsoiQiEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_PLXmoCQWEeGqxothUTvPuA" position="507,40" size="100,510">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_PLXmoSQWEeGqxothUTvPuA" presentation="default">
+            <element href="TollSystem.uml#_PL9cgCQWEeGqxothUTvPuA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_WjhUYCQgEeG6WsX9vb2dpg" position="40,226" size="20,50">
+            <anchorage xmi:id="_X6Gs0SQgEeG6WsX9vb2dpg" position="7,1" graphEdge="_X6Gs0iQgEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WjhUYSQgEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_WjqeUCQgEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+          <contained xsi:type="di:GraphNode" xmi:id="_hSYY4CQiEeG6WsX9vb2dpg" position="40,348" size="20,21">
+            <anchorage xmi:id="_iA8vESQiEeG6WsX9vb2dpg" position="6,4" graphEdge="_iA8vEiQiEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_hSYY4SQiEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_hSiJ4CQiEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_PdXVkCQWEeGqxothUTvPuA" position="652,40" size="100,510">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_PdXVkSQWEeGqxothUTvPuA" presentation="default">
+            <element href="TollSystem.uml#_Pd9ygCQWEeGqxothUTvPuA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_xAQxkCQjEeG6WsX9vb2dpg" position="40,420" size="20,24">
+            <anchorage xmi:id="_yZ-WgSQjEeG6WsX9vb2dpg" position="14,1" graphEdge="_yZ-WgiQjEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_xAQxkSQjEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_xAQxkiQjEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_Rf1joCQWEeGqxothUTvPuA" position="796,40" size="100,510">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Rf1joSQWEeGqxothUTvPuA" presentation="default">
+            <element href="TollSystem.uml#_RgcAkCQWEeGqxothUTvPuA"/>
+          </semanticModel>
+          <contained xsi:type="di:GraphNode" xmi:id="_360a0CQhEeG6WsX9vb2dpg" position="40,289" size="20,50">
+            <anchorage xmi:id="_7BIEcSQhEeG6WsX9vb2dpg" position="12,6" graphEdge="_7BIEciQhEeG6WsX9vb2dpg"/>
+            <anchorage xmi:id="_VYNs8CQiEeG6WsX9vb2dpg" position="8,40" graphEdge="_VYNs8iQiEeG6WsX9vb2dpg"/>
+            <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_360a0SQhEeG6WsX9vb2dpg" presentation="default">
+              <element href="TollSystem.uml#_360a0iQhEeG6WsX9vb2dpg"/>
+            </semanticModel>
+          </contained>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_WBJO0CQaEeG6WsX9vb2dpg" anchor="_WAqtsCQaEeG6WsX9vb2dpg _WBIAsCQaEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WBJO0SQaEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_WByIACQaEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_WBJO0iQaEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_buC_4SQdEeG6WsX9vb2dpg" anchor="_buBKsCQdEeG6WsX9vb2dpg _buC_4CQdEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_buC_4iQdEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_bugS4iQdEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_buDm8CQdEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_0uzSIiQeEeG6WsX9vb2dpg" anchor="_0uzSICQeEeG6WsX9vb2dpg _0uzSISQeEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_0uzSIyQeEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_0vP-EyQeEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_0uzSJCQeEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_7k_RYiQfEeG6WsX9vb2dpg" anchor="_7k_RYCQfEeG6WsX9vb2dpg _7k_RYSQfEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_7k_RYyQfEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_7lluUyQfEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_7k_RZCQfEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_X6Gs0iQgEeG6WsX9vb2dpg" anchor="_X6Gs0CQgEeG6WsX9vb2dpg _X6Gs0SQgEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_X6Gs0yQgEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_X6jYwyQgEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_X6Gs1CQgEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_7BIEciQhEeG6WsX9vb2dpg" anchor="_7BIEcCQhEeG6WsX9vb2dpg _7BIEcSQhEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_7BIEcyQhEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_7BuhYyQhEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_7BIEdCQhEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_VYNs8iQiEeG6WsX9vb2dpg" anchor="_VYNs8CQiEeG6WsX9vb2dpg _VYNs8SQiEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_VYNs8yQiEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_VY0J4yQiEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_VYNs9CQiEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_iA8vEiQiEeG6WsX9vb2dpg" anchor="_iA8vECQiEeG6WsX9vb2dpg _iA8vESQiEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_iA8vEyQiEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_iBik8iQiEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_iA8vFCQiEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_se4GgiQiEeG6WsX9vb2dpg" anchor="_se4GgCQiEeG6WsX9vb2dpg _se4GgSQiEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_se4GgyQiEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_sfd8YyQiEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_se4GhCQiEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_yZ-WgiQjEeG6WsX9vb2dpg" anchor="_yZ-WgCQjEeG6WsX9vb2dpg _yZ-WgSQjEeG6WsX9vb2dpg">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_yZ-WgyQjEeG6WsX9vb2dpg" presentation="default">
+            <element href="TollSystem.uml#_ybA4UyQjEeG6WsX9vb2dpg"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_yZ-WhCQjEeG6WsX9vb2dpg" id="nameEdgeObject" offset="0,-10"/>
         </contained>
       </diagrams>
     </subdiagrams>
