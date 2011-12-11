@@ -3599,7 +3599,7 @@
     </subdiagrams>
     <subdiagrams xmi:id="_DsX-YCNTEeGdZ8zNRlJELw">
       <model href="TollSystem.uml#_DsONYiNTEeGdZ8zNRlJELw"/>
-      <diagrams xmi:id="_DsX-YSNTEeGdZ8zNRlJELw" position="0,0" size="100,100" name="CheckIn Single Ticket" viewport="58,65">
+      <diagrams xmi:id="_DsX-YSNTEeGdZ8zNRlJELw" position="0,0" size="100,100" name="CheckIn Single Ticket" viewport="0,0">
         <property xmi:id="_Dy6rQCNTEeGdZ8zNRlJELw" key="pageFormatName" value="A2"/>
         <property xmi:id="_Dy6rQSNTEeGdZ8zNRlJELw" key="diagramWidth" value="1680"/>
         <property xmi:id="_Dy6rQiNTEeGdZ8zNRlJELw" key="diagramHeight" value="2376"/>

@@ -6,6 +6,12 @@
       <ownedLiteral xmi:id="_f7888B_6EeGQMYBUy7N72A" name="car"/>
       <ownedLiteral xmi:id="_grHJAh_6EeGQMYBUy7N72A" name="truck"/>
     </packagedElement>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_Wt2JcCAMEeGQMYBUy7N72A" name="CreditCardInformationType"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_LedmQCAUEeGQMYBUy7N72A" name="MoneyType"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_1ryAQCAXEeGQMYBUy7N72A" name="Boolean"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_yp38QCHJEeGPecBVZhBvBA" name="DateTimeType"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_6lqRoCHKEeGPecBVZhBvBA" name="IDType"/>
+    <packagedElement xmi:type="uml:DataType" xmi:id="_oqEn0CJkEeGhopMsbHVl7Q" name="Integer"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_ObrDcCACEeGQMYBUy7N72A" name="A_&lt;touchscreen>_&lt;normalLaneCheckInToTouchscreen>" memberEnd="_ObrDcSACEeGQMYBUy7N72A _ObrDdCACEeGQMYBUy7N72A" navigableOwnedEnd="_ObrDdCACEeGQMYBUy7N72A">
       <ownedEnd xmi:id="_ObrDcSACEeGQMYBUy7N72A" name="touchscreen" type="_SR71QCAAEeGQMYBUy7N72A" association="_ObrDcCACEeGQMYBUy7N72A">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ObrDciACEeGQMYBUy7N72A" value="1"/>
@@ -16,7 +22,6 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ObrDdiACEeGQMYBUy7N72A" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:DataType" xmi:id="_Wt2JcCAMEeGQMYBUy7N72A" name="CreditCardInformationType"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_i9wb4CAMEeGQMYBUy7N72A" name="A_&lt;normalLaneCheckIn>_&lt;printerToNormalLineCheckIn>" memberEnd="_i9wb4SAMEeGQMYBUy7N72A _i9wb5CAMEeGQMYBUy7N72A" navigableOwnedEnd="_i9wb5CAMEeGQMYBUy7N72A">
       <ownedEnd xmi:id="_i9wb4SAMEeGQMYBUy7N72A" name="normalLaneCheckIn" type="_y3XTgB_5EeGQMYBUy7N72A" association="_i9wb4CAMEeGQMYBUy7N72A">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_i9wb4iAMEeGQMYBUy7N72A" value="1"/>
@@ -57,7 +62,6 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vPF4ZiAREeGQMYBUy7N72A" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:DataType" xmi:id="_LedmQCAUEeGQMYBUy7N72A" name="MoneyType"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_lB7ZcCAUEeGQMYBUy7N72A" name="A_&lt;lane>_&lt;bankToLane>" memberEnd="_lB7ZcSAUEeGQMYBUy7N72A _lB7ZdCAUEeGQMYBUy7N72A" navigableOwnedEnd="_lB7ZdCAUEeGQMYBUy7N72A">
       <ownedEnd xmi:id="_lB7ZcSAUEeGQMYBUy7N72A" name="lane" type="_pdk5oB_5EeGQMYBUy7N72A" association="_lB7ZcCAUEeGQMYBUy7N72A">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lB7ZciAUEeGQMYBUy7N72A" value="1"/>
@@ -68,8 +72,6 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lB7ZdiAUEeGQMYBUy7N72A" value="1"/>
       </ownedEnd>
     </packagedElement>
-    <packagedElement xmi:type="uml:DataType" xmi:id="_1ryAQCAXEeGQMYBUy7N72A" name="Boolean"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_Xs5DQCAaEeGwRqejfhyScQ" name="allowPassage()" operation="_K93e0CANEeGQMYBUy7N72A"/>
     <packagedElement xmi:type="uml:Association" xmi:id="_gxNRgCAcEeGwRqejfhyScQ" name="A_&lt;cashRegister>_&lt;normalLaneCheckInAndStationToCashRegister>" memberEnd="_gxNRgSAcEeGwRqejfhyScQ _gxNRhCAcEeGwRqejfhyScQ" navigableOwnedEnd="_gxNRhCAcEeGwRqejfhyScQ">
       <ownedEnd xmi:id="_gxNRgSAcEeGwRqejfhyScQ" name="cashRegister" type="_dBF14CAcEeGwRqejfhyScQ" association="_gxNRgCAcEeGwRqejfhyScQ">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gxNRgiAcEeGwRqejfhyScQ" value="1"/>
@@ -80,6 +82,57 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gxNRhiAcEeGwRqejfhyScQ" value="1"/>
       </ownedEnd>
     </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_qo3XYCHCEeGPecBVZhBvBA" name="A_&lt;tag>_&lt;bankAccount>" memberEnd="_qo3XYSHCEeGPecBVZhBvBA _qo3XZCHCEeGPecBVZhBvBA" navigableOwnedEnd="_qo3XZCHCEeGPecBVZhBvBA">
+      <ownedEnd xmi:id="_qo3XYSHCEeGPecBVZhBvBA" name="tag" type="_63PnUCG-EeGPecBVZhBvBA" association="_qo3XYCHCEeGPecBVZhBvBA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qo3XYiHCEeGPecBVZhBvBA" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qo3XYyHCEeGPecBVZhBvBA" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_qo3XZCHCEeGPecBVZhBvBA" name="bankAccount" type="_Xx21ICHCEeGPecBVZhBvBA" association="_qo3XYCHCEeGPecBVZhBvBA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qo3XZSHCEeGPecBVZhBvBA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qo3XZiHCEeGPecBVZhBvBA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_Rt9C4CHLEeGPecBVZhBvBA" name="A_&lt;lane>_&lt;stationToLine>" memberEnd="_Rt9C4SHLEeGPecBVZhBvBA _Rt9C5CHLEeGPecBVZhBvBA" navigableOwnedEnd="_Rt9C5CHLEeGPecBVZhBvBA">
+      <ownedEnd xmi:id="_Rt9C4SHLEeGPecBVZhBvBA" name="lane" type="_pdk5oB_5EeGQMYBUy7N72A" association="_Rt9C4CHLEeGPecBVZhBvBA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Rt9C4iHLEeGPecBVZhBvBA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Rt9C4yHLEeGPecBVZhBvBA" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_Rt9C5CHLEeGPecBVZhBvBA" name="station" visibility="protected" type="_Z9CZoCHKEeGPecBVZhBvBA" association="_Rt9C4CHLEeGPecBVZhBvBA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Rt9C5SHLEeGPecBVZhBvBA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Rt9C5iHLEeGPecBVZhBvBA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_edFn8CHLEeGPecBVZhBvBA" name="A_&lt;tag>_&lt;station>" memberEnd="_edFn8SHLEeGPecBVZhBvBA _edFn9CHLEeGPecBVZhBvBA" navigableOwnedEnd="_edFn9CHLEeGPecBVZhBvBA">
+      <ownedEnd xmi:id="_edFn8SHLEeGPecBVZhBvBA" name="tag" type="_63PnUCG-EeGPecBVZhBvBA" association="_edFn8CHLEeGPecBVZhBvBA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_edFn8iHLEeGPecBVZhBvBA" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_edFn8yHLEeGPecBVZhBvBA" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_edFn9CHLEeGPecBVZhBvBA" name="entryStation" type="_Ariu8CHEEeGPecBVZhBvBA" association="_edFn8CHLEeGPecBVZhBvBA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_edFn9SHLEeGPecBVZhBvBA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_edFn9iHLEeGPecBVZhBvBA"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_p8xIICJLEeGRt41VpUk6xQ" name="A_&lt;antenna>_&lt;expressLaneToAntenna>" memberEnd="_p8xIISJLEeGRt41VpUk6xQ _p8xIJCJLEeGRt41VpUk6xQ" navigableOwnedEnd="_p8xIJCJLEeGRt41VpUk6xQ">
+      <ownedEnd xmi:id="_p8xIISJLEeGRt41VpUk6xQ" name="antenna" type="_mZICQCJLEeGRt41VpUk6xQ" association="_p8xIICJLEeGRt41VpUk6xQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p8xIIiJLEeGRt41VpUk6xQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p8xIIyJLEeGRt41VpUk6xQ" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_p8xIJCJLEeGRt41VpUk6xQ" name="lane" visibility="private" type="_0e9b4CJIEeGRt41VpUk6xQ" association="_p8xIICJLEeGRt41VpUk6xQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p8xIJSJLEeGRt41VpUk6xQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p8xIJiJLEeGRt41VpUk6xQ" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_NUWsgCJnEeGhopMsbHVl7Q" name="A_&lt;station>_&lt;enterpriseServerToStation>" memberEnd="_NUWsgSJnEeGhopMsbHVl7Q _NUWshCJnEeGhopMsbHVl7Q" navigableOwnedEnd="_NUWshCJnEeGhopMsbHVl7Q">
+      <ownedEnd xmi:id="_NUWsgSJnEeGhopMsbHVl7Q" name="station" type="_Ariu8CHEEeGPecBVZhBvBA" association="_NUWsgCJnEeGhopMsbHVl7Q">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NUWsgiJnEeGhopMsbHVl7Q" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NUWsgyJnEeGhopMsbHVl7Q" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_NUWshCJnEeGhopMsbHVl7Q" name="enterpriseServer" visibility="private" type="_DcWsoCJnEeGhopMsbHVl7Q" association="_NUWsgCJnEeGhopMsbHVl7Q">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NUWshSJnEeGhopMsbHVl7Q" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NUWshiJnEeGhopMsbHVl7Q" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_Xs5DQCAaEeGwRqejfhyScQ" name="allowPassage()" operation="_K93e0CANEeGQMYBUy7N72A"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_QEG94CAjEeGwRqejfhyScQ" name="generateSingleTicket(vehicleType)" operation="__HnNEiANEeGQMYBUy7N72A"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_0-Lc8CAjEeGwRqejfhyScQ" name="buyTicket(vehicleType)" operation="_lRG8Yh_9EeGQMYBUy7N72A"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_ga2B4CDKEeGctsL4lIEM3A" name="readCCInfo(creditCardInformation)" operation="_yp9L0iAIEeGQMYBUy7N72A"/>
@@ -87,6 +140,20 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_aSpE0CDbEeGctsL4lIEM3A" name="printTicket()" operation="_UK7gwCAMEeGQMYBUy7N72A"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_rXcXsCDdEeGctsL4lIEM3A" name="invalidate()" operation="_z-f_AiDbEeGctsL4lIEM3A"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_5syFkCDdEeGctsL4lIEM3A" name="checkValidity()" operation="_qVEmoiDbEeGctsL4lIEM3A"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_w2tFUSJUEeGhopMsbHVl7Q" name="getTagRate()" operation="_dDZIUCJTEeGRt41VpUk6xQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_QDgDECJWEeGhopMsbHVl7Q" name="tagDetection(ticketId)" operation="_ncnm8CJIEeGRt41VpUk6xQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MUlr4CJXEeGhopMsbHVl7Q" name="ticketExists(id)" operation="_1zIRIiJWEeGhopMsbHVl7Q"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_RiGLMCJaEeGhopMsbHVl7Q" name="getTag(id)" operation="_vEOBwiJZEeGhopMsbHVl7Q"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_S_-ecCJaEeGhopMsbHVl7Q" name="saveTag(tag)" operation="_51fzACJZEeGhopMsbHVl7Q"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_B1wUgCJiEeGhopMsbHVl7Q" name="tagDetection(ticketId)" operation="_3ts94CJKEeGRt41VpUk6xQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_AjAy4CJlEeGhopMsbHVl7Q" name="calculateDistance(otherStation)" operation="_jUx-IiJkEeGhopMsbHVl7Q"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_f21bICJlEeGhopMsbHVl7Q" name="calculatePrice(exitStation)" operation="_xcUEEiJlEeGhopMsbHVl7Q"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_YqdzsCJoEeGhopMsbHVl7Q" name="getStation()" operation="_JFQuwiHLEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_lFNdICJoEeGhopMsbHVl7Q" name="notifyProblem(laneId)" operation="_JFQuwCHLEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_8B0GUCJpEeGhopMsbHVl7Q" name="checkValidity()" operation="_lZBq4CHBEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_uHTd0CJqEeGhopMsbHVl7Q" name="exitHighwayAndUpdatePrice(exitStation)" operation="_hpzqUiHFEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_HU5usCJrEeGhopMsbHVl7Q" name="setEntryStation(station)" operation="_ZBaRIiHFEeGPecBVZhBvBA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_DErqASQIEeGc-9TXTCSbBg" name="chargeCreditCard(creditCardInfo)" operation="_H_wDsiAUEeGQMYBUy7N72A"/>
     <packagedElement xmi:type="uml:Component" xmi:id="_ifB0MCGbEeGPecBVZhBvBA">
       <nestedClassifier xmi:type="uml:Component" xmi:id="_bnuvwCGcEeGPecBVZhBvBA" name="Toll System">
         <nestedClassifier xmi:type="uml:Component" xmi:id="_gWMqACGcEeGPecBVZhBvBA" name="Lane">
@@ -632,72 +699,6 @@
       <packagedElement xmi:type="uml:Dependency" xmi:id="_bHoN9CJNEeGRt41VpUk6xQ" name="" supplier="_PPDxwCAOEeGQMYBUy7N72A" client="_8z8NAyJMEeGRt41VpUk6xQ"/>
       <packagedElement xmi:type="uml:Dependency" xmi:id="_bv8MVCJnEeGhopMsbHVl7Q" name="" supplier="_DcWsoCJnEeGhopMsbHVl7Q" client="_Zgq4YyJnEeGhopMsbHVl7Q"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_qo3XYCHCEeGPecBVZhBvBA" name="A_&lt;tag>_&lt;bankAccount>" memberEnd="_qo3XYSHCEeGPecBVZhBvBA _qo3XZCHCEeGPecBVZhBvBA" navigableOwnedEnd="_qo3XZCHCEeGPecBVZhBvBA">
-      <ownedEnd xmi:id="_qo3XYSHCEeGPecBVZhBvBA" name="tag" type="_63PnUCG-EeGPecBVZhBvBA" association="_qo3XYCHCEeGPecBVZhBvBA">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qo3XYiHCEeGPecBVZhBvBA" value="*"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qo3XYyHCEeGPecBVZhBvBA" value="1"/>
-      </ownedEnd>
-      <ownedEnd xmi:id="_qo3XZCHCEeGPecBVZhBvBA" name="bankAccount" type="_Xx21ICHCEeGPecBVZhBvBA" association="_qo3XYCHCEeGPecBVZhBvBA">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_qo3XZSHCEeGPecBVZhBvBA" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_qo3XZiHCEeGPecBVZhBvBA" value="1"/>
-      </ownedEnd>
-    </packagedElement>
-    <packagedElement xmi:type="uml:DataType" xmi:id="_yp38QCHJEeGPecBVZhBvBA" name="DateTimeType"/>
-    <packagedElement xmi:type="uml:DataType" xmi:id="_6lqRoCHKEeGPecBVZhBvBA" name="IDType"/>
-    <packagedElement xmi:type="uml:Association" xmi:id="_Rt9C4CHLEeGPecBVZhBvBA" name="A_&lt;lane>_&lt;stationToLine>" memberEnd="_Rt9C4SHLEeGPecBVZhBvBA _Rt9C5CHLEeGPecBVZhBvBA" navigableOwnedEnd="_Rt9C5CHLEeGPecBVZhBvBA">
-      <ownedEnd xmi:id="_Rt9C4SHLEeGPecBVZhBvBA" name="lane" type="_pdk5oB_5EeGQMYBUy7N72A" association="_Rt9C4CHLEeGPecBVZhBvBA">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Rt9C4iHLEeGPecBVZhBvBA" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Rt9C4yHLEeGPecBVZhBvBA" value="1"/>
-      </ownedEnd>
-      <ownedEnd xmi:id="_Rt9C5CHLEeGPecBVZhBvBA" name="station" visibility="protected" type="_Z9CZoCHKEeGPecBVZhBvBA" association="_Rt9C4CHLEeGPecBVZhBvBA">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Rt9C5SHLEeGPecBVZhBvBA" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Rt9C5iHLEeGPecBVZhBvBA" value="1"/>
-      </ownedEnd>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_edFn8CHLEeGPecBVZhBvBA" name="A_&lt;tag>_&lt;station>" memberEnd="_edFn8SHLEeGPecBVZhBvBA _edFn9CHLEeGPecBVZhBvBA" navigableOwnedEnd="_edFn9CHLEeGPecBVZhBvBA">
-      <ownedEnd xmi:id="_edFn8SHLEeGPecBVZhBvBA" name="tag" type="_63PnUCG-EeGPecBVZhBvBA" association="_edFn8CHLEeGPecBVZhBvBA">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_edFn8iHLEeGPecBVZhBvBA" value="*"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_edFn8yHLEeGPecBVZhBvBA" value="1"/>
-      </ownedEnd>
-      <ownedEnd xmi:id="_edFn9CHLEeGPecBVZhBvBA" name="entryStation" type="_Ariu8CHEEeGPecBVZhBvBA" association="_edFn8CHLEeGPecBVZhBvBA">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_edFn9SHLEeGPecBVZhBvBA" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_edFn9iHLEeGPecBVZhBvBA"/>
-      </ownedEnd>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_p8xIICJLEeGRt41VpUk6xQ" name="A_&lt;antenna>_&lt;expressLaneToAntenna>" memberEnd="_p8xIISJLEeGRt41VpUk6xQ _p8xIJCJLEeGRt41VpUk6xQ" navigableOwnedEnd="_p8xIJCJLEeGRt41VpUk6xQ">
-      <ownedEnd xmi:id="_p8xIISJLEeGRt41VpUk6xQ" name="antenna" type="_mZICQCJLEeGRt41VpUk6xQ" association="_p8xIICJLEeGRt41VpUk6xQ">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p8xIIiJLEeGRt41VpUk6xQ" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p8xIIyJLEeGRt41VpUk6xQ" value="1"/>
-      </ownedEnd>
-      <ownedEnd xmi:id="_p8xIJCJLEeGRt41VpUk6xQ" name="lane" visibility="private" type="_0e9b4CJIEeGRt41VpUk6xQ" association="_p8xIICJLEeGRt41VpUk6xQ">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_p8xIJSJLEeGRt41VpUk6xQ" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_p8xIJiJLEeGRt41VpUk6xQ" value="1"/>
-      </ownedEnd>
-    </packagedElement>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_w2tFUSJUEeGhopMsbHVl7Q" name="getTagRate()" operation="_dDZIUCJTEeGRt41VpUk6xQ"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_QDgDECJWEeGhopMsbHVl7Q" name="tagDetection(ticketId)" operation="_ncnm8CJIEeGRt41VpUk6xQ"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MUlr4CJXEeGhopMsbHVl7Q" name="ticketExists(id)" operation="_1zIRIiJWEeGhopMsbHVl7Q"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_RiGLMCJaEeGhopMsbHVl7Q" name="getTag(id)" operation="_vEOBwiJZEeGhopMsbHVl7Q"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_S_-ecCJaEeGhopMsbHVl7Q" name="saveTag(tag)" operation="_51fzACJZEeGhopMsbHVl7Q"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_B1wUgCJiEeGhopMsbHVl7Q" name="tagDetection(ticketId)" operation="_3ts94CJKEeGRt41VpUk6xQ"/>
-    <packagedElement xmi:type="uml:DataType" xmi:id="_oqEn0CJkEeGhopMsbHVl7Q" name="Integer"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_AjAy4CJlEeGhopMsbHVl7Q" name="calculateDistance(otherStation)" operation="_jUx-IiJkEeGhopMsbHVl7Q"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_f21bICJlEeGhopMsbHVl7Q" name="calculatePrice(exitStation)" operation="_xcUEEiJlEeGhopMsbHVl7Q"/>
-    <packagedElement xmi:type="uml:Association" xmi:id="_NUWsgCJnEeGhopMsbHVl7Q" name="A_&lt;station>_&lt;enterpriseServerToStation>" memberEnd="_NUWsgSJnEeGhopMsbHVl7Q _NUWshCJnEeGhopMsbHVl7Q" navigableOwnedEnd="_NUWshCJnEeGhopMsbHVl7Q">
-      <ownedEnd xmi:id="_NUWsgSJnEeGhopMsbHVl7Q" name="station" type="_Ariu8CHEEeGPecBVZhBvBA" association="_NUWsgCJnEeGhopMsbHVl7Q">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NUWsgiJnEeGhopMsbHVl7Q" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NUWsgyJnEeGhopMsbHVl7Q" value="1"/>
-      </ownedEnd>
-      <ownedEnd xmi:id="_NUWshCJnEeGhopMsbHVl7Q" name="enterpriseServer" visibility="private" type="_DcWsoCJnEeGhopMsbHVl7Q" association="_NUWsgCJnEeGhopMsbHVl7Q">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NUWshSJnEeGhopMsbHVl7Q" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NUWshiJnEeGhopMsbHVl7Q" value="1"/>
-      </ownedEnd>
-    </packagedElement>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_YqdzsCJoEeGhopMsbHVl7Q" name="getStation()" operation="_JFQuwiHLEeGPecBVZhBvBA"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_lFNdICJoEeGhopMsbHVl7Q" name="notifyProblem(laneId)" operation="_JFQuwCHLEeGPecBVZhBvBA"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_8B0GUCJpEeGhopMsbHVl7Q" name="checkValidity()" operation="_lZBq4CHBEeGPecBVZhBvBA"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_uHTd0CJqEeGhopMsbHVl7Q" name="exitHighwayAndUpdatePrice(exitStation)" operation="_hpzqUiHFEeGPecBVZhBvBA"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_HU5usCJrEeGhopMsbHVl7Q" name="setEntryStation(station)" operation="_ZBaRIiHFEeGPecBVZhBvBA"/>
     <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_utvDUCJ4EeG5Y9AWlHoqTA" name="LaneToEnterpriseServer">
       <region xmi:id="_o9rJMCJ4EeG5Y9AWlHoqTA" name="Region">
         <subvertex xmi:type="uml:Pseudostate" xmi:id="_o9rJMSJ4EeG5Y9AWlHoqTA" name="Start"/>
@@ -987,6 +988,5 @@
         <message xmi:id="_ZhCa8SQLEeGc-9TXTCSbBg" name="allowPassage" receiveEvent="_ZhBz4CQLEeGc-9TXTCSbBg" sendEvent="_ZhBM0CQLEeGc-9TXTCSbBg"/>
       </ownedBehavior>
     </packagedElement>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_DErqASQIEeGc-9TXTCSbBg" name="chargeCreditCard(creditCardInfo)" operation="_H_wDsiAUEeGQMYBUy7N72A"/>
   </packagedElement>
 </uml:Model>
