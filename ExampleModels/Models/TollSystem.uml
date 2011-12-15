@@ -173,7 +173,7 @@
             <ownedAttribute xmi:type="uml:Port" xmi:id="_8z8NAyJMEeGRt41VpUk6xQ" name="LES" clientDependency="_bHoN9CJNEeGRt41VpUk6xQ" aggregation="composite" protocol="_utvDUCJ4EeG5Y9AWlHoqTA"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_y3XTgB_5EeGQMYBUy7N72A" name="NormalLaneCheckIn" clientDependency="_Xhem0CABEeGQMYBUy7N72A _iX9_gCASEeGQMYBUy7N72A _Z_FdcCAcEeGwRqejfhyScQ" classifierBehavior="_frka8CAjEeGwRqejfhyScQ">
               <generalization xmi:id="_4F9fUB_5EeGQMYBUy7N72A" general="_pdk5oB_5EeGQMYBUy7N72A"/>
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_frka8CAjEeGwRqejfhyScQ" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_frka8CAjEeGwRqejfhyScQ" name="NormalLaneCheckIn Behavior">
                 <region xmi:id="_frka8SAjEeGwRqejfhyScQ" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_h451MSAjEeGwRqejfhyScQ" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_jmZRwiAjEeGwRqejfhyScQ" name="Idle"/>
@@ -236,7 +236,7 @@
             </nestedClassifier>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_g-H5gCJIEeGRt41VpUk6xQ" name="ExpressLaneCheckIn" clientDependency="_D1A_4CJJEeGRt41VpUk6xQ" classifierBehavior="_vyPiMCJVEeGhopMsbHVl7Q">
               <generalization xmi:id="_kc2DICJIEeGRt41VpUk6xQ" general="_pdk5oB_5EeGQMYBUy7N72A"/>
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_vyPiMCJVEeGhopMsbHVl7Q" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_vyPiMCJVEeGhopMsbHVl7Q" name="ExpressLaneCheckIn Behavior">
                 <region xmi:id="_vyPiMSJVEeGhopMsbHVl7Q" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_wmm-YyJVEeGhopMsbHVl7Q" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_xhOzkiJVEeGhopMsbHVl7Q" name="Idle"/>
@@ -298,7 +298,7 @@
             </nestedClassifier>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_1IHbsCJKEeGRt41VpUk6xQ" name="ExpressLaneCheckOut" clientDependency="_5pxpACJKEeGRt41VpUk6xQ" classifierBehavior="_4TetACJhEeGhopMsbHVl7Q">
               <generalization xmi:id="_45IPMCJKEeGRt41VpUk6xQ" general="_pdk5oB_5EeGQMYBUy7N72A"/>
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_4TetACJhEeGhopMsbHVl7Q" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_4TetACJhEeGhopMsbHVl7Q" name="ExpressLaneCheckOut Behavior">
                 <region xmi:id="_4TetASJhEeGhopMsbHVl7Q" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_6hQzMyJhEeGhopMsbHVl7Q" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_7bSLcCJhEeGhopMsbHVl7Q" name="Idle"/>
@@ -362,7 +362,7 @@
           <nestedClassifier xmi:type="uml:Component" xmi:id="_5kO_wCGcEeGPecBVZhBvBA" name="Credit Card Reader">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_7gzaICGcEeGPecBVZhBvBA" name="CCRL" clientDependency="_HbGLdCGpEeGPecBVZhBvBA" aggregation="composite" protocol="_oQmwYCKPEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_UoqzYCAREeGQMYBUy7N72A" name="CreditCardReader" classifierBehavior="_Zng4sCAhEeGwRqejfhyScQ">
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Zng4sCAhEeGwRqejfhyScQ" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Zng4sCAhEeGwRqejfhyScQ" name="CreditCardReader Behavior">
                 <region xmi:id="_Zng4sSAhEeGwRqejfhyScQ" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_bahHYCAhEeGwRqejfhyScQ" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_dsdU0CAhEeGwRqejfhyScQ" name="Idle"/>
@@ -382,7 +382,7 @@
           <nestedClassifier xmi:type="uml:Component" xmi:id="_B63q0CGuEeGPecBVZhBvBA" name="Touchscreen">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_DliAYyGvEeGPecBVZhBvBA" name="TO" clientDependency="_ItVApCGvEeGPecBVZhBvBA" aggregation="composite" protocol="_HDTgMCKeEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_SR71QCAAEeGQMYBUy7N72A" name="Touchscreen" classifierBehavior="_fwFEQCDjEeGctsL4lIEM3A">
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_fwFEQCDjEeGctsL4lIEM3A" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_fwFEQCDjEeGctsL4lIEM3A" name="Touchscreen Behavior">
                 <region xmi:id="_fwFEQSDjEeGctsL4lIEM3A" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_01shMCDlEeGctsL4lIEM3A" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_2Vp4ECDlEeGctsL4lIEM3A" name="idle"/>
@@ -402,7 +402,7 @@
           <nestedClassifier xmi:type="uml:Component" xmi:id="_o4oqgiGvEeGPecBVZhBvBA" name="Printer">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_Sb0pwCGwEeGPecBVZhBvBA" name="PR" type="_L_r9oCAMEeGQMYBUy7N72A" aggregation="composite" protocol="_2pz-sCKcEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_rLNiUCAIEeGQMYBUy7N72A" name="Printer" clientDependency="_PmlL0CAMEeGQMYBUy7N72A" classifierBehavior="_esPNMCDZEeGctsL4lIEM3A">
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_esPNMCDZEeGctsL4lIEM3A" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_esPNMCDZEeGctsL4lIEM3A" name="Printer Behavior">
                 <region xmi:id="_esPNMSDZEeGctsL4lIEM3A" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_fV7qcyDZEeGctsL4lIEM3A" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_gVoM4CDZEeGctsL4lIEM3A" name="Idle"/>
@@ -422,7 +422,7 @@
           <nestedClassifier xmi:type="uml:Component" xmi:id="_0W0voiGwEeGPecBVZhBvBA" name="Barrier">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_6zGPgyGwEeGPecBVZhBvBA" name="BR" type="_EcGa8CANEeGQMYBUy7N72A" aggregation="composite" protocol="_F-uAECKFEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_I_GsECANEeGQMYBUy7N72A" name="Barrier" clientDependency="_OLUSQCANEeGQMYBUy7N72A" classifierBehavior="__QOgECAZEeGwRqejfhyScQ">
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="__QOgECAZEeGwRqejfhyScQ" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="__QOgECAZEeGwRqejfhyScQ" name="Barrier Behavior">
                 <region xmi:id="__QOgESAZEeGwRqejfhyScQ" name="Region">
                   <subvertex xmi:type="uml:State" xmi:id="_IZysoCAaEeGwRqejfhyScQ" name="Idle"/>
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_4TZJcCAcEeGwRqejfhyScQ" name="Start"/>
@@ -443,7 +443,7 @@
           <nestedClassifier xmi:type="uml:Component" xmi:id="_UPl4AiGxEeGPecBVZhBvBA" name="Cash Register">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_Yx0tECGxEeGPecBVZhBvBA" name="CA" clientDependency="_sWEv1CGxEeGPecBVZhBvBA" aggregation="composite" protocol="_RS6-kCKNEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_dBF14CAcEeGwRqejfhyScQ" name="CashRegister" classifierBehavior="_tTY_sCAcEeGwRqejfhyScQ">
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_tTY_sCAcEeGwRqejfhyScQ" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_tTY_sCAcEeGwRqejfhyScQ" name="CashRegister Behavior">
                 <region xmi:id="_tTY_sSAcEeGwRqejfhyScQ" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_xQKXQyAcEeGwRqejfhyScQ" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_-PNAkiAcEeGwRqejfhyScQ" name="Idle"/>
@@ -461,7 +461,7 @@
           <nestedClassifier xmi:type="uml:Component" xmi:id="_FTSCwCJLEeGRt41VpUk6xQ" name="Antenna">
             <ownedAttribute xmi:type="uml:Port" xmi:id="_JuZjMyJLEeGRt41VpUk6xQ" name="AN" clientDependency="_4QqrkyJLEeGRt41VpUk6xQ" aggregation="composite" protocol="_I9FjwCKHEeGSA7KHJk1Zmg"/>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_mZICQCJLEeGRt41VpUk6xQ" name="Antenna" classifierBehavior="_xc6N4CJNEeGRt41VpUk6xQ">
-              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_xc6N4CJNEeGRt41VpUk6xQ" name="StateMachine">
+              <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_xc6N4CJNEeGRt41VpUk6xQ" name="Antenna Behavior">
                 <region xmi:id="_xc6N4SJNEeGRt41VpUk6xQ" name="Region">
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_y-8oYyJNEeGRt41VpUk6xQ" name="Start"/>
                   <subvertex xmi:type="uml:State" xmi:id="_0g_p8CJNEeGRt41VpUk6xQ" name="Idle"/>
@@ -498,7 +498,7 @@
           <generalization xmi:id="_eEjJ4CAPEeGQMYBUy7N72A" general="_P7HKACAPEeGQMYBUy7N72A"/>
           <ownedAttribute xmi:id="_qodqkiHJEeGPecBVZhBvBA" name="startTime" visibility="private" type="_yp38QCHJEeGPecBVZhBvBA"/>
           <ownedAttribute xmi:id="_tQIQYiHJEeGPecBVZhBvBA" name="price" visibility="private" type="_LedmQCAUEeGQMYBUy7N72A"/>
-          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_DjJ_sCDcEeGctsL4lIEM3A" name="StateMachine">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_DjJ_sCDcEeGctsL4lIEM3A" name="SingleTicket Behavior">
             <region xmi:id="_DjJ_sSDcEeGctsL4lIEM3A" name="Region">
               <subvertex xmi:type="uml:Pseudostate" xmi:id="_EmHRgSDcEeGctsL4lIEM3A" name="Start"/>
               <subvertex xmi:type="uml:State" xmi:id="_g-YHkCDcEeGctsL4lIEM3A" name="created">
@@ -527,7 +527,7 @@
           <ownedAttribute xmi:type="uml:Port" xmi:id="_WejJQyG5EeGPecBVZhBvBA" name="ESL" type="_PPDxwCAOEeGQMYBUy7N72A" aggregation="composite" protocol="_GFiXkCJ2EeG5Y9AWlHoqTA"/>
           <ownedAttribute xmi:type="uml:Port" xmi:id="_XTCjMCJnEeGhopMsbHVl7Q" name="ESSS" type="_DcWsoCJnEeGhopMsbHVl7Q" aggregation="composite" protocol="_idHFkCKAEeG5Y9AWlHoqTA"/>
           <nestedClassifier xmi:type="uml:Class" xmi:id="_7anW4CANEeGQMYBUy7N72A" name="EnterpriseServer" clientDependency="_gOSTACAOEeGQMYBUy7N72A _KXQpQCJnEeGhopMsbHVl7Q" classifierBehavior="_5pfK8CAiEeGwRqejfhyScQ">
-            <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_5pfK8CAiEeGwRqejfhyScQ" name="StateMachine">
+            <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_5pfK8CAiEeGwRqejfhyScQ" name="EnterpriseServer Behavior">
               <region xmi:id="_5pfK8SAiEeGwRqejfhyScQ" name="Region">
                 <subvertex xmi:type="uml:Pseudostate" xmi:id="_C1JCMyAjEeGwRqejfhyScQ" name="Start"/>
                 <subvertex xmi:type="uml:State" xmi:id="_DoLBoCAjEeGwRqejfhyScQ" name="Idle"/>
@@ -594,7 +594,7 @@
         <nestedClassifier xmi:type="uml:Class" xmi:id="_63PnUCG-EeGPecBVZhBvBA" name="Tag" classifierBehavior="_pAZD0CJpEeGhopMsbHVl7Q">
           <generalization xmi:id="_EAXvACG_EeGPecBVZhBvBA" general="_P7HKACAPEeGQMYBUy7N72A"/>
           <ownedAttribute xmi:id="_5rxn0SHAEeGPecBVZhBvBA" name="monthlyAccumulatedPrice" visibility="private" type="_LedmQCAUEeGQMYBUy7N72A"/>
-          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_pAZD0CJpEeGhopMsbHVl7Q" name="StateMachine">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_pAZD0CJpEeGhopMsbHVl7Q" name="Tag Behavior">
             <region xmi:id="_pAZD0SJpEeGhopMsbHVl7Q" name="Region">
               <subvertex xmi:type="uml:Pseudostate" xmi:id="_pi6iECJpEeGhopMsbHVl7Q" name="Start"/>
               <subvertex xmi:type="uml:State" xmi:id="_q327wCJpEeGhopMsbHVl7Q" name="created"/>
@@ -630,7 +630,7 @@
           <ownedAttribute xmi:type="uml:Port" xmi:id="_Zgq4YyJnEeGhopMsbHVl7Q" name="SSES" clientDependency="_bv8MVCJnEeGhopMsbHVl7Q" aggregation="composite" protocol="_FebIsCKAEeG5Y9AWlHoqTA"/>
           <nestedClassifier xmi:type="uml:Class" xmi:id="_Ariu8CHEEeGPecBVZhBvBA" name="Station" clientDependency="_PNIr8CHLEeGPecBVZhBvBA" classifierBehavior="_SkkwUCJkEeGhopMsbHVl7Q">
             <ownedAttribute xmi:id="_CS8KkiHEEeGPecBVZhBvBA" name="id" visibility="private" type="_6lqRoCHKEeGPecBVZhBvBA"/>
-            <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_SkkwUCJkEeGhopMsbHVl7Q" name="StateMachine">
+            <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_SkkwUCJkEeGhopMsbHVl7Q" name="Station Behavior">
               <region xmi:id="_SkkwUSJkEeGhopMsbHVl7Q" name="Region">
                 <subvertex xmi:type="uml:Pseudostate" xmi:id="_Toay8CJkEeGhopMsbHVl7Q" name="Start"/>
                 <subvertex xmi:type="uml:State" xmi:id="_UuMIMCJkEeGhopMsbHVl7Q" name="Idle"/>
