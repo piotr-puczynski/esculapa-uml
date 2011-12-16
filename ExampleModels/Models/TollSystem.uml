@@ -706,15 +706,15 @@
       <region xmi:id="_o9rJMCJ4EeG5Y9AWlHoqTA" name="Region">
         <subvertex xmi:type="uml:Pseudostate" xmi:id="_o9rJMSJ4EeG5Y9AWlHoqTA" name="Start"/>
         <subvertex xmi:type="uml:State" xmi:id="_o9rJMiJ4EeG5Y9AWlHoqTA" name="Idle"/>
-        <transition xmi:id="_o9rJMyJ4EeG5Y9AWlHoqTA" name="Transition1" source="_o9rJMSJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA"/>
+        <transition xmi:id="_o9rJMyJ4EeG5Y9AWlHoqTA" name="" source="_o9rJMSJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA"/>
         <transition xmi:id="_o9rJNCJ4EeG5Y9AWlHoqTA" name="Transition2" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
-          <trigger xmi:id="_o9rJNSJ4EeG5Y9AWlHoqTA" name="" event="_QEG94CAjEeGwRqejfhyScQ"/>
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_WUgwECfmEeGeYMVGVWmXxQ" name="generateSingleTicket(vehicleType)"/>
         </transition>
         <transition xmi:id="_o9rJOCJ4EeG5Y9AWlHoqTA" name="Transition4" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
-          <trigger xmi:id="_o9rJOSJ4EeG5Y9AWlHoqTA" event="_MUlr4CJXEeGhopMsbHVl7Q"/>
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_REbWgCfmEeGeYMVGVWmXxQ" name="ticketExists(id)"/>
         </transition>
         <transition xmi:id="_o9rJOiJ4EeG5Y9AWlHoqTA" name="Transition5" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
-          <trigger xmi:id="_o9rJOyJ4EeG5Y9AWlHoqTA" event="_RiGLMCJaEeGhopMsbHVl7Q"/>
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_NOeOESflEeGeYMVGVWmXxQ" name="getTag(id)"/>
         </transition>
         <transition xmi:id="_o9rJPCJ4EeG5Y9AWlHoqTA" name="Transition6" source="_o9rJMiJ4EeG5Y9AWlHoqTA" target="_o9rJMiJ4EeG5Y9AWlHoqTA">
           <effect xmi:type="uml:OpaqueBehavior" xmi:id="_V5Sc0CJ5EeG5Y9AWlHoqTA" name="saveTag(tag)" specification="__n8SwyJZEeGhopMsbHVl7Q"/>
@@ -725,7 +725,7 @@
       <region xmi:id="_78TL0CJ3EeG5Y9AWlHoqTA" name="Region">
         <subvertex xmi:type="uml:Pseudostate" xmi:id="_78TL0SJ3EeG5Y9AWlHoqTA" name="Start"/>
         <subvertex xmi:type="uml:State" xmi:id="_78TL0iJ3EeG5Y9AWlHoqTA" name="Idle"/>
-        <transition xmi:id="_78TL0yJ3EeG5Y9AWlHoqTA" name="Transition1" source="_78TL0SJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA"/>
+        <transition xmi:id="_78TL0yJ3EeG5Y9AWlHoqTA" name="" source="_78TL0SJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA"/>
         <transition xmi:id="_78TL1CJ3EeG5Y9AWlHoqTA" name="Transition2" source="_78TL0iJ3EeG5Y9AWlHoqTA" target="_78TL0iJ3EeG5Y9AWlHoqTA">
           <trigger xmi:id="_78TL1SJ3EeG5Y9AWlHoqTA" name="" event="_QEG94CAjEeGwRqejfhyScQ"/>
         </transition>
@@ -1168,6 +1168,16 @@
         </message>
         <message xmi:id="_hIOLwSQsEeG6hL8ljfw-Bg" name="allowPassage" receiveEvent="_hINksCQsEeG6hL8ljfw-Bg" sendEvent="_hIMWkCQsEeG6hL8ljfw-Bg"/>
       </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_kiqtUCflEeGeYMVGVWmXxQ" name="A_&lt;enterpriseServer>_&lt;ticket>" memberEnd="_kiqtUSflEeGeYMVGVWmXxQ _kiqtVCflEeGeYMVGVWmXxQ" navigableOwnedEnd="_kiqtVCflEeGeYMVGVWmXxQ">
+      <ownedEnd xmi:id="_kiqtUSflEeGeYMVGVWmXxQ" name="enterpriseServer" type="_7anW4CANEeGQMYBUy7N72A" association="_kiqtUCflEeGeYMVGVWmXxQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kiqtUiflEeGeYMVGVWmXxQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kiqtUyflEeGeYMVGVWmXxQ" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_kiqtVCflEeGeYMVGVWmXxQ" name="tickets" type="_P7HKACAPEeGQMYBUy7N72A" association="_kiqtUCflEeGeYMVGVWmXxQ">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kiqtVSflEeGeYMVGVWmXxQ" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kiqtViflEeGeYMVGVWmXxQ"/>
+      </ownedEnd>
     </packagedElement>
   </packagedElement>
 </uml:Model>
