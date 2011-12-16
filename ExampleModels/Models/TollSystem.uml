@@ -728,7 +728,18 @@
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Component" xmi:id="_DBRP4CgJEeG72ZTMIFmWFQ" name="Vehicle">
           <ownedAttribute xmi:type="uml:Port" xmi:id="_M1RgkCgJEeG72ZTMIFmWFQ" name="CLV" clientDependency="_KiQfoCgKEeG72ZTMIFmWFQ" aggregation="composite"/>
-          <nestedClassifier xmi:type="uml:Class" xmi:id="_5Dd14Cf7EeGeYMVGVWmXxQ" name="Vehicle"/>
+          <nestedClassifier xmi:type="uml:Class" xmi:id="_5Dd14Cf7EeGeYMVGVWmXxQ" name="Vehicle" classifierBehavior="_XlcsUCgOEeG72ZTMIFmWFQ">
+            <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_XlcsUCgOEeG72ZTMIFmWFQ" name="Vehicle Behavior">
+              <region xmi:id="_XlcsUSgOEeG72ZTMIFmWFQ" name="Region">
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_b8lrsCgOEeG72ZTMIFmWFQ" name="Start"/>
+                <subvertex xmi:type="uml:State" xmi:id="_dYclsCgOEeG72ZTMIFmWFQ" name="idle"/>
+                <transition xmi:id="_egfL1CgOEeG72ZTMIFmWFQ" name="" source="_b8lrsCgOEeG72ZTMIFmWFQ" target="_dYclsCgOEeG72ZTMIFmWFQ"/>
+                <transition xmi:id="_f3D9NCgOEeG72ZTMIFmWFQ" name="Transition1" source="_dYclsCgOEeG72ZTMIFmWFQ" target="_dYclsCgOEeG72ZTMIFmWFQ">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_hu_vMCgOEeG72ZTMIFmWFQ" name="lane.vehicleArrives()"/>
+                </transition>
+              </region>
+            </ownedBehavior>
+          </nestedClassifier>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Interface" xmi:id="_0F7ucCgHEeG72ZTMIFmWFQ" name="LaneToVehicle">
           <ownedOperation xmi:id="_deNMQCgKEeG72ZTMIFmWFQ" name="vehicleArrives"/>
@@ -970,6 +981,26 @@
         <transition xmi:id="_IStdJCKfEeGSA7KHJk1Zmg" name="" source="_F4Pl0CKfEeGSA7KHJk1Zmg" target="_HCKbQCKfEeGSA7KHJk1Zmg"/>
         <transition xmi:id="_Iw7DJCKfEeGSA7KHJk1Zmg" name="Transition2" source="_HCKbQCKfEeGSA7KHJk1Zmg" target="_HCKbQCKfEeGSA7KHJk1Zmg">
           <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Lva0kCKfEeGSA7KHJk1Zmg" name="buyTicket(vehicleType)" specification="_G1LzMiACEeGQMYBUy7N72A"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_yxiqMCgOEeG72ZTMIFmWFQ" name="VehicleToLane">
+      <region xmi:id="_F-PIkCgPEeG72ZTMIFmWFQ" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_GWmlQCgPEeG72ZTMIFmWFQ" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="_HEXqMCgPEeG72ZTMIFmWFQ" name="idle"/>
+        <transition xmi:id="_ID4mdCgPEeG72ZTMIFmWFQ" name="" source="_GWmlQCgPEeG72ZTMIFmWFQ" target="_HEXqMCgPEeG72ZTMIFmWFQ"/>
+        <transition xmi:id="_JBwj8CgPEeG72ZTMIFmWFQ" name="Transition1" source="_HEXqMCgPEeG72ZTMIFmWFQ" target="_HEXqMCgPEeG72ZTMIFmWFQ">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_LPHMUCgPEeG72ZTMIFmWFQ" name="vehicleArrives()"/>
+        </transition>
+      </region>
+    </packagedElement>
+    <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_0KidcCgOEeG72ZTMIFmWFQ" name="LaneToVehicle">
+      <region xmi:id="_-hK6ECgOEeG72ZTMIFmWFQ" name="Region1">
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_-3zRYCgOEeG72ZTMIFmWFQ" name="Start"/>
+        <subvertex xmi:type="uml:State" xmi:id="__kWOUCgOEeG72ZTMIFmWFQ" name="idle"/>
+        <transition xmi:id="_Ax1VJCgPEeG72ZTMIFmWFQ" name="" source="_-3zRYCgOEeG72ZTMIFmWFQ" target="__kWOUCgOEeG72ZTMIFmWFQ"/>
+        <transition xmi:id="_CJfEkygPEeG72ZTMIFmWFQ" name="Transition1" source="__kWOUCgOEeG72ZTMIFmWFQ" target="__kWOUCgOEeG72ZTMIFmWFQ">
+          <trigger xmi:id="_DhpKUCgPEeG72ZTMIFmWFQ" event="_dzfYYCgNEeG72ZTMIFmWFQ"/>
         </transition>
       </region>
     </packagedElement>
