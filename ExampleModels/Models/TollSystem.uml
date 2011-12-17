@@ -179,6 +179,7 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_VY0J4iQiEeG6WsX9vb2dpg" name="getStationReply"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_Fo_2gSQsEeG6hL8ljfw-Bg" name="calculatePriceReply"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_dzfYYCgNEeG72ZTMIFmWFQ" name="vehicleArrives()" operation="_deNMQCgKEeG72ZTMIFmWFQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_6PgX4CjPEeGeZdmEk8vvDw" name="vehiclePasses()" operation="_LeVQ0ijPEeGeZdmEk8vvDw"/>
     <packagedElement xmi:type="uml:Component" xmi:id="_ifB0MCGbEeGPecBVZhBvBA">
       <nestedClassifier xmi:type="uml:Component" xmi:id="_bnuvwCGcEeGPecBVZhBvBA" name="Toll System">
         <nestedClassifier xmi:type="uml:Component" xmi:id="_gWMqACGcEeGPecBVZhBvBA" name="Lane">
@@ -205,6 +206,7 @@
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_faxPgCDLEeGctsL4lIEM3A" name="" kind="choice"/>
                   <subvertex xmi:type="uml:State" xmi:id="_1yk_ACDLEeGctsL4lIEM3A" name="print ticket"/>
                   <subvertex xmi:type="uml:State" xmi:id="_K9MAwCgNEeG72ZTMIFmWFQ" name="arrival"/>
+                  <subvertex xmi:type="uml:State" xmi:id="_ipI4oCjREeGJ4JthPX8B9w" name="departure"/>
                   <transition xmi:id="_md_J9CAjEeGwRqejfhyScQ" name="" source="_h451MSAjEeGwRqejfhyScQ" target="_jmZRwiAjEeGwRqejfhyScQ"/>
                   <transition xmi:id="_u7ErBSAjEeGwRqejfhyScQ" name="Transition2" source="_K9MAwCgNEeG72ZTMIFmWFQ" target="_sCvzAiAjEeGwRqejfhyScQ">
                     <trigger xmi:id="_wQxSoCAjEeGwRqejfhyScQ" name="buyTicket" event="_0-Lc8CAjEeGwRqejfhyScQ"/>
@@ -238,11 +240,14 @@
                     </ownedRule>
                     <effect xmi:type="uml:OpaqueBehavior" xmi:id="_fSC74CDMEeGctsL4lIEM3A" name="ticket.invalidate(); enterpriseServer.saveSingleTicket(ticket);"/>
                   </transition>
-                  <transition xmi:id="_4LtkJCDMEeGctsL4lIEM3A" name="Transition10" source="_1yk_ACDLEeGctsL4lIEM3A" target="_jmZRwiAjEeGwRqejfhyScQ">
+                  <transition xmi:id="_4LtkJCDMEeGctsL4lIEM3A" name="Transition10" source="_1yk_ACDLEeGctsL4lIEM3A" target="_ipI4oCjREeGJ4JthPX8B9w">
                     <effect xmi:type="uml:OpaqueBehavior" xmi:id="_9j_QYCDMEeGctsL4lIEM3A" name="printer.printTicket(); barrier.allowPassage()"/>
                   </transition>
                   <transition xmi:id="_PEWqcCgNEeG72ZTMIFmWFQ" name="Transition1" source="_jmZRwiAjEeGwRqejfhyScQ" target="_K9MAwCgNEeG72ZTMIFmWFQ">
                     <trigger xmi:id="_QR1KMCgNEeG72ZTMIFmWFQ" name="" event="_dzfYYCgNEeG72ZTMIFmWFQ"/>
+                  </transition>
+                  <transition xmi:id="_5eGeNCjREeGJ4JthPX8B9w" name="Transition4" source="_ipI4oCjREeGJ4JthPX8B9w" target="_jmZRwiAjEeGwRqejfhyScQ">
+                    <trigger xmi:id="_6Vc88CjREeGJ4JthPX8B9w" event="_6PgX4CjPEeGeZdmEk8vvDw"/>
                   </transition>
                 </region>
               </ownedBehavior>
@@ -257,11 +262,13 @@
               </ownedOperation>
               <ownedOperation xmi:id="_tK7x0CAdEeGwRqejfhyScQ" name="payCash"/>
               <ownedOperation xmi:id="_fT14MCgKEeG72ZTMIFmWFQ" name="vehicleArrives"/>
+              <ownedOperation xmi:id="_P6pEECjPEeGeZdmEk8vvDw" name="vehiclePasses"/>
             </nestedClassifier>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_pdk5oB_5EeGQMYBUy7N72A" name="Lane" clientDependency="_J6tpYCgIEeG72ZTMIFmWFQ" isAbstract="true">
               <ownedAttribute xmi:id="_t_F9AB_5EeGQMYBUy7N72A" name="id" visibility="protected" type="_6lqRoCHKEeGPecBVZhBvBA"/>
               <interfaceRealization xmi:id="_J6tpYCgIEeG72ZTMIFmWFQ" name="InterfaceRealization1" supplier="_0F7ucCgHEeG72ZTMIFmWFQ" client="_pdk5oB_5EeGQMYBUy7N72A" contract="_0F7ucCgHEeG72ZTMIFmWFQ"/>
               <ownedOperation xmi:id="_ZVqCgCgKEeG72ZTMIFmWFQ" name="vehicleArrives"/>
+              <ownedOperation xmi:id="_M8WuACjPEeGeZdmEk8vvDw" name="vehiclePasses"/>
             </nestedClassifier>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_g-H5gCJIEeGRt41VpUk6xQ" name="ExpressLaneCheckIn" clientDependency="_D1A_4CJJEeGRt41VpUk6xQ" classifierBehavior="_vyPiMCJVEeGhopMsbHVl7Q">
               <generalization xmi:id="_kc2DICJIEeGRt41VpUk6xQ" general="_pdk5oB_5EeGQMYBUy7N72A"/>
@@ -274,6 +281,7 @@
                   <subvertex xmi:type="uml:State" xmi:id="_V49BQCJbEeGhopMsbHVl7Q" name="get tag"/>
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_puu44CJbEeGhopMsbHVl7Q" name="" kind="choice"/>
                   <subvertex xmi:type="uml:State" xmi:id="__0h00CgNEeG72ZTMIFmWFQ" name="arrival"/>
+                  <subvertex xmi:type="uml:State" xmi:id="_Hn4RwCjREeGJ4JthPX8B9w" name="departure"/>
                   <transition xmi:id="_5j1YFiJVEeGhopMsbHVl7Q" name="" source="_wmm-YyJVEeGhopMsbHVl7Q" target="_xhOzkiJVEeGhopMsbHVl7Q"/>
                   <transition xmi:id="_hM_6pSJWEeGhopMsbHVl7Q" name="Transition2" source="__0h00CgNEeG72ZTMIFmWFQ" target="_feTkMiJWEeGhopMsbHVl7Q">
                     <effect xmi:type="uml:OpaqueBehavior" xmi:id="_kfNSQCJWEeGhopMsbHVl7Q" name="exists := enterpriseServer.ticketExists(ticketId)" specification="__x9RwCJWEeGhopMsbHVl7Q"/>
@@ -310,7 +318,7 @@
                     </ownedRule>
                     <effect xmi:type="uml:OpaqueBehavior" xmi:id="_BV-P8CJcEeGhopMsbHVl7Q" name="station.notifyProblem(self.id)"/>
                   </transition>
-                  <transition xmi:id="_FXpVpCJcEeGhopMsbHVl7Q" name="Transition8" source="_puu44CJbEeGhopMsbHVl7Q" target="_xhOzkiJVEeGhopMsbHVl7Q" guard="_LE4lQCJcEeGhopMsbHVl7Q">
+                  <transition xmi:id="_FXpVpCJcEeGhopMsbHVl7Q" name="Transition8" source="_puu44CJbEeGhopMsbHVl7Q" target="_Hn4RwCjREeGJ4JthPX8B9w" guard="_LE4lQCJcEeGhopMsbHVl7Q">
                     <ownedRule xmi:id="_LE4lQCJcEeGhopMsbHVl7Q" name="">
                       <specification xmi:type="uml:OpaqueExpression" xmi:id="_My1U0CJcEeGhopMsbHVl7Q" name="valid">
                         <language>ocl</language>
@@ -322,13 +330,17 @@
                   <transition xmi:id="_B39sMCgOEeG72ZTMIFmWFQ" name="Transition1" source="_xhOzkiJVEeGhopMsbHVl7Q" target="__0h00CgNEeG72ZTMIFmWFQ">
                     <trigger xmi:id="_CTxecCgOEeG72ZTMIFmWFQ" event="_dzfYYCgNEeG72ZTMIFmWFQ"/>
                   </transition>
+                  <transition xmi:id="_PKNaxCjREeGJ4JthPX8B9w" name="Transition3" source="_Hn4RwCjREeGJ4JthPX8B9w" target="_xhOzkiJVEeGhopMsbHVl7Q">
+                    <trigger xmi:id="_P_A70CjREeGJ4JthPX8B9w" event="_6PgX4CjPEeGeZdmEk8vvDw"/>
+                  </transition>
                 </region>
               </ownedBehavior>
               <interfaceRealization xmi:id="_D1A_4CJJEeGRt41VpUk6xQ" name="InterfaceRealization1" supplier="_0e9b4CJIEeGRt41VpUk6xQ" client="_g-H5gCJIEeGRt41VpUk6xQ" contract="_0e9b4CJIEeGRt41VpUk6xQ"/>
               <ownedOperation xmi:id="_ncnm8CJIEeGRt41VpUk6xQ" name="tagDetection">
                 <ownedParameter xmi:id="_pPxmoCJIEeGRt41VpUk6xQ" name="ticketId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
               </ownedOperation>
-              <ownedOperation xmi:id="_f7XLMCgKEeG72ZTMIFmWFQ" name="carArrives"/>
+              <ownedOperation xmi:id="_f7XLMCgKEeG72ZTMIFmWFQ" name="vehicleArrives"/>
+              <ownedOperation xmi:id="_Q8_R4CjPEeGeZdmEk8vvDw" name="vehiclePasses"/>
             </nestedClassifier>
             <nestedClassifier xmi:type="uml:Class" xmi:id="_1IHbsCJKEeGRt41VpUk6xQ" name="ExpressLaneCheckOut" clientDependency="_5pxpACJKEeGRt41VpUk6xQ" classifierBehavior="_4TetACJhEeGhopMsbHVl7Q">
               <generalization xmi:id="_45IPMCJKEeGRt41VpUk6xQ" general="_pdk5oB_5EeGQMYBUy7N72A"/>
@@ -341,6 +353,7 @@
                   <subvertex xmi:type="uml:State" xmi:id="_1GYCYCJiEeGhopMsbHVl7Q" name="tag verify validity"/>
                   <subvertex xmi:type="uml:Pseudostate" xmi:id="_DCuBcSJjEeGhopMsbHVl7Q" name="" kind="choice"/>
                   <subvertex xmi:type="uml:State" xmi:id="_1qgQ0CgNEeG72ZTMIFmWFQ" name="arrival"/>
+                  <subvertex xmi:type="uml:State" xmi:id="_n9GXgCjPEeGeZdmEk8vvDw" name="departure"/>
                   <transition xmi:id="_HxbBtiJiEeGhopMsbHVl7Q" name="" source="_6hQzMyJhEeGhopMsbHVl7Q" target="_7bSLcCJhEeGhopMsbHVl7Q"/>
                   <transition xmi:id="_Kjp4xSJiEeGhopMsbHVl7Q" name="Transition2" source="_1qgQ0CgNEeG72ZTMIFmWFQ" target="_IgJI4CJiEeGhopMsbHVl7Q">
                     <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aYzzkCJiEeGhopMsbHVl7Q" name="exists := enterpriseServer.ticketExists(ticketId)" specification="__x9RwCJWEeGhopMsbHVl7Q"/>
@@ -377,7 +390,7 @@
                     </ownedRule>
                     <effect xmi:type="uml:OpaqueBehavior" xmi:id="_XRNUACJjEeGhopMsbHVl7Q" name="station.notifyProblem(self.id)" specification="_2w7bwiHKEeGPecBVZhBvBA"/>
                   </transition>
-                  <transition xmi:id="_da2y1CJjEeGhopMsbHVl7Q" name="Transition8" source="_DCuBcSJjEeGhopMsbHVl7Q" target="_7bSLcCJhEeGhopMsbHVl7Q" guard="_jSEd0CJjEeGhopMsbHVl7Q">
+                  <transition xmi:id="_da2y1CJjEeGhopMsbHVl7Q" name="Transition8" source="_DCuBcSJjEeGhopMsbHVl7Q" target="_n9GXgCjPEeGeZdmEk8vvDw" guard="_jSEd0CJjEeGhopMsbHVl7Q">
                     <ownedRule xmi:id="_jSEd0CJjEeGhopMsbHVl7Q">
                       <specification xmi:type="uml:OpaqueExpression" xmi:id="_lGaJQCJjEeGhopMsbHVl7Q" name="valid">
                         <language>ocl</language>
@@ -389,6 +402,9 @@
                   <transition xmi:id="_3_GJoCgNEeG72ZTMIFmWFQ" name="Transition1" source="_7bSLcCJhEeGhopMsbHVl7Q" target="_1qgQ0CgNEeG72ZTMIFmWFQ">
                     <trigger xmi:id="_4mlAYCgNEeG72ZTMIFmWFQ" event="_dzfYYCgNEeG72ZTMIFmWFQ"/>
                   </transition>
+                  <transition xmi:id="_ukgwZCjPEeGeZdmEk8vvDw" name="Transition3" source="_n9GXgCjPEeGeZdmEk8vvDw" target="_7bSLcCJhEeGhopMsbHVl7Q">
+                    <trigger xmi:id="_zGUusCjPEeGeZdmEk8vvDw" event="_6PgX4CjPEeGeZdmEk8vvDw"/>
+                  </transition>
                 </region>
               </ownedBehavior>
               <interfaceRealization xmi:id="_5pxpACJKEeGRt41VpUk6xQ" name="InterfaceRealization1" supplier="_0e9b4CJIEeGRt41VpUk6xQ" client="_1IHbsCJKEeGRt41VpUk6xQ" contract="_0e9b4CJIEeGRt41VpUk6xQ"/>
@@ -396,6 +412,7 @@
                 <ownedParameter xmi:id="_3ts94SJKEeGRt41VpUk6xQ" name="ticketId" type="_6lqRoCHKEeGPecBVZhBvBA"/>
               </ownedOperation>
               <ownedOperation xmi:id="_gqNOMCgKEeG72ZTMIFmWFQ" name="vehicleArrives"/>
+              <ownedOperation xmi:id="_N1fVcCjPEeGeZdmEk8vvDw" name="vehiclePasses"/>
             </nestedClassifier>
           </nestedClassifier>
           <nestedClassifier xmi:type="uml:Component" xmi:id="_5kO_wCGcEeGPecBVZhBvBA" name="Credit Card Reader">
@@ -737,12 +754,16 @@
                 <transition xmi:id="_f3D9NCgOEeG72ZTMIFmWFQ" name="Transition1" source="_dYclsCgOEeG72ZTMIFmWFQ" target="_dYclsCgOEeG72ZTMIFmWFQ">
                   <effect xmi:type="uml:OpaqueBehavior" xmi:id="_hu_vMCgOEeG72ZTMIFmWFQ" name="lane.vehicleArrives()"/>
                 </transition>
+                <transition xmi:id="_c40VRSjQEeGJ4JthPX8B9w" name="Transition2" source="_dYclsCgOEeG72ZTMIFmWFQ" target="_dYclsCgOEeG72ZTMIFmWFQ">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_eKWOkCjQEeGJ4JthPX8B9w" name="lane.vehiclePasses()"/>
+                </transition>
               </region>
             </ownedBehavior>
           </nestedClassifier>
         </nestedClassifier>
         <nestedClassifier xmi:type="uml:Interface" xmi:id="_0F7ucCgHEeG72ZTMIFmWFQ" name="LaneToVehicle">
           <ownedOperation xmi:id="_deNMQCgKEeG72ZTMIFmWFQ" name="vehicleArrives"/>
+          <ownedOperation xmi:id="_LeVQ0ijPEeGeZdmEk8vvDw" name="vehiclePasses"/>
         </nestedClassifier>
       </nestedClassifier>
       <nestedClassifier xmi:type="uml:Component" xmi:id="_1ypGACGzEeGPecBVZhBvBA" name="Bank">
@@ -992,6 +1013,9 @@
         <transition xmi:id="_JBwj8CgPEeG72ZTMIFmWFQ" name="Transition1" source="_HEXqMCgPEeG72ZTMIFmWFQ" target="_HEXqMCgPEeG72ZTMIFmWFQ">
           <effect xmi:type="uml:OpaqueBehavior" xmi:id="_LPHMUCgPEeG72ZTMIFmWFQ" name="vehicleArrives()"/>
         </transition>
+        <transition xmi:id="_qzrGlCjQEeGJ4JthPX8B9w" name="Transition2" source="_HEXqMCgPEeG72ZTMIFmWFQ" target="_HEXqMCgPEeG72ZTMIFmWFQ">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_vQ3qoCjQEeGJ4JthPX8B9w" name="vehiclePasses()"/>
+        </transition>
       </region>
     </packagedElement>
     <packagedElement xmi:type="uml:ProtocolStateMachine" xmi:id="_0KidcCgOEeG72ZTMIFmWFQ" name="LaneToVehicle">
@@ -1001,6 +1025,9 @@
         <transition xmi:id="_Ax1VJCgPEeG72ZTMIFmWFQ" name="" source="_-3zRYCgOEeG72ZTMIFmWFQ" target="__kWOUCgOEeG72ZTMIFmWFQ"/>
         <transition xmi:id="_CJfEkygPEeG72ZTMIFmWFQ" name="Transition1" source="__kWOUCgOEeG72ZTMIFmWFQ" target="__kWOUCgOEeG72ZTMIFmWFQ">
           <trigger xmi:id="_DhpKUCgPEeG72ZTMIFmWFQ" event="_dzfYYCgNEeG72ZTMIFmWFQ"/>
+        </transition>
+        <transition xmi:id="_ycsGZCjQEeGJ4JthPX8B9w" name="Transition2" source="__kWOUCgOEeG72ZTMIFmWFQ" target="__kWOUCgOEeG72ZTMIFmWFQ">
+          <trigger xmi:id="_0KCZACjQEeGJ4JthPX8B9w" event="_6PgX4CjPEeGeZdmEk8vvDw"/>
         </transition>
       </region>
     </packagedElement>
@@ -1245,6 +1272,24 @@
           <argument xmi:type="uml:InstanceValue" xmi:id="_Xe7WQCQsEeG6hL8ljfw-Bg" name="tag123" type="_63PnUCG-EeGPecBVZhBvBA"/>
         </message>
         <message xmi:id="_hIOLwSQsEeG6hL8ljfw-Bg" name="allowPassage" receiveEvent="_hINksCQsEeG6hL8ljfw-Bg" sendEvent="_hIMWkCQsEeG6hL8ljfw-Bg"/>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_1iaTcSjLEeGjbsIWvHGU4A" name="CheckIn Tag" classifierBehavior="__cyR4CjLEeGjbsIWvHGU4A">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="__cyR4CjLEeGjbsIWvHGU4A" name="CheckInTagDetail">
+        <ownedAttribute xmi:id="_flUUkCjMEeGjbsIWvHGU4A" name="car1" type="_5Dd14Cf7EeGeYMVGVWmXxQ"/>
+        <ownedAttribute xmi:id="_3MmH4CjMEeGjbsIWvHGU4A" name="barrier1" type="_I_GsECANEeGQMYBUy7N72A"/>
+        <ownedAttribute xmi:id="_4P_ekCjMEeGjbsIWvHGU4A" name="lane1" type="_g-H5gCJIEeGRt41VpUk6xQ"/>
+        <ownedConnector xmi:id="_jZd7oCjMEeGjbsIWvHGU4A" name="Connector1">
+          <end xmi:id="_jZd7oSjMEeGjbsIWvHGU4A" role="_flUUkCjMEeGjbsIWvHGU4A"/>
+          <end xmi:id="_w7ReUSjNEeGeZdmEk8vvDw" role="_4P_ekCjMEeGjbsIWvHGU4A"/>
+        </ownedConnector>
+        <lifeline xmi:id="_ctSXgCjMEeGjbsIWvHGU4A" name="car1" represents="_flUUkCjMEeGjbsIWvHGU4A" coveredBy="_aKQvMCjOEeGeZdmEk8vvDw _JTp-cCjOEeGeZdmEk8vvDw"/>
+        <lifeline xmi:id="_1km2YCjMEeGjbsIWvHGU4A" name="lane1" represents="_4P_ekCjMEeGjbsIWvHGU4A" coveredBy="_aKQvMSjOEeGeZdmEk8vvDw _KgRikijOEeGeZdmEk8vvDw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_aKQvMCjOEeGeZdmEk8vvDw" name="MessageOccurrenceSpecification1" covered="_ctSXgCjMEeGjbsIWvHGU4A" event="_dzfYYCgNEeG72ZTMIFmWFQ" message="_aKQvMyjOEeGeZdmEk8vvDw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_aKQvMSjOEeGeZdmEk8vvDw" name="MessageOccurrenceSpecification2" covered="_1km2YCjMEeGjbsIWvHGU4A" event="_dzfYYCgNEeG72ZTMIFmWFQ" message="_aKQvMyjOEeGeZdmEk8vvDw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_JTp-cCjOEeGeZdmEk8vvDw" name="BehaviorExecutionSpecification1" covered="_ctSXgCjMEeGjbsIWvHGU4A" start="_aKQvMCjOEeGeZdmEk8vvDw" finish="_aKQvMCjOEeGeZdmEk8vvDw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_KgRikijOEeGeZdmEk8vvDw" name="BehaviorExecutionSpecification2" covered="_1km2YCjMEeGjbsIWvHGU4A" start="_aKQvMSjOEeGeZdmEk8vvDw" finish="_aKQvMSjOEeGeZdmEk8vvDw"/>
+        <message xmi:id="_aKQvMyjOEeGeZdmEk8vvDw" name="vehicleArrives" receiveEvent="_aKQvMSjOEeGeZdmEk8vvDw" sendEvent="_aKQvMCjOEeGeZdmEk8vvDw"/>
       </ownedBehavior>
     </packagedElement>
   </packagedElement>
