@@ -1279,17 +1279,37 @@
         <ownedAttribute xmi:id="_flUUkCjMEeGjbsIWvHGU4A" name="car1" type="_5Dd14Cf7EeGeYMVGVWmXxQ"/>
         <ownedAttribute xmi:id="_3MmH4CjMEeGjbsIWvHGU4A" name="barrier1" type="_I_GsECANEeGQMYBUy7N72A"/>
         <ownedAttribute xmi:id="_4P_ekCjMEeGjbsIWvHGU4A" name="lane1" type="_g-H5gCJIEeGRt41VpUk6xQ"/>
+        <ownedAttribute xmi:id="_v4-sICjTEeGJ4JthPX8B9w" name="antenna1" type="_mZICQCJLEeGRt41VpUk6xQ"/>
         <ownedConnector xmi:id="_jZd7oCjMEeGjbsIWvHGU4A" name="Connector1">
           <end xmi:id="_jZd7oSjMEeGjbsIWvHGU4A" role="_flUUkCjMEeGjbsIWvHGU4A"/>
           <end xmi:id="_w7ReUSjNEeGeZdmEk8vvDw" role="_4P_ekCjMEeGjbsIWvHGU4A"/>
+          <end xmi:id="_3OW-QCjTEeGJ4JthPX8B9w" role="_v4-sICjTEeGJ4JthPX8B9w"/>
+          <end xmi:id="_J3Z1oCjXEeGJ4JthPX8B9w" role="_3MmH4CjMEeGjbsIWvHGU4A"/>
         </ownedConnector>
-        <lifeline xmi:id="_ctSXgCjMEeGjbsIWvHGU4A" name="car1" represents="_flUUkCjMEeGjbsIWvHGU4A" coveredBy="_aKQvMCjOEeGeZdmEk8vvDw _JTp-cCjOEeGeZdmEk8vvDw"/>
-        <lifeline xmi:id="_1km2YCjMEeGjbsIWvHGU4A" name="lane1" represents="_4P_ekCjMEeGjbsIWvHGU4A" coveredBy="_aKQvMSjOEeGeZdmEk8vvDw _KgRikijOEeGeZdmEk8vvDw"/>
+        <lifeline xmi:id="_ctSXgCjMEeGjbsIWvHGU4A" name="car1" represents="_flUUkCjMEeGjbsIWvHGU4A" coveredBy="_aKQvMCjOEeGeZdmEk8vvDw _1AbU0CjYEeGJ4JthPX8B9w _JTp-cCjOEeGeZdmEk8vvDw _0DwRMCjYEeGJ4JthPX8B9w"/>
+        <lifeline xmi:id="_1km2YCjMEeGjbsIWvHGU4A" name="lane1" represents="_4P_ekCjMEeGjbsIWvHGU4A" coveredBy="_aKQvMSjOEeGeZdmEk8vvDw _1Ab74CjYEeGJ4JthPX8B9w _yRgF4CjXEeGJ4JthPX8B9w _k_8QkSjUEeGJ4JthPX8B9w _KgRikijOEeGeZdmEk8vvDw _w3DEoCjYEeGJ4JthPX8B9w"/>
+        <lifeline xmi:id="_z4RzQCjTEeGJ4JthPX8B9w" name="antenna1" represents="_v4-sICjTEeGJ4JthPX8B9w" coveredBy="_k_8QkCjUEeGJ4JthPX8B9w _CjVScijUEeGJ4JthPX8B9w"/>
+        <lifeline xmi:id="_HhlNwCjXEeGJ4JthPX8B9w" name="barrier1" represents="_3MmH4CjMEeGjbsIWvHGU4A" coveredBy="_yRgF4SjXEeGJ4JthPX8B9w _TptdMCjXEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_1AbU0CjYEeGJ4JthPX8B9w" name="MessageOccurrenceSpecification7" covered="_ctSXgCjMEeGjbsIWvHGU4A" event="_6PgX4CjPEeGeZdmEk8vvDw" message="_1Aci8CjYEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_1Ab74CjYEeGJ4JthPX8B9w" name="MessageOccurrenceSpecification8" covered="_1km2YCjMEeGjbsIWvHGU4A" event="_6PgX4CjPEeGeZdmEk8vvDw" message="_1Aci8CjYEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_yRgF4CjXEeGJ4JthPX8B9w" name="MessageOccurrenceSpecification5" covered="_1km2YCjMEeGjbsIWvHGU4A" event="_Xs5DQCAaEeGwRqejfhyScQ" message="_yRgs8SjXEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_yRgF4SjXEeGJ4JthPX8B9w" name="MessageOccurrenceSpecification6" covered="_HhlNwCjXEeGJ4JthPX8B9w" event="_Xs5DQCAaEeGwRqejfhyScQ" message="_yRgs8SjXEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_k_8QkCjUEeGJ4JthPX8B9w" name="MessageOccurrenceSpecification3" covered="_z4RzQCjTEeGJ4JthPX8B9w" event="_QDgDECJWEeGhopMsbHVl7Q" message="_k_8QkyjUEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_k_8QkSjUEeGJ4JthPX8B9w" name="MessageOccurrenceSpecification4" covered="_1km2YCjMEeGjbsIWvHGU4A" event="_QDgDECJWEeGhopMsbHVl7Q" message="_k_8QkyjUEeGJ4JthPX8B9w"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_aKQvMCjOEeGeZdmEk8vvDw" name="MessageOccurrenceSpecification1" covered="_ctSXgCjMEeGjbsIWvHGU4A" event="_dzfYYCgNEeG72ZTMIFmWFQ" message="_aKQvMyjOEeGeZdmEk8vvDw"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_aKQvMSjOEeGeZdmEk8vvDw" name="MessageOccurrenceSpecification2" covered="_1km2YCjMEeGjbsIWvHGU4A" event="_dzfYYCgNEeG72ZTMIFmWFQ" message="_aKQvMyjOEeGeZdmEk8vvDw"/>
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_JTp-cCjOEeGeZdmEk8vvDw" name="BehaviorExecutionSpecification1" covered="_ctSXgCjMEeGjbsIWvHGU4A" start="_aKQvMCjOEeGeZdmEk8vvDw" finish="_aKQvMCjOEeGeZdmEk8vvDw"/>
-        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_KgRikijOEeGeZdmEk8vvDw" name="BehaviorExecutionSpecification2" covered="_1km2YCjMEeGjbsIWvHGU4A" start="_aKQvMSjOEeGeZdmEk8vvDw" finish="_aKQvMSjOEeGeZdmEk8vvDw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_KgRikijOEeGeZdmEk8vvDw" name="BehaviorExecutionSpecification2" covered="_1km2YCjMEeGjbsIWvHGU4A" start="_aKQvMSjOEeGeZdmEk8vvDw" finish="_yRgF4CjXEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_CjVScijUEeGJ4JthPX8B9w" name="BehaviorExecutionSpecification3" covered="_z4RzQCjTEeGJ4JthPX8B9w" start="_k_8QkCjUEeGJ4JthPX8B9w" finish="_k_8QkCjUEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_TptdMCjXEeGJ4JthPX8B9w" name="BehaviorExecutionSpecification4" covered="_HhlNwCjXEeGJ4JthPX8B9w" start="_yRgF4SjXEeGJ4JthPX8B9w" finish="_yRgF4SjXEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_0DwRMCjYEeGJ4JthPX8B9w" name="BehaviorExecutionSpecification6" covered="_ctSXgCjMEeGjbsIWvHGU4A" start="_1AbU0CjYEeGJ4JthPX8B9w" finish="_1AbU0CjYEeGJ4JthPX8B9w"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_w3DEoCjYEeGJ4JthPX8B9w" name="BehaviorExecutionSpecification5" covered="_1km2YCjMEeGjbsIWvHGU4A" start="_1Ab74CjYEeGJ4JthPX8B9w" finish="_1Ab74CjYEeGJ4JthPX8B9w"/>
         <message xmi:id="_aKQvMyjOEeGeZdmEk8vvDw" name="vehicleArrives" receiveEvent="_aKQvMSjOEeGeZdmEk8vvDw" sendEvent="_aKQvMCjOEeGeZdmEk8vvDw"/>
+        <message xmi:id="_k_8QkyjUEeGJ4JthPX8B9w" name="tagDetection" receiveEvent="_k_8QkSjUEeGJ4JthPX8B9w" sendEvent="_k_8QkCjUEeGJ4JthPX8B9w">
+          <argument xmi:type="uml:LiteralString" xmi:id="_qqzhoCjUEeGJ4JthPX8B9w" name="ticketId" type="_6lqRoCHKEeGPecBVZhBvBA" value="&quot;tag123&quot;"/>
+        </message>
+        <message xmi:id="_yRgs8SjXEeGJ4JthPX8B9w" name="allowPassage" messageSort="asynchCall" receiveEvent="_yRgF4SjXEeGJ4JthPX8B9w" sendEvent="_yRgF4CjXEeGJ4JthPX8B9w"/>
+        <message xmi:id="_1Aci8CjYEeGJ4JthPX8B9w" name="vehiclePasses" receiveEvent="_1Ab74CjYEeGJ4JthPX8B9w" sendEvent="_1AbU0CjYEeGJ4JthPX8B9w"/>
       </ownedBehavior>
     </packagedElement>
   </packagedElement>
