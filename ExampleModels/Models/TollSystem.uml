@@ -1247,8 +1247,5 @@
         <message xmi:id="_hIOLwSQsEeG6hL8ljfw-Bg" name="allowPassage" receiveEvent="_hINksCQsEeG6hL8ljfw-Bg" sendEvent="_hIMWkCQsEeG6hL8ljfw-Bg"/>
       </ownedBehavior>
     </packagedElement>
-    <packagedElement xmi:type="uml:Collaboration" xmi:id="_byXasCf4EeGeYMVGVWmXxQ" name="CheckIn Tag Use Case">
-      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_byXasSf4EeGeYMVGVWmXxQ" name="CheckIn Tag Use Case"/>
-    </packagedElement>
   </packagedElement>
 </uml:Model>

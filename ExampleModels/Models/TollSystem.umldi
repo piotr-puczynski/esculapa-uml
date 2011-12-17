@@ -4356,23 +4356,7 @@
         </contained>
       </diagrams>
     </subdiagrams>
-    <subdiagrams xmi:id="_byXasif4EeGeYMVGVWmXxQ">
-      <model href="TollSystem.uml#_byXasSf4EeGeYMVGVWmXxQ"/>
-      <diagrams xmi:id="_bygkoCf4EeGeYMVGVWmXxQ" position="0,0" size="100,100" name="CheckIn Tag Use Case" viewport="0,0">
-        <property xmi:id="_b0vZQCf4EeGeYMVGVWmXxQ" key="pageFormatName" value="A4"/>
-        <property xmi:id="_b0vZQSf4EeGeYMVGVWmXxQ" key="diagramWidth" value="840"/>
-        <property xmi:id="_b0vZQif4EeGeYMVGVWmXxQ" key="diagramHeight" value="1188"/>
-        <property xmi:id="_b0vZQyf4EeGeYMVGVWmXxQ" key="pageMarginName" value="Small Margin"/>
-        <property xmi:id="_b0vZRCf4EeGeYMVGVWmXxQ" key="diagramTopMargin" value="20"/>
-        <property xmi:id="_b0vZRSf4EeGeYMVGVWmXxQ" key="diagramBottomMargin" value="20"/>
-        <property xmi:id="_b0vZRif4EeGeYMVGVWmXxQ" key="diagramLeftMargin" value="20"/>
-        <property xmi:id="_b0vZRyf4EeGeYMVGVWmXxQ" key="diagramRightMargin" value="20"/>
-        <property xmi:id="_b0vZSCf4EeGeYMVGVWmXxQ" key="orientation" value="portrait"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_bygkoSf4EeGeYMVGVWmXxQ" presentation="org.topcased.modeler.uml.sequencediagram">
-          <element href="TollSystem.uml#_byXasSf4EeGeYMVGVWmXxQ"/>
-        </semanticModel>
-      </diagrams>
-    </subdiagrams>
+    <subdiagrams xmi:id="_byXasif4EeGeYMVGVWmXxQ"/>
     <subdiagrams xmi:id="_3lux8CgOEeG72ZTMIFmWFQ">
       <model href="TollSystem.uml#_yxiqMCgOEeG72ZTMIFmWFQ"/>
       <diagrams xmi:id="_3lux8SgOEeG72ZTMIFmWFQ" position="0,0" size="100,100" name="VehicleToLane" viewport="0,0">
