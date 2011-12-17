@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_uuobMCJ4EeG5Y9AWlHoqTA" activeDiagram="_3lux8SgOEeG72ZTMIFmWFQ">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_uuobMCJ4EeG5Y9AWlHoqTA" activeDiagram="_vysOICJVEeGhopMsbHVl7Q">
   <model href="TollSystem.uml#_qb8akM37EdqwVrslYOdUDA"/>
   <subdiagrams xmi:id="_n5mlcR_5EeGQMYBUy7N72A" activeDiagram="_GGlgcCJ2EeG5Y9AWlHoqTA">
     <model href="TollSystem.uml#_w8IxIM37EdqwVrslYOdUDA"/>
-    <diagrams xmi:id="_n5mlch_5EeGQMYBUy7N72A" position="0,0" size="400,400" name="TollSystem" viewport="0,261">
+    <diagrams xmi:id="_n5mlch_5EeGQMYBUy7N72A" position="0,0" size="400,400" name="TollSystem" viewport="-6,0">
       <property xmi:id="_n7FzMB_5EeGQMYBUy7N72A" key="pageFormatName" value=""/>
       <property xmi:id="_n7FzMR_5EeGQMYBUy7N72A" key="diagramWidth" value="1788"/>
       <property xmi:id="_n7FzMh_5EeGQMYBUy7N72A" key="diagramHeight" value="919"/>
@@ -1195,7 +1195,7 @@
     <subdiagrams xmi:id="_x8WOICDoEeGctsL4lIEM3A"/>
     <subdiagrams xmi:id="_ifE3gCGbEeGPecBVZhBvBA">
       <model href="TollSystem.uml#_ifB0MCGbEeGPecBVZhBvBA"/>
-      <diagrams xmi:id="_ifwM8CGbEeGPecBVZhBvBA" position="0,0" size="100,100" name="TollSystem1" zoom="0.75" viewport="17,360">
+      <diagrams xmi:id="_ifwM8CGbEeGPecBVZhBvBA" position="0,0" size="100,100" name="TollSystem1" zoom="0.75" viewport="144,103">
         <property xmi:id="_ihRP4CGbEeGPecBVZhBvBA" key="pageFormatName" value=""/>
         <property xmi:id="_ihRP4SGbEeGPecBVZhBvBA" key="diagramWidth" value="1661"/>
         <property xmi:id="_ihRP4iGbEeGPecBVZhBvBA" key="diagramHeight" value="1564"/>
@@ -1780,7 +1780,7 @@
       </subdiagrams>
       <subdiagrams xmi:id="_frka8iAjEeGwRqejfhyScQ">
         <model href="TollSystem.uml#_frka8CAjEeGwRqejfhyScQ"/>
-        <diagrams xmi:id="_frka8yAjEeGwRqejfhyScQ" position="0,0" size="709,893" name="NormalLaneCheckIn Behavior" viewport="-6,0">
+        <diagrams xmi:id="_frka8yAjEeGwRqejfhyScQ" position="0,0" size="709,893" name="NormalLaneCheckIn Behavior" viewport="-6,133">
           <property xmi:id="_fswtwiAjEeGwRqejfhyScQ" key="pageFormatName" value=""/>
           <property xmi:id="_fswtwyAjEeGwRqejfhyScQ" key="diagramWidth" value="758"/>
           <property xmi:id="_fswtxCAjEeGwRqejfhyScQ" key="diagramHeight" value="961"/>
@@ -2342,7 +2342,7 @@
       </subdiagrams>
       <subdiagrams xmi:id="_vyPiMiJVEeGhopMsbHVl7Q">
         <model href="TollSystem.uml#_vyPiMCJVEeGhopMsbHVl7Q"/>
-        <diagrams xmi:id="_vysOICJVEeGhopMsbHVl7Q" position="0,0" size="100,100" name="ExpressLaneCheckIn Behavior" viewport="-110,116">
+        <diagrams xmi:id="_vysOICJVEeGhopMsbHVl7Q" position="0,0" size="100,100" name="ExpressLaneCheckIn Behavior" viewport="-110,0">
           <property xmi:id="_v0Ul0iJVEeGhopMsbHVl7Q" key="pageFormatName" value="A4"/>
           <property xmi:id="_v0Ul0yJVEeGhopMsbHVl7Q" key="diagramWidth" value="840"/>
           <property xmi:id="_v0Ul1CJVEeGhopMsbHVl7Q" key="diagramHeight" value="1188"/>
@@ -2478,7 +2478,7 @@
       </subdiagrams>
       <subdiagrams xmi:id="_4ToeACJhEeGhopMsbHVl7Q">
         <model href="TollSystem.uml#_4TetACJhEeGhopMsbHVl7Q"/>
-        <diagrams xmi:id="_4T7Y8CJhEeGhopMsbHVl7Q" position="0,0" size="100,100" name="ExpressLaneCheckOut Behavior" viewport="-21,0">
+        <diagrams xmi:id="_4T7Y8CJhEeGhopMsbHVl7Q" position="0,0" size="100,100" name="ExpressLaneCheckOut Behavior" viewport="-21,450">
           <property xmi:id="_4V3SoiJhEeGhopMsbHVl7Q" key="pageFormatName" value="A4"/>
           <property xmi:id="_4V3SoyJhEeGhopMsbHVl7Q" key="diagramWidth" value="840"/>
           <property xmi:id="_4V3SpCJhEeGhopMsbHVl7Q" key="diagramHeight" value="1188"/>
@@ -2525,7 +2525,7 @@
               <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Kjp4wiJiEeGhopMsbHVl7Q" presentation="default">
                 <element href="TollSystem.uml#_Kjp4xSJiEeGhopMsbHVl7Q"/>
               </semanticModel>
-              <contained xsi:type="di:EdgeObjectOffset" xmi:id="_Kjp4wyJiEeGhopMsbHVl7Q" id="nameEdgeObject" offset="19,30"/>
+              <contained xsi:type="di:EdgeObjectOffset" xmi:id="_Kjp4wyJiEeGhopMsbHVl7Q" id="nameEdgeObject" offset="20,0"/>
               <contained xsi:type="di:EdgeObjectOffset" xmi:id="_Kjp4xCJiEeGhopMsbHVl7Q" visible="false" id="TransitionStereotypeEdgeObject"/>
             </contained>
             <contained xsi:type="di:GraphNode" xmi:id="_lBmXMCJiEeGhopMsbHVl7Q" position="376,497" size="-1,-1">
