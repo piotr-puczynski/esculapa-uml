@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+         <menu
+               label="EsculapaUML"
+               mnemonic="E">
+            <command
+                  commandId="dk.dtu.imm.esculapauml.gui.topcased.checkUseCase"
+                  label="Check Use Case"
+                  style="push">
+            </command>
+            <visibleWhen
+                  checkEnabled="false">
+               <or>
+                  <and>
+                     <with
+                           variable="activeMenuSelection">
+                        <iterate
+                              ifEmpty="false">
+                           <instanceof
+                                 value="org.eclipse.emf.ecore.EObject">
+                           </instanceof>
+                        </iterate>
+                     </with>
+                     <with
+                           variable="activePartId">
+                        <equals
+                              value="org.eclipse.ui.views.ContentOutline">
+                        </equals>
+                     </with>
+                  </and>
+                  <and>
+                     <with
+                           variable="activePartId">
+                        <equals
+                              value="org.topcased.ui.navigator.view">
+                        </equals>
+                     </with>
+                     <with
+                           variable="activeMenuSelection">
+                        <iterate
+                              ifEmpty="false">
+                           <instanceof
+                                 value="org.eclipse.emf.ecore.EObject">
+                           </instanceof>
+                        </iterate>
+                     </with>
+                  </and>
+                  <with
+                        variable="activeMenuSelection">
+                     <iterate
+                           ifEmpty="false">
+                        <instanceof
+                              value="org.topcased.modeler.edit.IModelElementEditPart">
+                        </instanceof>
+                     </iterate>
+                  </with>
+               </or>
+            </visibleWhen>
+         </menu>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="dk.dtu.imm.esculapauml.gui.topcased.handlers.CheckUseCase"
+            id="dk.dtu.imm.esculapauml.gui.topcased.checkUseCase"
+            name="Check Use Case">
+      </command>
+   </extension>
+
+</plugin>
