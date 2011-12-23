@@ -11,6 +11,7 @@ import org.eclipse.emf.edit.domain.IEditingDomainProvider;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.topcased.modeler.editor.Modeler;
 
 public final class GuiUtils {
 	public static final List<?> getSelectionModelSubtreeContents(ExecutionEvent event) {
@@ -46,5 +47,14 @@ public final class GuiUtils {
 		}
 
 		throw new IllegalArgumentException("Passed argument cannot be casted to editing domain");
+	}
+	
+	public static final Modeler getModeler(ExecutionEvent event) {
+		IEditorPart editor = HandlerUtil.getActiveEditor(event);
+        if (editor instanceof Modeler) {
+            return (Modeler)editor;
+        }
+
+		throw new IllegalArgumentException("Passed argument cannot be casted to topcased modeler");
 	}
 }
