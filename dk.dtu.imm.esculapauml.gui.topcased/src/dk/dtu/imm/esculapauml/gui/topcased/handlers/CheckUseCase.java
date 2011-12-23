@@ -35,15 +35,15 @@ import org.topcased.modeler.editor.Modeler;
 public class CheckUseCase extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		/*List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
+		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
 		System.out.println(elements.get(0).toString());
 		Iterator<EObject> itChildren = ((EObject) elements.get(0)).eAllContents();
 		while (itChildren.hasNext()) {
 			EObject o = itChildren.next();
 			System.out.println(o.toString());
-		}*/
-		DuplicateSubTreeAction dup = new DuplicateSubTreeAction(GuiUtils.getModeler(event), (EObject)GuiUtils.getSelectionModelSubtreeContents(event).get(0));
-		dup.run();
+		}
+		//DuplicateSubTreeAction dup = new DuplicateSubTreeAction(GuiUtils.getModeler(event), (EObject)GuiUtils.getSelectionModelSubtreeContents(event).get(0));
+		//dup.run();
 		return null;
 		
 	}
