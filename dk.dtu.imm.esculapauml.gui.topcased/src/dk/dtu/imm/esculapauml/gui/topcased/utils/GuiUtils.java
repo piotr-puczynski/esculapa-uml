@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.domain.IEditingDomainProvider;
+import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -99,4 +100,14 @@ public final class GuiUtils {
 
 		throw new IllegalArgumentException("Passed argument cannot be casted to topcased modeler");
 	}
+	
+	/**
+	 * Gets command stack for execution of commands in GUI environment of Graphical Editing Framework
+	 * @param event The event occurred
+	 * @return stack
+	 */
+	public static final CommandStack getCommandStack(ExecutionEvent event)
+    {
+        return (CommandStack) getModeler(event).getAdapter(CommandStack.class);
+    }
 }

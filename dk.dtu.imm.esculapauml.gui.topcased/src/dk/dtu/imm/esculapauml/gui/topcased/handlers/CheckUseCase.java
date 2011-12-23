@@ -42,9 +42,8 @@ public class CheckUseCase extends AbstractHandler {
 			EObject o = itChildren.next();
 			System.out.println(o.toString());
 		}*/
-		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
-		Modeler modeler = GuiUtils.getModeler(event);
-		modeler.gotoEObject((EObject) elements.get(0));
+		DuplicateSubTreeAction dup = new DuplicateSubTreeAction(GuiUtils.getModeler(event), (EObject)GuiUtils.getSelectionModelSubtreeContents(event).get(0));
+		dup.run();
 		return null;
 		
 	}
