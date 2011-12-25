@@ -8,7 +8,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.expressions;bundle-version="3.4.300",
  org.eclipse.emf;bundle-version="2.6.0",
- org.topcased.modeler;bundle-version="3.1.14"
+ org.topcased.modeler;bundle-version="3.1.14",
+ dk.dtu.imm.esculapauml.core;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: org.eclipse.core.expressions

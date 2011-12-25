@@ -16,6 +16,7 @@ package dk.dtu.imm.esculapauml.gui.topcased.handlers;
 import java.util.List;
 import java.util.Iterator;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.GuiUtils;
+import dk.dtu.imm.esculapauml.core.ConsistencyCheckingService;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -35,15 +36,21 @@ import org.topcased.modeler.editor.Modeler;
 public class CheckUseCase extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
-		System.out.println(elements.get(0).toString());
-		Iterator<EObject> itChildren = ((EObject) elements.get(0)).eAllContents();
-		while (itChildren.hasNext()) {
-			EObject o = itChildren.next();
-			System.out.println(o.toString());
-		}
+//		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
+//		System.out.println(elements.get(0).toString());
+//		Iterator<EObject> itChildren = ((EObject) elements.get(0)).eAllContents();
+//		while (itChildren.hasNext()) {
+//			EObject o = itChildren.next();
+//			System.out.println(o.toString());
+//		}
 		//DuplicateSubTreeAction dup = new DuplicateSubTreeAction(GuiUtils.getModeler(event), (EObject)GuiUtils.getSelectionModelSubtreeContents(event).get(0));
 		//dup.run();
+		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
+		if((elements.size() > 0) && (elements.get(0) instanceof EObject)) {
+			ConsistencyCheckingService.getInstance().checkUseCaseInteraction((EObject) elements.get(0));
+		} else {
+			throw new IllegalArgumentException("Passed argument is empty or of a wrong type (required EMF model element argument)");
+		}
 		return null;
 		
 	}

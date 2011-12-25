@@ -15,6 +15,8 @@ package dk.dtu.imm.esculapauml.gui.topcased;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import dk.dtu.imm.esculapauml.gui.topcased.observer.TopcasedObserver;
+
 /**
  * The activator class controls the plug-in life cycle
  * 
@@ -42,6 +44,7 @@ public class Activator extends AbstractUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		TopcasedObserver.getInstance().register();
 	}
 
 	/*
@@ -49,6 +52,7 @@ public class Activator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		TopcasedObserver.getInstance().unRegister();
 		plugin = null;
 		super.stop(context);
 	}

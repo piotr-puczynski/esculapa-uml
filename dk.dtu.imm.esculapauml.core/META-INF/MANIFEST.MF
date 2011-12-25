@@ -1,6 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EsculapaUML Core
-Bundle-SymbolicName: dk.dtu.imm.esculapauml.core
+Bundle-SymbolicName: dk.dtu.imm.esculapauml.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: dk.dtu.imm.esculapauml.core
+Require-Bundle: org.eclipse.emf;bundle-version="2.6.0"
+Import-Package: org.eclipse.emf.ecore
