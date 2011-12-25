@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.core;
 
 import java.util.Observable;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.common.util.TreeIterator;
 
 /**
  * 
@@ -27,21 +28,37 @@ import org.eclipse.emf.ecore.EObject;
  */
 public class ConsistencyCheckingService extends Observable {
 	private static ConsistencyCheckingService instance = null;
-	
+
 	protected ConsistencyCheckingService() {
 	}
-	
-	
+
 	public static ConsistencyCheckingService getInstance() {
 		if (instance == null) {
 			instance = new ConsistencyCheckingService();
 		}
 		return instance;
 	}
-	
+
 	public void checkUseCaseInteraction(EObject interaction) {
-		System.out.println("fajnie mi haha");
-		setChanged();
-		notifyObservers();
+		System.out.println(interaction.eClass().getName());
+		// check for right EObject type
+		if (!interaction.eClass().getName().equals("Interaction")) {
+			boolean found = false;
+			// if collaboration or use case, be flexible
+			if (interaction.eClass().getName().equals("Collaboration") || interaction.eClass().getName().equals("UseCase")) {
+				TreeIterator<EObject> contents = interaction.eAllContents();
+				while (contents.hasNext()) {
+					EObject o = contents.next();
+					if (o.eClass().getName().equals("Interaction")) {
+						interaction = o;
+						found = true;
+						break;
+					}
+				}
+			}
+			if (!found) {
+				throw new IllegalArgumentException("Passed argument is not an interaction, use case or collaboration");
+			}
+		}
 	}
 }
