@@ -35,11 +35,11 @@ public class TopcasedObserver implements Observer {
 	}
 	
 	public void register() {
-		dk.dtu.imm.esculapauml.core.ConsistencyCheckingService.getInstance().addObserver(this);
+		ConsistencyCheckingService.getInstance().addObserver(this);
 	}
 	
 	public void unRegister() {
-		dk.dtu.imm.esculapauml.core.ConsistencyCheckingService.getInstance().deleteObserver(this);
+		ConsistencyCheckingService.getInstance().deleteObserver(this);
 	}
 
 	/*

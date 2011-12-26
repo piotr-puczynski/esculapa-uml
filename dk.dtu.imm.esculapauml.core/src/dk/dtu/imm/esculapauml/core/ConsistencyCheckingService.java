@@ -77,7 +77,11 @@ public class ConsistencyCheckingService extends Observable {
 
 	/**
 	 * Start consistency check of use case (as interaction diagram).
-	 * @param interaction must be UML2 element containing interaction to check. It is allowed to pass use case or collaboration if they contain an interaction.
+	 * 
+	 * @param interaction
+	 *            must be UML2 element containing interaction to check. It is
+	 *            allowed to pass use case or collaboration if they contain an
+	 *            interaction.
 	 * @return checked and completed interaction.
 	 */
 	public Interaction checkUseCaseInteraction(EObject interaction) {
@@ -88,7 +92,11 @@ public class ConsistencyCheckingService extends Observable {
 
 	/**
 	 * Start consistency check of interaction diagram.
-	 * @param interaction must be UML2 element containing interaction to check. It is allowed to pass use case or collaboration if they contain an interaction.
+	 * 
+	 * @param interaction
+	 *            must be UML2 element containing interaction to check. It is
+	 *            allowed to pass use case or collaboration if they contain an
+	 *            interaction.
 	 * @return checked interaction.
 	 */
 	public Interaction checkInteraction(EObject interaction) {
