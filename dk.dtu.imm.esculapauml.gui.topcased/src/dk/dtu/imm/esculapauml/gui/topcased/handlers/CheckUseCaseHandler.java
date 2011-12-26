@@ -14,7 +14,6 @@
 package dk.dtu.imm.esculapauml.gui.topcased.handlers;
 
 import java.util.List;
-import java.util.Iterator;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.GuiUtils;
 import dk.dtu.imm.esculapauml.core.ConsistencyCheckingService;
 
@@ -22,10 +21,6 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.edit.domain.EditingDomain;
-import org.topcased.modeler.DuplicationAdapter;
-import org.topcased.modeler.actions.DuplicateSubTreeAction;
-import org.topcased.modeler.editor.Modeler;
 
 /**
  * command to trigger use case consistency checking on selected interaction
@@ -33,18 +28,9 @@ import org.topcased.modeler.editor.Modeler;
  * @author Piotr. J. Puczynski (piotr.puczynski)
  *
  */
-public class CheckUseCase extends AbstractHandler {
+public class CheckUseCaseHandler extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-//		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
-//		System.out.println(elements.get(0).toString());
-//		Iterator<EObject> itChildren = ((EObject) elements.get(0)).eAllContents();
-//		while (itChildren.hasNext()) {
-//			EObject o = itChildren.next();
-//			System.out.println(o.toString());
-//		}
-		//DuplicateSubTreeAction dup = new DuplicateSubTreeAction(GuiUtils.getModeler(event), (EObject)GuiUtils.getSelectionModelSubtreeContents(event).get(0));
-		//dup.run();
 		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
 		if((elements.size() > 0) && (elements.get(0) instanceof EObject)) {
 			ConsistencyCheckingService.getInstance().checkUseCaseInteraction((EObject) elements.get(0));

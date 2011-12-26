@@ -30,6 +30,40 @@ import org.eclipse.uml2.common.util.UML2Util;
 public class ConsistencyCheckingService extends Observable {
 	private static ConsistencyCheckingService instance = null;
 
+	/**
+	 * Internal method used to validate arguments and to convert them into UML2
+	 * elements
+	 * 
+	 * @param someObject
+	 *            interaction, use case or collaboration
+	 * @return uml2 interaction
+	 */
+	private Interaction getUMLInteractionArgument(EObject someObject) {
+		// check for right EObject type argument
+		if (!(someObject instanceof org.eclipse.uml2.uml.Element)) {
+			throw new IllegalArgumentException("Passed argument is not UML2 Element");
+		}
+		Interaction umlInteraction = null;
+		if (someObject.eClass().getName().equals("Interaction")) {
+			umlInteraction = (Interaction) someObject;
+		} else {
+			// if collaboration or use case, be flexible
+			if (someObject.eClass().getName().equals("Collaboration") || someObject.eClass().getName().equals("UseCase")) {
+				umlInteraction = (Interaction) UML2Util.findEObject(someObject.eAllContents(), new UML2Util.EObjectMatcher() {
+					public boolean matches(EObject eObject) {
+						return eObject.eClass().getName().equals("Interaction");
+					}
+				});
+			}
+		}
+
+		if (null == umlInteraction) {
+			throw new IllegalArgumentException("Cannot find interaction to check");
+		}
+
+		return umlInteraction;
+	}
+
 	protected ConsistencyCheckingService() {
 		super();
 	}
@@ -41,29 +75,26 @@ public class ConsistencyCheckingService extends Observable {
 		return instance;
 	}
 
-	public void checkUseCaseInteraction(EObject interaction) {
-		// check for right EObject type argument
-		if (!(interaction instanceof org.eclipse.uml2.uml.Element)) {
-			throw new IllegalArgumentException("Passed argument is not UML2 Element");
-		}
-		Interaction umlInteraction = null;
-		if (interaction.eClass().getName().equals("Interaction")) {
-			umlInteraction = (Interaction) interaction;
-		} else {
-			// if collaboration or use case, be flexible
-			if (interaction.eClass().getName().equals("Collaboration") || interaction.eClass().getName().equals("UseCase")) {
-				umlInteraction = (Interaction) UML2Util.findEObject(interaction.eAllContents(), new UML2Util.EObjectMatcher() {
-					public boolean matches(EObject eObject) {
-						return eObject.eClass().getName().equals("Interaction");
-					}
-				});
-			}
-		}
+	/**
+	 * Start consistency check of use case (as interaction diagram).
+	 * @param interaction must be UML2 element containing interaction to check. It is allowed to pass use case or collaboration if they contain an interaction.
+	 * @return checked and completed interaction.
+	 */
+	public Interaction checkUseCaseInteraction(EObject interaction) {
+		Interaction umlInteraction = getUMLInteractionArgument(interaction);
 
-		if (null == umlInteraction) {
-			throw new IllegalArgumentException("Cannot find interaction to check");
-		}
-		
-		
+		return umlInteraction;
+	}
+
+	/**
+	 * Start consistency check of interaction diagram.
+	 * @param interaction must be UML2 element containing interaction to check. It is allowed to pass use case or collaboration if they contain an interaction.
+	 * @return checked interaction.
+	 */
+	public Interaction checkInteraction(EObject interaction) {
+		Interaction umlInteraction = getUMLInteractionArgument(interaction);
+
+		return umlInteraction;
+
 	}
 }
