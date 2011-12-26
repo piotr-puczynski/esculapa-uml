@@ -14,7 +14,8 @@ package dk.dtu.imm.esculapauml.core;
 
 import java.util.Observable;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.common.util.TreeIterator;
+import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.common.util.UML2Util;
 
 /**
  * 
@@ -30,6 +31,7 @@ public class ConsistencyCheckingService extends Observable {
 	private static ConsistencyCheckingService instance = null;
 
 	protected ConsistencyCheckingService() {
+		super();
 	}
 
 	public static ConsistencyCheckingService getInstance() {
@@ -40,25 +42,28 @@ public class ConsistencyCheckingService extends Observable {
 	}
 
 	public void checkUseCaseInteraction(EObject interaction) {
-		System.out.println(interaction.eClass().getName());
-		// check for right EObject type
-		if (!interaction.eClass().getName().equals("Interaction")) {
-			boolean found = false;
+		// check for right EObject type argument
+		if (!(interaction instanceof org.eclipse.uml2.uml.Element)) {
+			throw new IllegalArgumentException("Passed argument is not UML2 Element");
+		}
+		Interaction umlInteraction = null;
+		if (interaction.eClass().getName().equals("Interaction")) {
+			umlInteraction = (Interaction) interaction;
+		} else {
 			// if collaboration or use case, be flexible
 			if (interaction.eClass().getName().equals("Collaboration") || interaction.eClass().getName().equals("UseCase")) {
-				TreeIterator<EObject> contents = interaction.eAllContents();
-				while (contents.hasNext()) {
-					EObject o = contents.next();
-					if (o.eClass().getName().equals("Interaction")) {
-						interaction = o;
-						found = true;
-						break;
+				umlInteraction = (Interaction) UML2Util.findEObject(interaction.eAllContents(), new UML2Util.EObjectMatcher() {
+					public boolean matches(EObject eObject) {
+						return eObject.eClass().getName().equals("Interaction");
 					}
-				}
-			}
-			if (!found) {
-				throw new IllegalArgumentException("Passed argument is not an interaction, use case or collaboration");
+				});
 			}
 		}
+
+		if (null == umlInteraction) {
+			throw new IllegalArgumentException("Cannot find interaction to check");
+		}
+		
+		
 	}
 }

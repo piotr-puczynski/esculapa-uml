@@ -24,6 +24,7 @@ public class TopcasedObserver implements Observer {
 	private static TopcasedObserver instance = null;
 
 	protected TopcasedObserver() {
+		super();
 	}
 
 	public static TopcasedObserver getInstance() {
