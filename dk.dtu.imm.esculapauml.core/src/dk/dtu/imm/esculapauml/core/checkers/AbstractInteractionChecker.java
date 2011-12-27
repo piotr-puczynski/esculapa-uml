@@ -50,13 +50,13 @@ public abstract class AbstractInteractionChecker extends AbstractChecker {
 			ConnectableElement connection = l.getRepresents();
 			// representant is not set at all
 			if (null == connection) {
-				diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "Lifeline " + l.getLabel(), 0,
-						"The lifeline has no representant.", new Object[] { l }));
+				diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0,
+						"The Lifeline " + l.getLabel() + " has no representant.", new Object[] { l }));
 			} else {
 				Type type = connection.getType();
 				if (null == type) {
-					diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "Lifeline " + l.getLabel(), 0,
-							"The lifeline has no representant set to model type.", new Object[] { l }));
+					diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0,
+							"The Lifeline " + l.getLabel() + " has no representant set to model type.", new Object[] { l }));
 				}
 			}
 		}

@@ -13,7 +13,6 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.DiagnosticChain;
 
 /**
  * Interaction diagnostic check of common features for all objects
@@ -33,7 +32,7 @@ public abstract class AbstractChecker implements CheckerInterface {
 	 * 
 	 * @return the diagnostics
 	 */
-	public DiagnosticChain getDiagnostics() {
+	public Diagnostic getDiagnostics() {
 		return diagnostics;
 	}
 

@@ -13,6 +13,8 @@
 package dk.dtu.imm.esculapauml.core;
 
 import java.util.Observable;
+
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.common.util.UML2Util;
@@ -31,6 +33,14 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
  */
 public class ConsistencyCheckingService extends Observable {
 	private static ConsistencyCheckingService instance = null;
+	private Diagnostic diagnostics;
+
+	/**
+	 * @return the diagnostics
+	 */
+	public Diagnostic getDiagnostics() {
+		return diagnostics;
+	}
 
 	/**
 	 * Internal method used to validate arguments and to convert them into UML2
@@ -88,6 +98,7 @@ public class ConsistencyCheckingService extends Observable {
 	 */
 	public Interaction checkUseCaseInteraction(EObject interaction) {
 		UseCaseChecker checker = new UseCaseChecker(getUMLInteractionArgument(interaction));
+		diagnostics = checker.getDiagnostics();
 		checker.check();
 		return checker.getInteraction();
 	}
