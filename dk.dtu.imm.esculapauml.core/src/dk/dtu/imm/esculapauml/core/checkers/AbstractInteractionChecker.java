@@ -11,20 +11,58 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.Lifeline;
+import org.eclipse.uml2.uml.Type;
 
 /**
- * Interface for all checkers classes
+ * Interaction diagnostic check of common features for all interactions
+ * 
  * @author Piotr. J. Puczynski (piotr.puczynski)
- *
+ * 
  */
-public abstract class AbstractInteractionChecker implements CheckerInterface {
+public abstract class AbstractInteractionChecker extends AbstractChecker {
 	protected Interaction interaction;
+
+	AbstractInteractionChecker(Interaction interaction) {
+		this.interaction = interaction;
+	}
+
 	/**
 	 * Start checking operaration
+	 * 
 	 * @return the interaction that is a result of checking
 	 */
 	public Interaction getInteraction() {
 		return interaction;
+	}
+
+	/**
+	 * Check if each lifeline corresponds to some class in the model
+	 */
+	protected void structuralLifelinesExistanceCheck() {
+		EList<Lifeline> lifeLines = interaction.getLifelines();
+		for (Lifeline l : lifeLines) {
+			ConnectableElement connection = l.getRepresents();
+			// representant is not set at all
+			if (null == connection) {
+				Object[] problems = { l };
+				Diagnostic unrepresentedLifeline = new BasicDiagnostic(Diagnostic.ERROR, "Lifeline " + l.getLabel(), 1,
+						"The lifeline has no representant.", problems);
+				diagnostics.add(unrepresentedLifeline);
+			} else {
+				Type type = connection.getType();
+				if (null == type) {
+					Object[] problems = { l };
+					Diagnostic unrepresentedLifeline = new BasicDiagnostic(Diagnostic.ERROR, "Lifeline " + l.getLabel(), 1,
+							"The lifeline has no representant set to model type.", problems);
+					diagnostics.add(unrepresentedLifeline);
+				}
+			}
+		}
 	}
 }

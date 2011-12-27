@@ -20,7 +20,7 @@ import org.eclipse.uml2.uml.Interaction;
 public class UseCaseChecker extends AbstractInteractionChecker {
 	
 	public UseCaseChecker(Interaction interaction) {
-		this.interaction = interaction;
+		super(interaction);
 	}
 
 	/* (non-Javadoc)
@@ -28,7 +28,8 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 	 */
 	@Override
 	public void check() {
-		// TODO Auto-generated method stub
+		structuralLifelinesExistanceCheck();
+		
 		
 	}
 

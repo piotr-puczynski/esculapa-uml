@@ -12,9 +12,17 @@
 package dk.dtu.imm.esculapauml.core.checkers;
 
 /**
+ * The interface for checkers.
  * @author Piotr. J. Puczynski (piotr.puczynski)
  *
  */
 public interface CheckerInterface {
+	/**
+	 * Start checking.
+	 */
 	void check();
+	/**
+	 * @return if the checked element has errors
+	 */
+	boolean hasErrors();
 }
