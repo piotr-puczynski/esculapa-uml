@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.common.util.UML2Util;
 
+import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
+
 /**
  * 
  * The main interface that should be used by clients (i.e. other plug-ins) to
@@ -85,9 +87,9 @@ public class ConsistencyCheckingService extends Observable {
 	 * @return checked and completed interaction.
 	 */
 	public Interaction checkUseCaseInteraction(EObject interaction) {
-		Interaction umlInteraction = getUMLInteractionArgument(interaction);
-
-		return umlInteraction;
+		UseCaseChecker checker = new UseCaseChecker(getUMLInteractionArgument(interaction));
+		checker.check();
+		return checker.getInteraction();
 	}
 
 	/**
