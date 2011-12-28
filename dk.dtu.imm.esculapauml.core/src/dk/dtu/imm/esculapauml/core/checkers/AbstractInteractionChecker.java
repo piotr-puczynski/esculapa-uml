@@ -56,7 +56,7 @@ public abstract class AbstractInteractionChecker extends AbstractChecker {
 				Type type = connection.getType();
 				if (null == type) {
 					diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0,
-							"The Lifeline " + l.getLabel() + " has no representant set to model type.", new Object[] { l }));
+							"The Lifeline " + l.getLabel() + " has no representant set to any type.", new Object[] { l }));
 				}
 			}
 		}
