@@ -37,7 +37,7 @@ public class Simple1Test {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// no errors
-		assertEquals(diagnostics.getSeverity(), Diagnostic.OK);
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 	}
 
 }
