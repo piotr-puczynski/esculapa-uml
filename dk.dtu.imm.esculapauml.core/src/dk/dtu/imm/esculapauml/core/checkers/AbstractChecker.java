@@ -22,7 +22,7 @@ import org.eclipse.emf.common.util.Diagnostic;
  */
 public abstract class AbstractChecker implements CheckerInterface {
 	AbstractChecker() {
-		diagnostics = new BasicDiagnostic();
+		diagnostics = new BasicDiagnostic(Diagnostic.OK, "dk.dtu.imm.esculapauml", 0, "", null);
 	}
 
 	protected BasicDiagnostic diagnostics;
