@@ -25,65 +25,74 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.topcased.validation.core.MarkerUtil;
 
 /**
- * This class uses methods available in org.topcased.validation.core.MarkerUtil to show the errors in diagrams
+ * This class uses methods available in org.topcased.validation.core.MarkerUtil
+ * to show the errors in diagrams
+ * 
  * @author Piotr. J. Puczynski (piotr.puczynski)
  * 
  */
 public class TopcasedMarkerHelper {
 
 	/**
-	 * This code is a modified code based on createMarker from MarkerUtil. I fixed some bugs with the original code and added proper recursion.
+	 * This code is a modified code based on createMarker from MarkerUtil. I
+	 * fixed some bugs with the original code and added proper recursion.
+	 * 
 	 * @param diagnostic
 	 * @param res
 	 */
+
 	public static void createMarkers(Diagnostic diagnostic, Resource res) {
-		if(!diagnostic.getChildren().isEmpty()) {
+		IFile file = MarkerUtil.getFile(res);
+		createMarkers(diagnostic, file, "");
+	}
+
+	public static void createMarkers(Diagnostic diagnostic, IFile file, String parentMessage) {
+		if (!diagnostic.getChildren().isEmpty()) {
 			for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
-				createMarkers(childDiagnostic, res);
+				if (null != diagnostic.getMessage() && (!diagnostic.getMessage().isEmpty())) {
+					createMarkers(childDiagnostic, file, parentMessage + ". " + diagnostic.getMessage());
+				} else {
+					createMarkers(childDiagnostic, file, parentMessage);
+				}
+
 			}
 		}
-		IFile file = MarkerUtil.getFile(res);
-        List< ? > data = diagnostic.getData();
-        if((null != data) && !data.isEmpty()) {
-        	for (Object eObject : data) {
-        		if (eObject instanceof EObject) {
-        			try {
-						createMarker(file, diagnostic, (EObject) eObject, EcoreUtil.getURI((EObject) eObject).toString(), diagnostic.getMessage());
+		List<?> data = diagnostic.getData();
+		if ((null != data) && !data.isEmpty()) {
+			for (Object eObject : data) {
+				if (eObject instanceof EObject) {
+					try {
+						String message = parentMessage.isEmpty() ? diagnostic.getMessage() : parentMessage + ". " + diagnostic.getMessage();
+						createMarker(file, diagnostic, (EObject) eObject, EcoreUtil.getURI((EObject) eObject).toString(), message);
 					} catch (CoreException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-        		}
-        	}
-        }
+				}
+			}
+		}
 	}
-	
-	private static IMarker createMarker(IResource file, Diagnostic diagnostic, EObject eObject, String uri, String message) throws CoreException
-    {
-        IMarker marker = file.createMarker(EValidator.MARKER);
-        int severity = diagnostic.getSeverity();
-        if (severity < Diagnostic.WARNING)
-        {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
-        }
-        else if (severity < Diagnostic.ERROR)
-        {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-        }
-        else
-        {
-            marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
-        }
-        marker.setAttribute(IMarker.MESSAGE, message);
-        if (eObject != null)
-        {
-            marker.setAttribute(EValidator.URI_ATTRIBUTE, uri);
-            marker.setAttribute(IMarker.LOCATION, eObject.toString());
-        }
-        return marker;
 
-    }
-	
+	private static IMarker createMarker(IResource file, Diagnostic diagnostic, EObject eObject, String uri, String message)
+			throws CoreException {
+		IMarker marker = file.createMarker(EValidator.MARKER);
+		int severity = diagnostic.getSeverity();
+		if (severity < Diagnostic.WARNING) {
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
+		} else if (severity < Diagnostic.ERROR) {
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+		} else {
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR);
+		}
+		marker.setAttribute(IMarker.MESSAGE, message);
+		if (eObject != null) {
+			marker.setAttribute(EValidator.URI_ATTRIBUTE, uri);
+			marker.setAttribute(IMarker.LOCATION, eObject.toString());
+		}
+		return marker;
+
+	}
+
 	public static void deleteMarkers(Resource res) {
 		try {
 			MarkerUtil.deleteMarkers(res.getResourceSet());
