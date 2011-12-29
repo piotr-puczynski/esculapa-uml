@@ -11,7 +11,10 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.GeneralOrdering;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.InteractionFragment;
 
 /**
  * @author Piotr. J. Puczynski (piotr.puczynski)
@@ -30,6 +33,11 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 	public void check() {
 		structuralLifelinesExistanceCheck();
 		
+		EList<InteractionFragment> fragments = interaction.getFragments();
+		for (InteractionFragment f : fragments) {
+			System.out.println(f.toString());
+			
+		}
 		
 	}
 
