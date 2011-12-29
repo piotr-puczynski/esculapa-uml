@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Simple2">
+    <packagedElement xmi:type="uml:Class" xmi:id="_Hokf0DJJEeGjS-_RcLljMA" name="C">
+      <ownedOperation xmi:id="_IeJc8DJJEeGjS-_RcLljMA" name="m"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_a3RJUDJJEeGjS-_RcLljMA" name="UseCase1" classifierBehavior="_d14PgDJJEeGjS-_RcLljMA">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_d14PgDJJEeGjS-_RcLljMA" name="UseCase1Detail">
+        <ownedAttribute xmi:id="_skGXcDJJEeGjS-_RcLljMA" name="Property1" type="_rbyEgDJJEeGjS-_RcLljMA"/>
+        <ownedAttribute xmi:id="_tSzQgDJJEeGjS-_RcLljMA" name="Property2" type="_Hokf0DJJEeGjS-_RcLljMA"/>
+        <ownedConnector xmi:id="_skIMoDJJEeGjS-_RcLljMA" name="Connector1">
+          <end xmi:id="_skIzsDJJEeGjS-_RcLljMA" role="_skGXcDJJEeGjS-_RcLljMA"/>
+          <end xmi:id="_tSzQgTJJEeGjS-_RcLljMA" role="_tSzQgDJJEeGjS-_RcLljMA"/>
+        </ownedConnector>
+        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_tSzQgDJJEeGjS-_RcLljMA"/>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
+  </packagedElement>
+</uml:Model>
