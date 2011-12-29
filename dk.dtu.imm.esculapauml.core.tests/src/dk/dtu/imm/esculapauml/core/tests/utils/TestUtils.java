@@ -22,10 +22,17 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 /**
+ * Testing methods help
  * @author Piotr. J. Puczynski (piotr.puczynski)
  * 
  */
 public class TestUtils {
+	
+	/**
+	 * Loads resource file as UML2 model
+	 * @param modelFileName
+	 * @return resource
+	 */
 	public static Resource getUMLResource(String modelFileName) {
 		ResourceSet resourceSet = new ResourceSetImpl();
 		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
@@ -37,6 +44,12 @@ public class TestUtils {
 		return resourceSet.getResource(uri, true);
 	}
 	
+	/**
+	 * Finds an interaction in UML2 model based on given name
+	 * @param model
+	 * @param interactionName
+	 * @return Interaction element
+	 */
 	public static Interaction getInteraction(Resource model, final String interactionName) {
 		Interaction umlInteraction = null;
 		umlInteraction = (Interaction) UML2Util.findEObject(model.getAllContents(), new UML2Util.EObjectMatcher() {
