@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.GeneralOrdering;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.InteractionFragment;
+import org.eclipse.uml2.uml.Lifeline;
 
 /**
  * @author Piotr. J. Puczynski (piotr.puczynski)
@@ -33,9 +34,13 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 	public void check() {
 		structuralLifelinesExistanceCheck();
 		
-		EList<InteractionFragment> fragments = interaction.getFragments();
-		for (InteractionFragment f : fragments) {
-			System.out.println(f.toString());
+		EList<Lifeline> lifelines = interaction.getLifelines();
+		for (Lifeline l : lifelines) {
+			System.out.println(l.toString());
+			EList<InteractionFragment> fragments = l.getCoveredBys();
+			for (InteractionFragment f : fragments) {
+				System.out.println(f.toString());
+			}
 			
 		}
 		
