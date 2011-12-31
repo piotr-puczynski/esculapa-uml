@@ -14,10 +14,14 @@ package dk.dtu.imm.esculapauml.core.checkers;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
+import org.eclipse.uml2.uml.Message;
+import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 /**
  * Interaction diagnostic check of common features for all interactions
@@ -60,5 +64,24 @@ public abstract class AbstractInteractionChecker extends AbstractChecker {
 				}
 			}
 		}
+	}
+	
+	protected Message getFirstMessage() {
+		//get all possible messages
+		EList<Message> messages = interaction.getMessages();
+		//now check which message is sent first on lifelines
+		EList<Lifeline> lifelines = interaction.getLifelines();
+		for (Lifeline l : lifelines) {
+			//we are only interested in the first fragment of message occurrence specification
+			MessageOccurrenceSpecification spec = (MessageOccurrenceSpecification) EcoreUtil.getObjectByType(l.getCoveredBys(), Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
+			if(null != spec) {
+				for (Message m : messages) {
+					if(spec == m.getReceiveEvent()) {
+						return m;
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

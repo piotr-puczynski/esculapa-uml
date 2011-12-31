@@ -12,7 +12,6 @@
 package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.uml2.uml.GeneralOrdering;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
@@ -33,6 +32,8 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 	@Override
 	public void check() {
 		structuralLifelinesExistanceCheck();
+		
+		System.out.println("First: " + getFirstMessage().toString());
 		
 		EList<Lifeline> lifelines = interaction.getLifelines();
 		for (Lifeline l : lifelines) {
