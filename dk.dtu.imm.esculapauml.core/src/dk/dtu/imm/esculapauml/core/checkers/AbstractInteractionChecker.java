@@ -37,7 +37,7 @@ public abstract class AbstractInteractionChecker extends AbstractChecker {
 	}
 
 	/**
-	 * Start checking operaration
+	 * Gets the resulting interaction
 	 * 
 	 * @return the interaction that is a result of checking
 	 */
@@ -58,6 +58,7 @@ public abstract class AbstractInteractionChecker extends AbstractChecker {
 						"The Lifeline " + l.getLabel() + " has no representant.", new Object[] { l }));
 			} else {
 				Type type = connection.getType();
+				// representant set to nothing
 				if (null == type) {
 					diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0,
 							"The Lifeline " + l.getLabel() + " has no representant set to any type.", new Object[] { l }));
@@ -66,6 +67,10 @@ public abstract class AbstractInteractionChecker extends AbstractChecker {
 		}
 	}
 	
+	/**
+	 * Gets the first message to send in interaction
+	 * @return the first message to send or null if interaction has no messages
+	 */
 	protected Message getFirstMessage() {
 		//get all possible messages
 		EList<Message> messages = interaction.getMessages();
