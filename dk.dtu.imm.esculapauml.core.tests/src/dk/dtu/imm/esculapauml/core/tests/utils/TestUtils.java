@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -68,6 +69,21 @@ public class TestUtils {
 			}
 		});
 		return umlInteraction;
+	}
+	
+	
+	/**
+	 * copies contents of a resource set into a new one
+	 */
+	public static Resource cloneResource(Resource source) {
+		EcoreUtil.Copier copier = new EcoreUtil.Copier();
+		ResourceSet target = new ResourceSetImpl();
+		target.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
+		target.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		Resource resource2 = target.createResource(source.getURI());
+		resource2.getContents().addAll(copier.copyAll(source.getContents()));
+		copier.copyReferences();
+		return resource2;
 	}
 
 	/**
