@@ -122,9 +122,10 @@ public class TestUtils {
 		ArrayList<Object> diagobj = null;
 		if (null != objects) {
 			diagobj = new ArrayList<Object>();
-		}
-		for (Object obj : objects) {
-			diagobj.add(obj);
+
+			for (Object obj : objects) {
+				diagobj.add(obj);
+			}
 		}
 		List<Diagnostic> diagnostics = getDiagnosticErrorsAndWarnings(diagnostic);
 		for (Diagnostic diag : diagnostics) {
@@ -133,5 +134,41 @@ public class TestUtils {
 			}
 		}
 		return false;
+	}
+	
+	public static boolean diagnosticMessageExists(Diagnostic diagnostic, int severity, String message) {
+		List<Diagnostic> diagnostics = getDiagnosticErrorsAndWarnings(diagnostic);
+		for (Diagnostic diag : diagnostics) {
+			if ((diag.getSeverity() == severity) && (diag.getMessage().equals(message))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static void printDiagnostic(Diagnostic diagnostic) {
+		printDiagnostic(diagnostic, "");
+	}
+
+	private static void printDiagnostic(Diagnostic diagnostic, String parentMessage) {
+		if (!diagnostic.getChildren().isEmpty()) {
+			for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
+				if (null != diagnostic.getMessage() && (!diagnostic.getMessage().isEmpty())) {
+					printDiagnostic(childDiagnostic, parentMessage + ". " + diagnostic.getMessage());
+				} else {
+					printDiagnostic(childDiagnostic, parentMessage);
+				}
+
+			}
+		}
+		List<?> data = diagnostic.getData();
+		if ((null != data) && !data.isEmpty()) {
+			for (Object eObject : data) {
+				if (eObject instanceof EObject) {
+					String message = parentMessage.isEmpty() ? diagnostic.getMessage() : parentMessage + ". " + diagnostic.getMessage();
+					System.out.println(message);
+				}
+			}
+		}
 	}
 }

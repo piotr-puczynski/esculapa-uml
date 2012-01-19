@@ -48,12 +48,12 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 		ConnectableElement connection = checkee.getRepresents();
 		// representant is not set at all
 		if (null == connection) {
-			addProblem(Diagnostic.ERROR, "The Lifeline " + checkee.getLabel() + " has no representant.");
+			addProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" has no representant.");
 		} else {
 			Type type = connection.getType();
 			// representant set to nothing
 			if (null == type) {
-				addProblem(Diagnostic.ERROR, "The Lifeline " + checkee.getLabel() + " has no representant set to any type.");
+				addProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" has no representant set to any type.");
 			}
 		}
 	}

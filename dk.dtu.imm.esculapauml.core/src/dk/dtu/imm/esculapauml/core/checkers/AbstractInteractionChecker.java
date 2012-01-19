@@ -12,7 +12,9 @@
 package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -74,5 +76,16 @@ public abstract class AbstractInteractionChecker extends AbstractChecker<Interac
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Debug method used to print out contents of interaction
+	 */
+	public void printOutInteraction() {
+		TreeIterator<EObject> contents = ((EObject)checkee).eAllContents();
+		while (contents.hasNext()) {
+			EObject o = contents.next();
+			System.out.println(o.toString());
+		}
 	}
 }

@@ -41,9 +41,9 @@ public class Simple1Test {
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostics = checker.getDiagnostics();
+		Diagnostic diagnostic = checker.getDiagnostics();
 		// no errors
-		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+		assertEquals(Diagnostic.OK, diagnostic.getSeverity());
 	}
 
 	@Test
@@ -57,28 +57,27 @@ public class Simple1Test {
 		Lifeline empty = interaction.createLifeline(lifelineName);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostics = checker.getDiagnostics();
+		Diagnostic diagnostic = checker.getDiagnostics();
 		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
 		// there is one error
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
 		// an error is...
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "The Lifeline " + lifelineName + " has no representant.",
-				empty));
+		assertTrue(TestUtils.diagnosticExists(diagnostic, Diagnostic.ERROR, "The Lifeline \"" + lifelineName + "\" has no representant.", empty));
 
 		// let create a connector element that won't point to any representant
 		Property prop = interaction.createOwnedAttribute("MyProperty", UMLFactory.eINSTANCE.createProperty().getType());
 		empty.setRepresents(prop);
 		checker = new UseCaseChecker(interaction);
 		checker.check();
-		diagnostics = checker.getDiagnostics();
+		diagnostic = checker.getDiagnostics();
 		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
 		// there is one error
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
 		// an error is...
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "The Lifeline " + lifelineName
-				+ " has no representant set to any type.", empty));
+		assertTrue(TestUtils.diagnosticExists(diagnostic, Diagnostic.ERROR, "The Lifeline \"" + lifelineName + "\" has no representant set to any type.",
+				empty));
 
 	}
 
@@ -87,7 +86,7 @@ public class Simple1Test {
 		Resource myModel = TestUtils.cloneResource(model);
 		Interaction interaction = TestUtils.getInteraction(myModel, "UseCase1Detail");
 		assertNotNull(interaction);
-		
+
 		String lifelineName = "EmptyClass";
 		Lifeline empty = interaction.createLifeline(lifelineName);
 		// let create a connector element that won't point to any representant
@@ -95,14 +94,14 @@ public class Simple1Test {
 		empty.setRepresents(prop);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostics = checker.getDiagnostics();
+		Diagnostic diagnostic = checker.getDiagnostics();
 		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
 		// there is one error
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
 		// an error is...
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "The Lifeline " + lifelineName
-				+ " has no representant set to any type.", empty));
+		assertTrue(TestUtils.diagnosticExists(diagnostic, Diagnostic.ERROR, "The Lifeline \"" + lifelineName + "\" has no representant set to any type.",
+				empty));
 	}
 
 }

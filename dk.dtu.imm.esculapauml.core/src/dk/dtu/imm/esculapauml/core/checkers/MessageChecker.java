@@ -18,6 +18,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.uml2.uml.Message;
+import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
@@ -48,7 +49,22 @@ public class MessageChecker extends AbstractChecker<Message> {
 	 */
 	@Override
 	public void check() {
-		structuralMessageConformanceCheck();
+		endsCheck();
+		operationConformanceCheck();
+
+	}
+
+	/**
+	 * Checks if message defines both ends (message occurrences)
+	 * We do not allow hanging messages from or to the environment in that way
+	 */
+	private void endsCheck() {
+		if (!(checkee.getSendEvent() instanceof MessageOccurrenceSpecification)) {
+			addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" does not have send message occurence specification.");
+		}
+		if (!(checkee.getReceiveEvent() instanceof MessageOccurrenceSpecification)) {
+			addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" does not have receive message occurence specification.");
+		}
 
 	}
 
@@ -56,7 +72,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 	 * Checks if message calls existing operation and with correct arguments
 	 * Parts of original code were copied from MessageOperations.java in UML2
 	 */
-	protected void structuralMessageConformanceCheck() {
+	protected void operationConformanceCheck() {
 		NamedElement signature = checkee.getSignature();
 
 		if ((checkee.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (checkee.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
@@ -67,7 +83,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 					EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>(((Operation) signature).getOwnedParameters());
 
 					if (arguments.size() != parameters.size()) {
-						addProblem(Diagnostic.ERROR, "The Message " + checkee.getLabel() + " has wrong number of arguments.");
+						addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" has wrong number of arguments.");
 					} else {
 						Iterator<ValueSpecification> a = arguments.iterator();
 						Iterator<Parameter> p = parameters.iterator();
@@ -77,14 +93,14 @@ public class MessageChecker extends AbstractChecker<Message> {
 							Type parameterType = p.next().getType();
 
 							if (argumentType == null ? parameterType != null : !argumentType.conformsTo(parameterType)) {
-								addProblem(Diagnostic.ERROR, "The Message " + checkee.getLabel() + " has wrong type of arguments.");
+								addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" has wrong type of arguments.");
 								break;
 							}
 						}
 					}
 				}
 			} else { // operation is not specified
-				addProblem(Diagnostic.ERROR, "The Message " + checkee.getLabel() + " has no operation set.");
+				addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" has no operation set.");
 			}
 		}
 
