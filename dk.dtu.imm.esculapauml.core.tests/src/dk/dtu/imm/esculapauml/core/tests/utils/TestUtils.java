@@ -46,7 +46,7 @@ public class TestUtils {
 
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 		// Map uriMap = resourceSet.getURIConverter().getURIMap();
-		URI uri = URI.createURI("file:/C:/Users/s091137/git/EsculapaUML/ExampleModels/Models/" + modelFileName);
+		URI uri = URI.createURI("file:/C:/Users/" + System.getProperty("user.name") + "/git/EsculapaUML/ExampleModels/Models/" + modelFileName);
 
 		return resourceSet.getResource(uri, true);
 	}
@@ -70,10 +70,10 @@ public class TestUtils {
 		});
 		return umlInteraction;
 	}
-	
 
 	/**
 	 * Copies contents of a resource into a new one
+	 * 
 	 * @param source
 	 * @return copied resource
 	 */
@@ -90,6 +90,7 @@ public class TestUtils {
 
 	/**
 	 * Gets the diagnostic leafs with errors or warnings as a list
+	 * 
 	 * @param diagnostic
 	 * @return
 	 */
@@ -110,6 +111,7 @@ public class TestUtils {
 
 	/**
 	 * Checks if there is an error given in parameters in diagnostic
+	 * 
 	 * @param diagnostic
 	 * @param severity
 	 * @param message
