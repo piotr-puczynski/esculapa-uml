@@ -20,6 +20,7 @@ import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
+import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
@@ -54,34 +55,63 @@ public abstract class AbstractInteractionChecker extends AbstractChecker {
 			ConnectableElement connection = l.getRepresents();
 			// representant is not set at all
 			if (null == connection) {
-				diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0,
-						"The Lifeline " + l.getLabel() + " has no representant.", new Object[] { l }));
+				diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0, "The Lifeline " + l.getLabel()
+						+ " has no representant.", new Object[] { l }));
 			} else {
 				Type type = connection.getType();
 				// representant set to nothing
 				if (null == type) {
-					diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0,
-							"The Lifeline " + l.getLabel() + " has no representant set to any type.", new Object[] { l }));
+					diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0, "The Lifeline " + l.getLabel()
+							+ " has no representant set to any type.", new Object[] { l }));
 				}
 			}
 		}
 	}
-	
+
+	/**
+	 * Check all messages in an interaction for conformance
+	 * 
+	 * @param message
+	 */
+	protected void structuralMessagesConformanceCheck() {
+		EList<Message> messages = interaction.getMessages();
+		for (Message m : messages) {
+			structuralMessageConformanceCheck(m);
+		}
+	}
+
+	/**
+	 * Checks if message calls existing operation and with correct parameters
+	 * 
+	 * @param message
+	 */
+	protected void structuralMessageConformanceCheck(Message message) {
+		// we check the message type
+		if ((message.getMessageSort().getValue() == MessageSort.SYNCH_CALL)
+				|| (message.getMessageSort().getValue() == MessageSort.ASYNCH_CALL)) {
+			message.validateSignatureIsOperation(diagnostics, null);
+		}
+	}
+
 	/**
 	 * Gets the first message to send in interaction
+	 * 
 	 * @return the first message to send or null if interaction has no messages
 	 */
 	protected Message getFirstMessage() {
-		//get all possible messages
+		// get all possible messages
 		EList<Message> messages = interaction.getMessages();
-		//now check which message is sent first on lifelines
+		// now check which message is sent first on lifelines
 		EList<Lifeline> lifelines = interaction.getLifelines();
 		for (Lifeline l : lifelines) {
-			//we are only interested in the first fragment of message occurrence specification
-			MessageOccurrenceSpecification spec = (MessageOccurrenceSpecification) EcoreUtil.getObjectByType(l.getCoveredBys(), Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
-			if(null != spec) {
+			// we are only interested in the first fragment of message
+			// occurrence specification
+			MessageOccurrenceSpecification spec = (MessageOccurrenceSpecification) EcoreUtil.getObjectByType(l.getCoveredBys(),
+					Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
+			if (null != spec) {
 				for (Message m : messages) {
-					if(spec == m.getReceiveEvent()) {
+					if (spec == m.getReceiveEvent()) {
+						// m is the first message to consider
 						return m;
 					}
 				}

@@ -33,7 +33,7 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 	public void check() {
 		structuralLifelinesExistanceCheck();
 		
-		System.out.println("First: " + getFirstMessage().toString());
+		//System.out.println("First: " + getFirstMessage().toString());
 		
 		EList<Lifeline> lifelines = interaction.getLifelines();
 		for (Lifeline l : lifelines) {
