@@ -71,9 +71,11 @@ public class TestUtils {
 		return umlInteraction;
 	}
 	
-	
+
 	/**
-	 * copies contents of a resource set into a new one
+	 * Copies contents of a resource into a new one
+	 * @param source
+	 * @return copied resource
 	 */
 	public static Resource cloneResource(Resource source) {
 		EcoreUtil.Copier copier = new EcoreUtil.Copier();
