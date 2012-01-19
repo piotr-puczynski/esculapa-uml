@@ -100,7 +100,7 @@ public class ConsistencyCheckingService extends Observable {
 		UseCaseChecker checker = new UseCaseChecker(getUMLInteractionArgument(interaction));
 		diagnostics = checker.getDiagnostics();
 		checker.check();
-		return checker.getInteraction();
+		return checker.getCheckedObject();
 	}
 
 	/**

@@ -11,17 +11,12 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
-import org.eclipse.uml2.uml.MessageSort;
-import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 /**
@@ -30,67 +25,28 @@ import org.eclipse.uml2.uml.UMLPackage.Literals;
  * @author Piotr. J. Puczynski (piotr.puczynski)
  * 
  */
-public abstract class AbstractInteractionChecker extends AbstractChecker {
-	protected Interaction interaction;
-
+public abstract class AbstractInteractionChecker extends AbstractChecker<Interaction> {
+	
 	AbstractInteractionChecker(Interaction interaction) {
-		this.interaction = interaction;
+		super(interaction);
 	}
 
 	/**
-	 * Gets the resulting interaction
-	 * 
-	 * @return the interaction that is a result of checking
+	 * Check all lifelines
 	 */
-	public Interaction getInteraction() {
-		return interaction;
+	protected void checkLifelines() {
+		CollectionChecker<?> cc = new CollectionChecker<Lifeline>(diagnostics, checkee.getLifelines());
+		cc.check();
 	}
 
 	/**
-	 * Check if each lifeline corresponds to some class in the model
-	 */
-	protected void structuralLifelinesExistanceCheck() {
-		EList<Lifeline> lifeLines = interaction.getLifelines();
-		for (Lifeline l : lifeLines) {
-			ConnectableElement connection = l.getRepresents();
-			// representant is not set at all
-			if (null == connection) {
-				diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0, "The Lifeline " + l.getLabel()
-						+ " has no representant.", new Object[] { l }));
-			} else {
-				Type type = connection.getType();
-				// representant set to nothing
-				if (null == type) {
-					diagnostics.add(new BasicDiagnostic(Diagnostic.ERROR, "dk.dtu.imm.esculapauml", 0, "The Lifeline " + l.getLabel()
-							+ " has no representant set to any type.", new Object[] { l }));
-				}
-			}
-		}
-	}
-
-	/**
-	 * Check all messages in an interaction for conformance
+	 * Check all messages in an interaction
 	 * 
 	 * @param message
 	 */
-	protected void structuralMessagesConformanceCheck() {
-		EList<Message> messages = interaction.getMessages();
-		for (Message m : messages) {
-			structuralMessageConformanceCheck(m);
-		}
-	}
-
-	/**
-	 * Checks if message calls existing operation and with correct parameters
-	 * 
-	 * @param message
-	 */
-	protected void structuralMessageConformanceCheck(Message message) {
-		// we check the message type
-		if ((message.getMessageSort().getValue() == MessageSort.SYNCH_CALL)
-				|| (message.getMessageSort().getValue() == MessageSort.ASYNCH_CALL)) {
-			message.validateSignatureIsOperation(diagnostics, null);
-		}
+	protected void checkMessages() {
+		CollectionChecker<?> cc = new CollectionChecker<Message>(diagnostics, checkee.getMessages());
+		cc.check();
 	}
 
 	/**
@@ -100,9 +56,9 @@ public abstract class AbstractInteractionChecker extends AbstractChecker {
 	 */
 	protected Message getFirstMessage() {
 		// get all possible messages
-		EList<Message> messages = interaction.getMessages();
+		EList<Message> messages = checkee.getMessages();
 		// now check which message is sent first on lifelines
-		EList<Lifeline> lifelines = interaction.getLifelines();
+		EList<Lifeline> lifelines = checkee.getLifelines();
 		for (Lifeline l : lifelines) {
 			// we are only interested in the first fragment of message
 			// occurrence specification

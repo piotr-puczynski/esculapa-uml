@@ -15,17 +15,37 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 
 /**
- * Interaction diagnostic check of common features for all objects
+ * Abstract diagnostic check of common features for any object
  * 
  * @author Piotr. J. Puczynski (piotr.puczynski)
  * 
  */
-public abstract class AbstractChecker implements CheckerInterface {
-	AbstractChecker() {
-		diagnostics = new BasicDiagnostic(Diagnostic.OK, "dk.dtu.imm.esculapauml", 0, "", null);
+public abstract class AbstractChecker<T> implements CheckerInterface {
+	public final static String ESCULAPA_NAMESPACE = "dk.dtu.imm.esculapauml";
+
+	protected T checkee;
+	protected BasicDiagnostic diagnostics;
+
+	AbstractChecker(T objectToCheck) {
+		diagnostics = new BasicDiagnostic(Diagnostic.OK, ESCULAPA_NAMESPACE, 0, "", null);
+		checkee = objectToCheck;
 	}
 
-	protected BasicDiagnostic diagnostics;
+	AbstractChecker(BasicDiagnostic existingDiagnostics, T objectToCheck) {
+		diagnostics = existingDiagnostics;
+		checkee = objectToCheck;
+	}
+
+	/**
+	 * Basic function to add problem to diagnostics for its own object to check.
+	 * Mostly used internally but it is possible to call it from outside too.
+	 * 
+	 * @param severity
+	 * @param message
+	 */
+	public void addProblem(int severity, String message) {
+		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, new Object[] { checkee }));
+	}
 
 	/**
 	 * This data structure contains an overview of all occurred errors.
@@ -36,7 +56,21 @@ public abstract class AbstractChecker implements CheckerInterface {
 		return diagnostics;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#hasErrors()
+	 */
 	public boolean hasErrors() {
 		return ((diagnostics.getSeverity() == Diagnostic.ERROR) || (diagnostics.getSeverity() == Diagnostic.CANCEL));
+	}
+
+	/**
+	 * Returns checkee (checked object)
+	 * 
+	 * @return
+	 */
+	public T getCheckedObject() {
+		return checkee;
 	}
 }
