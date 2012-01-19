@@ -48,8 +48,8 @@ public class Simple1Test {
 
 	@Test
 	public void interactionWithLifelineWithoutRepresentant() {
-		Resource mymodel = TestUtils.cloneResource(model);
-		Interaction interaction = TestUtils.getInteraction(mymodel, "UseCase1Detail");
+		Resource myModel = TestUtils.cloneResource(model);
+		Interaction interaction = TestUtils.getInteraction(myModel, "UseCase1Detail");
 		assertNotNull(interaction);
 
 		// we add one lifeline without representant to interaction
@@ -84,8 +84,8 @@ public class Simple1Test {
 
 	@Test
 	public void interactionWithLifelineWithoutValidRepresentant() {
-		Resource mymodel = TestUtils.cloneResource(model);
-		Interaction interaction = TestUtils.getInteraction(mymodel, "UseCase1Detail");
+		Resource myModel = TestUtils.cloneResource(model);
+		Interaction interaction = TestUtils.getInteraction(myModel, "UseCase1Detail");
 		assertNotNull(interaction);
 		
 		String lifelineName = "EmptyClass";
