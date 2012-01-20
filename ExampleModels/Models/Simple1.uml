@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Simple1">
-    <packagedElement xmi:type="uml:Class" xmi:id="_eZ6vcDCCEeGWf4xN_rE0GA" name="C">
+    <packagedElement xmi:type="uml:Class" xmi:id="_eZ6vcDCCEeGWf4xN_rE0GA" name="C" classifierBehavior="_YiGPoEOKEeG4EdriM4MjZA">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_YiGPoEOKEeG4EdriM4MjZA" name="StateMachine">
+        <region xmi:id="_YiGPoUOKEeG4EdriM4MjZA" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_ZuRH0EOKEeG4EdriM4MjZA" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_akRiwkOKEeG4EdriM4MjZA" name="FinalState1"/>
+          <transition xmi:id="_bsH7pkOKEeG4EdriM4MjZA" name="Transition1" source="_ZuRH0EOKEeG4EdriM4MjZA" target="_akRiwkOKEeG4EdriM4MjZA"/>
+        </region>
+      </ownedBehavior>
       <ownedOperation xmi:id="_fYtS8DCCEeGWf4xN_rE0GA" name="m"/>
     </packagedElement>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_oY0BgDCCEeGWf4xN_rE0GA" name="UseCase1" classifierBehavior="_pRWMADCCEeGWf4xN_rE0GA">

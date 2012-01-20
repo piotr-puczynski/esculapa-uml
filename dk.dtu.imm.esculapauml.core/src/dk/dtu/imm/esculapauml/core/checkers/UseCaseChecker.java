@@ -34,7 +34,7 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 		checkMessages();
 		
 		printOutInteraction();
-		System.out.println("First: " + getFirstMessage().toString());
+		//System.out.println("First: " + getFirstMessage().toString());
 		
 		/*EList<Lifeline> lifelines = interaction.getLifelines();
 		for (Lifeline l : lifelines) {
