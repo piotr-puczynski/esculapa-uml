@@ -44,7 +44,6 @@ public class Simple3Test {
 		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
 		// an error is...
-		TestUtils.printDiagnostic(diagnostic);
 		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR, "The Message \"Message1\" has no operation set."));
 	}
 }
