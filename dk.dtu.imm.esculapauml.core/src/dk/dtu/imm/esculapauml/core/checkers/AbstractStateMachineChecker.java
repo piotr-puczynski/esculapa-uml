@@ -14,26 +14,24 @@ package dk.dtu.imm.esculapauml.core.checkers;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.StateMachine;
 
+import dk.dtu.imm.esculapauml.core.states.SystemState;
+
 /**
  * Base class for StateMachine checkers
  * @author Piotr J. Puczynski
  *
  */
 public abstract class AbstractStateMachineChecker extends AbstractChecker<StateMachine>  {
+	
+	protected SystemState systemState;
 
 	/**
 	 * @param existingDiagnostics
 	 * @param objectToCheck
 	 */
-	AbstractStateMachineChecker(BasicDiagnostic existingDiagnostics, StateMachine objectToCheck) {
+	AbstractStateMachineChecker(BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, SystemState systemState) {
 		super(existingDiagnostics, objectToCheck);
-	}
-
-	/**
-	 * @param objectToCheck
-	 */
-	public AbstractStateMachineChecker(StateMachine objectToCheck) {
-		super(objectToCheck);
+		this.systemState = systemState;
 	}
 	
 	

@@ -13,6 +13,8 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.uml2.uml.Interaction;
 
+import dk.dtu.imm.esculapauml.core.states.SystemState;
+
 /**
  * @author Piotr. J. Puczynski (piotr.puczynski)
  *
@@ -20,7 +22,7 @@ import org.eclipse.uml2.uml.Interaction;
 public class UseCaseChecker extends AbstractInteractionChecker {
 	
 	public UseCaseChecker(Interaction interaction) {
-		super(interaction);
+		super(interaction, new SystemState());
 	}
 
 	/* (non-Javadoc)

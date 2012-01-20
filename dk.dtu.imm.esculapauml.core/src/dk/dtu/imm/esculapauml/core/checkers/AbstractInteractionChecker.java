@@ -25,6 +25,8 @@ import org.eclipse.uml2.uml.MessageEnd;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
+import dk.dtu.imm.esculapauml.core.states.SystemState;
+
 /**
  * Interaction diagnostic check of common features for all interactions
  * 
@@ -33,8 +35,11 @@ import org.eclipse.uml2.uml.UMLPackage.Literals;
  */
 public abstract class AbstractInteractionChecker extends AbstractChecker<Interaction> {
 
-	AbstractInteractionChecker(Interaction interaction) {
+	protected SystemState systemState;
+	
+	AbstractInteractionChecker(Interaction interaction, SystemState systemState) {
 		super(interaction);
+		this.systemState = systemState;
 	}
 
 	/**
