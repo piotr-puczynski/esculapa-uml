@@ -46,6 +46,16 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 	public void addProblem(int severity, String message) {
 		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, new Object[] { checkee }));
 	}
+	
+	/**
+	 * Function to add problem to diagnostics containing other object(s).
+	 * 
+	 * @param severity
+	 * @param message
+	 */
+	protected void addOtherProblem(int severity, String message, Object... objects) {
+		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, objects));
+	}
 
 	/**
 	 * This data structure contains an overview of all occurred errors.

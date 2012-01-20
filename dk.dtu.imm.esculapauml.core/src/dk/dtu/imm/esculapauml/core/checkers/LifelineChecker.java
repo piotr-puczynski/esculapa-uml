@@ -13,6 +13,8 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.uml2.uml.Actor;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Type;
@@ -54,6 +56,23 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 			// representant set to nothing
 			if (null == type) {
 				addProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" has no representant set to any type.");
+			} else {
+				checkBehaviorExistence(type);
+			}
+		}
+	}
+
+	/**
+	 * Check if lifelines representans has behavior
+	 */
+	protected void checkBehaviorExistence(Type type) {
+		if (type instanceof BehavioredClassifier) {
+			// we do not expect actor to have defined behavior
+			if (!(type instanceof Actor)) {
+				if (null == ((BehavioredClassifier) type).getClassifierBehavior()) {
+					addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
+							+ "\" has no behavior defined.", checkee, type);
+				}
 			}
 		}
 	}
