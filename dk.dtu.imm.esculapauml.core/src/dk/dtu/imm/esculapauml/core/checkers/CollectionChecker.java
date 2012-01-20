@@ -17,6 +17,8 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 
+import dk.dtu.imm.esculapauml.core.states.SystemState;
+
 /**
  * Checker for collections of objects
  * @author Piotr J. Puczynski
@@ -27,16 +29,16 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 	/**
 	 * @param objectToCheck
 	 */
-	public CollectionChecker(Collection<T> objectToCheck) {
-		super(objectToCheck);
+	public CollectionChecker(SystemState systemState, Collection<T> objectToCheck) {
+		super(systemState, objectToCheck);
 	}
 
 	/**
 	 * @param existingDiagnostics
 	 * @param objectToCheck
 	 */
-	CollectionChecker(BasicDiagnostic existingDiagnostics, Collection<T> objectToCheck) {
-		super(existingDiagnostics, objectToCheck);
+	CollectionChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, Collection<T> objectToCheck) {
+		super(systemState, existingDiagnostics, objectToCheck);
 	}
 
 	/* (non-Javadoc)
@@ -47,9 +49,9 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 		for(T elem : checkee) {
 			CheckerInterface checker = null;
 			if(elem instanceof Lifeline) {
-				checker = new LifelineChecker(diagnostics, (Lifeline) elem);
+				checker = new LifelineChecker(systemState, diagnostics, (Lifeline) elem);
 			} else if(elem instanceof Message) {
-				checker = new MessageChecker(diagnostics, (Message) elem);
+				checker = new MessageChecker(systemState, diagnostics, (Message) elem);
 			}
 			// add more classes here if needed
 			assert checker != null;

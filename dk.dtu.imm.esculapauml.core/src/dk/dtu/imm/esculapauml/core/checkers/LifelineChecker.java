@@ -14,10 +14,14 @@ package dk.dtu.imm.esculapauml.core.checkers;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.uml2.uml.Actor;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Lifeline;
+import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Type;
+
+import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
  * Checker for lifelines
@@ -29,8 +33,8 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	/**
 	 * @param existingDiagnostics
 	 */
-	public LifelineChecker(BasicDiagnostic existingDiagnostics, Lifeline lifeline) {
-		super(existingDiagnostics, lifeline);
+	public LifelineChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, Lifeline lifeline) {
+		super(systemState, existingDiagnostics, lifeline);
 	}
 
 	/*
@@ -69,12 +73,29 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 		if (type instanceof BehavioredClassifier) {
 			// we do not expect actor to have defined behavior
 			if (!(type instanceof Actor)) {
-				if (null == ((BehavioredClassifier) type).getClassifierBehavior()) {
+				Behavior behavior = ((BehavioredClassifier) type).getClassifierBehavior();
+				if (null == behavior) {
 					addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
 							+ "\" has no behavior defined.", checkee, type);
+				} else {
+					if (behavior instanceof StateMachine) {
+						prepareBehaviorCheckerForLifeline((BehavioredClassifier) type, (StateMachine) behavior);
+					} else {
+						addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
+								+ "\" has no behavior defined not as StateMachine.", checkee, type);
+					}
+
 				}
 			}
 		}
+	}
+
+	/**
+	 * Initializes the checker for behavior of the lifeline representant
+	 */
+	protected void prepareBehaviorCheckerForLifeline(BehavioredClassifier type, StateMachine sm) {
+		BehaviorChecker bc = new BehaviorChecker(systemState, diagnostics, sm, type);
+		bc.check();
 	}
 
 }

@@ -17,35 +17,32 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
  * @author Piotr. J. Puczynski (piotr.puczynski)
- *
+ * 
  */
 public class UseCaseChecker extends AbstractInteractionChecker {
-	
+
 	public UseCaseChecker(Interaction interaction) {
-		super(interaction, new SystemState());
+		super(new SystemState(), interaction);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#check()
 	 */
 	@Override
 	public void check() {
 		checkLifelines();
 		checkMessages();
+		if (hasErrors()) { // there are static errors
+			return;
+		}
+
+		// if not we can execute
 		
 		printOutInteraction();
-		//System.out.println("First: " + getFirstMessage().toString());
-		
-		/*EList<Lifeline> lifelines = interaction.getLifelines();
-		for (Lifeline l : lifelines) {
-			System.out.println(l.toString());
-			EList<InteractionFragment> fragments = l.getCoveredBys();
-			for (InteractionFragment f : fragments) {
-				System.out.println(f.toString());
-			}
-			
-		}*/
-		
+		// System.out.println("First: " + getFirstMessage().toString());
+
 	}
 
 }

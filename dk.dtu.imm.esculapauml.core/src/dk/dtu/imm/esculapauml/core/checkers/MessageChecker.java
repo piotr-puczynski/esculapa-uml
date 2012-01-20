@@ -26,6 +26,8 @@ import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 
+import dk.dtu.imm.esculapauml.core.states.SystemState;
+
 /**
  * 
  * Checker for interaction messages
@@ -38,8 +40,8 @@ public class MessageChecker extends AbstractChecker<Message> {
 	/**
 	 * @param existingDiagnostics
 	 */
-	public MessageChecker(BasicDiagnostic existingDiagnostics, Message message) {
-		super(existingDiagnostics, message);
+	public MessageChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, Message message) {
+		super(systemState, existingDiagnostics, message);
 	}
 
 	/*

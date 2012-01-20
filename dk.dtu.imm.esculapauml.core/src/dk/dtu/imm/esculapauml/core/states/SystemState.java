@@ -11,12 +11,34 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.states;
 
+import java.util.HashMap;
+
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
+
 /**
- * State of the whole system.
- * Stores the checkers responsible for stateful checks.
+ * State of the whole system. Stores the checkers responsible for stateful
+ * checks.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class SystemState {
+	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
+
+	/**
+	 * Init state
+	 */
+	public SystemState() {
+		super();
+	}
+
+	public BehaviorChecker getBehaviorChecker(BehavioredClassifier type) {
+		return behaviorCheckers.get(type);
+	}
+
+	public void registerChecker(BehavioredClassifier type, BehaviorChecker checker) {
+		behaviorCheckers.put(type, checker);
+	}
 
 }

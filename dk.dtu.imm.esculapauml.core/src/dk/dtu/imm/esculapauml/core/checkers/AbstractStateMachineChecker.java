@@ -29,9 +29,8 @@ public abstract class AbstractStateMachineChecker extends AbstractChecker<StateM
 	 * @param existingDiagnostics
 	 * @param objectToCheck
 	 */
-	AbstractStateMachineChecker(BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, SystemState systemState) {
-		super(existingDiagnostics, objectToCheck);
-		this.systemState = systemState;
+	AbstractStateMachineChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, StateMachine objectToCheck) {
+		super(systemState, existingDiagnostics, objectToCheck);
 	}
 	
 	

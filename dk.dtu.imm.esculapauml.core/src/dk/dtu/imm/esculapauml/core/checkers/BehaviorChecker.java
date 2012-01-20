@@ -12,6 +12,7 @@
 package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.StateMachine;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
@@ -27,8 +28,9 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	 * @param existingDiagnostics
 	 * @param objectToCheck
 	 */
-	public BehaviorChecker(BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, SystemState systemState) {
-		super(existingDiagnostics, objectToCheck, systemState);
+	public BehaviorChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, BehavioredClassifier type) {
+		super(systemState, existingDiagnostics, objectToCheck);
+		systemState.registerChecker(type, this);
 	}
 
 	

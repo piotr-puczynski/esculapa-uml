@@ -34,19 +34,17 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  * 
  */
 public abstract class AbstractInteractionChecker extends AbstractChecker<Interaction> {
-
-	protected SystemState systemState;
 	
-	AbstractInteractionChecker(Interaction interaction, SystemState systemState) {
-		super(interaction);
-		this.systemState = systemState;
+
+	AbstractInteractionChecker(SystemState systemState, Interaction interaction) {
+		super(systemState, interaction);
 	}
 
 	/**
 	 * Check all lifelines
 	 */
 	protected void checkLifelines() {
-		CollectionChecker<?> cc = new CollectionChecker<Lifeline>(diagnostics, checkee.getLifelines());
+		CollectionChecker<?> cc = new CollectionChecker<Lifeline>(systemState, diagnostics, checkee.getLifelines());
 		cc.check();
 	}
 
@@ -56,7 +54,7 @@ public abstract class AbstractInteractionChecker extends AbstractChecker<Interac
 	 * @param message
 	 */
 	protected void checkMessages() {
-		CollectionChecker<?> cc = new CollectionChecker<Message>(diagnostics, checkee.getMessages());
+		CollectionChecker<?> cc = new CollectionChecker<Message>(systemState, diagnostics, checkee.getMessages());
 		cc.check();
 	}
 

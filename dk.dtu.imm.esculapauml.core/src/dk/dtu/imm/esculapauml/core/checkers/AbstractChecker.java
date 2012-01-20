@@ -14,6 +14,8 @@ package dk.dtu.imm.esculapauml.core.checkers;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 
+import dk.dtu.imm.esculapauml.core.states.SystemState;
+
 /**
  * Abstract diagnostic check of common features for any object
  * 
@@ -25,15 +27,18 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 
 	protected T checkee;
 	protected BasicDiagnostic diagnostics;
+	protected SystemState systemState;
 
-	AbstractChecker(T objectToCheck) {
+	AbstractChecker(SystemState systemState, T objectToCheck) {
 		diagnostics = new BasicDiagnostic(Diagnostic.OK, ESCULAPA_NAMESPACE, 0, "", null);
 		checkee = objectToCheck;
+		this.systemState = systemState;
 	}
 
-	AbstractChecker(BasicDiagnostic existingDiagnostics, T objectToCheck) {
+	AbstractChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, T objectToCheck) {
 		diagnostics = existingDiagnostics;
 		checkee = objectToCheck;
+		this.systemState = systemState;
 	}
 
 	/**
@@ -82,5 +87,13 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 	 */
 	public T getCheckedObject() {
 		return checkee;
+	}
+	
+	/**
+	 * returns system state
+	 * @return
+	 */
+	public SystemState getSystemState() {
+		return systemState;
 	}
 }
