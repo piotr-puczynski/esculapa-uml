@@ -16,6 +16,7 @@ import java.util.Collection;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
+import org.eclipse.uml2.uml.Region;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 
@@ -52,7 +53,10 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 				checker = new LifelineChecker(systemState, diagnostics, (Lifeline) elem);
 			} else if(elem instanceof Message) {
 				checker = new MessageChecker(systemState, diagnostics, (Message) elem);
+			} else if(elem instanceof Region) {
+				checker = new RegionChecker(systemState, diagnostics, (Region) elem);
 			}
+			
 			// add more classes here if needed
 			assert checker != null;
 			checker.check();

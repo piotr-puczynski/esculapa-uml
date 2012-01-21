@@ -39,8 +39,9 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	 */
 	@Override
 	public void check() {
-		// TODO Auto-generated method stub
+		checkRegions();
 		
 	}
+
 
 }
