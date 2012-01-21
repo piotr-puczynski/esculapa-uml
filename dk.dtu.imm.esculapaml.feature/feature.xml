@@ -5,10 +5,7 @@
       version="1.0.0.qualifier">
 
    <description url="http://code.google.com/a/eclipselabs.org/p/esculapa-uml/">
-      EsculapaUML is a consistency checking tool based on EMF. It can
-extend the sequence diagrams representing Use Cases to realization
-interaction diagrams based on the existing model. It can also
-validate that interaction diagrams are consistent with the model.
+      EsculapaUML is a consistency checking tool based on EMF.
    </description>
 
    <copyright url="http://www.example.com/copyright">

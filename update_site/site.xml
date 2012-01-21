@@ -3,5 +3,5 @@
    <description name="EsculapaUML Update Site" url="https://esculapa-uml.eclipselabs.org.codespot.com/git/update_site/">
       
    </description>
-   <feature url="features/dk.dtu.imm.esculapaml.feature_1.0.0.201201211332.jar" id="dk.dtu.imm.esculapaml.feature" version="1.0.0.201201211332"/>
+   <feature url="features/dk.dtu.imm.esculapaml.feature_1.0.0.201201211336.jar" id="dk.dtu.imm.esculapaml.feature" version="1.0.0.201201211336"/>
 </site>
