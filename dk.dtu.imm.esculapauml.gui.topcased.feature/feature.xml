@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="dk.dtu.imm.esculapauml.core.feature"
-      label="EsculapaUML"
+      id="dk.dtu.imm.esculapauml.gui.topcased.feature"
+      label="EsculapaUML Topcased Integration"
       version="1.0.0.qualifier">
 
-   <description url="http://code.google.com/a/eclipselabs.org/p/esculapa-uml/">
-      EsculapaUML is a consistency checking tool based on EMF.
+   <description url="https://esculapa-uml.eclipselabs.org.codespot.com/git/update_site/">
+      EsculapaUML integration with Topcased 5 GUI.
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -16,12 +16,8 @@
       [Enter License Description here.]
    </license>
 
-   <url>
-      <update label="EsculapaUML Update Site" url="https://esculapa-uml.eclipselabs.org.codespot.com/git/update_site/"/>
-   </url>
-
    <plugin
-         id="dk.dtu.imm.esculapauml.core"
+         id="dk.dtu.imm.esculapauml.gui.topcased"
          download-size="0"
          install-size="0"
          version="0.0.0"

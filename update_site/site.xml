@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <description name="EsculapaUML Update Site" url="https://esculapa-uml.eclipselabs.org.codespot.com/git/update_site/">
-      EsculapaUML Tool Update Site
+      EsculapaUML Tools Update Site.
    </description>
-   <feature url="features/dk.dtu.imm.esculapaml.feature_1.0.0.201201211336.jar" id="dk.dtu.imm.esculapaml.feature" version="1.0.0.201201211336"/>
+   <feature url="features/dk.dtu.imm.esculapauml.core.feature_1.0.0.201201211358.jar" id="dk.dtu.imm.esculapauml.core.feature" version="1.0.0.201201211358"/>
+   <feature url="features/dk.dtu.imm.esculapauml.gui.topcased.feature_1.0.0.201201211358.jar" id="dk.dtu.imm.esculapauml.gui.topcased.feature" version="1.0.0.201201211358"/>
 </site>
