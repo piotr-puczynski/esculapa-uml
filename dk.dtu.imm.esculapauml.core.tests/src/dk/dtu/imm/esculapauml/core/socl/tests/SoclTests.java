@@ -24,7 +24,22 @@ public class SoclTests {
 
 	@Test
 	public void test() {
-		SOCLParser socl = new SOCLParser("");
+		SOCLNode root = null;
+		SOCLParser parser = new SOCLParser("hello; hi");
+		try
+        {
+            // invoke it via its topmost production
+            // and get a parse tree back
+
+            root = parser.parse();
+            root.dump("");
+        }
+        catch( ParseException pe ) {
+            System.out.println( "parse(): an invalid expression!" ); 
+        }
+        catch( TokenMgrError e )  { 
+            System.out.println( "a Token Manager error!" );  
+        }
 	}
 
 }
