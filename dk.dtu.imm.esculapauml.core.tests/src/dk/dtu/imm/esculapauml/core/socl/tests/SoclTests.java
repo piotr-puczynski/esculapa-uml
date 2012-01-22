@@ -25,7 +25,7 @@ public class SoclTests {
 	@Test
 	public void test() throws ParseException {
 		SOCLNode root = null;
-		SOCLParser parser = new SOCLParser("hello( hi, howS); hi");
+		SOCLParser parser = new SOCLParser("hello( hi(lol), 123); return return 123");
 		// invoke it via its topmost production
 		// and get a parse tree back
 
