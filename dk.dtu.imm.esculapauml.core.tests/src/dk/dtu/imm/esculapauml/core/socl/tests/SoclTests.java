@@ -18,28 +18,19 @@ import dk.dtu.imm.esculapauml.core.socl.parser.*;
 
 /**
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class SoclTests {
 
 	@Test
-	public void test() {
+	public void test() throws ParseException {
 		SOCLNode root = null;
-		SOCLParser parser = new SOCLParser("hello; hi");
-		try
-        {
-            // invoke it via its topmost production
-            // and get a parse tree back
+		SOCLParser parser = new SOCLParser("hello( hi, howS); hi");
+		// invoke it via its topmost production
+		// and get a parse tree back
 
-            root = parser.parse();
-            root.dump("");
-        }
-        catch( ParseException pe ) {
-            System.out.println( "parse(): an invalid expression!" ); 
-        }
-        catch( TokenMgrError e )  { 
-            System.out.println( "a Token Manager error!" );  
-        }
+		root = parser.parse();
+		root.dump("");
 	}
 
 }
