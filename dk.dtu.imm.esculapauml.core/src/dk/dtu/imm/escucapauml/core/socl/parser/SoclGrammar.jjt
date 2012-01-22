@@ -1,0 +1,9 @@
+ /**
+ * JJTree template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */options{  JDK_VERSION = "1.5";  static = false;}PARSER_BEGIN(SOCLParser)package dk.dtu.imm.escucapauml.core.socl.parser;import java.io.StringReader;import java.io.Reader;public class SOCLParser{  public SOCLParser(String s)  {    this ((Reader) (new StringReader(s)));  }}PARSER_END(SOCLParser)/** Skip these characters, they are considered "white space" **/SKIP :{  " "| "\t"| "\r"| "\n"}TOKEN :{  < AND : "&&" >| < OR : "||" >| < RETURN : "return" >| < ASSIGN : ":=" >| < EQUALS : "=" >| < NOTEQUAL : "<>" >}TOKEN :{  < INTEGER_CONSTANT : (< DIGIT >)+ >| < LOGIC_CONSTANT :    "true"  | "false" >| < STRING_CONSTANT : "\"" (~[ "\"" ])+ "\"" >| < #DIGIT : [ "0"-"9" ] >}TOKEN :{  < IDENTIFIER :    < LETTER >    (      < LETTER >    | < DIGIT >    )* >| < #LETTER : ([ "a"-"z", "A"-"Z", "_" ]) >}TOKEN :{  < LPAREN : "(" >| < RPAREN : ")" >| < DOT : "." >| < SEMICOLON : ";" >| < COMMA : "," >}SimpleNode Start() :{}{  expression() < EOF >  {    return jjtThis;  }}void expression() #Root :{}{  (    (      statement()    )    (      semicolon() statement()    )*  )?}void semicolon() #void :{}{  < SEMICOLON >}
+
+void statement() :
+{}
+{
+	identifier()
+}void identifier() :{  Token t;}{  t = < IDENTIFIER >  {    jjtThis.jjtSetValue(t.image);  }}
