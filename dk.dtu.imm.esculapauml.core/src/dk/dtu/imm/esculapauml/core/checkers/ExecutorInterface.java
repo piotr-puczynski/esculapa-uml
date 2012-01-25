@@ -19,7 +19,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 public interface ExecutorInterface {
 	
 	/**
-	 * Continue execution
+	 * Start / continue execution
 	 */
 	void execute();
 }

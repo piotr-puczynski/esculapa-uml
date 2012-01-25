@@ -44,6 +44,7 @@ public class UseCaseChecker extends AbstractInteractionChecker implements Execut
 		}
 
 		// if not we can execute
+		currentMessage = getFirstMessage();
 		execute();
 		
 		printOutInteraction();
@@ -56,7 +57,6 @@ public class UseCaseChecker extends AbstractInteractionChecker implements Execut
 	 */
 	@Override
 	public void execute() {
-		currentMessage = getFirstMessage();
 		//execute all messages
 		while(null != currentMessage) {
 			if (executeMessage(currentMessage)) {
