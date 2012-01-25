@@ -11,10 +11,14 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Message;
+import org.eclipse.uml2.uml.MessageSort;
+import org.eclipse.uml2.uml.Type;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
+import dk.dtu.imm.esculapauml.core.utils.MessageUtils;
 
 /**
  * @author Piotr. J. Puczynski (piotr.puczynski)
@@ -42,10 +46,6 @@ public class UseCaseChecker extends AbstractInteractionChecker implements Execut
 		}
 
 		// if not we can execute
-		
-		if(null == currentMessage) {
-			currentMessage = getFirstMessage();
-		}
 		execute();
 		
 		printOutInteraction();
@@ -58,6 +58,7 @@ public class UseCaseChecker extends AbstractInteractionChecker implements Execut
 	 */
 	@Override
 	public void execute() {
+		currentMessage = getFirstMessage();
 		//execute all messages
 		while(null != currentMessage) {
 			if (executeMessage(currentMessage)) {
@@ -78,7 +79,11 @@ public class UseCaseChecker extends AbstractInteractionChecker implements Execut
 	 */
 	private boolean executeMessage(Message message) {
 		if(message == currentMessage) {
-			return true;
+			Type target = MessageUtils.getMessageTargetType(message);
+			if ((target instanceof Actor) && (message.getMessageSort() != MessageSort.REPLY_LITERAL)) {
+				//calling actor, generate an error
+				return false;
+			}
 		}
 		return false;
 	}
