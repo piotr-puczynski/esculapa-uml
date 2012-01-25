@@ -11,11 +11,9 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
-import org.eclipse.uml2.uml.Actor;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Message;
-import org.eclipse.uml2.uml.MessageSort;
-import org.eclipse.uml2.uml.Type;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 import dk.dtu.imm.esculapauml.core.utils.MessageUtils;
@@ -79,11 +77,9 @@ public class UseCaseChecker extends AbstractInteractionChecker implements Execut
 	 */
 	private boolean executeMessage(Message message) {
 		if(message == currentMessage) {
-			Type target = MessageUtils.getMessageTargetType(message);
-			if ((target instanceof Actor) && (message.getMessageSort() != MessageSort.REPLY_LITERAL)) {
-				//calling actor, generate an error
-				return false;
-			}
+			BehavioredClassifier target = (BehavioredClassifier) MessageUtils.getMessageTargetType(message);
+			BehaviorChecker targetChecker = systemState.getBehaviorChecker(target);
+			
 		}
 		return false;
 	}
