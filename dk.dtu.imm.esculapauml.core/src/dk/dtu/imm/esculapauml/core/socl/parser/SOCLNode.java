@@ -33,6 +33,10 @@ public class SOCLNode extends SimpleNode {
 		super(p, i);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 	@Override
 	public String toString() {
