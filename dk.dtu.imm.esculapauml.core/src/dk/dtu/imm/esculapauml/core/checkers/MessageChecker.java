@@ -28,7 +28,7 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
-import dk.dtu.imm.esculapauml.core.utils.MessageUtils;
+import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 
 /**
  * 
@@ -115,7 +115,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 	 * Check if the actor is not called with message other than reply.
 	 */
 	protected void actorCallCheck() {
-		Type target = MessageUtils.getMessageTargetType(checkee);
+		Type target = InteractionUtils.getMessageTargetType(checkee);
 		if ((target instanceof Actor) && (checkee.getMessageSort() != MessageSort.REPLY_LITERAL)) {
 			//calling actor, generate an error
 			addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" calls an actor.");

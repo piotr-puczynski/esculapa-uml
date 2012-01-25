@@ -20,7 +20,7 @@ import org.eclipse.uml2.uml.Type;
  * @author Piotr J. Puczynski
  *
  */
-public final class MessageUtils {
+public final class InteractionUtils {
 	public static Type getMessageTargetType(Message message) {
 		MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification)message.getReceiveEvent();
 		Lifeline lifeline = moc.getCovereds().get(0);

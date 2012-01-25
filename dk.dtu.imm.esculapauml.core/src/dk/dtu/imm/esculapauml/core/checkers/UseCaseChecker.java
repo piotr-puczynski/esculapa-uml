@@ -16,7 +16,7 @@ import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Message;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
-import dk.dtu.imm.esculapauml.core.utils.MessageUtils;
+import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 
 /**
  * @author Piotr. J. Puczynski (piotr.puczynski)
@@ -77,7 +77,7 @@ public class UseCaseChecker extends AbstractInteractionChecker implements Execut
 	 */
 	private boolean executeMessage(Message message) {
 		if(message == currentMessage) {
-			BehavioredClassifier target = (BehavioredClassifier) MessageUtils.getMessageTargetType(message);
+			BehavioredClassifier target = (BehavioredClassifier) InteractionUtils.getMessageTargetType(message);
 			BehaviorChecker targetChecker = systemState.getBehaviorChecker(target);
 			
 		}

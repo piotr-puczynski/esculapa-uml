@@ -23,6 +23,7 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  *
  */
 public class BehaviorChecker extends AbstractStateMachineChecker {
+	
 
 	/**
 	 * @param existingDiagnostics
@@ -40,6 +41,11 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	@Override
 	public void check() {
 		checkRegions();
+		
+		//if there are no static errors, prepare for execution
+		if(!hasErrors()) {
+			initialConfiguration();
+		}
 		
 	}
 
