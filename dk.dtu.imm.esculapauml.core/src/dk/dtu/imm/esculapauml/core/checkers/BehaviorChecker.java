@@ -30,7 +30,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	 */
 	public BehaviorChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, BehavioredClassifier type) {
 		super(systemState, existingDiagnostics, objectToCheck);
-		systemState.registerChecker(type, this);
+		systemState.registerBehaviorExecutor(type, this);
 	}
 
 	

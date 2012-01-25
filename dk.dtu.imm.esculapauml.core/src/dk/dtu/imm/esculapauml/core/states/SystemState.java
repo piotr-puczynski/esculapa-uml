@@ -24,7 +24,7 @@ import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
  * 
  */
 public class SystemState {
-	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
+	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorExecutors = new HashMap<BehavioredClassifier, BehaviorChecker>();
 
 	/**
 	 * Init state
@@ -33,12 +33,12 @@ public class SystemState {
 		super();
 	}
 
-	public BehaviorChecker getBehaviorChecker(BehavioredClassifier type) {
-		return behaviorCheckers.get(type);
+	public BehaviorChecker getBehaviorExecutor(BehavioredClassifier type) {
+		return behaviorExecutors.get(type);
 	}
 
-	public void registerChecker(BehavioredClassifier type, BehaviorChecker checker) {
-		behaviorCheckers.put(type, checker);
+	public void registerBehaviorExecutor(BehavioredClassifier type, BehaviorChecker checker) {
+		behaviorExecutors.put(type, checker);
 	}
 
 }

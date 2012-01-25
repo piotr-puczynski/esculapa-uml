@@ -16,8 +16,8 @@ import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -67,5 +67,87 @@ public abstract class AbstractInteractionChecker extends AbstractChecker<Interac
 			EObject o = contents.next();
 			System.out.println(o.toString());
 		}
+	}
+
+	/**
+	 * Gets the first message to send in interaction
+	 * 
+	 * @return the first message to send or null if interaction has no messages
+	 */
+	protected Message getFirstMessage() {
+		// get all possible messages
+		EList<Message> messages = checkee.getMessages();
+		// now check which message is sent first on lifelines
+		EList<Lifeline> lifelines = checkee.getLifelines();
+		for (Lifeline l : lifelines) {
+			// we are only interested in the first fragment of message
+			// occurrence specification
+			MessageOccurrenceSpecification spec = (MessageOccurrenceSpecification) EcoreUtil.getObjectByType(l.getCoveredBys(),
+					Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
+			if (null != spec) {
+				for (Message m : messages) {
+					if (spec == m.getReceiveEvent()) {
+						// m is the first message to consider
+						Message result, helper = m;
+						do {
+							result = helper;
+							helper = getPreviousMessage(result);
+						} while (null != helper);
+						return result;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns next message to execute or null if end of interaction
+	 * 
+	 * @param msg
+	 * @return
+	 */
+	protected Message getNextMessage(Message message) {
+		MessageEnd receiveEvent = message.getReceiveEvent();
+		if (receiveEvent instanceof MessageOccurrenceSpecification) {
+			Lifeline targetLifeline = (Lifeline) EcoreUtil.getObjectByType(((MessageOccurrenceSpecification) receiveEvent).getCovereds(), Literals.LIFELINE);
+			if (null != targetLifeline) {
+				Collection<MessageOccurrenceSpecification> targetSpecsCol = EcoreUtil.getObjectsByType(targetLifeline.getCoveredBys(),
+						Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
+				ArrayList<MessageOccurrenceSpecification> targetSpecs = new ArrayList<MessageOccurrenceSpecification>(targetSpecsCol);
+				int sourceIndex = targetSpecs.indexOf(receiveEvent);
+				if ((sourceIndex >= 0) && (sourceIndex + 1 != targetSpecs.size())) {
+					MessageOccurrenceSpecification previousEnd = targetSpecs.get(sourceIndex + 1);
+					return previousEnd.getMessage();
+				}
+			}
+
+		}
+		return null;
+	}
+
+	/**
+	 * Returns previous message to execute or null if beginning of interaction
+	 * 
+	 * @param msg
+	 * @return
+	 */
+	protected Message getPreviousMessage(Message message) {
+		MessageEnd sendEvent = message.getSendEvent();
+		if (sendEvent instanceof MessageOccurrenceSpecification) {
+			Lifeline sourceLifeline = (Lifeline) EcoreUtil.getObjectByType(((MessageOccurrenceSpecification) sendEvent).getCovereds(), Literals.LIFELINE);
+			if (null != sourceLifeline) {
+				Collection<MessageOccurrenceSpecification> sourceSpecsCol = EcoreUtil.getObjectsByType(sourceLifeline.getCoveredBys(),
+						Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
+				ArrayList<MessageOccurrenceSpecification> sourceSpecs = new ArrayList<MessageOccurrenceSpecification>(sourceSpecsCol);
+				int sourceIndex = sourceSpecs.indexOf(sendEvent);
+				if (sourceIndex > 0) {
+					MessageOccurrenceSpecification previousEnd = sourceSpecs.get(sourceIndex - 1);
+					return previousEnd.getMessage();
+				}
+			}
+
+		}
+		return null;
 	}
 }

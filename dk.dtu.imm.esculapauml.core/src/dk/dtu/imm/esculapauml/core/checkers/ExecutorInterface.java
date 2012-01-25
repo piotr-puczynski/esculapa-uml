@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.executors;
+package dk.dtu.imm.esculapauml.core.checkers;
 
 /**
  * The interface for executors.
@@ -17,11 +17,6 @@ package dk.dtu.imm.esculapauml.core.executors;
  *
  */
 public interface ExecutorInterface {
-	/**
-	 * Call once before executor starts
-	 * 
-	 */
-	void prepare();
 	
 	/**
 	 * Continue execution
