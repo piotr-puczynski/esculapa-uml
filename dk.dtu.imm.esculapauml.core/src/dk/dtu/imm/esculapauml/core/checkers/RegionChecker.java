@@ -65,7 +65,7 @@ public class RegionChecker extends AbstractChecker<Region> {
 	protected void checkInitial() {
 		Collection<Pseudostate> pseudostates = EcoreUtil.getObjectsByType(checkee.getSubvertices(), Literals.PSEUDOSTATE);
 		if (filter(having(on(Pseudostate.class).getKind(), equalTo(PseudostateKind.INITIAL_LITERAL)), pseudostates).size() != 1) {
-			addProblem(Diagnostic.ERROR, "The Region \"" + checkee.getLabel() + "\" has no initial pseudostate o has more than one pseudostates.");
+			addProblem(Diagnostic.ERROR, "The Region \"" + checkee.getLabel() + "\" has no initial pseudostate o has more than one initial pseudostates.");
 		}
 	}
 

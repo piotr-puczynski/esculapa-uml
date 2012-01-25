@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.uml2.uml.Interaction;
 
+import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
@@ -20,6 +21,8 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  * 
  */
 public class UseCaseChecker extends AbstractInteractionChecker {
+	
+	private UseCaseExecutor executor = null;
 
 	public UseCaseChecker(Interaction interaction) {
 		super(new SystemState(), interaction);
@@ -39,6 +42,11 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 		}
 
 		// if not we can execute
+		
+		if(null == executor) {
+			executor = new UseCaseExecutor(checkee, systemState);
+			executor.prepare();
+		}
 		
 		printOutInteraction();
 		// System.out.println("First: " + getFirstMessage().toString());
