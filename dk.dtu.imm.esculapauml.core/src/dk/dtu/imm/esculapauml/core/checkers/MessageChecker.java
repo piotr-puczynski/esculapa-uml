@@ -17,7 +17,8 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.uml2.uml.Actor;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.MessageSort;
@@ -28,7 +29,6 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
-import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 
 /**
  * 
@@ -55,13 +55,12 @@ public class MessageChecker extends AbstractChecker<Message> {
 	public void check() {
 		endsCheck();
 		operationConformanceCheck();
-		actorCallCheck();
 
 	}
 
 	/**
-	 * Checks if message defines both ends (message occurrences)
-	 * We do not allow hanging messages from or to the environment in that way
+	 * Checks if message defines both ends (message occurrences) We do not allow
+	 * hanging messages from or to the environment in that way
 	 */
 	private void endsCheck() {
 		if (!(checkee.getSendEvent() instanceof MessageOccurrenceSpecification)) {
@@ -82,6 +81,23 @@ public class MessageChecker extends AbstractChecker<Message> {
 
 		if ((checkee.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (checkee.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
 			if (signature instanceof Operation) {
+				// check if operation is in called class
+				if (checkee.getReceiveEvent() instanceof MessageOccurrenceSpecification) {
+					MessageOccurrenceSpecification mos = (MessageOccurrenceSpecification) checkee.getReceiveEvent();
+					if (mos.getCovereds().size() > 0) {
+						ConnectableElement ce = mos.getCovereds().get(0).getRepresents();
+						if (ce != null) {
+							if (ce.getType() instanceof Classifier) {
+								Classifier type = (Classifier) ce.getType();
+								if (!type.getOperations().contains(signature)) {
+									addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" calls non-existing operation in class \""
+											+ ((Operation) signature).getDatatype().getLabel() + "\".");
+								}
+							}
+						}
+					}
+				}
+
 				EList<ValueSpecification> arguments = checkee.getArguments();
 
 				if (!arguments.isEmpty()) {
@@ -109,17 +125,6 @@ public class MessageChecker extends AbstractChecker<Message> {
 			}
 		}
 
-	}
-	
-	/**
-	 * Check if the actor is not called with message other than reply.
-	 */
-	protected void actorCallCheck() {
-		Type target = InteractionUtils.getMessageTargetType(checkee);
-		if ((target instanceof Actor) && (checkee.getMessageSort() != MessageSort.REPLY_LITERAL)) {
-			//calling actor, generate an error
-			addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" calls an actor.");
-		}
 	}
 
 }
