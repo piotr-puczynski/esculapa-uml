@@ -9,17 +9,32 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.checkers;
+package dk.dtu.imm.esculapauml.core.executors;
+
+import org.eclipse.uml2.uml.InstanceSpecification;
 
 /**
- * The interface for executors.
+ * Executes instances.
  * @author Piotr J. Puczynski
  *
  */
-public interface ExecutorInterface {
+public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	
+	private InstanceSpecification instance;
+
 	/**
-	 * Start / continue execution
+	 * @param checker
 	 */
-	void execute();
+	public AbstractInstanceExecutor(T checker) {
+		super(checker);
+	}
+
+	/**
+	 * @return the instance
+	 */
+	public InstanceSpecification getInstance() {
+		return instance;
+	}
+	
+
 }

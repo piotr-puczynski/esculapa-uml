@@ -58,7 +58,7 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 	 * @param severity
 	 * @param message
 	 */
-	protected void addOtherProblem(int severity, String message, Object... objects) {
+	public void addOtherProblem(int severity, String message, Object... objects) {
 		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, objects));
 	}
 

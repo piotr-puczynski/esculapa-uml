@@ -11,19 +11,26 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import java.util.ArrayList;
+
+import static ch.lambdaj.Lambda.forEach;
+
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.StateMachine;
 
+import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
  * Checker for behaviors
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class BehaviorChecker extends AbstractStateMachineChecker {
-	
+
+	protected ArrayList<BehaviorExecutor> executors = new ArrayList<BehaviorExecutor>();
 
 	/**
 	 * @param existingDiagnostics
@@ -32,22 +39,33 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	public BehaviorChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, BehavioredClassifier type) {
 		super(systemState, existingDiagnostics, objectToCheck);
 		systemState.registerBehaviorChecker(type, this);
+		// create default executor
+		executors.add(new BehaviorExecutor(this));
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#check()
 	 */
 	@Override
 	public void check() {
 		checkRegions();
-		
-		//if there are no static errors, prepare for execution
-		if(!hasErrors()) {
-			initialConfiguration();
+
+		// if there are no static errors, prepare for execution
+		if (!hasErrors()) {
+			forEach(executors).prepare();
 		}
-		
+
 	}
 
+	/**
+	 * Return default executor for a class
+	 * 
+	 * @return
+	 */
+	public BehaviorExecutor getDefaultExecutor() {
+		return executors.get(0);
+	}
 
 }

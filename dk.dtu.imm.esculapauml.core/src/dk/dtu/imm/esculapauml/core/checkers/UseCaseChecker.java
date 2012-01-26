@@ -11,20 +11,18 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
-import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Interaction;
-import org.eclipse.uml2.uml.Message;
 
+import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
-import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 
 /**
  * @author Piotr. J. Puczynski (piotr.puczynski)
  * 
  */
-public class UseCaseChecker extends AbstractInteractionChecker implements ExecutorInterface {
+public class UseCaseChecker extends AbstractInteractionChecker {
 	
-	private Message currentMessage;
+	protected UseCaseExecutor executor = new UseCaseExecutor(this);
 
 	public UseCaseChecker(Interaction interaction) {
 		super(new SystemState(), interaction);
@@ -44,45 +42,14 @@ public class UseCaseChecker extends AbstractInteractionChecker implements Execut
 		}
 
 		// if not we can execute
-		currentMessage = getFirstMessage();
-		execute();
+		executor.prepare();
+		executor.execute();
 		
 		printOutInteraction();
 		// System.out.println("First: " + getFirstMessage().toString());
 
 	}
 	
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.executors.ExecutorInterface#execute()
-	 */
-	@Override
-	public void execute() {
-		//execute all messages
-		while(null != currentMessage) {
-			if (executeMessage(currentMessage)) {
-				currentMessage = getNextMessage(currentMessage);
-			} else {
-				//TODO: some error here
-				break;
-			}
-			
-		}
-		
-	}
-	
-	/**
-	 * Executes one message.
-	 * @param message
-	 * @return
-	 */
-	private boolean executeMessage(Message message) {
-		if(message == currentMessage) {
-			BehavioredClassifier target = (BehavioredClassifier) InteractionUtils.getMessageTargetType(message);
-			BehaviorChecker targetChecker = systemState.getBehaviorChecker(target);
-			
-		}
-		return false;
-	}
 	
 	
 
