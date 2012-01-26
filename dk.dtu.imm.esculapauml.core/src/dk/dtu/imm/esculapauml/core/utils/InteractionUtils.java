@@ -18,12 +18,18 @@ import org.eclipse.uml2.uml.Type;
 
 /**
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public final class InteractionUtils {
 	public static Type getMessageTargetType(Message message) {
-		MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification)message.getReceiveEvent();
-		Lifeline lifeline = moc.getCovereds().get(0);
-		return lifeline.getRepresents().getType();
+		if (message.getReceiveEvent() instanceof MessageOccurrenceSpecification) {
+			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
+			if (moc.getCovereds().size() > 0) {
+				Lifeline lifeline = moc.getCovereds().get(0);
+				return lifeline.getRepresents().getType();
+			}
+
+		}
+		return null;
 	}
 }
