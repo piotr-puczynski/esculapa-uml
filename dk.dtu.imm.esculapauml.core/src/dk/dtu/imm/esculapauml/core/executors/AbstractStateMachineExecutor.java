@@ -11,13 +11,24 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import static ch.lambdaj.Lambda.filter;
+import static ch.lambdaj.Lambda.flatten;
+import static ch.lambdaj.Lambda.collect;
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static org.hamcrest.Matchers.is;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
+import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.Vertex;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractStateMachineChecker;
@@ -25,10 +36,10 @@ import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachineChecker> extends AbstractInstanceExecutor<T> {
-	
+
 	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
 	protected ArrayList<Transition> enabledTransitions = new ArrayList<Transition>();
 	protected StateMachine checkee;
@@ -40,8 +51,10 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 		super(checker);
 		checkee = checker.getCheckedObject();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dk.dtu.imm.esculapauml.core.executors.ExecutorInterface#prepare()
 	 */
 	@Override
@@ -54,7 +67,7 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 		// calculate enabled transitions
 		calculateEnabledTransitions();
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -81,7 +94,7 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 						fireTransition(dummiesInVertex.get(0));
 					} else {
 						// TODO error: state machine not deterministic
-						//for now we take the first transition
+						// for now we take the first transition
 						fireTransition(dummiesInVertex.get(0));
 					}
 					break;
@@ -93,6 +106,55 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 			enabledTransitions.addAll(vertex.getOutgoings());
 		}
 
+	}
+	
+	/**
+	 * @param operation
+	 */
+	public boolean runOperation(Operation operation) {
+		List <Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
+		if(goodTransitions.size() == 1) {
+			if (isGuardSatisfied(goodTransitions.get(0).getGuard())){
+				fireTransition(goodTransitions.get(0));
+				calculateEnabledTransitions();
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param operation
+	 * @return
+	 */
+	private List<Transition> getEnabledTransitionsForOperation(Operation operation) {
+		ArrayList<Transition> result = new ArrayList<Transition>();
+		for(Transition transition: enabledTransitions) {
+			List<Trigger> triggers = filter(having(on(Trigger.class).getEvent(), is(CallEvent.class)), transition.getTriggers());
+			for(Trigger trigger: triggers) {
+				if(((CallEvent)trigger.getEvent()).getOperation() == operation){
+					result.add(transition);
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * @param operation
+	 * @return
+	 */
+	public boolean hasTriggerForOperation(Operation operation) {
+		List<Trigger> triggers = flatten(collect(enabledTransitions, on(Transition.class).getTriggers()));
+		triggers = filter(having(on(Trigger.class).getEvent(), is(CallEvent.class)), triggers);
+		for(Trigger trigger: triggers) {
+			if(((CallEvent)trigger.getEvent()).getOperation() == operation){
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

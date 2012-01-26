@@ -11,8 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
-
 /**
  * The interface for executors.
  * Executor is associated with checker for that object class.

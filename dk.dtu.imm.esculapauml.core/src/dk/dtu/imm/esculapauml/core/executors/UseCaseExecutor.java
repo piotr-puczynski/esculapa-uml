@@ -22,9 +22,11 @@ import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageEnd;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
+import org.eclipse.uml2.uml.MessageSort;
+import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
-import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
@@ -83,7 +85,14 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	protected boolean executeMessage(Message message) {
 		if(message == currentMessage) {
 			BehavioredClassifier target = (BehavioredClassifier) InteractionUtils.getMessageTargetType(message);
-			BehaviorChecker targetChecker = systemState.getBehaviorChecker(target);
+			BehaviorExecutor targetExecutor = systemState.getBehaviorChecker(target).getDefaultExecutor();
+			NamedElement signature = message.getSignature();
+
+			if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
+				if (signature instanceof Operation) {
+					return targetExecutor.runOperation((Operation)message.getSignature());
+				}
+			}
 			
 		}
 		return false;

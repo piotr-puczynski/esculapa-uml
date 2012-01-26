@@ -11,8 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
-
 /**
  * @author Piotr J. Puczynski
  *
