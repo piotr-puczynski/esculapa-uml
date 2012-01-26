@@ -68,10 +68,6 @@ public abstract class AbstractStateMachineChecker extends AbstractChecker<StateM
 		}
 		// calculate enabled transitions
 		calculateEnabledTransitions();
-		// fire all initial transitions
-		for (Transition t : enabledTransitions) {
-			fireTransition(t);
-		}
 	}
 
 	/**
@@ -84,16 +80,25 @@ public abstract class AbstractStateMachineChecker extends AbstractChecker<StateM
 		do {
 			hasDummies = false;
 			for (Vertex vertex : activeConfiguration) {
+				ArrayList<Transition> dummiesInVertex = new ArrayList<Transition>();
 				for (Transition transition : vertex.getOutgoings()) {
 					if (isGuardSatisfied(transition.getGuard()) && transition.getTriggers().size() == 0) {
 						// TODO check for bad empty transitions (if source and
 						// target are the same)
-						hasDummies = true;
-						fireTransition(transition);
-						break;
+						dummiesInVertex.add(transition);
+
 					}
 				}
-				if (hasDummies) {
+				if (dummiesInVertex.size() > 0) {
+					hasDummies = true;
+					// if there is only one dummy
+					if (dummiesInVertex.size() == 1) {
+						fireTransition(dummiesInVertex.get(0));
+					} else {
+						// TODO error: state machine not deterministic
+						//for now we take the first transition
+						fireTransition(dummiesInVertex.get(0));
+					}
 					break;
 				}
 			}
@@ -140,11 +145,12 @@ public abstract class AbstractStateMachineChecker extends AbstractChecker<StateM
 
 	/**
 	 * executes an effect
+	 * 
 	 * @param effect
 	 */
 	protected void runEffect(Behavior effect) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
