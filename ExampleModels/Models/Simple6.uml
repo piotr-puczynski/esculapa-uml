@@ -48,7 +48,7 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_Fi1bATJMEeGjS-_RcLljMA" name="mEvent" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_hDREokN4EeG4EdriM4MjZA" name="mmEvent" operation="__kCVgEjtEeGXucHZcNcefg"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_hDREokN4EeG4EdriM4MjZA" name="mmEvent" operation="_dNo24EN4EeG4EdriM4MjZA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_R86xUEjuEeGXucHZcNcefg" name="sEvent" operation="__kCVgEjtEeGXucHZcNcefg"/>
   </packagedElement>
 </uml:Model>
