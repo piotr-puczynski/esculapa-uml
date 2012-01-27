@@ -90,7 +90,8 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 
 			if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
 				if (signature instanceof Operation) {
-					return targetExecutor.runOperation((Operation)message.getSignature());
+					targetExecutor.runOperation(message, (Operation)message.getSignature());
+					return true;
 				}
 			}
 			
@@ -179,5 +180,14 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 		}
 		return null;
 	}
+
+	/**
+	 * @return the currentMessage
+	 */
+	public Message getCurrentMessage() {
+		return currentMessage;
+	}
+	
+	
 
 }

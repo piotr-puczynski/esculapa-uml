@@ -21,9 +21,11 @@ import static org.hamcrest.Matchers.is;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.StateMachine;
@@ -107,20 +109,22 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 		}
 
 	}
-	
+
 	/**
 	 * @param operation
 	 */
-	public boolean runOperation(Operation operation) {
-		List <Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
-		if(goodTransitions.size() == 1) {
-			if (isGuardSatisfied(goodTransitions.get(0).getGuard())){
+	public void runOperation(Element operationOwner, Operation operation) {
+		List<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
+		if (goodTransitions.size() > 0) {
+			if (isGuardSatisfied(goodTransitions.get(0).getGuard())) {
 				fireTransition(goodTransitions.get(0));
 				calculateEnabledTransitions();
-				return true;
 			}
+		} else {
+			// warning, the machine is not able to process an operation event
+			checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
+					+ operation.getLabel(false) + "\".", operationOwner);
 		}
-		return false;
 	}
 
 	/**
@@ -129,10 +133,10 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 	 */
 	private List<Transition> getEnabledTransitionsForOperation(Operation operation) {
 		ArrayList<Transition> result = new ArrayList<Transition>();
-		for(Transition transition: enabledTransitions) {
+		for (Transition transition : enabledTransitions) {
 			List<Trigger> triggers = filter(having(on(Trigger.class).getEvent(), is(CallEvent.class)), transition.getTriggers());
-			for(Trigger trigger: triggers) {
-				if(((CallEvent)trigger.getEvent()).getOperation() == operation){
+			for (Trigger trigger : triggers) {
+				if (((CallEvent) trigger.getEvent()).getOperation() == operation) {
 					result.add(transition);
 					break;
 				}
@@ -148,8 +152,8 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 	public boolean hasTriggerForOperation(Operation operation) {
 		List<Trigger> triggers = flatten(collect(enabledTransitions, on(Transition.class).getTriggers()));
 		triggers = filter(having(on(Trigger.class).getEvent(), is(CallEvent.class)), triggers);
-		for(Trigger trigger: triggers) {
-			if(((CallEvent)trigger.getEvent()).getOperation() == operation){
+		for (Trigger trigger : triggers) {
+			if (((CallEvent) trigger.getEvent()).getOperation() == operation) {
 				return true;
 			}
 		}
