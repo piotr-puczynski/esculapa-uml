@@ -135,7 +135,7 @@ public class TestUtils {
 		}
 		return false;
 	}
-	
+
 	public static boolean diagnosticMessageExists(Diagnostic diagnostic, int severity, String message) {
 		List<Diagnostic> diagnostics = getDiagnosticErrorsAndWarnings(diagnostic);
 		for (Diagnostic diag : diagnostics) {
@@ -166,7 +166,25 @@ public class TestUtils {
 			for (Object eObject : data) {
 				if (eObject instanceof EObject) {
 					String message = parentMessage.isEmpty() ? diagnostic.getMessage() : parentMessage + ". " + diagnostic.getMessage();
-					System.out.println(message);
+					String severityString = "";
+					switch (diagnostic.getSeverity()) {
+					case Diagnostic.OK:
+						severityString = "OK";
+						break;
+					case Diagnostic.INFO:
+						severityString = "INFO";
+						break;
+					case Diagnostic.WARNING:
+						severityString = "WARNING";
+						break;
+					case Diagnostic.ERROR:
+						severityString = "ERROR";
+						break;
+					case Diagnostic.CANCEL:
+						severityString = "CANCEL";
+						break;
+					}
+					System.out.println(severityString + ": " + message);
 				}
 			}
 		}

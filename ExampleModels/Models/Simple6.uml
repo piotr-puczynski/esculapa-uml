@@ -35,7 +35,7 @@
           <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
         </ownedConnector>
         <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_Fi0z8DJMEeGjS-_RcLljMA _hDREoEN4EeG4EdriM4MjZA _SOTS8DJKEeGjS-_RcLljMA"/>
-        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_Fi1bADJMEeGjS-_RcLljMA _hDREoUN4EeG4EdriM4MjZA _0ZLLYDJLEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="testInstance" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_Fi1bADJMEeGjS-_RcLljMA _hDREoUN4EeG4EdriM4MjZA _0ZLLYDJLEeGjS-_RcLljMA"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_hDREoEN4EeG4EdriM4MjZA" name="MessageOccurrenceSpecification3" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_R86xUEjuEeGXucHZcNcefg" message="_hDREo0N4EeG4EdriM4MjZA"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_hDREoUN4EeG4EdriM4MjZA" name="MessageOccurrenceSpecification4" covered="_o900UDJJEeGjS-_RcLljMA" event="_R86xUEjuEeGXucHZcNcefg" message="_hDREo0N4EeG4EdriM4MjZA"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Fi0z8DJMEeGjS-_RcLljMA" name="MessageOccurrenceSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_Fi1bATJMEeGjS-_RcLljMA" message="_Fi2CEDJMEeGjS-_RcLljMA"/>

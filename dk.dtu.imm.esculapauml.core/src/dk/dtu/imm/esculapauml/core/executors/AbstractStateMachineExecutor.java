@@ -32,6 +32,9 @@ import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.Vertex;
+import org.hamcrest.Matcher;
+
+import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractStateMachineChecker;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
@@ -116,14 +119,21 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 	public void runOperation(Element operationOwner, Operation operation) {
 		List<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
 		if (goodTransitions.size() > 0) {
-			if (isGuardSatisfied(goodTransitions.get(0).getGuard())) {
+			goodTransitions = filterTransitionsWithValidGuards(goodTransitions);
+			if (goodTransitions.size() == 1) {
 				fireTransition(goodTransitions.get(0));
 				calculateEnabledTransitions();
+			} else if (goodTransitions.size() == 0) {
+				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" cannot process an event \""
+						+ operation.getLabel() + "\" because guards are not satisfied. Event is lost.", operationOwner);
+			} else {
+				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
+						+ "\" has non-deterministic behavior and cannot process an event \"" + operation.getLabel() + "\".", operationOwner);
 			}
 		} else {
 			// warning, the machine is not able to process an operation event
 			checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
-					+ operation.getLabel() + "\".", operationOwner);
+					+ operation.getLabel() + "\". Event is lost.", operationOwner);
 		}
 	}
 
@@ -143,6 +153,19 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * @param operation
+	 * @return
+	 */
+	private List<Transition> filterTransitionsWithValidGuards(List<Transition> transitions) {
+		Matcher<Transition> satisfied = new Predicate<Transition>() {
+			public boolean apply(Transition item) {
+				return isGuardSatisfied(item.getGuard());
+			}
+		};
+		return filter(satisfied, transitions);
 	}
 
 	/**
