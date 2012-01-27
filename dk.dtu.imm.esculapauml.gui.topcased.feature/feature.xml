@@ -2,7 +2,9 @@
 <feature
       id="dk.dtu.imm.esculapauml.gui.topcased.feature"
       label="EsculapaUML Topcased Integration"
-      version="1.0.0.qualifier">
+      version="1.0.0.qualifier"
+      license-feature="dk.dtu.imm.esculapauml.core.feature"
+      license-feature-version="1.0.0.qualifier">
 
    <description url="https://esculapa-uml.eclipselabs.org.codespot.com/git/update_site/">
       EsculapaUML integration with Topcased 5 GUI.
