@@ -40,7 +40,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 		super(systemState, existingDiagnostics, objectToCheck);
 		systemState.registerBehaviorChecker(type, this);
 		// create default executor
-		executors.add(new BehaviorExecutor(this));
+		executors.add(new BehaviorExecutor(this, executors.size()));
 	}
 
 	/*

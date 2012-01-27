@@ -45,6 +45,7 @@ public class CheckUseCaseHandler extends AbstractHandler {
 		Resource res = GuiUtils.getSelectedResource(event);
 		TopcasedMarkerHelper.deleteMarkers(res);
 		TopcasedMarkerHelper.createMarkers(diag, res);
+		GuiUtils.getModeler(event).refreshOutline();
 
 		return null;
 

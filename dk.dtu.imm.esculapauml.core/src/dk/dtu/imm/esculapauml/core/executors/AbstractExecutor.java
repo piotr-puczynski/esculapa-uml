@@ -16,7 +16,7 @@ package dk.dtu.imm.esculapauml.core.executors;
  *
  */
 public abstract class AbstractExecutor<T> implements ExecutorInterface<T> {
-	private T checker;
+	protected T checker;
 	public AbstractExecutor(T checker) {
 		this.checker = checker;
 	}

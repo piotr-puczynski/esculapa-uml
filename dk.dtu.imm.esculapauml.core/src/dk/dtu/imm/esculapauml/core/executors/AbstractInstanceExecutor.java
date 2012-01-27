@@ -12,6 +12,7 @@
 package dk.dtu.imm.esculapauml.core.executors;
 
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.UMLFactory;
 
 /**
  * Executes instances.
@@ -20,7 +21,7 @@ import org.eclipse.uml2.uml.InstanceSpecification;
  */
 public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	
-	private InstanceSpecification instance;
+	protected InstanceSpecification instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
 
 	/**
 	 * @param checker
@@ -32,8 +33,8 @@ public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	/**
 	 * @return the instance
 	 */
-	public InstanceSpecification getInstance() {
-		return instance;
+	public InstanceSpecification getInstanceSpecification() {
+		return instanceSpecification;
 	}
 	
 

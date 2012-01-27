@@ -14,6 +14,8 @@ package dk.dtu.imm.esculapauml.core.states;
 import java.util.HashMap;
 
 import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Model;
+
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 
 /**
@@ -25,12 +27,22 @@ import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
  */
 public class SystemState {
 	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
+	private org.eclipse.uml2.uml.Package instancePackage = null;
+	private int stateId = -1;
 
 	/**
 	 * Init state
 	 */
 	public SystemState() {
 		super();
+	}
+	
+	/**
+	 * Prepares the state in case of subsequent execution.
+	 * @param model 
+	 */
+	public void prepare(String name, Model model) {
+		instancePackage = model.createNestedPackage(name + " Instance(" + ++stateId + ")");
 	}
 
 	public BehaviorChecker getBehaviorChecker(BehavioredClassifier type) {
@@ -40,5 +52,14 @@ public class SystemState {
 	public void registerBehaviorChecker(BehavioredClassifier type, BehaviorChecker checker) {
 		behaviorCheckers.put(type, checker);
 	}
+
+	/**
+	 * @return the instancePackage
+	 */
+	public org.eclipse.uml2.uml.Package getInstancePackage() {
+		return instancePackage;
+	}
+	
+	
 
 }
