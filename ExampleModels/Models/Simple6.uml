@@ -10,13 +10,13 @@
           <subvertex xmi:type="uml:FinalState" xmi:id="__ItOMkN4EeG4EdriM4MjZA" name="FinalState1"/>
           <subvertex xmi:type="uml:State" xmi:id="_Im9ukkjuEeGXucHZcNcefg" name="State3"/>
           <transition xmi:id="_vC5BNkN4EeG4EdriM4MjZA" name="Transition1" source="_qNvQIEN4EeG4EdriM4MjZA" target="_r9UXYkN4EeG4EdriM4MjZA"/>
-          <transition xmi:id="_z_yZBUN4EeG4EdriM4MjZA" name="Transition2" source="_r9UXYkN4EeG4EdriM4MjZA" target="_Im9ukkjuEeGXucHZcNcefg">
+          <transition xmi:id="_z_yZBUN4EeG4EdriM4MjZA" name="m" source="_r9UXYkN4EeG4EdriM4MjZA" target="_Im9ukkjuEeGXucHZcNcefg">
             <trigger xmi:id="_0-akcEN4EeG4EdriM4MjZA" event="_Fi1bATJMEeGjS-_RcLljMA"/>
           </transition>
-          <transition xmi:id="__6GO5UN4EeG4EdriM4MjZA" name="Transition3" source="_Im9ukkjuEeGXucHZcNcefg" target="_yvvtcEN4EeG4EdriM4MjZA">
+          <transition xmi:id="__6GO5UN4EeG4EdriM4MjZA" name="mm" source="_Im9ukkjuEeGXucHZcNcefg" target="_yvvtcEN4EeG4EdriM4MjZA">
             <trigger xmi:id="_BB0E4EN5EeG4EdriM4MjZA" event="_hDREokN4EeG4EdriM4MjZA"/>
           </transition>
-          <transition xmi:id="_P3nRtEjuEeGXucHZcNcefg" name="Transition4" source="_yvvtcEN4EeG4EdriM4MjZA" target="__ItOMkN4EeG4EdriM4MjZA">
+          <transition xmi:id="_P3nRtEjuEeGXucHZcNcefg" name="s" source="_yvvtcEN4EeG4EdriM4MjZA" target="__ItOMkN4EeG4EdriM4MjZA">
             <trigger xmi:id="_QiT0gEjuEeGXucHZcNcefg" name="" event="_R86xUEjuEeGXucHZcNcefg"/>
           </transition>
         </region>
