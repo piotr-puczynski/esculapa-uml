@@ -123,7 +123,7 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 		} else {
 			// warning, the machine is not able to process an operation event
 			checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
-					+ operation.getLabel(false) + "\".", operationOwner);
+					+ operation.getLabel() + "\".", operationOwner);
 		}
 	}
 

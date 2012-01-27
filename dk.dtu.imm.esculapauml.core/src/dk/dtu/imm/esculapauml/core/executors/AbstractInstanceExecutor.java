@@ -22,6 +22,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	
 	protected InstanceSpecification instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
+	protected String instanceName;
 
 	/**
 	 * @param checker
@@ -35,6 +36,13 @@ public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	 */
 	public InstanceSpecification getInstanceSpecification() {
 		return instanceSpecification;
+	}
+
+	/**
+	 * @return the instanceName
+	 */
+	public String getInstanceName() {
+		return instanceName;
 	}
 	
 

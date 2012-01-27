@@ -39,8 +39,6 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	public BehaviorChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, BehavioredClassifier type) {
 		super(systemState, existingDiagnostics, objectToCheck);
 		systemState.registerBehaviorChecker(type, this);
-		// create default executor
-		executors.add(new BehaviorExecutor(this, executors.size()));
 	}
 
 	/*
@@ -52,11 +50,14 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	public void check() {
 		checkRegions();
 
-		// if there are no static errors, prepare for execution
+	}
+	
+	public void registerInstance(String name) {
+		BehaviorExecutor be = new BehaviorExecutor(this, name);
+		executors.add(be);
 		if (!hasErrors()) {
-			forEach(executors).prepare();
+			be.prepare();
 		}
-
 	}
 
 	/**

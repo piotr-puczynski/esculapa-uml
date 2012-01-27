@@ -90,7 +90,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 
 			if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
 				if (signature instanceof Operation) {
-					targetExecutor.runOperation(message, (Operation)message.getSignature());
+					targetExecutor.runOperation(message, (Operation)signature);
 					return true;
 				}
 			}

@@ -24,6 +24,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.topcased.modeler.editor.Modeler;
 
 /**
  * command to trigger use case consistency checking on selected interaction
@@ -45,7 +46,9 @@ public class CheckUseCaseHandler extends AbstractHandler {
 		Resource res = GuiUtils.getSelectedResource(event);
 		TopcasedMarkerHelper.deleteMarkers(res);
 		TopcasedMarkerHelper.createMarkers(diag, res);
-		GuiUtils.getModeler(event).refreshOutline();
+		Modeler modeler = GuiUtils.getModeler(event);
+		modeler.refreshOutline();
+		modeler.refreshActiveDiagram();
 
 		return null;
 

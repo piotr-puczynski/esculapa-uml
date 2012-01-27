@@ -19,14 +19,14 @@ import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
  */
 public class BehaviorExecutor extends AbstractStateMachineExecutor<BehaviorChecker> {
 	
-	protected int instanceIndex;
+	
 
 	/**
 	 * @param checker
 	 */
-	public BehaviorExecutor(BehaviorChecker checker, int instanceIndex) {
+	public BehaviorExecutor(BehaviorChecker checker, String name) {
 		super(checker);
-		this.instanceIndex = instanceIndex;
+		instanceName = name;
 	}
 
 	/* (non-Javadoc)
@@ -36,7 +36,7 @@ public class BehaviorExecutor extends AbstractStateMachineExecutor<BehaviorCheck
 	public void prepare() {
 		//set the specification to the classifier
 		instanceSpecification.getClassifiers().add(checker.getCheckedObject().getContext());
-		instanceSpecification.setName(checker.getCheckedObject().getContext().getName() + "[" + instanceIndex + "]");
+		instanceSpecification.setName(instanceName);
 		//add to instance package
 		checker.getSystemState().getInstancePackage().getPackagedElements().add(instanceSpecification);
 		super.prepare();
