@@ -13,8 +13,6 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import java.util.ArrayList;
 
-import static ch.lambdaj.Lambda.forEach;
-
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.StateMachine;
