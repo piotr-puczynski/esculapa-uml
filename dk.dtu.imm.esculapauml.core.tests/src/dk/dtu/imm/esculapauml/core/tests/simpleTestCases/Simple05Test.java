@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -23,23 +24,25 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Sending two messages to the same class, no errors
+ * Test for representant (not actor) on lifeline with no behavior defined
  * @author Piotr J. Puczynski
- *
+ * 
  */
-public class Simple4Test {
-	
-	private Resource model = TestUtils.getUMLResource("Simple4.uml");
+public class Simple05Test {
+	private Resource model = TestUtils.getUMLResource("Simple05.uml");
 
 	@Test
-	public void checkInteraction() {
+	public void noBehaviorDefined() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostic = checker.getDiagnostics();
-		// no errors
-		assertEquals(Diagnostic.OK, diagnostic.getSeverity());
+		Diagnostic diagnostics = checker.getDiagnostics();
+		// there is an error
+		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		// there is one error
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		// the errors are
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "The Lifeline \"Lifeline2\" representant \"C\" has no behavior defined."));
 	}
-
 }

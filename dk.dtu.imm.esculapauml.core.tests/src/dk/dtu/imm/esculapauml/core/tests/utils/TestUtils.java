@@ -22,6 +22,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -69,6 +70,24 @@ public class TestUtils {
 			}
 		});
 		return umlInteraction;
+	}
+	
+	/**
+	 * Finds transition by name. Looks in all state machines.
+	 * @param model
+	 * @param transitionName
+	 * @return
+	 */
+	public static Transition getTransitionByName(Resource model, final String transitionName) {
+		Transition result = (Transition) UML2Util.findEObject(model.getAllContents(), new UML2Util.EObjectMatcher() {
+			public boolean matches(EObject eObject) {
+				if (eObject instanceof Transition) {
+					return ((Transition) eObject).getName().equals(transitionName);
+				}
+				return false;
+			}
+		});
+		return result;
 	}
 
 	/**

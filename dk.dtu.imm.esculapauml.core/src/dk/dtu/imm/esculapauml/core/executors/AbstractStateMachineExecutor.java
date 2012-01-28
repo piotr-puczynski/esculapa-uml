@@ -128,7 +128,8 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 						+ operation.getLabel() + "\" because guards are not satisfied. Event is lost.", operationOwner);
 			} else {
 				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
-						+ "\" has non-deterministic behavior and cannot process an event \"" + operation.getLabel() + "\".", operationOwner);
+						+ "\" contains conflicting transitions and cannot process an event \"" + operation.getLabel() + "\".", operationOwner);
+				checker.addOtherProblem(Diagnostic.ERROR, "Conflicting transitions.", goodTransitions.toArray());
 			}
 		} else {
 			// warning, the machine is not able to process an operation event

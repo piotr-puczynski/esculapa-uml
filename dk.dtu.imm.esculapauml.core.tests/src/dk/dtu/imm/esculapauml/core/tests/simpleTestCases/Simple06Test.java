@@ -24,25 +24,30 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for representant (not actor) on lifeline with no behavior defined
+ * Test for warning in case state machine is not able to accept call event.
+ * Event is lost.
+ * 
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple5Test {
-	private Resource model = TestUtils.getUMLResource("Simple5.uml");
+public class Simple06Test {
+
+	private Resource model = TestUtils.getUMLResource("Simple06.uml");
 
 	@Test
-	public void noBehaviorDefined() {
+	public void eventLost() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostics = checker.getDiagnostics();
-		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		// there is one error
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
-		// the errors are
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "The Lifeline \"Lifeline2\" representant \"C\" has no behavior defined."));
+		Diagnostic diagnostic = checker.getDiagnostics();
+		// there is a warning
+		assertEquals(Diagnostic.WARNING, diagnostic.getSeverity());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
+		// a warning is...
+		//TestUtils.printDiagnostic(diagnostic);
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.WARNING,
+				"StateMachine instance \"testInstance\" is not ready for an event \"s\". Event is lost."));
 	}
+
 }
