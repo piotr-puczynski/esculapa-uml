@@ -34,7 +34,7 @@ public class Simple07Test {
 	private Resource model = TestUtils.getUMLResource("Simple07.uml");
 	
 	@Test
-	public void noBehaviorDefined() {
+	public void conflictingTransitions() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		//get two conflicting transitions
