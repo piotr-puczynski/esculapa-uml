@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.apache.log4j.Logger;
 import org.eclipse.uml2.uml.Interaction;
 
 import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
@@ -23,6 +24,7 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
 public class UseCaseChecker extends AbstractInteractionChecker {
 	
 	protected UseCaseExecutor executor = new UseCaseExecutor(this);
+	protected final static Logger logger = Logger.getLogger(UseCaseChecker.class);
 
 	public UseCaseChecker(Interaction interaction) {
 		super(new SystemState(), interaction);
@@ -35,19 +37,22 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 	 */
 	@Override
 	public void check() {
+		logger.info(checkee.getLabel() + ": starting use case check");
 		systemState.prepare(getCheckedObject().getName(), getCheckedObject().getModel());
 		checkLifelines();
 		checkMessages();
 		if (hasErrors()) { // there are static errors
+			logger.warn(checkee.getLabel() + ": use case has errors, execution is not started");
 			return;
 		}
 
 		// if not we can execute
+		logger.info(checkee.getLabel() + ": execution preparation");
 		executor.prepare();
+		logger.info(checkee.getLabel() + ": starting execution");
 		executor.execute();
 		
-		printOutInteraction();
-		// System.out.println("First: " + getFirstMessage().toString());
+		printOutInteraction(logger);
 
 	}
 	

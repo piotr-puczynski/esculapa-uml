@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Interaction;
@@ -53,11 +54,12 @@ public abstract class AbstractInteractionChecker extends AbstractChecker<Interac
 	/**
 	 * Debug method used to print out contents of interaction
 	 */
-	public void printOutInteraction() {
+	public void printOutInteraction(Logger logger) {
 		TreeIterator<EObject> contents = ((EObject) checkee).eAllContents();
+		logger.debug("Interaction contents:");
 		while (contents.hasNext()) {
 			EObject o = contents.next();
-			System.out.println(o.toString());
+			logger.debug(o.toString());
 		}
 	}
 }
