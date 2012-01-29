@@ -9,18 +9,18 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.socl.parser;
+package dk.dtu.imm.esculapauml.core.sal.parser;
 
 /**
  * @author Piotr J. Puczynski
  * 
  */
-public class SOCLNode extends SimpleNode {
+public class SALNode extends SimpleNode {
 
 	/**
 	 * @param i
 	 */
-	public SOCLNode(int i) {
+	public SALNode(int i) {
 		super(i);
 		// TODO Auto-generated constructor stub
 	}
@@ -29,7 +29,7 @@ public class SOCLNode extends SimpleNode {
 	 * @param p
 	 * @param i
 	 */
-	public SOCLNode(SOCLParser p, int i) {
+	public SALNode(SALParser p, int i) {
 		super(p, i);
 		// TODO Auto-generated constructor stub
 	}
@@ -40,7 +40,7 @@ public class SOCLNode extends SimpleNode {
 
 	@Override
 	public String toString() {
-		return SOCLParserTreeConstants.jjtNodeName[id] + ((jjtGetValue()==null)? "": " (" + jjtGetValue().toString() + ")");
+		return SALParserTreeConstants.jjtNodeName[id] + ((jjtGetValue()==null)? "": " (" + jjtGetValue().toString() + ")");
 	}
 
 	@Override
