@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.uml2.uml.Actor;
@@ -35,6 +36,7 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	 */
 	public LifelineChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, Lifeline lifeline) {
 		super(systemState, existingDiagnostics, lifeline);
+		logger = Logger.getLogger(LifelineChecker.class);
 	}
 
 	/*
@@ -44,6 +46,7 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	 */
 	@Override
 	public void check() {
+		logger.debug(checkee.getLabel() +": start check");
 		structuralExistenceCheck();
 	}
 

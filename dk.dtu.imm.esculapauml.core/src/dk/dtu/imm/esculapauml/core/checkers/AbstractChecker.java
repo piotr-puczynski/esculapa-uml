@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 
@@ -28,6 +29,7 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 	protected T checkee;
 	protected BasicDiagnostic diagnostics;
 	protected SystemState systemState;
+	protected Logger logger = Logger.getLogger(AbstractChecker.class);
 
 	AbstractChecker(SystemState systemState, T objectToCheck) {
 		diagnostics = new BasicDiagnostic(Diagnostic.OK, ESCULAPA_NAMESPACE, 0, "", null);
@@ -49,6 +51,7 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 	 * @param message
 	 */
 	public void addProblem(int severity, String message) {
+		logger.warn("New diagnostic with severity: " + severity + " and message: " + message);
 		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, new Object[] { checkee }));
 	}
 	
@@ -59,6 +62,7 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 	 * @param message
 	 */
 	public void addOtherProblem(int severity, String message, Object... objects) {
+		logger.warn("New diagnostic with severity: " + severity + " and message: " + message);
 		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, objects));
 	}
 

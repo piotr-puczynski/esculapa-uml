@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.StateMachine;
@@ -37,6 +38,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	public BehaviorChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, BehavioredClassifier type) {
 		super(systemState, existingDiagnostics, objectToCheck);
 		systemState.registerBehaviorChecker(type, this);
+		logger = Logger.getLogger(BehaviorChecker.class);
 	}
 
 	/*
@@ -46,6 +48,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	 */
 	@Override
 	public void check() {
+		logger.debug(checkee.getLabel() +": start check");
 		checkRegions();
 
 	}

@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -40,6 +41,7 @@ public class RegionChecker extends AbstractChecker<Region> {
 	 */
 	public RegionChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, Region objectToCheck) {
 		super(systemState, existingDiagnostics, objectToCheck);
+		logger = Logger.getLogger(RegionChecker.class);
 	}
 
 	/**
@@ -57,6 +59,7 @@ public class RegionChecker extends AbstractChecker<Region> {
 	 */
 	@Override
 	public void check() {
+		logger.debug(checkee.getLabel() +": start check");
 		checkInitial();
 
 	}

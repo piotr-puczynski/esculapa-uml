@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import java.util.Iterator;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
@@ -44,6 +45,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 	 */
 	public MessageChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, Message message) {
 		super(systemState, existingDiagnostics, message);
+		logger = Logger.getLogger(MessageChecker.class);
 	}
 
 	/*
@@ -53,6 +55,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 	 */
 	@Override
 	public void check() {
+		logger.debug(checkee.getLabel() +": start check");
 		endsCheck();
 		operationConformanceCheck();
 

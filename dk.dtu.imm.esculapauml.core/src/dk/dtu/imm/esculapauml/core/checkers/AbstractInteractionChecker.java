@@ -54,7 +54,7 @@ public abstract class AbstractInteractionChecker extends AbstractChecker<Interac
 	/**
 	 * Debug method used to print out contents of interaction
 	 */
-	public void printOutInteraction(Logger logger) {
+	public void printOutInteraction() {
 		TreeIterator<EObject> contents = ((EObject) checkee).eAllContents();
 		logger.debug("Interaction contents:");
 		while (contents.hasNext()) {

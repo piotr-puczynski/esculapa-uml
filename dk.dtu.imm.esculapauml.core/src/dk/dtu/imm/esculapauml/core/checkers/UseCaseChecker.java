@@ -24,10 +24,10 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
 public class UseCaseChecker extends AbstractInteractionChecker {
 	
 	protected UseCaseExecutor executor = new UseCaseExecutor(this);
-	protected final static Logger logger = Logger.getLogger(UseCaseChecker.class);
 
 	public UseCaseChecker(Interaction interaction) {
 		super(new SystemState(), interaction);
+		logger = Logger.getLogger(UseCaseChecker.class);
 	}
 
 	/*
@@ -52,7 +52,7 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 		logger.info(checkee.getLabel() + ": starting execution");
 		executor.execute();
 		
-		printOutInteraction(logger);
+		printOutInteraction();
 
 	}
 	
