@@ -26,11 +26,12 @@ import dk.dtu.imm.esculapauml.core.logging.EsculapaUMLLog4JLoger;
  * 
  */
 public abstract class LoggingTest {
+	private static boolean configured = isConfigured();
 	public LoggingTest() {
-		boolean configured = isConfigured();
 		if(!configured) {
 			System.setProperty("org.apache.commons.logging.log", EsculapaUMLLog4JLoger.class.getName());
 			PropertyConfigurator.configure(Activator.LOG_PROPERTIES_FILE);
+			configured = true;
 		}
 	}
 
