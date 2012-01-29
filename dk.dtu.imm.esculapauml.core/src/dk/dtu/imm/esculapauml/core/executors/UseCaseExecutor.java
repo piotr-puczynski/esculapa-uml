@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.core.executors;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -49,6 +50,8 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 		super(checker);
 		checkee = checker.getCheckedObject();
 		systemState = checker.getSystemState();
+		logger = Logger.getLogger(UseCaseExecutor.class);
+		logger.debug(checkee.getLabel() + ": executor created");
 	}
 
 	/* (non-Javadoc)
@@ -56,6 +59,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	 */
 	@Override
 	public void prepare() {
+		logger.debug(checkee.getLabel() + ": executor preparation");
 		currentMessage = getFirstMessage();
 		
 	}
@@ -65,6 +69,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	 */
 	public void execute() {
 		//execute all messages
+		logger.info(checkee.getLabel() + ": executor start execution");
 		while(null != currentMessage) {
 			if (executeMessage(currentMessage)) {
 				currentMessage = getNextMessage(currentMessage);

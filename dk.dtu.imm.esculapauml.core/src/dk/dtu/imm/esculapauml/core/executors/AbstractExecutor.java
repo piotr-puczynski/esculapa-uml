@@ -11,12 +11,15 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import org.apache.log4j.Logger;
+
 /**
  * @author Piotr J. Puczynski
  *
  */
 public abstract class AbstractExecutor<T> implements ExecutorInterface<T> {
 	protected T checker;
+	protected Logger logger = Logger.getLogger(AbstractExecutor.class);
 	public AbstractExecutor(T checker) {
 		this.checker = checker;
 	}

@@ -64,6 +64,7 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 	 */
 	@Override
 	public void prepare() {
+		logger.debug(checkee.getLabel() + "[" + instanceName + "]: loading initial conf");
 		activeConfiguration.clear();
 		// enable initials
 		for (Region r : checkee.getRegions()) {
@@ -107,9 +108,12 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 			}
 		} while (hasDummies);
 		// add outgoing transitions of active states
+		logger.debug(checkee.getLabel() + "[" + instanceName + "]: active states:");
 		for (Vertex vertex : activeConfiguration) {
 			enabledTransitions.addAll(vertex.getOutgoings());
+			logger.debug(checkee.getLabel() + "[" + instanceName + "]: " + vertex.getLabel());
 		}
+		logger.debug(checkee.getLabel() + "[" + instanceName + "]: active states end");
 
 	}
 
@@ -117,6 +121,7 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 	 * @param operation
 	 */
 	public void runOperation(Element operationOwner, Operation operation) {
+		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
 		List<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
 		if (goodTransitions.size() > 0) {
 			goodTransitions = filterTransitionsWithValidGuards(goodTransitions);
@@ -205,6 +210,7 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 	 * @param transition
 	 */
 	protected void fireTransition(Transition transition) {
+		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + transition.getLabel());
 		// remove the source vertex from active configuration
 		Vertex source = transition.getSource();
 		activeConfiguration.remove(source);

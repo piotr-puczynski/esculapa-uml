@@ -11,6 +11,8 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import org.apache.log4j.Logger;
+
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 
 /**
@@ -27,6 +29,8 @@ public class BehaviorExecutor extends AbstractStateMachineExecutor<BehaviorCheck
 	public BehaviorExecutor(BehaviorChecker checker, String name) {
 		super(checker);
 		instanceName = name;
+		logger = Logger.getLogger(BehaviorExecutor.class);
+		logger.debug(checkee.getLabel()  + "[" + instanceName + "]: executor created");
 	}
 
 	/* (non-Javadoc)
@@ -40,6 +44,7 @@ public class BehaviorExecutor extends AbstractStateMachineExecutor<BehaviorCheck
 		//add to instance package
 		checker.getSystemState().getInstancePackage().getPackagedElements().add(instanceSpecification);
 		super.prepare();
+		logger.debug(checkee.getLabel()  + "[" + instanceName + "]: executor prepared");
 	}
 	
 	
