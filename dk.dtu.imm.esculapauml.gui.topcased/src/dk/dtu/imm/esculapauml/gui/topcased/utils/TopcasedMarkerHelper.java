@@ -47,16 +47,6 @@ public class TopcasedMarkerHelper {
 	}
 
 	public static void createMarkers(Diagnostic diagnostic, IFile file, String parentMessage) {
-		if (!diagnostic.getChildren().isEmpty()) {
-			for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
-				if (null != diagnostic.getMessage() && (!diagnostic.getMessage().isEmpty())) {
-					createMarkers(childDiagnostic, file, parentMessage + ". " + diagnostic.getMessage());
-				} else {
-					createMarkers(childDiagnostic, file, parentMessage);
-				}
-
-			}
-		}
 		List<?> data = diagnostic.getData();
 		if ((null != data) && !data.isEmpty()) {
 			for (Object eObject : data) {
@@ -69,6 +59,16 @@ public class TopcasedMarkerHelper {
 						e.printStackTrace();
 					}
 				}
+			}
+		}
+		if (!diagnostic.getChildren().isEmpty()) {
+			for (Diagnostic childDiagnostic : diagnostic.getChildren()) {
+				if (null != diagnostic.getMessage() && (!diagnostic.getMessage().isEmpty())) {
+					createMarkers(childDiagnostic, file, parentMessage + ". " + diagnostic.getMessage());
+				} else {
+					createMarkers(childDiagnostic, file, parentMessage);
+				}
+
 			}
 		}
 	}

@@ -18,36 +18,42 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.Transition;
 import org.junit.Test;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for warning in case state machine is not able to accept call event.
- * Event is lost.
- * 
+ * Test for conflicting transitions.
  * @author Piotr J. Puczynski
- * 
+ *
  */
-public class Simple6Test {
-
-	private Resource model = TestUtils.getUMLResource("Simple6.uml");
-
+public class Simple07Test {
+	
+	private Resource model = TestUtils.getUMLResource("Simple07.uml");
+	
 	@Test
-	public void eventLost() {
+	public void conflictingTransitions() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
+		//get two conflicting transitions
+		Transition t1 = TestUtils.getTransitionByName(model, "conflict1");
+		Transition t2 = TestUtils.getTransitionByName(model, "conflict2");
+		assertNotNull(t1);
+		assertNotNull(t2);
+		
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostic = checker.getDiagnostics();
-		// there is a warning
-		assertEquals(Diagnostic.WARNING, diagnostic.getSeverity());
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
-		// a warning is...
-		//TestUtils.printDiagnostic(diagnostic);
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.WARNING,
-				"StateMachine instance \"testInstance\" is not ready for an event \"s\". Event is lost."));
+		Diagnostic diagnostics = checker.getDiagnostics();
+		// there is an error
+		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		// there are errors
+		assertEquals(2, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		// the errors are
+		// TestUtils.printDiagnostic(diagnostics);
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "StateMachine instance \"testInstance\" contains conflicting transitions and cannot process an event \"s\"."));
+		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "Conflicting transitions.", t2, t1));
 	}
 
 }

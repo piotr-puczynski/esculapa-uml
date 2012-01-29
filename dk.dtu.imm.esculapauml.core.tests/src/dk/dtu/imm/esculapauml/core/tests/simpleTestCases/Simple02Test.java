@@ -32,8 +32,8 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple2Test {
-	private Resource model = TestUtils.getUMLResource("Simple2.uml");
+public class Simple02Test {
+	private Resource model = TestUtils.getUMLResource("Simple02.uml");
 
 	@Test
 	public void okInteraction() {
