@@ -31,7 +31,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  * @author Piotr. J. Puczynski (piotr.puczynski)
  * 
  */
-public class Simple01Test {
+public class Simple01Test extends LoggingTest {
 
 	private Resource model = TestUtils.getUMLResource("Simple01.uml");
 
