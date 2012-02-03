@@ -9,7 +9,7 @@
           <subvertex xmi:type="uml:FinalState" xmi:id="_i_lfgE59EeGfWN6qfI76hw" name="FinalState1"/>
           <transition xmi:id="_kIYTkk59EeGfWN6qfI76hw" name="Transition1" source="_hEC_4E59EeGfWN6qfI76hw" target="_iELnME59EeGfWN6qfI76hw"/>
           <transition xmi:id="_kxp6FE59EeGfWN6qfI76hw" name="Transition2" source="_iELnME59EeGfWN6qfI76hw" target="_i_lfgE59EeGfWN6qfI76hw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_4DP0oE5_EeGfWN6qfI76hw" name="D.s()" specification="_d2k-UE59EeGfWN6qfI76hw"/>
+            <effect xmi:type="uml:FunctionBehavior" xmi:id="_BnUhAE6CEeGfWN6qfI76hw" name="D.s()" specification="_d2k-UE59EeGfWN6qfI76hw"/>
             <trigger xmi:id="_Lx0i8E5-EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw"/>
           </transition>
         </region>
@@ -28,7 +28,7 @@
           </transition>
         </region>
       </ownedBehavior>
-      <ownedOperation xmi:id="_d2k-UE59EeGfWN6qfI76hw" name="s" method="_4DP0oE5_EeGfWN6qfI76hw"/>
+      <ownedOperation xmi:id="_d2k-UE59EeGfWN6qfI76hw" name="s" method="_BnUhAE6CEeGfWN6qfI76hw"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_qUDLoE59EeGfWN6qfI76hw" name="Henry"/>
     <packagedElement xmi:type="uml:UseCase" xmi:id="_t4VxwE59EeGfWN6qfI76hw" name="UseCase1" classifierBehavior="_uwBnsE59EeGfWN6qfI76hw">
