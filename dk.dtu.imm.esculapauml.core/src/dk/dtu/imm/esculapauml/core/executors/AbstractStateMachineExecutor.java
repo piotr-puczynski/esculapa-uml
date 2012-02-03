@@ -23,9 +23,11 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.FunctionBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.StateMachine;
@@ -220,7 +222,7 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 		activeConfiguration.add(target);
 
 		// run effect of transition
-		runEffect(transition.getEffect());
+		runEffect(transition);
 
 	}
 
@@ -229,9 +231,19 @@ public abstract class AbstractStateMachineExecutor<T extends AbstractStateMachin
 	 * 
 	 * @param effect
 	 */
-	protected void runEffect(Behavior effect) {
-		// TODO Auto-generated method stub
+	protected void runEffect(Transition transition) {
+		Behavior effect = transition.getEffect();
+		if (null != effect) {
+			if (effect instanceof FunctionBehavior) {
+				BehavioralFeature bf = effect.getSpecification();
+				if(bf instanceof Operation) {
+					checker.getSystemState().getMainExecutor().externalExecution(this, (Operation)bf);
+				} else {
+					//this shouldn't happen as function behavior should be an operation
+					checker.addOtherProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.", transition);
+				}
+			}
+		}
 
 	}
-
 }

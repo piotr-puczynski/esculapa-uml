@@ -94,7 +94,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 								Classifier type = (Classifier) ce.getType();
 								if (!type.getOperations().contains(signature)) {
 									addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" calls non-existing operation in class \""
-											+ ((Operation) signature).getDatatype().getLabel() + "\".");
+											+ ((Operation) signature).getClass_().getLabel() + "\".");
 								}
 							}
 						}

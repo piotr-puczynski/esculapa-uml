@@ -17,6 +17,7 @@ import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Model;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
+import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 
 /**
  * State of the whole system. Stores the checkers responsible for stateful
@@ -29,6 +30,7 @@ public class SystemState {
 	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
 	private org.eclipse.uml2.uml.Package instancePackage = null;
 	private int stateId = -1;
+	UseCaseExecutor mainExecutor = null;
 
 	/**
 	 * Init state
@@ -41,8 +43,9 @@ public class SystemState {
 	 * Prepares the state in case of subsequent execution.
 	 * @param model 
 	 */
-	public void prepare(String name, Model model) {
+	public void prepare(String name, Model model, UseCaseExecutor mainExecutor) {
 		instancePackage = model.createNestedPackage(name + " Instance(" + ++stateId + ")");
+		this.mainExecutor = mainExecutor;
 	}
 
 	public BehaviorChecker getBehaviorChecker(BehavioredClassifier type) {
@@ -59,6 +62,14 @@ public class SystemState {
 	public org.eclipse.uml2.uml.Package getInstancePackage() {
 		return instancePackage;
 	}
+
+	/**
+	 * @return the mainExecutor
+	 */
+	public UseCaseExecutor getMainExecutor() {
+		return mainExecutor;
+	}
+	
 	
 	
 

@@ -34,11 +34,12 @@ import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 
 /**
  * executes the use case
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
-	
+
 	private Message currentMessage;
 	private Interaction checkee;
 	private SystemState systemState;
@@ -54,56 +55,64 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 		logger.debug(checkee.getLabel() + ": executor created");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dk.dtu.imm.esculapauml.core.executors.ExecutorInterface#prepare()
 	 */
 	@Override
 	public void prepare() {
 		logger.debug(checkee.getLabel() + ": executor preparation");
 		currentMessage = getFirstMessage();
-		
+
 	}
-	
+
 	/**
 	 * Executes all messages
 	 */
 	public void execute() {
-		//execute all messages
+		// execute all messages
 		logger.info(checkee.getLabel() + ": executor start execution");
-		while(null != currentMessage) {
-			if (executeMessage(currentMessage)) {
-				currentMessage = getNextMessage(currentMessage);
-			} else {
-				//TODO: some error here
+		while (null != currentMessage) {
+			executeMessage(currentMessage);
+			if(checker.hasErrors()) {
+				logger.warn(checkee.getLabel() + ": executor stopped due to errors detected");
 				break;
 			}
-			
+			currentMessage = getNextMessage(currentMessage);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Executes one message.
+	 * 
 	 * @param message
 	 * @return
 	 */
-	protected boolean executeMessage(Message message) {
-		if(message == currentMessage) {
-			BehavioredClassifier target = (BehavioredClassifier) InteractionUtils.getMessageTargetType(message);
-			BehaviorExecutor targetExecutor = systemState.getBehaviorChecker(target).getDefaultExecutor();
-			NamedElement signature = message.getSignature();
+	protected void executeMessage(Message message) {
+		currentMessage = message;
+		BehavioredClassifier target = (BehavioredClassifier) InteractionUtils.getMessageTargetType(message);
+		BehaviorExecutor targetExecutor = systemState.getBehaviorChecker(target).getDefaultExecutor();
+		NamedElement signature = message.getSignature();
 
-			if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
-				if (signature instanceof Operation) {
-					targetExecutor.runOperation(message, (Operation)signature);
-					return true;
-				}
+		if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
+			if (signature instanceof Operation) {
+				targetExecutor.runOperation(message, (Operation) signature);
 			}
-			
 		}
-		return false;
 	}
 	
+	/**
+	 * Very important operation called each time some operation is executed from outside (e.g. in state machines).
+	 * It enables extension of sequence diagrams or synchronization with current execution (depending on mode).
+	 * @param message
+	 */
+	protected void externalExecution(Object executor, Operation operation) {
+		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
+		
+	}
+
 	/**
 	 * Gets the first message to send in interaction
 	 * 
@@ -192,7 +201,5 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	public Message getCurrentMessage() {
 		return currentMessage;
 	}
-	
-	
 
 }
