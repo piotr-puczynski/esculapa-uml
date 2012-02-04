@@ -9,19 +9,43 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.utils;
+package dk.dtu.imm.esculapauml.core.generators;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.uml2.uml.Element;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
+import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
+ * Abstract class for all generators.
  * @author Piotr J. Puczynski
  *
  */
-public final class GenerationUtils {
-	public static void annotateAsGenerated(Element element) {
+public abstract class AbstractGenerator<T> implements GeneratorInterface<T> {
+	protected SystemState systemState;
+	protected BasicDiagnostic diagnostic;
+	protected T generated = null;
+	
+	
+	/**
+	 * @param systemState
+	 */
+	public AbstractGenerator(SystemState systemState, BasicDiagnostic diagnostic) {
+		super();
+		this.systemState = systemState;
+		this.diagnostic = diagnostic;
+	}
+
+
+	/**
+	 * Adds an annotation for new generated elements.
+	 * The annotations might be used later by other plug-ins, e.g. to draw new elements.
+	 * @param element
+	 */
+	
+	protected void annotateAsGenerated(Element element) {
 		EAnnotation annotation = element.createEAnnotation(AbstractChecker.ESCULAPA_NAMESPACE);
 		annotation.getDetails().put("generated", "true");
 	}

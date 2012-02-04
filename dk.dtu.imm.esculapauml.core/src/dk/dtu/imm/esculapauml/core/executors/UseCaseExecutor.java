@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -26,13 +27,11 @@ import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
+import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
-import dk.dtu.imm.esculapauml.core.utils.GenerationUtils;
 import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 
 /**
@@ -109,7 +108,8 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	/**
 	 * Very important operation called each time some operation is executed from outside (e.g. in state machines).
 	 * It enables extension of sequence diagrams or synchronization with current execution (depending on mode).
-	 * @param message
+	 * @param executor
+	 * @param operation
 	 */
 	protected void externalExecution(Object executor, Operation operation) {
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
@@ -117,12 +117,8 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 		if(null == lifeline) {
 			//there is no lifeline now that could correspond to the object
 			//we need to create it
-			Property prop = checkee.createOwnedAttribute(targetClass.getLabel(), UMLFactory.eINSTANCE.createProperty().getType());
-			prop.setType(targetClass);
-			GenerationUtils.annotateAsGenerated(prop);
-			lifeline = checkee.createLifeline(targetClass.getLabel());
-			lifeline.setRepresents(prop);
-			GenerationUtils.annotateAsGenerated(lifeline);
+			LifelineGenerator generator = new LifelineGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), checkee, targetClass);
+			lifeline = generator.generate();
 		}
 	}
 
