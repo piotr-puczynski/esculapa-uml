@@ -11,6 +11,14 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.utils;
 
+import static ch.lambdaj.Lambda.filter;
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static org.hamcrest.Matchers.equalTo;
+
+import java.util.List;
+
+import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
@@ -29,6 +37,14 @@ public final class InteractionUtils {
 				return lifeline.getRepresents().getType();
 			}
 
+		}
+		return null;
+	}
+	
+	public static Lifeline findRepresentingLifeline(Interaction interaction, org.eclipse.uml2.uml.Class representant) {
+		List<Lifeline> lifelines = filter(having(on(Lifeline.class).getRepresents().getType(), equalTo(representant)), interaction.getLifelines());
+		if(lifelines.size() > 0) {
+			return lifelines.get(0);
 		}
 		return null;
 	}
