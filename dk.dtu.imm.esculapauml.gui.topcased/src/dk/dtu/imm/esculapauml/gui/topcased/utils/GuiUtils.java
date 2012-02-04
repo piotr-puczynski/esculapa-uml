@@ -25,6 +25,8 @@ import org.eclipse.gef.commands.CommandStack;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.uml2.common.util.UML2Util;
+import org.eclipse.uml2.uml.Interaction;
 import org.topcased.modeler.editor.Modeler;
 
 /**
@@ -110,4 +112,45 @@ public final class GuiUtils {
     {
         return (CommandStack) getModeler(event).getAdapter(CommandStack.class);
     }
+	
+	/**
+	 * Method used to validate arguments and to convert them into UML2
+	 * elements
+	 * 
+	 * @param someObject
+	 *            interaction, use case or collaboration
+	 * @return uml2 interaction
+	 */
+	public static final Interaction getUMLInteractionArgument(List<?> elements) {
+		EObject someObject = null;
+		if ((elements.size() > 0) && (elements.get(0) instanceof EObject)) {
+			someObject = (EObject) elements.get(0);
+		} else {
+			throw new IllegalArgumentException("Passed argument is empty or of a wrong type (required EMF model element argument)");
+		}
+		// check for right EObject type argument
+		if (!(someObject instanceof org.eclipse.uml2.uml.Element)) {
+			throw new IllegalArgumentException("Passed argument is not UML2 Element");
+		}
+		Interaction umlInteraction = null;
+		if (someObject.eClass().getName().equals("Interaction")) {
+			umlInteraction = (Interaction) someObject;
+		} else {
+			// if collaboration or use case, be flexible
+			if (someObject.eClass().getName().equals("Collaboration") || someObject.eClass().getName().equals("UseCase")) {
+				umlInteraction = (Interaction) UML2Util.findEObject(someObject.eAllContents(), new UML2Util.EObjectMatcher() {
+					public boolean matches(EObject eObject) {
+						return eObject.eClass().getName().equals("Interaction");
+					}
+				});
+			}
+		}
+
+		if (null == umlInteraction) {
+			throw new IllegalArgumentException("Cannot find interaction to check");
+		}
+
+		return umlInteraction;
+	}
+
 }

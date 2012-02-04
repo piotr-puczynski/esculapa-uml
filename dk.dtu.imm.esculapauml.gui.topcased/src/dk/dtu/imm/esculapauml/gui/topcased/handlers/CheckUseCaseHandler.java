@@ -14,16 +14,15 @@ package dk.dtu.imm.esculapauml.gui.topcased.handlers;
 
 import java.util.List;
 
+import dk.dtu.imm.esculapauml.gui.topcased.extenders.InteractionExtender;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.GuiUtils;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.TopcasedMarkerHelper;
-import dk.dtu.imm.esculapauml.core.ConsistencyCheckingService;
+import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.common.util.Diagnostic;
 import org.topcased.modeler.editor.Modeler;
 
 /**
@@ -36,17 +35,14 @@ public class CheckUseCaseHandler extends AbstractHandler {
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
-		if ((elements.size() > 0) && (elements.get(0) instanceof EObject)) {
-			ConsistencyCheckingService.getInstance().checkUseCaseInteraction((EObject) elements.get(0));
-		} else {
-			throw new IllegalArgumentException("Passed argument is empty or of a wrong type (required EMF model element argument)");
-		}
-
-		Diagnostic diag = ConsistencyCheckingService.getInstance().getDiagnostics();
+		UseCaseChecker checker = new UseCaseChecker(GuiUtils.getUMLInteractionArgument(elements));
+		checker.check();
+		Modeler modeler = GuiUtils.getModeler(event);
+		InteractionExtender ie = new InteractionExtender(modeler, checker.getCheckedObject());
+		ie.extend();
 		Resource res = GuiUtils.getSelectedResource(event);
 		TopcasedMarkerHelper.deleteMarkers(res);
-		TopcasedMarkerHelper.createMarkers(diag, res);
-		Modeler modeler = GuiUtils.getModeler(event);
+		TopcasedMarkerHelper.createMarkers(checker.getDiagnostics(), res);
 		modeler.refreshOutline();
 		modeler.refreshActiveDiagram();
 
