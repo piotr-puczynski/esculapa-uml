@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.generators;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.uml2.uml.Element;
@@ -27,6 +28,7 @@ public abstract class AbstractGenerator<T> implements GeneratorInterface<T> {
 	protected SystemState systemState;
 	protected BasicDiagnostic diagnostic;
 	protected T generated = null;
+	protected Logger logger = Logger.getLogger(AbstractGenerator.class);
 	
 	
 	/**

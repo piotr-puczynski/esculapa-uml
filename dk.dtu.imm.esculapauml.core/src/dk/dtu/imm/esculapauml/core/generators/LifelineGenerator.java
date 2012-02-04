@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.generators;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.Connector;
 import org.eclipse.uml2.uml.ConnectorEnd;
@@ -41,6 +42,7 @@ public class LifelineGenerator extends AbstractGenerator<Lifeline> {
 	 */
 	public LifelineGenerator(SystemState systemState, BasicDiagnostic diagnostic, Interaction interaction, Type type) {
 		super(systemState, diagnostic);
+		logger = Logger.getLogger(LifelineGenerator.class);
 		this.interaction = interaction;
 		this.type = type;
 	}
@@ -62,6 +64,7 @@ public class LifelineGenerator extends AbstractGenerator<Lifeline> {
 		generated = interaction.createLifeline(type.getLabel());
 		generated.setRepresents(prop);
 		annotateAsGenerated(generated);
+		logger.info("Generated new element: " + generated.getLabel());
 		// check the lifeline to create an executor
 		LifelineChecker lc = new LifelineChecker(systemState, diagnostic, generated);
 		lc.check();
