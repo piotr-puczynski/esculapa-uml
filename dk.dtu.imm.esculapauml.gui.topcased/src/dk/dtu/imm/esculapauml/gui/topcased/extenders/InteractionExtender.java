@@ -13,19 +13,24 @@ package dk.dtu.imm.esculapauml.gui.topcased.extenders;
 
 import java.util.List;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Interaction;
 import org.topcased.modeler.di.model.Diagram;
+import org.topcased.modeler.di.model.DiagramElement;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
 import org.topcased.modeler.editor.Modeler;
 
 /**
  * Extends sequence diagrams by new generated elements.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class InteractionExtender implements ExtenderInterface {
+	private static final String DIAGRAM_ID = "org.topcased.modeler.uml.sequencediagram";
 	private Modeler modeler;
 	private Interaction interaction;
+
 	/**
 	 * @param modeler
 	 * @param interaction
@@ -35,15 +40,30 @@ public class InteractionExtender implements ExtenderInterface {
 		this.modeler = modeler;
 		this.interaction = interaction;
 	}
-	
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.gui.topcased.extenders.ExtenderInterface#extend()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.gui.topcased.extenders.ExtenderInterface#extend()
 	 */
 	@Override
 	public void extend() {
 		List<Diagram> diags = DiagramsUtils.findAllExistingDiagram(modeler.getDiagrams(), interaction);
-		
+		for (Diagram di : diags) {
+			if (di.getSemanticModel().getPresentation().equals(DIAGRAM_ID)) {
+				extendSequenceDiagram(di);
+			}
+		}
 	}
-	
-	
+
+	/**
+	 * Extends sequence diagram.
+	 * 
+	 * @param diagram
+	 */
+	private void extendSequenceDiagram(Diagram di) {
+		EList<DiagramElement> elements = di.getContained();
+	}
+
 }
