@@ -15,35 +15,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.draw2d.PositionConstants;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
-import org.topcased.modeler.commands.CreateGraphNodeCommand;
 import org.topcased.modeler.di.model.Diagram;
-import org.topcased.modeler.di.model.DiagramElement;
-import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.internal.impl.EMFSemanticModelBridgeImpl;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.exceptions.BoundsFormatException;
 import org.topcased.modeler.tools.Importer;
-import org.topcased.modeler.uml.sequencediagram.util.SequenceUtils;
-
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 
 /**
@@ -52,6 +43,7 @@ import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
  * @author Piotr J. Puczynski
  * 
  */
+@SuppressWarnings("restriction")
 public class InteractionExtender implements ExtenderInterface {
 	private static final String DIAGRAM_ID = "org.topcased.modeler.uml.sequencediagram";
 	private Modeler modeler;
@@ -151,7 +143,6 @@ public class InteractionExtender implements ExtenderInterface {
 		}
 	}
 	
-	@SuppressWarnings("restriction")
 	EditPart getEditPartForObject(Object object) {
 		@SuppressWarnings("rawtypes")
 		Map parts = modeler.getGraphicalViewer().getEditPartRegistry();
