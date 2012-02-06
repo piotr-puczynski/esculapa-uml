@@ -12,9 +12,9 @@
 package dk.dtu.imm.esculapauml.gui.topcased.extenders;
 
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -30,12 +30,15 @@ import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.DiagramElement;
+import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.internal.impl.EMFSemanticModelBridgeImpl;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.exceptions.BoundsFormatException;
 import org.topcased.modeler.tools.Importer;
+import org.topcased.modeler.utils.Utils;
+
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 
 /**
@@ -124,6 +127,12 @@ public class InteractionExtender implements ExtenderInterface {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		// now the element is created we can resize it
+		GraphElement lifelineElement = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), lifeline);
+		if (lifelineElement instanceof GraphNode) {
+			((GraphNode) lifelineElement).setSize(new Dimension(((GraphNode) lifelineElement).getSize().width, calculateHeightForNewLifeline(di)));
+		}
+
 	}
 
 	/**
@@ -166,7 +175,7 @@ public class InteractionExtender implements ExtenderInterface {
 		}
 		return null;
 	}
-	
+
 	int calculateXForNewLifeline(Diagram di) {
 		int result = 0;
 		EList<DiagramElement> elements = di.getContained();
@@ -180,7 +189,24 @@ public class InteractionExtender implements ExtenderInterface {
 				}
 			}
 		}
-		
+
+		return result;
+	}
+
+	int calculateHeightForNewLifeline(Diagram di) {
+		int result = 30;
+		EList<DiagramElement> elements = di.getContained();
+		for (DiagramElement element : elements) {
+			if (element instanceof GraphNode) {
+				GraphNode node = (GraphNode) element;
+				if (node.getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
+					if (((EMFSemanticModelBridgeImpl) node.getSemanticModel()).getElement() instanceof Lifeline) {
+						result = Math.max(result, node.getSize().height);
+					}
+				}
+			}
+		}
+
 		return result;
 	}
 
