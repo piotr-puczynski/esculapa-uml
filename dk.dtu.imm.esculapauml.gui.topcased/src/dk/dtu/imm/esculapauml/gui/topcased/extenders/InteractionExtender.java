@@ -29,6 +29,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.topcased.modeler.di.model.Diagram;
+import org.topcased.modeler.di.model.DiagramElement;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.internal.impl.EMFSemanticModelBridgeImpl;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
@@ -94,30 +95,33 @@ public class InteractionExtender implements ExtenderInterface {
 	}
 
 	private void createLifeline(Diagram di, Lifeline lifeline) {
-		/*GraphElement graphElt = modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) lifeline, "default");
-		if (graphElt instanceof GraphNode) {
-			GraphNode parentGraphNode = (GraphNode) di.getSemanticModel().getGraphElement();
-			GraphNode childGraphNode = (GraphNode) graphElt;
-			Point loc = new Point(10, 10);
-			int attachment = PositionConstants.RIGHT;
-			Dimension dim = new Dimension(20, 10);
-			CreateGraphNodeCommand com = new CreateGraphNodeCommand((EditDomain) modeler.getAdapter(EditDomain.class), childGraphNode, parentGraphNode, loc, dim, attachment);
-			modeler.getEditingDomain().getCommandStack().execute((Command) com);
-		}*/
+		/*
+		 * GraphElement graphElt =
+		 * modeler.getActiveConfiguration().getCreationUtils
+		 * ().createGraphElement((EObject) lifeline, "default"); if (graphElt
+		 * instanceof GraphNode) { GraphNode parentGraphNode = (GraphNode)
+		 * di.getSemanticModel().getGraphElement(); GraphNode childGraphNode =
+		 * (GraphNode) graphElt; Point loc = new Point(10, 10); int attachment =
+		 * PositionConstants.RIGHT; Dimension dim = new Dimension(20, 10);
+		 * CreateGraphNodeCommand com = new CreateGraphNodeCommand((EditDomain)
+		 * modeler.getAdapter(EditDomain.class), childGraphNode,
+		 * parentGraphNode, loc, dim, attachment);
+		 * modeler.getEditingDomain().getCommandStack().execute((Command) com);
+		 * }
+		 */
+		@SuppressWarnings("unused")
+		EList<DiagramElement> elems = di.getContained();
 		Importer importer = new Importer(modeler, lifeline);
 		importer.setDisplayDialogs(false);
-		importer.setTargetEditPart((GraphicalEditPart) getEditPartForObject(interaction));
-		importer.setLocation(new Point(0, 0));
+		importer.setTargetEditPart((GraphicalEditPart) getEditPartForObjectInDiagram(di, interaction));
+		importer.setLocation(new Point(calculateXForNewLifeline(di), 0));
 		try {
 			importer.run(new NullProgressMonitor());
 		} catch (BoundsFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -142,22 +146,42 @@ public class InteractionExtender implements ExtenderInterface {
 			}
 		}
 	}
-	
-	EditPart getEditPartForObject(Object object) {
-		@SuppressWarnings("rawtypes")
-		Map parts = modeler.getGraphicalViewer().getEditPartRegistry();
-		for(Object key: parts.keySet()) {
-			if(key instanceof GraphNode) {
-				GraphNode node = (GraphNode) key;
-				if(node.getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
-					if (((EMFSemanticModelBridgeImpl)node.getSemanticModel()).getElement() == object) {
-						return (EditPart) parts.get(key);
+
+	EditPart getEditPartForObjectInDiagram(Diagram di, Object object) {
+		EList<DiagramElement> elements = new BasicEList<DiagramElement>();
+		// collect diagram
+		elements.add(di.getSemanticModel().getGraphElement());
+		// collect all nodes in diagram (first level only)
+		elements.addAll(di.getContained());
+		for (DiagramElement element : elements) {
+			if (element instanceof GraphNode) {
+				GraphNode node = (GraphNode) element;
+				if (node.getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
+					if (((EMFSemanticModelBridgeImpl) node.getSemanticModel()).getElement() == object) {
+						return (EditPart) modeler.getGraphicalViewer().getEditPartRegistry().get(element);
 					}
 				}
 
 			}
 		}
 		return null;
+	}
+	
+	int calculateXForNewLifeline(Diagram di) {
+		int result = 0;
+		EList<DiagramElement> elements = di.getContained();
+		for (DiagramElement element : elements) {
+			if (element instanceof GraphNode) {
+				GraphNode node = (GraphNode) element;
+				if (node.getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
+					if (((EMFSemanticModelBridgeImpl) node.getSemanticModel()).getElement() instanceof Lifeline) {
+						result = Math.max(result, node.getPosition().x + node.getSize().width + 30);
+					}
+				}
+			}
+		}
+		
+		return result;
 	}
 
 }
