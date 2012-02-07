@@ -84,9 +84,9 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 		}
 		if (isDeep) {
 			// if node is compound, add new iterator
-			if (current instanceof GraphNode) {
-				if (!((GraphNode) current).getContained().isEmpty()) {
-					stack.push(((GraphNode) current).getContained().iterator());
+			if (current instanceof GraphElementImpl) {
+				if (!((GraphElementImpl) current).getContained().isEmpty()) {
+					stack.push(((GraphElementImpl) current).getContained().iterator());
 				}
 			}
 		}
