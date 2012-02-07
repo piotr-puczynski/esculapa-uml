@@ -190,7 +190,7 @@ public class InteractionExtender implements ExtenderInterface {
 	int calculateXForNewLifeline(Diagram di) {
 		int result = 0;
 		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
-		DiagramElementIterator dit = iterDiagram.iterator();
+		DiagramElementIterator dit = iterDiagram.shallowIterator();
 		while (dit.hasNext()) {
 			GraphNode diNode = dit.nextNode();
 			if(dit.getModel() instanceof Lifeline) {
@@ -203,7 +203,7 @@ public class InteractionExtender implements ExtenderInterface {
 	int calculateHeightForNewLifeline(Diagram di) {
 		int result = 30;
 		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
-		DiagramElementIterator dit = iterDiagram.iterator();
+		DiagramElementIterator dit = iterDiagram.shallowIterator();
 		while (dit.hasNext()) {
 			GraphNode diNode = dit.nextNode();
 			if(dit.getModel() instanceof Lifeline) {

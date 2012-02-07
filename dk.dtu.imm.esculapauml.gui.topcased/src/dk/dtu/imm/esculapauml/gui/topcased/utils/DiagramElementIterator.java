@@ -53,8 +53,8 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 	 */
 	public EObject getModel() {
 		if (current instanceof GraphElementImpl) {
-			if (((GraphNode) current).getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
-				return ((EMFSemanticModelBridgeImpl) ((GraphNode) current).getSemanticModel()).getElement();
+			if (((GraphElementImpl) current).getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
+				return ((EMFSemanticModelBridgeImpl) ((GraphElementImpl) current).getSemanticModel()).getElement();
 			}
 		}
 		return null;
