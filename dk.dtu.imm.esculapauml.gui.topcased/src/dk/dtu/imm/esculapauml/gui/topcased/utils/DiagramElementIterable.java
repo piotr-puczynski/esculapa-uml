@@ -14,7 +14,7 @@ package dk.dtu.imm.esculapauml.gui.topcased.utils;
 import org.eclipse.emf.common.util.EList;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.DiagramElement;
-import org.topcased.modeler.di.model.GraphNode;
+import org.topcased.modeler.di.model.GraphElement;
 
 /**
  * @author Piotr J. Puczynski
@@ -31,9 +31,9 @@ public class DiagramElementIterable implements Iterable<DiagramElement> {
 		elements = di.getContained();
 	}
 	
-	public DiagramElementIterable(GraphNode node) {
+	public DiagramElementIterable(GraphElement element) {
 		super();
-		elements = node.getContained();
+		elements = element.getContained();
 	}
 
 	/* (non-Javadoc)
