@@ -13,8 +13,6 @@ package dk.dtu.imm.esculapauml.gui.topcased.extenders;
 
 import java.util.List;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.BasicEList;
@@ -23,13 +21,10 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
-import org.topcased.modeler.commands.CreateGraphNodeCommand;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.DiagramElement;
 import org.topcased.modeler.di.model.GraphElement;
@@ -37,9 +32,12 @@ import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.internal.impl.EMFSemanticModelBridgeImpl;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
 import org.topcased.modeler.editor.Modeler;
-import org.topcased.modeler.exceptions.BoundsFormatException;
-import org.topcased.modeler.tools.Importer;
-import org.topcased.modeler.utils.Utils;
+//import org.topcased.modeler.exceptions.BoundsFormatException;
+//import org.topcased.modeler.tools.Importer;
+//import org.topcased.modeler.utils.Utils;
+//import org.topcased.modeler.commands.CreateGraphNodeCommand;
+//import org.eclipse.gef.EditPart;
+//import org.eclipse.gef.GraphicalEditPart;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 
