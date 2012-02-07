@@ -33,6 +33,7 @@ import org.topcased.modeler.di.model.internal.impl.GraphElementImpl;
 public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 
 	private DiagramElement current = null;
+	Iterator<DiagramElement> currentIterator = null;
 	private Stack<Iterator<DiagramElement>> stack = new Stack<Iterator<DiagramElement>>();
 	private boolean isDeep;
 
@@ -77,9 +78,10 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 	 */
 	@Override
 	public DiagramElement next() {
-		current = stack.peek().next();
+		currentIterator = stack.peek();
+		current = currentIterator.next();
 		// if iterator finished, remove it from stack
-		if (!stack.peek().hasNext()) {
+		if (!currentIterator.hasNext()) {
 			stack.pop();
 		}
 		if (isDeep) {
@@ -101,8 +103,9 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 	 */
 	@Override
 	public void remove() {
-		// not implemented
-		assert false;
+		if (null != currentIterator) {
+			currentIterator.remove();
+		}
 	}
 
 	/*
@@ -127,7 +130,7 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * @return
 	 */
