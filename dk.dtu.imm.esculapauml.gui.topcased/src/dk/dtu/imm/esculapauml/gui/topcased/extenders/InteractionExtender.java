@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.gui.topcased.extenders;
 import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.BasicEList;
@@ -28,6 +29,7 @@ import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
+import org.topcased.modeler.commands.CreateGraphNodeCommand;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.DiagramElement;
 import org.topcased.modeler.di.model.GraphElement;
@@ -98,40 +100,44 @@ public class InteractionExtender implements ExtenderInterface {
 	}
 
 	private void createLifeline(Diagram di, Lifeline lifeline) {
-		/*
-		 * GraphElement graphElt =
-		 * modeler.getActiveConfiguration().getCreationUtils
-		 * ().createGraphElement((EObject) lifeline, "default"); if (graphElt
-		 * instanceof GraphNode) { GraphNode parentGraphNode = (GraphNode)
-		 * di.getSemanticModel().getGraphElement(); GraphNode childGraphNode =
-		 * (GraphNode) graphElt; Point loc = new Point(10, 10); int attachment =
-		 * PositionConstants.RIGHT; Dimension dim = new Dimension(20, 10);
-		 * CreateGraphNodeCommand com = new CreateGraphNodeCommand((EditDomain)
-		 * modeler.getAdapter(EditDomain.class), childGraphNode,
-		 * parentGraphNode, loc, dim, attachment);
-		 * modeler.getEditingDomain().getCommandStack().execute((Command) com);
-		 * }
-		 */
-		@SuppressWarnings("unused")
-		EList<DiagramElement> elems = di.getContained();
-		Importer importer = new Importer(modeler, lifeline);
-		importer.setDisplayDialogs(false);
-		importer.setTargetEditPart((GraphicalEditPart) getEditPartForObjectInDiagram(di, interaction));
-		importer.setLocation(new Point(calculateXForNewLifeline(di), 0));
-		try {
-			importer.run(new NullProgressMonitor());
-		} catch (BoundsFormatException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+
+		GraphElement node = modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) lifeline, "default");
+		if (node instanceof GraphNode) {
+			node.setPosition(new Point(calculateXForNewLifeline(di), 40));
+			((GraphNode) node).setSize(new Dimension(50, calculateHeightForNewLifeline(di)));
+			// CreateGraphNodeCommand com = new
+			// CreateGraphNodeCommand((EditDomain)
+			// modeler.getAdapter(EditDomain.class), childGraphNode,
+			// parentGraphNode, loc,
+			// dim, attachment);
+			// modeler.getEditingDomain().getCommandStack().execute((Command)
+			// com);
+			di.getContained().add(node);
 		}
-		// now the element is created we can resize it
-		GraphElement lifelineElement = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), lifeline);
-		if (lifelineElement instanceof GraphNode) {
-			((GraphNode) lifelineElement).setSize(new Dimension(((GraphNode) lifelineElement).getSize().width, calculateHeightForNewLifeline(di)));
-		}
+
+		// Importer importer = new Importer(modeler, lifeline);
+		// importer.setDisplayDialogs(false);
+		// importer.setTargetEditPart((GraphicalEditPart)
+		// getEditPartForObjectInDiagram(di, interaction));
+		// importer.setLocation(new Point(calculateXForNewLifeline(di), 0));
+		// try {
+		// importer.run(new NullProgressMonitor());
+		// // now the element is created we can resize it
+		// GraphElement lifelineElement =
+		// Utils.getGraphElement(di.getSemanticModel().getGraphElement(),
+		// lifeline);
+		// if (lifelineElement instanceof GraphNode) {
+		// ((GraphNode) lifelineElement).setSize(new Dimension(((GraphNode)
+		// lifelineElement).getSize().width,
+		// calculateHeightForNewLifeline(di)));
+		// }
+		// } catch (BoundsFormatException e) {
+		// throw e;
+		// } catch (IllegalArgumentException e) {
+		// throw e;
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
 
 	}
 
@@ -156,25 +162,27 @@ public class InteractionExtender implements ExtenderInterface {
 		}
 	}
 
-	EditPart getEditPartForObjectInDiagram(Diagram di, Object object) {
-		EList<DiagramElement> elements = new BasicEList<DiagramElement>();
-		// collect diagram
-		elements.add(di.getSemanticModel().getGraphElement());
-		// collect all nodes in diagram (first level only)
-		elements.addAll(di.getContained());
-		for (DiagramElement element : elements) {
-			if (element instanceof GraphNode) {
-				GraphNode node = (GraphNode) element;
-				if (node.getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
-					if (((EMFSemanticModelBridgeImpl) node.getSemanticModel()).getElement() == object) {
-						return (EditPart) modeler.getGraphicalViewer().getEditPartRegistry().get(element);
-					}
-				}
-
-			}
-		}
-		return null;
-	}
+	// EditPart getEditPartForObjectInDiagram(Diagram di, Object object) {
+	// EList<DiagramElement> elements = new BasicEList<DiagramElement>();
+	// // collect diagram
+	// elements.add(di.getSemanticModel().getGraphElement());
+	// // collect all nodes in diagram (first level only)
+	// elements.addAll(di.getContained());
+	// for (DiagramElement element : elements) {
+	// if (element instanceof GraphNode) {
+	// GraphNode node = (GraphNode) element;
+	// if (node.getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
+	// if (((EMFSemanticModelBridgeImpl) node.getSemanticModel()).getElement()
+	// == object) {
+	// return (EditPart)
+	// modeler.getGraphicalViewer().getEditPartRegistry().get(element);
+	// }
+	// }
+	//
+	// }
+	// }
+	// return null;
+	// }
 
 	int calculateXForNewLifeline(Diagram di) {
 		int result = 0;
