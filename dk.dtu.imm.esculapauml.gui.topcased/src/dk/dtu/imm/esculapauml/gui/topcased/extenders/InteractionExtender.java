@@ -26,10 +26,8 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.topcased.modeler.di.model.Diagram;
-import org.topcased.modeler.di.model.DiagramElement;
 import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.di.model.GraphNode;
-import org.topcased.modeler.di.model.internal.impl.EMFSemanticModelBridgeImpl;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
 import org.topcased.modeler.editor.Modeler;
 //import org.topcased.modeler.exceptions.BoundsFormatException;
@@ -40,6 +38,8 @@ import org.topcased.modeler.editor.Modeler;
 //import org.eclipse.gef.GraphicalEditPart;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
+import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterable;
+import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterator;
 
 /**
  * Extends sequence diagrams by new generated elements.
@@ -47,7 +47,6 @@ import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
  * @author Piotr J. Puczynski
  * 
  */
-@SuppressWarnings("restriction")
 public class InteractionExtender implements ExtenderInterface {
 	private static final String DIAGRAM_ID = "org.topcased.modeler.uml.sequencediagram";
 	private Modeler modeler;
@@ -141,6 +140,8 @@ public class InteractionExtender implements ExtenderInterface {
 
 	/**
 	 * Finds elements to be added to diagram based on annotations.
+	 * "topcased-ploted" is used to avoid duplication of graphical nodes
+	 * if user runs a checker subsequently.
 	 * 
 	 * @return
 	 */
@@ -153,7 +154,11 @@ public class InteractionExtender implements ExtenderInterface {
 				EAnnotation annotation = UML2Util.getEAnnotation((EModelElement) object, AbstractChecker.ESCULAPA_NAMESPACE, false);
 				if (null != annotation) {
 					if (annotation.getDetails().get("generated").equals("true")) {
-						toAdd.add((Element) object);
+						if (null == annotation.getDetails().get("topcased-ploted") || !annotation.getDetails().get("topcased-ploted").equals("true")) {
+							annotation.getDetails().put("topcased-ploted", "true");
+							toAdd.add((Element) object);
+						}
+
 					}
 				}
 			}
@@ -184,35 +189,27 @@ public class InteractionExtender implements ExtenderInterface {
 
 	int calculateXForNewLifeline(Diagram di) {
 		int result = 0;
-		EList<DiagramElement> elements = di.getContained();
-		for (DiagramElement element : elements) {
-			if (element instanceof GraphNode) {
-				GraphNode node = (GraphNode) element;
-				if (node.getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
-					if (((EMFSemanticModelBridgeImpl) node.getSemanticModel()).getElement() instanceof Lifeline) {
-						result = Math.max(result, node.getPosition().x + node.getSize().width + 30);
-					}
-				}
+		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
+		DiagramElementIterator dit = iterDiagram.iterator();
+		while (dit.hasNext()) {
+			GraphNode diNode = dit.nextNode();
+			if(dit.getModel() instanceof Lifeline) {
+				result = Math.max(result, diNode.getPosition().x + diNode.getSize().width + 30);
 			}
 		}
-
 		return result;
 	}
 
 	int calculateHeightForNewLifeline(Diagram di) {
 		int result = 30;
-		EList<DiagramElement> elements = di.getContained();
-		for (DiagramElement element : elements) {
-			if (element instanceof GraphNode) {
-				GraphNode node = (GraphNode) element;
-				if (node.getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
-					if (((EMFSemanticModelBridgeImpl) node.getSemanticModel()).getElement() instanceof Lifeline) {
-						result = Math.max(result, node.getSize().height);
-					}
-				}
+		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
+		DiagramElementIterator dit = iterDiagram.iterator();
+		while (dit.hasNext()) {
+			GraphNode diNode = dit.nextNode();
+			if(dit.getModel() instanceof Lifeline) {
+				result = Math.max(result, diNode.getSize().height);
 			}
 		}
-
 		return result;
 	}
 
