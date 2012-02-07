@@ -23,6 +23,7 @@ import org.topcased.modeler.di.model.internal.impl.EMFSemanticModelBridgeImpl;
 
 /**
  * Enhanced tree iterator to handle diagram nodes.
+ * 
  * @author Piotr J. Puczynski
  * 
  */
@@ -31,11 +32,13 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 
 	private DiagramElement current = null;
 	private Stack<Iterator<DiagramElement>> stack = new Stack<Iterator<DiagramElement>>();
+	private boolean isDeep;
 
 	/**
 	 * @param elements
 	 */
-	public DiagramElementIterator(EList<DiagramElement> elements) {
+	public DiagramElementIterator(EList<DiagramElement> elements, boolean isDeep) {
+		this.isDeep = isDeep;
 		if (!elements.isEmpty()) {
 			stack.push(elements.iterator());
 		}
@@ -77,10 +80,12 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 		if (!stack.peek().hasNext()) {
 			stack.pop();
 		}
-		// if node is compound, add new iterator
-		if (current instanceof GraphNode) {
-			if (!((GraphNode) current).getContained().isEmpty()) {
-				stack.push(((GraphNode) current).getContained().iterator());
+		if (isDeep) {
+			// if node is compound, add new iterator
+			if (current instanceof GraphNode) {
+				if (!((GraphNode) current).getContained().isEmpty()) {
+					stack.push(((GraphNode) current).getContained().iterator());
+				}
 			}
 		}
 
@@ -116,7 +121,7 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 	public GraphNode nextNode() {
 		next();
 		if (current instanceof GraphNode) {
-			return (GraphNode)current;
+			return (GraphNode) current;
 		}
 		return null;
 	}

@@ -41,7 +41,11 @@ public class DiagramElementIterable implements Iterable<DiagramElement> {
 	 */
 	@Override
 	public DiagramElementIterator iterator() {
-		return new DiagramElementIterator(elements);
+		return new DiagramElementIterator(elements, true);
+	}
+	
+	public DiagramElementIterator shallowIterator() {
+		return new DiagramElementIterator(elements, false);
 	}
 
 }
