@@ -18,8 +18,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.topcased.modeler.di.model.DiagramElement;
+import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.internal.impl.EMFSemanticModelBridgeImpl;
+import org.topcased.modeler.di.model.internal.impl.GraphElementImpl;
 
 /**
  * Enhanced tree iterator to handle diagram nodes.
@@ -50,7 +52,7 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 	 * @return model element.
 	 */
 	public EObject getModel() {
-		if (current instanceof GraphNode) {
+		if (current instanceof GraphElementImpl) {
 			if (((GraphNode) current).getSemanticModel() instanceof EMFSemanticModelBridgeImpl) {
 				return ((EMFSemanticModelBridgeImpl) ((GraphNode) current).getSemanticModel()).getElement();
 			}
@@ -122,6 +124,17 @@ public class DiagramElementIterator implements TreeIterator<DiagramElement> {
 		next();
 		if (current instanceof GraphNode) {
 			return (GraphNode) current;
+		}
+		return null;
+	}
+	
+	/**
+	 * @return
+	 */
+	public GraphEdge nextEdge() {
+		next();
+		if (current instanceof GraphEdge) {
+			return (GraphEdge) current;
 		}
 		return null;
 	}
