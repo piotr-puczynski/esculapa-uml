@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.gui.topcased.extenders;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -22,8 +23,10 @@ import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.common.util.UML2Util;
+import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphElement;
@@ -98,21 +101,36 @@ public class InteractionExtender implements ExtenderInterface {
 
 	private void createLifeline(Diagram di, Lifeline lifeline) {
 
-		GraphElement node = modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) lifeline, "default");
-		if (node instanceof GraphNode) {
-			node.setPosition(new Point(calculateXForNewLifeline(di), 40));
-			((GraphNode) node).setSize(new Dimension(50, calculateHeightForNewLifeline(di)));
-			// CreateGraphNodeCommand com = new
-			// CreateGraphNodeCommand((EditDomain)
-			// modeler.getAdapter(EditDomain.class), childGraphNode,
-			// parentGraphNode, loc,
-			// dim, attachment);
-			// modeler.getEditingDomain().getCommandStack().execute((Command)
-			// com);
-			di.getContained().add(node);
-			setAsPlotted(lifeline);
+		GraphNode node = (GraphNode) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) lifeline, "default");
+		node.setPosition(new Point(calculateXForNewLifeline(di), 40));
+		node.setSize(new Dimension(50, calculateHeightForNewLifeline(di)));
+		// CreateGraphNodeCommand com = new
+		// CreateGraphNodeCommand((EditDomain)
+		// modeler.getAdapter(EditDomain.class), childGraphNode,
+		// parentGraphNode, loc,
+		// dim, attachment);
+		// modeler.getEditingDomain().getCommandStack().execute((Command)
+		// com);
+		di.getContained().add(node);
+		setAsPlotted(lifeline);
+		// create bes
+		List<GraphNode> besNodes = new ArrayList<GraphNode>();
+		for (InteractionFragment fragment : lifeline.getCoveredBys()) {
+			if (fragment instanceof BehaviorExecutionSpecification) {
+				besNodes.add((GraphNode) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) fragment, "default"));
+				setAsPlotted(fragment);
+			}
 		}
-
+		//calculate bes sizes
+		int currentHeight = 15;
+		for (GraphNode besNode : besNodes) {
+			besNode.setPosition(new Point(0, currentHeight));
+			besNode.setSize(new Dimension(20, (node.getSize().height - 45) / besNodes.size()));
+			currentHeight += 15 + besNode.getSize().height;
+		}
+		node.getContained().addAll(besNodes);
+		
+		
 		// Importer importer = new Importer(modeler, lifeline);
 		// importer.setDisplayDialogs(false);
 		// importer.setTargetEditPart((GraphicalEditPart)
@@ -141,8 +159,8 @@ public class InteractionExtender implements ExtenderInterface {
 
 	/**
 	 * Finds elements to be added to diagram based on annotations.
-	 * "topcased-ploted" is used to avoid duplication of graphical nodes
-	 * if user runs a checker subsequently.
+	 * "topcased-ploted" is used to avoid duplication of graphical nodes if user
+	 * runs a checker subsequently.
 	 * 
 	 * @return
 	 */
@@ -164,7 +182,7 @@ public class InteractionExtender implements ExtenderInterface {
 			}
 		}
 	}
-	
+
 	private void setAsPlotted(Element element) {
 		EAnnotation annotation = UML2Util.getEAnnotation((EModelElement) element, AbstractChecker.ESCULAPA_NAMESPACE, true);
 		annotation.getDetails().put("topcased-ploted", "true");
@@ -198,7 +216,7 @@ public class InteractionExtender implements ExtenderInterface {
 		DiagramElementIterator dit = iterDiagram.shallowIterator();
 		while (dit.hasNext()) {
 			GraphNode diNode = dit.nextNode();
-			if(dit.getModel() instanceof Lifeline) {
+			if (dit.getModel() instanceof Lifeline) {
 				result = Math.max(result, diNode.getPosition().x + diNode.getSize().width + 30);
 			}
 		}
@@ -211,7 +229,7 @@ public class InteractionExtender implements ExtenderInterface {
 		DiagramElementIterator dit = iterDiagram.shallowIterator();
 		while (dit.hasNext()) {
 			GraphNode diNode = dit.nextNode();
-			if(dit.getModel() instanceof Lifeline) {
+			if (dit.getModel() instanceof Lifeline) {
 				result = Math.max(result, diNode.getSize().height);
 			}
 		}

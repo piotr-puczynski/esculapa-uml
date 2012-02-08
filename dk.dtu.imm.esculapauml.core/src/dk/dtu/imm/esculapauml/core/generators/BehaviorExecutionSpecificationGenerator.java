@@ -51,7 +51,7 @@ public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<B
 	public BehaviorExecutionSpecification generate() {
 		BehaviorExecutionSpecification result = UMLFactory.eINSTANCE.createBehaviorExecutionSpecification();
 		result.setEnclosingInteraction(lifeline.getInteraction());
-		result.setName("BehaviorExecutionSpecification");
+		result.setName("BehaviorExecutionSpecificationOf" + lifeline.getLabel());
 		switch (position) {
 		case POSITION_END:
 			lifeline.getCoveredBys().add(result);
