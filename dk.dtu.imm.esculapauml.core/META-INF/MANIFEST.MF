@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Eclipse-RegisterBuddy: org.apache.log4j
 Export-Package: dk.dtu.imm.esculapauml.core,
- dk.dtu.imm.esculapauml.core.checkers
+ dk.dtu.imm.esculapauml.core.checkers,
+ dk.dtu.imm.esculapauml.core.states
 Require-Bundle: org.eclipse.emf;bundle-version="2.6.0",
  org.eclipse.uml2.uml;bundle-version="3.2.100",
  dk.dtu.imm.esculapauml.lambdaj;bundle-version="2.3.3",

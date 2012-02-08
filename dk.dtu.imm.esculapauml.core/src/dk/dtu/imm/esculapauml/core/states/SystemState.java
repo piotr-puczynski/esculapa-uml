@@ -12,10 +12,16 @@
 package dk.dtu.imm.esculapauml.core.states;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 
+import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 
@@ -29,6 +35,7 @@ import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 public class SystemState {
 	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
 	private org.eclipse.uml2.uml.Package instancePackage = null;
+	private Set<Element> generatedElements = new HashSet<Element>();
 	private int stateId = -1;
 	UseCaseExecutor mainExecutor = null;
 
@@ -38,13 +45,16 @@ public class SystemState {
 	public SystemState() {
 		super();
 	}
-	
+
 	/**
 	 * Prepares the state in case of subsequent execution.
-	 * @param model 
+	 * 
+	 * @param model
 	 */
 	public void prepare(String name, Model model, UseCaseExecutor mainExecutor) {
+		generatedElements.clear();
 		instancePackage = model.createNestedPackage(name + " Instance(" + ++stateId + ")");
+		addGeneratedElement(instancePackage);
 		this.mainExecutor = mainExecutor;
 	}
 
@@ -54,6 +64,18 @@ public class SystemState {
 
 	public void registerBehaviorChecker(BehavioredClassifier type, BehaviorChecker checker) {
 		behaviorCheckers.put(type, checker);
+	}
+
+	public void addGeneratedElement(Element element) {
+		annotateAsGenerated(element);
+		generatedElements.add(element);
+	}
+
+	/**
+	 * @return the generatedElements
+	 */
+	public Set<Element> getGeneratedElements() {
+		return generatedElements;
 	}
 
 	/**
@@ -70,7 +92,15 @@ public class SystemState {
 		return mainExecutor;
 	}
 	
+	/**
+	 * Adds an annotation for new generated elements.
+	 * The annotations might be used later by other plug-ins, e.g. to draw new elements.
+	 * @param element
+	 */
 	
-	
+	protected void annotateAsGenerated(Element element) {
+		EAnnotation annotation = UML2Util.getEAnnotation(element, AbstractChecker.ESCULAPA_NAMESPACE, true);
+		annotation.getDetails().put("generated", "true");
+	}
 
 }

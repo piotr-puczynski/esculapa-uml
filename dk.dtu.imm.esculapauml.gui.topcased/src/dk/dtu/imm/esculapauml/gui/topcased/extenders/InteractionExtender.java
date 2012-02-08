@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.gui.topcased.extenders;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -71,7 +72,7 @@ public class InteractionExtender implements ExtenderInterface {
 	 */
 	@Override
 	public void extend() {
-		calculateExtensionElements();
+		calculateElementsToPlot();
 		if (!toAdd.isEmpty()) {
 			List<Diagram> diags = DiagramsUtils.findAllExistingDiagram(modeler.getDiagrams(), interaction);
 			for (Diagram di : diags) {
@@ -145,7 +146,7 @@ public class InteractionExtender implements ExtenderInterface {
 	 * 
 	 * @return
 	 */
-	private void calculateExtensionElements() {
+	private void calculateElementsToPlot() {
 		toAdd.clear();
 		TreeIterator<EObject> contents = interaction.eAllContents();
 		while (contents.hasNext()) {

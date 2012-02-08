@@ -43,6 +43,8 @@ public class BehaviorExecutor extends AbstractStateMachineExecutor<BehaviorCheck
 		instanceSpecification.setName(instanceName);
 		//add to instance package
 		checker.getSystemState().getInstancePackage().getPackagedElements().add(instanceSpecification);
+		checker.getSystemState().addGeneratedElement(instanceSpecification);
+		
 		super.prepare();
 		logger.debug(checkee.getLabel()  + "[" + instanceName + "]: executor prepared");
 	}

@@ -56,14 +56,14 @@ public class LifelineGenerator extends AbstractGenerator<Lifeline> {
 	public Lifeline generate() {
 		Property prop = interaction.createOwnedAttribute(type.getLabel(), UMLFactory.eINSTANCE.createProperty().getType());
 		prop.setType(type);
-		annotateAsGenerated(prop);
+		systemState.addGeneratedElement(prop);
 		Connector connector = interaction.getOwnedConnector("Connector1", true, true);
 		ConnectorEnd end = connector.createEnd();
 		end.setRole(prop);
-		annotateAsGenerated(end);
+		systemState.addGeneratedElement(end);
 		generated = interaction.createLifeline(type.getLabel());
 		generated.setRepresents(prop);
-		annotateAsGenerated(generated);
+		systemState.addGeneratedElement(generated);
 		logger.info("Generated new element: " + generated.getLabel());
 		// check the lifeline to create an executor
 		LifelineChecker lc = new LifelineChecker(systemState, diagnostic, generated);

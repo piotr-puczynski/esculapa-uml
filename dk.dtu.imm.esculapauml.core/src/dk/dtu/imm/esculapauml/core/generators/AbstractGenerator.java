@@ -13,10 +13,7 @@ package dk.dtu.imm.esculapauml.core.generators;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
-import org.eclipse.emf.ecore.EAnnotation;
-import org.eclipse.uml2.uml.Element;
 
-import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
@@ -38,17 +35,5 @@ public abstract class AbstractGenerator<T> implements GeneratorInterface<T> {
 		super();
 		this.systemState = systemState;
 		this.diagnostic = diagnostic;
-	}
-
-
-	/**
-	 * Adds an annotation for new generated elements.
-	 * The annotations might be used later by other plug-ins, e.g. to draw new elements.
-	 * @param element
-	 */
-	
-	protected void annotateAsGenerated(Element element) {
-		EAnnotation annotation = element.createEAnnotation(AbstractChecker.ESCULAPA_NAMESPACE);
-		annotation.getDetails().put("generated", "true");
 	}
 }
