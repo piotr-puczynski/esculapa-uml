@@ -258,7 +258,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 			if (effect instanceof FunctionBehavior) {
 				BehavioralFeature bf = effect.getSpecification();
 				if(bf instanceof Operation) {
-					checker.getSystemState().getMainExecutor().externalExecution(this, (Operation)bf);
+					checker.getSystemState().getMainExecutor().behaviorExecution(this, (Operation)bf);
 				} else {
 					//this shouldn't happen as function behavior should be an operation
 					checker.addOtherProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.", transition);
