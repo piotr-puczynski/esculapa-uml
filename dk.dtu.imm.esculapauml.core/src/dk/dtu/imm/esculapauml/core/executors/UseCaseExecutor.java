@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
@@ -30,6 +31,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
+import dk.dtu.imm.esculapauml.core.generators.BehaviorExecutionSpecificationGenerator;
 import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
@@ -106,7 +108,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	}
 	
 	/**
-	 * Very important operation called each time some operation is executed from outside (e.g. in state machines).
+	 * Operation called each time some operation is executed from outside (e.g. in state machines).
 	 * It enables extension of sequence diagrams or synchronization with current execution (depending on mode).
 	 * @param executor
 	 * @param operation
@@ -117,9 +119,17 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 		if(null == lifeline) {
 			//there is no lifeline now that could correspond to the object
 			//we need to create it
-			LifelineGenerator generator = new LifelineGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), checkee, targetClass);
-			lifeline = generator.generate();
+			LifelineGenerator lifelineGenerator = new LifelineGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), checkee, targetClass);
+			lifeline = lifelineGenerator.generate();
+			//we will need also to generate BehaviorExecutionSpecification and a message (with call event)
+			BehaviorExecutionSpecificationGenerator  besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), lifeline, BehaviorExecutionSpecificationGenerator.POSITION_BEGINNING);
+			BehaviorExecutionSpecification bes = besGenerator.generate();
+		} else {
+			//check if next message conforming with operation
+			//TODO check
 		}
+		
+		
 	}
 
 	/**
