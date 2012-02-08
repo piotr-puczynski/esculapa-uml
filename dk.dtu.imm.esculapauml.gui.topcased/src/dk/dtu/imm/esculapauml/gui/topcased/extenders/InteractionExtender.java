@@ -11,7 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.gui.topcased.extenders;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -111,6 +110,7 @@ public class InteractionExtender implements ExtenderInterface {
 			// modeler.getEditingDomain().getCommandStack().execute((Command)
 			// com);
 			di.getContained().add(node);
+			setAsPlotted(lifeline);
 		}
 
 		// Importer importer = new Importer(modeler, lifeline);
@@ -156,7 +156,6 @@ public class InteractionExtender implements ExtenderInterface {
 				if (null != annotation) {
 					if (annotation.getDetails().get("generated").equals("true")) {
 						if (null == annotation.getDetails().get("topcased-ploted") || !annotation.getDetails().get("topcased-ploted").equals("true")) {
-							annotation.getDetails().put("topcased-ploted", "true");
 							toAdd.add((Element) object);
 						}
 
@@ -164,6 +163,11 @@ public class InteractionExtender implements ExtenderInterface {
 				}
 			}
 		}
+	}
+	
+	private void setAsPlotted(Element element) {
+		EAnnotation annotation = UML2Util.getEAnnotation((EModelElement) element, AbstractChecker.ESCULAPA_NAMESPACE, true);
+		annotation.getDetails().put("topcased-ploted", "true");
 	}
 
 	// EditPart getEditPartForObjectInDiagram(Diagram di, Object object) {

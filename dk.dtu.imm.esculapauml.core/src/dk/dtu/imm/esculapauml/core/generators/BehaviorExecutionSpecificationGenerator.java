@@ -20,14 +20,15 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
  * Generates BehaviorExecutionSpecification at specified position on lifeline.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<BehaviorExecutionSpecification> {
-	
-	public static int POSITION_BEGINNING = -2;
-	public static int POSITION_END = -1;
-	
+
+	public static final int POSITION_BEGINNING = -2;
+	public static final int POSITION_END = -1;
+
 	private int position;
 	private Lifeline lifeline;
 
@@ -41,7 +42,9 @@ public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<B
 		lifeline = owner;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dk.dtu.imm.esculapauml.core.generators.GeneratorInterface#generate()
 	 */
 	@Override
@@ -49,6 +52,15 @@ public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<B
 		BehaviorExecutionSpecification result = UMLFactory.eINSTANCE.createBehaviorExecutionSpecification();
 		result.setEnclosingInteraction(lifeline.getInteraction());
 		result.setName("BehaviorExecutionSpecification");
+		switch (position) {
+		case POSITION_END:
+			lifeline.getCoveredBys().add(result);
+			break;
+		case POSITION_BEGINNING:
+			position = 0;
+		default:
+			lifeline.getCoveredBys().add(position, result);
+		}
 		lifeline.getCoveredBys().add(result);
 		systemState.addGeneratedElement(result);
 		return null;
