@@ -113,7 +113,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	 * @param executor
 	 * @param operation
 	 */
-	protected void externalExecution(Object executor, Operation operation) {
+	protected void externalExecution(BehaviorExecutor executor, Operation operation) {
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
 		Lifeline lifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
 		if(null == lifeline) {

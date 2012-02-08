@@ -29,7 +29,6 @@ import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.topcased.modeler.di.model.Diagram;
-import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
 import org.topcased.modeler.editor.Modeler;

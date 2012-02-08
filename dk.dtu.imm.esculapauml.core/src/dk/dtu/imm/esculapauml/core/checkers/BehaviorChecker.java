@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.StateMachine;
 
 import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
@@ -53,8 +54,8 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 
 	}
 	
-	public void registerInstance(String name) {
-		BehaviorExecutor be = new BehaviorExecutor(this, name);
+	public void registerInstance(Lifeline lifeline) {
+		BehaviorExecutor be = new BehaviorExecutor(this, lifeline);
 		executors.add(be);
 		if (!hasErrors()) {
 			be.prepare();

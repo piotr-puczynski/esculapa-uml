@@ -102,7 +102,7 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 			bc = new BehaviorChecker(systemState, diagnostics, sm, type);
 			bc.check();
 		}
-		bc.registerInstance(checkee.getName());
+		bc.registerInstance(checkee);
 	}
 
 }
