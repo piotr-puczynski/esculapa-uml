@@ -50,27 +50,28 @@ public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<B
 	 */
 	@Override
 	public BehaviorExecutionSpecification generate() {
-		BehaviorExecutionSpecification result = UMLFactory.eINSTANCE.createBehaviorExecutionSpecification();
-		result.setEnclosingInteraction(lifeline.getInteraction());
-		result.setName("BehaviorExecutionSpecificationOf" + lifeline.getLabel());
+		generated = UMLFactory.eINSTANCE.createBehaviorExecutionSpecification();
+		generated.setEnclosingInteraction(lifeline.getInteraction());
+		generated.setName("BehaviorExecutionSpecificationOf" + lifeline.getLabel());
 		switch (position) {
 		case POSITION_END:
-			lifeline.getCoveredBys().add(result);
+			lifeline.getCoveredBys().add(generated);
 			break;
 		case POSITION_BEGINNING:
 			position = 0;
 		default:
-			lifeline.getCoveredBys().add(position, result);
+			lifeline.getCoveredBys().add(position, generated);
 		}
 		if (null != start) {
-			result.setStart(start);
+			generated.setStart(start);
 		}
 		if (null != finish) {
-			result.setFinish(finish);
+			generated.setFinish(finish);
 		}
-		lifeline.getCoveredBys().add(result);
-		systemState.addGeneratedElement(result);
-		return null;
+		lifeline.getCoveredBys().add(generated);
+		systemState.addGeneratedElement(generated);
+		logger.info("Generated new element: " + generated.getLabel());
+		return generated;
 	}
 
 	/**

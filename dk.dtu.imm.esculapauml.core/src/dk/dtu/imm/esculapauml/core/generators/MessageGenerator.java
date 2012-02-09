@@ -58,14 +58,14 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		targetLifeline.getInteraction().getNearestPackage().getPackagedElements().add(event);
 		systemState.addGeneratedElement(event);
 
-		Message result = sourceLifeline.getInteraction().createMessage("MessageOf" + operation.getLabel());
-		result.setMessageSort(messageSort);
-		systemState.addGeneratedElement(result);
+		generated = sourceLifeline.getInteraction().createMessage("MessageOf" + operation.getLabel());
+		generated.setMessageSort(messageSort);
+		systemState.addGeneratedElement(generated);
 
 		MessageOccurrenceSpecification eventSend = UMLFactory.eINSTANCE.createMessageOccurrenceSpecification();
-		result.setSendEvent(eventSend);
+		generated.setSendEvent(eventSend);
 		eventSend.setEvent(event);
-		eventSend.setMessage(result);
+		eventSend.setMessage(generated);
 		eventSend.setName("SendMessageOccurrenceSpecificationOf" + operation.getName());
 		eventSend.setEnclosingInteraction(targetLifeline.getInteraction());
 		insertSpecificationAfter(sourceLifeline, eventSend, sentGenerateAfter);
@@ -73,15 +73,16 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		systemState.addGeneratedElement(eventSend);
 
 		MessageOccurrenceSpecification eventReceive = UMLFactory.eINSTANCE.createMessageOccurrenceSpecification();
-		result.setReceiveEvent(eventReceive);
+		generated.setReceiveEvent(eventReceive);
 		eventReceive.setEvent(event);
-		eventReceive.setMessage(result);
+		eventReceive.setMessage(generated);
 		eventReceive.setName("ReceiveMessageOccurrenceSpecificationOf" + operation.getName());
 		eventReceive.setEnclosingInteraction(targetLifeline.getInteraction());
 		insertSpecificationAfter(targetLifeline, eventReceive, receiveGenerateAfter);
 		eventReceive.getCovereds().add(targetLifeline);
 		systemState.addGeneratedElement(eventReceive);
-		return result;
+		logger.info("Generated new element: " + generated.getLabel());
+		return generated;
 	}
 
 	protected void insertSpecificationAfter(Lifeline lifeline, MessageOccurrenceSpecification toInsert, MessageOccurrenceSpecification after) {
