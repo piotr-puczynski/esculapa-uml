@@ -127,7 +127,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			// we will need also to generate BehaviorExecutionSpecification and
 			// a message (with call event)
 			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), operation,
-					InteractionUtils.getMessageTargetTLifeline(currentMessage), lifeline);
+					InteractionUtils.getMessageTargetLifeline(currentMessage), lifeline);
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
 			Message message = messageGenerator.generate();
 			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,

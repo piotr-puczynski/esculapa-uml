@@ -11,8 +11,15 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.generators;
 
+import static ch.lambdaj.Lambda.filter;
+import static org.hamcrest.Matchers.is;
+
+import java.util.List;
+
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.CallEvent;
+import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
@@ -32,6 +39,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	private MessageOccurrenceSpecification sentGenerateAfter = null, receiveGenerateAfter = null;
 	private MessageSort messageSort = MessageSort.SYNCH_CALL_LITERAL;
 	private Operation operation;
+	private boolean extendBehavorExecutionSpecificationsIfNecessary = true;
 
 	/**
 	 * @param systemState
@@ -95,6 +103,19 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 				lifeline.getCoveredBys().add(toInsert);
 			} else {
 				lifeline.getCoveredBys().add(insertIndex + 1, toInsert);
+				// we need to make sure that any execution specification do not
+				// point with finish to after
+				// if yes, we need to update it with toInsert
+				if (extendBehavorExecutionSpecificationsIfNecessary) {
+					List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
+					for (InteractionFragment ifbes : allBes) {
+						BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ifbes;
+						if (bes.getFinish() == after) {
+							bes.setFinish(toInsert);
+							break;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -122,5 +143,14 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	public void setMessageSort(MessageSort messageSort) {
 		this.messageSort = messageSort;
 	}
+
+	/**
+	 * @param extendBehavorExecutionSpecificationsIfNecessary the extendBehavorExecutionSpecificationsIfNecessary to set
+	 */
+	public void setExtendBehavorExecutionSpecificationsIfNecessary(boolean extendBehavorExecutionSpecificationsIfNecessary) {
+		this.extendBehavorExecutionSpecificationsIfNecessary = extendBehavorExecutionSpecificationsIfNecessary;
+	}
+	
+	
 
 }

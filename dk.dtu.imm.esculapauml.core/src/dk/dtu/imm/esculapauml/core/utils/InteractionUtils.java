@@ -15,13 +15,17 @@ import static ch.lambdaj.Lambda.filter;
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 import java.util.List;
 
+import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
+import org.eclipse.uml2.uml.OccurrenceSpecification;
 import org.eclipse.uml2.uml.Type;
 
 /**
@@ -30,14 +34,14 @@ import org.eclipse.uml2.uml.Type;
  */
 public final class InteractionUtils {
 	public static Type getMessageTargetType(Message message) {
-		Lifeline result = getMessageTargetTLifeline(message);
+		Lifeline result = getMessageTargetLifeline(message);
 		if (null != result) {
 			return result.getRepresents().getType();
 		}
 		return null;
 	}
 
-	public static Lifeline getMessageTargetTLifeline(Message message) {
+	public static Lifeline getMessageTargetLifeline(Message message) {
 		if (message.getReceiveEvent() instanceof MessageOccurrenceSpecification) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
 			if (moc.getCovereds().size() > 0) {
@@ -45,6 +49,75 @@ public final class InteractionUtils {
 			}
 
 		}
+		return null;
+	}
+	
+	public static Lifeline getMessageSourceLifeline(Message message) {
+		if (message.getSendEvent() instanceof MessageOccurrenceSpecification) {
+			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
+			if (moc.getCovereds().size() > 0) {
+				return moc.getCovereds().get(0);
+			}
+
+		}
+		return null;
+	}
+	
+	public static BehaviorExecutionSpecification getMessageSourceExecutionSpecification(Message message) {
+		Lifeline lifeline = getMessageSourceLifeline(message);
+		if(null != lifeline) {
+			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
+			int mocIndex = lifeline.getCoveredBys().indexOf(moc);
+			//we find all behavior execution specifications
+			List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
+			for(InteractionFragment ifbes: allBes) {
+				BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ifbes;
+				OccurrenceSpecification start = bes.getStart();
+				OccurrenceSpecification finish = bes.getFinish();
+				//check borders
+				if(moc == start || moc == finish) {
+					return bes;
+				}
+				//otherwise check range
+				if(null != start && null != finish) {
+					int startIndex = lifeline.getCoveredBys().indexOf(start);
+					int finishIndex = lifeline.getCoveredBys().indexOf(finish);
+					if(mocIndex > startIndex && mocIndex < finishIndex) {
+						return bes;
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	public static BehaviorExecutionSpecification getMessageTargetExecutionSpecification(Message message) {
+		Lifeline lifeline = getMessageTargetLifeline(message);
+		if(null != lifeline) {
+			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
+			int mocIndex = lifeline.getCoveredBys().indexOf(moc);
+			//we find all behavior execution specifications
+			List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
+			for(InteractionFragment ifbes: allBes) {
+				BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ifbes;
+				OccurrenceSpecification start = bes.getStart();
+				OccurrenceSpecification finish = bes.getFinish();
+				//check borders
+				if(moc == start || moc == finish) {
+					return bes;
+				}
+				//otherwise check range
+				if(null != start && null != finish) {
+					int startIndex = lifeline.getCoveredBys().indexOf(start);
+					int finishIndex = lifeline.getCoveredBys().indexOf(finish);
+					if(mocIndex > startIndex && mocIndex < finishIndex) {
+						return bes;
+					}
+				}
+			}
+		}
+		
 		return null;
 	}
 

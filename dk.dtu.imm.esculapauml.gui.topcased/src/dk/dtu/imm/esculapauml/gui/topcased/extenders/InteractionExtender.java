@@ -28,10 +28,16 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
+import org.eclipse.uml2.uml.Message;
 import org.topcased.modeler.di.model.Diagram;
+import org.topcased.modeler.di.model.GraphConnector;
+import org.topcased.modeler.di.model.GraphEdge;
+import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
 import org.topcased.modeler.editor.Modeler;
+import org.topcased.modeler.uml.sequencediagram.util.SequenceUtils;
+import org.topcased.modeler.utils.Utils;
 //import org.topcased.modeler.exceptions.BoundsFormatException;
 //import org.topcased.modeler.tools.Importer;
 //import org.topcased.modeler.utils.Utils;
@@ -40,6 +46,7 @@ import org.topcased.modeler.editor.Modeler;
 //import org.eclipse.gef.GraphicalEditPart;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
+import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterable;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterator;
 
@@ -49,6 +56,7 @@ import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterator;
  * @author Piotr J. Puczynski
  * 
  */
+@SuppressWarnings("restriction")
 public class InteractionExtender implements ExtenderInterface {
 	private static final String DIAGRAM_ID = "org.topcased.modeler.uml.sequencediagram";
 	private Modeler modeler;
@@ -96,6 +104,25 @@ public class InteractionExtender implements ExtenderInterface {
 				createLifeline(di, (Lifeline) element);
 			}
 		}
+		for (Element element : toAdd) {
+			if (element instanceof Message) {
+				createMessage(di, (Message) element);
+			}
+		}
+	}
+
+	/**
+	 * @param di
+	 * @param element
+	 */
+	private void createMessage(Diagram di, Message message) {
+		GraphEdge edge = (GraphEdge) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) message, "default");
+		GraphElement source = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), InteractionUtils.getMessageSourceExecutionSpecification(message), true);
+		GraphElement target = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), InteractionUtils.getMessageTargetExecutionSpecification(message), true);
+		GraphConnector srcConnector = SequenceUtils.createGraphConnector(new Point(10,10), source, edge);
+		GraphConnector targetConnector = SequenceUtils.createGraphConnector(new Point(30,30), target, edge);
+		
+		di.getContained().add(edge);
 	}
 
 	private void createLifeline(Diagram di, Lifeline lifeline) {
