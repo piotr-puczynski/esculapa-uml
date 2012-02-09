@@ -33,6 +33,7 @@ import org.eclipse.uml2.uml.UMLPackage.Literals;
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.generators.BehaviorExecutionSpecificationGenerator;
 import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
+import dk.dtu.imm.esculapauml.core.generators.MessageGenerator;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 
@@ -79,7 +80,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 		logger.info(checkee.getLabel() + ": executor start execution");
 		while (null != currentMessage) {
 			executeMessage(currentMessage);
-			if(checker.hasErrors()) {
+			if (checker.hasErrors()) {
 				logger.warn(checkee.getLabel() + ": executor stopped due to errors detected");
 				break;
 			}
@@ -106,30 +107,37 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			}
 		}
 	}
-	
+
 	/**
-	 * Operation called each time some operation is executed from outside (e.g. in state machines).
-	 * It enables extension of sequence diagrams or synchronization with current execution (depending on mode).
+	 * Operation called each time some operation is executed from outside (e.g.
+	 * in state machines). It enables extension of sequence diagrams or
+	 * synchronization with current execution (depending on mode).
+	 * 
 	 * @param executor
 	 * @param operation
 	 */
 	protected void behaviorExecution(BehaviorExecutor executor, Operation operation) {
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
 		Lifeline lifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
-		if(null == lifeline) {
-			//there is no lifeline now that could correspond to the object
-			//we need to create it
+		if (null == lifeline) {
+			// there is no lifeline now that could correspond to the object
+			// we need to create it
 			LifelineGenerator lifelineGenerator = new LifelineGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), checkee, targetClass);
 			lifeline = lifelineGenerator.generate();
-			//we will need also to generate BehaviorExecutionSpecification and a message (with call event)
-			BehaviorExecutionSpecificationGenerator  besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), lifeline, BehaviorExecutionSpecificationGenerator.POSITION_BEGINNING);
+			// we will need also to generate BehaviorExecutionSpecification and
+			// a message (with call event)
+			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
+					(BasicDiagnostic) checker.getDiagnostics(), lifeline, BehaviorExecutionSpecificationGenerator.POSITION_BEGINNING);
 			BehaviorExecutionSpecification bes = besGenerator.generate();
+			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), operation,
+					MessageSort.SYNCH_CALL_LITERAL, InteractionUtils.getMessageTargetTLifeline(currentMessage), lifeline,
+					(MessageOccurrenceSpecification) currentMessage.getReceiveEvent(), null);
+			Message message = messageGenerator.generate();
 		} else {
-			//check if next message conforming with operation
-			//TODO check
+			// check if next message conforming with operation
+			// TODO check
 		}
-		
-		
+
 	}
 
 	/**

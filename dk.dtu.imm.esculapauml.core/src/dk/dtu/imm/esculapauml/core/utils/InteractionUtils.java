@@ -30,24 +30,30 @@ import org.eclipse.uml2.uml.Type;
  */
 public final class InteractionUtils {
 	public static Type getMessageTargetType(Message message) {
+		Lifeline result = getMessageTargetTLifeline(message);
+		if (null != result) {
+			return result.getRepresents().getType();
+		}
+		return null;
+	}
+
+	public static Lifeline getMessageTargetTLifeline(Message message) {
 		if (message.getReceiveEvent() instanceof MessageOccurrenceSpecification) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
 			if (moc.getCovereds().size() > 0) {
-				Lifeline lifeline = moc.getCovereds().get(0);
-				return lifeline.getRepresents().getType();
+				return moc.getCovereds().get(0);
 			}
 
 		}
 		return null;
 	}
-	
+
 	public static Lifeline findRepresentingLifeline(Interaction interaction, org.eclipse.uml2.uml.Class representant) {
 		List<Lifeline> lifelines = filter(having(on(Lifeline.class).getRepresents().getType(), equalTo(representant)), interaction.getLifelines());
-		if(lifelines.size() > 0) {
+		if (lifelines.size() > 0) {
 			return lifelines.get(0);
 		}
 		return null;
 	}
-	
-	
+
 }
