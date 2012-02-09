@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.core.generators;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.Lifeline;
+import org.eclipse.uml2.uml.OccurrenceSpecification;
 import org.eclipse.uml2.uml.UMLFactory;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
@@ -29,16 +30,16 @@ public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<B
 	public static final int POSITION_BEGINNING = -2;
 	public static final int POSITION_END = -1;
 
-	private int position;
+	private int position = BehaviorExecutionSpecificationGenerator.POSITION_END;
 	private Lifeline lifeline;
+	private OccurrenceSpecification start = null, finish = null;
 
 	/**
 	 * @param systemState
 	 * @param diagnostic
 	 */
-	public BehaviorExecutionSpecificationGenerator(SystemState systemState, BasicDiagnostic diagnostic, Lifeline owner, int position) {
+	public BehaviorExecutionSpecificationGenerator(SystemState systemState, BasicDiagnostic diagnostic, Lifeline owner) {
 		super(systemState, diagnostic);
-		this.position = position;
 		lifeline = owner;
 	}
 
@@ -61,9 +62,39 @@ public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<B
 		default:
 			lifeline.getCoveredBys().add(position, result);
 		}
+		if (null != start) {
+			result.setStart(start);
+		}
+		if (null != finish) {
+			result.setFinish(finish);
+		}
 		lifeline.getCoveredBys().add(result);
 		systemState.addGeneratedElement(result);
 		return null;
+	}
+
+	/**
+	 * @param start
+	 *            the start to set
+	 */
+	public void setStart(OccurrenceSpecification start) {
+		this.start = start;
+	}
+
+	/**
+	 * @param finish
+	 *            the finish to set
+	 */
+	public void setFinish(OccurrenceSpecification finish) {
+		this.finish = finish;
+	}
+
+	/**
+	 * @param position
+	 *            the position to set
+	 */
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 }

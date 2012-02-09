@@ -27,6 +27,7 @@ import org.eclipse.uml2.uml.MessageEnd;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.OccurrenceSpecification;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
@@ -126,13 +127,15 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			lifeline = lifelineGenerator.generate();
 			// we will need also to generate BehaviorExecutionSpecification and
 			// a message (with call event)
-			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
-					(BasicDiagnostic) checker.getDiagnostics(), lifeline, BehaviorExecutionSpecificationGenerator.POSITION_BEGINNING);
-			BehaviorExecutionSpecification bes = besGenerator.generate();
 			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), operation,
-					MessageSort.SYNCH_CALL_LITERAL, InteractionUtils.getMessageTargetTLifeline(currentMessage), lifeline,
-					(MessageOccurrenceSpecification) currentMessage.getReceiveEvent(), null);
+					InteractionUtils.getMessageTargetTLifeline(currentMessage), lifeline);
+			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
 			Message message = messageGenerator.generate();
+			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
+					(BasicDiagnostic) checker.getDiagnostics(), lifeline);
+			besGenerator.setStart((OccurrenceSpecification) message.getReceiveEvent());
+			besGenerator.setFinish((OccurrenceSpecification) message.getReceiveEvent());
+			besGenerator.generate();
 		} else {
 			// check if next message conforming with operation
 			// TODO check
