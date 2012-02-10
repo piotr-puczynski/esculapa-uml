@@ -16,6 +16,7 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.CallEvent;
@@ -38,18 +39,19 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	private Lifeline sourceLifeline, targetLifeline;
 	private MessageOccurrenceSpecification sentGenerateAfter = null, receiveGenerateAfter = null;
 	private MessageSort messageSort = MessageSort.SYNCH_CALL_LITERAL;
-	private Operation operation;
+	private Operation operation = null;
 	private boolean extendBehavorExecutionSpecificationsIfNecessary = true;
+	private String customName = null;
 
 	/**
 	 * @param systemState
 	 * @param diagnostic
 	 */
-	public MessageGenerator(SystemState systemState, BasicDiagnostic diagnostic, Operation operation, Lifeline sourceLifeline, Lifeline targetLifeline) {
+	public MessageGenerator(SystemState systemState, BasicDiagnostic diagnostic, Lifeline sourceLifeline, Lifeline targetLifeline) {
 		super(systemState, diagnostic);
+		logger = Logger.getLogger(MessageGenerator.class);
 		this.targetLifeline = targetLifeline;
 		this.sourceLifeline = sourceLifeline;
-		this.operation = operation;
 	}
 
 	/*
@@ -62,11 +64,16 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		// first lets generate event for operation
 		CallEvent event = UMLFactory.eINSTANCE.createCallEvent();
 		event.setOperation(operation);
-		event.setName("EventOf" + operation.getName());
+		event.setName("EventOf" + getOperationName());
+		
 		targetLifeline.getInteraction().getNearestPackage().getPackagedElements().add(event);
 		systemState.addGeneratedElement(event);
 
-		generated = sourceLifeline.getInteraction().createMessage("MessageOf" + operation.getLabel());
+		if (null != customName) {
+			generated = sourceLifeline.getInteraction().createMessage(customName);
+		} else {
+			generated = sourceLifeline.getInteraction().createMessage("MessageOf" + getOperationName());
+		}
 		generated.setMessageSort(messageSort);
 		systemState.addGeneratedElement(generated);
 
@@ -74,7 +81,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		generated.setSendEvent(eventSend);
 		eventSend.setEvent(event);
 		eventSend.setMessage(generated);
-		eventSend.setName("SendMessageOccurrenceSpecificationOf" + operation.getName());
+		eventSend.setName("SendMessageOccurrenceSpecificationOf" + generated.getName());
 		eventSend.setEnclosingInteraction(targetLifeline.getInteraction());
 		insertSpecificationAfter(sourceLifeline, eventSend, sentGenerateAfter);
 		eventSend.getCovereds().add(sourceLifeline);
@@ -84,7 +91,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		generated.setReceiveEvent(eventReceive);
 		eventReceive.setEvent(event);
 		eventReceive.setMessage(generated);
-		eventReceive.setName("ReceiveMessageOccurrenceSpecificationOf" + operation.getName());
+		eventReceive.setName("ReceiveMessageOccurrenceSpecificationOf" + generated.getName());
 		eventReceive.setEnclosingInteraction(targetLifeline.getInteraction());
 		insertSpecificationAfter(targetLifeline, eventReceive, receiveGenerateAfter);
 		eventReceive.getCovereds().add(targetLifeline);
@@ -145,12 +152,34 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	}
 
 	/**
-	 * @param extendBehavorExecutionSpecificationsIfNecessary the extendBehavorExecutionSpecificationsIfNecessary to set
+	 * @param extendBehavorExecutionSpecificationsIfNecessary
+	 *            the extendBehavorExecutionSpecificationsIfNecessary to set
 	 */
 	public void setExtendBehavorExecutionSpecificationsIfNecessary(boolean extendBehavorExecutionSpecificationsIfNecessary) {
 		this.extendBehavorExecutionSpecificationsIfNecessary = extendBehavorExecutionSpecificationsIfNecessary;
 	}
-	
-	
+
+	/**
+	 * @param operation
+	 *            the operation to set
+	 */
+	public void setOperation(Operation operation) {
+		this.operation = operation;
+	}
+
+	private String getOperationName() {
+		if (null != operation) {
+			return operation.getName();
+		} else {
+			return "";
+		}
+	}
+
+	/**
+	 * @param customName the customName to set
+	 */
+	public void setCustomName(String customName) {
+		this.customName = customName;
+	}
 
 }

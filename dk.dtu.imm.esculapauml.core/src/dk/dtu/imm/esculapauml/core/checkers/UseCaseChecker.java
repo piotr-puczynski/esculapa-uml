@@ -51,7 +51,7 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 		executor.prepare();
 		logger.info(checkee.getLabel() + ": starting execution");
 		executor.execute();
-		
+		logger.info(checkee.getLabel() + ": model execution finished");
 		printOutInteraction();
 
 	}

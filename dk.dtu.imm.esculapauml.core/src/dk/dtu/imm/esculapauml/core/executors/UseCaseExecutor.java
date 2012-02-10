@@ -96,34 +96,53 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	 * @return
 	 */
 	protected void executeMessage(Message message) {
+		logger.info("Executing message " + message.getLabel());
 		currentMessage = message;
-		BehavioredClassifier target = (BehavioredClassifier) InteractionUtils.getMessageTargetType(message);
-		BehaviorExecutor targetExecutor = systemState.getBehaviorChecker(target).getDefaultExecutor();
-		NamedElement signature = message.getSignature();
+		if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
+			BehavioredClassifier target = (BehavioredClassifier) InteractionUtils.getMessageTargetType(message);
+			BehaviorExecutor targetExecutor = systemState.getBehaviorChecker(target).getDefaultExecutor();
+			NamedElement signature = message.getSignature();
 
-		if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
-			if (signature instanceof Operation) {
-				targetExecutor.runOperation(message, (Operation) signature, true);
-				//if next message is not a reply after unwind, we should generate reply message
-				Message reply = getNextMessage(currentMessage);
-				if(reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
-					reply = generateReplyMessage(message);
+			if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
+				if (signature instanceof Operation) {
+					targetExecutor.runOperation(message, (Operation) signature, true);
+					// if next message is not a reply after unwind, we should
+					// generate and execute reply message
+					Message reply = getNextMessage(currentMessage);
+					if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
+						reply = generateReplyMessage(message);
+						executeMessage(reply);
+					}
 				}
-			}
-		} else if (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
-			if (signature instanceof Operation) {
-				targetExecutor.runOperation(message, (Operation) signature, false);
+			} else if (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
+				if (signature instanceof Operation) {
+					targetExecutor.runOperation(message, (Operation) signature, false);
+				}
 			}
 		}
 	}
 
 	/**
+	 * Generates reply message for an initiating message
+	 * 
 	 * @param message
 	 * @return
 	 */
 	private Message generateReplyMessage(Message message) {
-		// TODO Auto-generated method stub
-		return null;
+		// lifelines intentionally switched
+		Lifeline sourceLifeline = InteractionUtils.getMessageTargetLifeline(message);
+		Lifeline targetLifeline = InteractionUtils.getMessageSourceLifeline(message);
+		MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), sourceLifeline, targetLifeline);
+		messageGenerator.setMessageSort(MessageSort.REPLY_LITERAL);
+		messageGenerator.setCustomName("ReplyOf" + message.getName());
+		// the reply must be inserted after currentMessage (not after message)
+		if (sourceLifeline.getCoveredBys().contains(currentMessage.getReceiveEvent())) {
+			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
+		} else {
+			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getSendEvent());
+		}
+		messageGenerator.setReceiveGenerateAfter((MessageOccurrenceSpecification) message.getSendEvent());
+		return messageGenerator.generate();
 	}
 
 	/**
@@ -145,8 +164,8 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			targetlifeline = lifelineGenerator.generate();
 			// we will need also to generate BehaviorExecutionSpecification and
 			// a message (with call event)
-			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), operation, sourceLifeline,
-					targetlifeline);
+			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), sourceLifeline, targetlifeline);
+			messageGenerator.setOperation(operation);
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
 			Message message = messageGenerator.generate();
 			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
