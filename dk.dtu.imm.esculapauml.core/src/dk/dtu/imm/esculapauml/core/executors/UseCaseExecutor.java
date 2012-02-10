@@ -101,11 +101,29 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 		BehaviorExecutor targetExecutor = systemState.getBehaviorChecker(target).getDefaultExecutor();
 		NamedElement signature = message.getSignature();
 
-		if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
+		if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 			if (signature instanceof Operation) {
-				targetExecutor.runOperation(message, (Operation) signature, (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL));
+				targetExecutor.runOperation(message, (Operation) signature, true);
+				//if next message is not a reply after unwind, we should generate reply message
+				Message reply = getNextMessage(currentMessage);
+				if(reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
+					reply = generateReplyMessage(message);
+				}
+			}
+		} else if (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
+			if (signature instanceof Operation) {
+				targetExecutor.runOperation(message, (Operation) signature, false);
 			}
 		}
+	}
+
+	/**
+	 * @param message
+	 * @return
+	 */
+	private Message generateReplyMessage(Message message) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
@@ -127,8 +145,8 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			targetlifeline = lifelineGenerator.generate();
 			// we will need also to generate BehaviorExecutionSpecification and
 			// a message (with call event)
-			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), operation,
-					sourceLifeline, targetlifeline);
+			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), operation, sourceLifeline,
+					targetlifeline);
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
 			Message message = messageGenerator.generate();
 			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
@@ -136,6 +154,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			besGenerator.setStart((OccurrenceSpecification) message.getReceiveEvent());
 			besGenerator.setFinish((OccurrenceSpecification) message.getReceiveEvent());
 			besGenerator.generate();
+			executeMessage(message);
 		} else {
 			// check if next message conforming with operation
 			// TODO check

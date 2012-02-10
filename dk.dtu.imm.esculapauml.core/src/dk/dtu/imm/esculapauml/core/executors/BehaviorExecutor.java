@@ -142,7 +142,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	/**
 	 * @param operation
 	 */
-	public void runOperation(Element operationOwner, Operation operation, boolean executionRequired) {
+	public void runOperation(Element operationOwner, Operation operation, boolean isSynch) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
 		List<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
 		if (goodTransitions.size() > 0) {
@@ -159,7 +159,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 				checker.addOtherProblem(Diagnostic.ERROR, "Conflicting transitions.", goodTransitions.toArray());
 			}
 		} else {
-			if (executionRequired) {
+			if (isSynch) {
 				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
 						+ "\" is not ready to respond to an event \"" + operation.getLabel() + "\".", operationOwner);
 			} else {
