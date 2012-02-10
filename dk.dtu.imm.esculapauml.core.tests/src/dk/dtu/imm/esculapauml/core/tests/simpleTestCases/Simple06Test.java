@@ -41,13 +41,13 @@ public class Simple06Test extends LoggingTest {
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostic = checker.getDiagnostics();
-		// there is a warning
-		assertEquals(Diagnostic.WARNING, diagnostic.getSeverity());
+		// there is an error
+		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
-		// a warning is...
+		// a error is...
 		//TestUtils.printDiagnostic(diagnostic);
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.WARNING,
-				"StateMachine instance \"testInstance\" is not ready for an event \"s\". Event is lost."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR,
+				"StateMachine instance \"testInstance\" is not ready to respond to an event \"s\"."));
 	}
 
 }

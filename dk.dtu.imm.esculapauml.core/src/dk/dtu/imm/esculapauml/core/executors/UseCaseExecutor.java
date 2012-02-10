@@ -103,7 +103,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 
 		if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
 			if (signature instanceof Operation) {
-				targetExecutor.runOperation(message, (Operation) signature);
+				targetExecutor.runOperation(message, (Operation) signature, (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL));
 			}
 		}
 	}
@@ -118,20 +118,21 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	 */
 	protected void behaviorExecution(BehaviorExecutor executor, Operation operation) {
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
-		Lifeline lifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
-		if (null == lifeline) {
+		Lifeline sourceLifeline = executor.getLifeline();
+		Lifeline targetlifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
+		if (null == targetlifeline) {
 			// there is no lifeline now that could correspond to the object
 			// we need to create it
 			LifelineGenerator lifelineGenerator = new LifelineGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), checkee, targetClass);
-			lifeline = lifelineGenerator.generate();
+			targetlifeline = lifelineGenerator.generate();
 			// we will need also to generate BehaviorExecutionSpecification and
 			// a message (with call event)
 			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), operation,
-					InteractionUtils.getMessageTargetLifeline(currentMessage), lifeline);
+					sourceLifeline, targetlifeline);
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
 			Message message = messageGenerator.generate();
 			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
-					(BasicDiagnostic) checker.getDiagnostics(), lifeline);
+					(BasicDiagnostic) checker.getDiagnostics(), targetlifeline);
 			besGenerator.setStart((OccurrenceSpecification) message.getReceiveEvent());
 			besGenerator.setFinish((OccurrenceSpecification) message.getReceiveEvent());
 			besGenerator.generate();

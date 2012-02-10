@@ -45,10 +45,10 @@ import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> {
-	
+
 	protected Lifeline lifeline;
 	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
 	protected ArrayList<Transition> enabledTransitions = new ArrayList<Transition>();
@@ -63,7 +63,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		this.lifeline = lifeline;
 		instanceName = lifeline.getName();
 		logger = Logger.getLogger(BehaviorExecutor.class);
-		logger.debug(checkee.getLabel()  + "[" + instanceName + "]: executor created");
+		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	public Lifeline getLifeline() {
 		return lifeline;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -83,11 +83,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: loading initial conf");
 		instanceSpecification.getClassifiers().add(checker.getCheckedObject().getContext());
 		instanceSpecification.setName(instanceName);
-		//add to instance package
+		// add to instance package
 		checker.getSystemState().getInstancePackage().getPackagedElements().add(instanceSpecification);
 		checker.getSystemState().addGeneratedElement(instanceSpecification);
-		
-		
+
 		activeConfiguration.clear();
 		// enable initials
 		for (Region r : checkee.getRegions()) {
@@ -143,7 +142,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	/**
 	 * @param operation
 	 */
-	public void runOperation(Element operationOwner, Operation operation) {
+	public void runOperation(Element operationOwner, Operation operation, boolean executionRequired) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
 		List<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
 		if (goodTransitions.size() > 0) {
@@ -160,9 +159,15 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 				checker.addOtherProblem(Diagnostic.ERROR, "Conflicting transitions.", goodTransitions.toArray());
 			}
 		} else {
-			// warning, the machine is not able to process an operation event
-			checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
-					+ operation.getLabel() + "\". Event is lost.", operationOwner);
+			if (executionRequired) {
+				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
+						+ "\" is not ready to respond to an event \"" + operation.getLabel() + "\".", operationOwner);
+			} else {
+				// warning, the machine is not able to process an operation
+				// event
+				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
+						+ operation.getLabel() + "\". Event is lost.", operationOwner);
+			}
 		}
 	}
 
@@ -257,17 +262,16 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		if (null != effect) {
 			if (effect instanceof FunctionBehavior) {
 				BehavioralFeature bf = effect.getSpecification();
-				if(bf instanceof Operation) {
-					checker.getSystemState().getMainExecutor().behaviorExecution(this, (Operation)bf);
+				if (bf instanceof Operation) {
+					checker.getSystemState().getMainExecutor().behaviorExecution(this, (Operation) bf);
 				} else {
-					//this shouldn't happen as function behavior should be an operation
+					// this shouldn't happen as function behavior should be an
+					// operation
 					checker.addOtherProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.", transition);
 				}
 			}
 		}
 
 	}
-	
-	
 
 }
