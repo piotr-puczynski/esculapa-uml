@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -24,8 +22,6 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gef.EditPart;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.Element;
@@ -42,7 +38,6 @@ import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.di.model.GraphNode;
 import org.topcased.modeler.di.model.util.DIUtils;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
-import org.topcased.modeler.edit.BaseEditPart;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.uml.sequencediagram.util.SequenceUtils;
 import org.topcased.modeler.utils.Utils;
@@ -175,7 +170,6 @@ public class InteractionExtender implements ExtenderInterface {
 						((GraphNode)targetConnector.getGraphElement()).getPosition().translate(0, deltaPoint.y);
 					}
 					//target.setPosition(getAbsolutePosition(srcConnector));
-					targetPoint.getClass();
 				}
 			}
 		}
