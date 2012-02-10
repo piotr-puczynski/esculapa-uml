@@ -107,7 +107,8 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 				if (signature instanceof Operation) {
 					targetExecutor.runOperation(message, (Operation) signature, true);
 					// if next message is not a reply after unwind, we should
-					// generate and execute reply message
+					// generate and immediately execute reply message
+					// we need to immediately execute to update currentMessage in case there are other replies on stack to generate
 					Message reply = getNextMessage(currentMessage);
 					if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
 						reply = generateReplyMessage(message);
