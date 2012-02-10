@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
@@ -22,6 +24,8 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gef.EditPart;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.Element;
@@ -29,12 +33,16 @@ import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
+import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
+import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
 import org.topcased.modeler.di.model.GraphConnector;
 import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphElement;
 import org.topcased.modeler.di.model.GraphNode;
+import org.topcased.modeler.di.model.util.DIUtils;
 import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
+import org.topcased.modeler.edit.BaseEditPart;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.uml.sequencediagram.util.SequenceUtils;
 import org.topcased.modeler.utils.Utils;
@@ -46,6 +54,7 @@ import org.topcased.modeler.utils.Utils;
 //import org.eclipse.gef.GraphicalEditPart;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
+import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterable;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterator;
@@ -62,6 +71,8 @@ public class InteractionExtender implements ExtenderInterface {
 	private Modeler modeler;
 	private Interaction interaction;
 	private EList<Element> toAdd = new BasicEList<Element>();
+	private String messageColor = "0,128,255", lifelineColor = "128,128,255", executionColor = "192,192,192";
+	private boolean changeColors = true;
 
 	/**
 	 * @param modeler
@@ -84,7 +95,7 @@ public class InteractionExtender implements ExtenderInterface {
 		calculateElementsToPlot();
 		if (!toAdd.isEmpty()) {
 			List<Diagram> diags = DiagramsUtils.findAllExistingDiagram(modeler.getDiagrams(), interaction);
-			for (Diagram di : diags) {
+			for (final Diagram di : diags) {
 				if (di.getSemanticModel().getPresentation().equals(DIAGRAM_ID)) {
 					modeler.setActiveDiagram(di);
 					extendSequenceDiagram(di);
@@ -112,19 +123,88 @@ public class InteractionExtender implements ExtenderInterface {
 	}
 
 	/**
+	 * Creates new message's graphical representation in diagram.
+	 * 
 	 * @param di
-	 * @param element
+	 *            Diagram to change.
+	 * @param message
+	 *            Message to plot.
 	 */
 	private void createMessage(Diagram di, Message message) {
 		GraphEdge edge = (GraphEdge) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) message, "default");
-		GraphElement source = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), InteractionUtils.getMessageSourceExecutionSpecification(message), true);
-		GraphElement target = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), InteractionUtils.getMessageTargetExecutionSpecification(message), true);
-		GraphConnector srcConnector = SequenceUtils.createGraphConnector(new Point(10,10), source, edge);
-		GraphConnector targetConnector = SequenceUtils.createGraphConnector(new Point(30,30), target, edge);
-		
+		if (changeColors) {
+			DIUtils.setProperty(edge, ModelerPropertyConstants.FOREGROUND_COLOR, messageColor);
+		}
+
+		BehaviorExecutionSpecification sourceSpec = InteractionUtils.getMessageSourceExecutionSpecification(message);
+		BehaviorExecutionSpecification targetSpec = InteractionUtils.getMessageTargetExecutionSpecification(message);
+		GraphElement source = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), sourceSpec, true);
+		GraphElement target = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), targetSpec, true);
+		GraphConnector srcConnector = SequenceUtils.createGraphConnector(new Point(0, 0), source, edge);
+		GraphConnector targetConnector = SequenceUtils.createGraphConnector(new Point(0, 0), target, edge);
+		// we need to update the location of points according to previous
+		// message
+		Message prevMessage = UseCaseExecutor.getPreviousMessage(message);
+		if (message != null) {
+			GraphEdge prevMessageEdge = (GraphEdge) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), prevMessage, true);
+			if (prevMessageEdge != null) {
+				for (GraphConnector gc : prevMessageEdge.getAnchor()) {
+					if (gc.getGraphElement() == srcConnector.getGraphElement()) {
+						srcConnector.setPosition(gc.getPosition().getTranslated(0, 20));
+					}
+					if (gc.getGraphElement() == targetConnector.getGraphElement()) {
+						targetConnector.setPosition(gc.getPosition().getTranslated(0, 20));
+					}
+				}
+
+			}
+		}
+		// make sure generated bes is not forcing message to go "back in time"
+		if (wasGenerated(targetSpec)) {
+			// if it is a first message of spec
+			if (targetSpec.getStart() instanceof MessageOccurrenceSpecification) {
+				if (((MessageOccurrenceSpecification) targetSpec.getStart()).getMessage() == message) {
+					// update size and location of bes
+					Point srcPoint = getAbsolutePosition(srcConnector);
+					Point targetPoint = getAbsolutePosition(targetConnector);
+					Point deltaPoint = srcPoint.getCopy().translate(targetPoint.getNegated());
+					//if target is higher than source
+					if(deltaPoint.y > 0) {
+						//we reduce a size of spec and shift it down
+						((GraphNode)targetConnector.getGraphElement()).getSize().expand(0, -deltaPoint.y);
+						((GraphNode)targetConnector.getGraphElement()).getPosition().translate(0, deltaPoint.y);
+					}
+					//target.setPosition(getAbsolutePosition(srcConnector));
+					targetPoint.getClass();
+				}
+			}
+		}
+
 		di.getContained().add(edge);
 	}
 
+	/**Translates the position of connector down to diagram coordinates.
+	 * @param srcConnector
+	 * @return
+	 */
+	private Point getAbsolutePosition(GraphConnector connector) {
+		Point pos = connector.getPosition().getCopy();
+		GraphElement graph = connector.getGraphElement();
+		do {
+			pos.translate(graph.getPosition());
+			graph = graph.getContainer();
+		} while(!(graph instanceof Diagram));
+		return pos;
+	}
+
+	/**
+	 * Creates new lifeline's graphical representation in diagram.
+	 * 
+	 * @param di
+	 *            Diagram to change.
+	 * @param lifeline
+	 *            Lifeline to plot.
+	 */
 	private void createLifeline(Diagram di, Lifeline lifeline) {
 
 		GraphNode node = (GraphNode) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) lifeline, "default");
@@ -137,17 +217,25 @@ public class InteractionExtender implements ExtenderInterface {
 		// dim, attachment);
 		// modeler.getEditingDomain().getCommandStack().execute((Command)
 		// com);
+
+		if (changeColors) {
+			DIUtils.setProperty(node, ModelerPropertyConstants.BACKGROUND_COLOR, lifelineColor);
+		}
 		di.getContained().add(node);
 		setAsPlotted(lifeline);
 		// create bes
 		List<GraphNode> besNodes = new ArrayList<GraphNode>();
 		for (InteractionFragment fragment : lifeline.getCoveredBys()) {
 			if (fragment instanceof BehaviorExecutionSpecification) {
-				besNodes.add((GraphNode) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) fragment, "default"));
+				GraphNode besNode = (GraphNode) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) fragment, "default");
+				if (changeColors) {
+					DIUtils.setProperty(besNode, ModelerPropertyConstants.BACKGROUND_COLOR, executionColor);
+				}
+				besNodes.add(besNode);
 				setAsPlotted(fragment);
 			}
 		}
-		//calculate bes sizes
+		// calculate bes sizes
 		int currentHeight = 15;
 		for (GraphNode besNode : besNodes) {
 			besNode.setPosition(new Point(0, currentHeight));
@@ -155,8 +243,7 @@ public class InteractionExtender implements ExtenderInterface {
 			currentHeight += 15 + besNode.getSize().height;
 		}
 		node.getContained().addAll(besNodes);
-		
-		
+
 		// Importer importer = new Importer(modeler, lifeline);
 		// importer.setDisplayDialogs(false);
 		// importer.setTargetEditPart((GraphicalEditPart)
@@ -209,6 +296,30 @@ public class InteractionExtender implements ExtenderInterface {
 		}
 	}
 
+	/**
+	 * Checks whatever element was generated by EsculapaUML.
+	 * 
+	 * @param element
+	 * @return
+	 */
+	private boolean wasGenerated(Object object) {
+		if (object instanceof EModelElement) {
+			EAnnotation annotation = UML2Util.getEAnnotation((EModelElement) object, AbstractChecker.ESCULAPA_NAMESPACE, false);
+			if (null != annotation) {
+				if (annotation.getDetails().get("generated").equals("true")) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Annotates element as ploted in TOPCASED.
+	 * 
+	 * @param element
+	 *            UML element to annotate.
+	 */
 	private void setAsPlotted(Element element) {
 		EAnnotation annotation = UML2Util.getEAnnotation((EModelElement) element, AbstractChecker.ESCULAPA_NAMESPACE, true);
 		annotation.getDetails().put("topcased-ploted", "true");
@@ -236,7 +347,15 @@ public class InteractionExtender implements ExtenderInterface {
 	// return null;
 	// }
 
-	int calculateXForNewLifeline(Diagram di) {
+	/**
+	 * Calculates place on X axis for new lifeline based on existing lifelines
+	 * in diagram.
+	 * 
+	 * @param di
+	 *            Diagram to check.
+	 * @return
+	 */
+	private int calculateXForNewLifeline(Diagram di) {
 		int result = 0;
 		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
 		DiagramElementIterator dit = iterDiagram.shallowIterator();
@@ -249,7 +368,14 @@ public class InteractionExtender implements ExtenderInterface {
 		return result;
 	}
 
-	int calculateHeightForNewLifeline(Diagram di) {
+	/**
+	 * Calculates maximum length of existing lifelines elements.
+	 * 
+	 * @param di
+	 *            Diagram to check.
+	 * @return
+	 */
+	private int calculateHeightForNewLifeline(Diagram di) {
 		int result = 30;
 		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
 		DiagramElementIterator dit = iterDiagram.shallowIterator();
@@ -260,6 +386,44 @@ public class InteractionExtender implements ExtenderInterface {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Sets the color of generated messages.
+	 * 
+	 * @param messageColor
+	 *            the color in string format "R,G,B".
+	 */
+	public void setMessageColor(String messageColor) {
+		this.messageColor = messageColor;
+	}
+
+	/**
+	 * Stest the color of generated lifelines.
+	 * 
+	 * @param lifelineColor
+	 *            the color in string format "R,G,B".
+	 */
+	public void setLifelineColor(String lifelineColor) {
+		this.lifelineColor = lifelineColor;
+	}
+
+	/**
+	 * Sets the color of generated execution specifications.
+	 * 
+	 * @param executionColor
+	 *            the color in string format "R,G,B".
+	 */
+	public void setExecutionColor(String executionColor) {
+		this.executionColor = executionColor;
+	}
+
+	/**
+	 * @param changeColors
+	 *            Set if extender should change colors of generated elements;
+	 */
+	public void setChangeColors(boolean changeColors) {
+		this.changeColors = changeColors;
 	}
 
 }

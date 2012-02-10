@@ -7,6 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Eclipse-RegisterBuddy: org.apache.log4j
 Export-Package: dk.dtu.imm.esculapauml.core,
  dk.dtu.imm.esculapauml.core.checkers,
+ dk.dtu.imm.esculapauml.core.executors,
  dk.dtu.imm.esculapauml.core.states,
  dk.dtu.imm.esculapauml.core.utils
 Require-Bundle: org.eclipse.emf;bundle-version="2.6.0",
