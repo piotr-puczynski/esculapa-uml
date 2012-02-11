@@ -72,7 +72,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		if (null != customName) {
 			generated = sourceLifeline.getInteraction().createMessage(customName);
 		} else {
-			generated = sourceLifeline.getInteraction().createMessage("MessageOf" + getOperationName());
+			generated = sourceLifeline.getInteraction().createMessage(getOperationName());
 		}
 		generated.setMessageSort(messageSort);
 		systemState.addGeneratedElement(generated);

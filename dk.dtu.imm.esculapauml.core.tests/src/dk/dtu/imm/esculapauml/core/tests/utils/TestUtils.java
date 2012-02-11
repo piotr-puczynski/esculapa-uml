@@ -26,6 +26,11 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.compare.diff.metamodel.DiffElement;
+import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.metamodel.MatchModel;
+import org.eclipse.emf.compare.match.service.MatchService;
 
 /**
  * Testing methods help
@@ -34,6 +39,20 @@ import org.eclipse.emf.common.util.Diagnostic;
  * 
  */
 public class TestUtils {
+	
+	/**
+	 * Compares two models using EMF Compare and checks if there are any differences.
+	 * @param model1
+	 * @param model2
+	 * @return
+	 * @throws InterruptedException 
+	 */
+	public static boolean modelHaveDifferences(Resource model1, Resource model2) throws InterruptedException {
+		MatchModel match = MatchService.doContentMatch(model1.getContents().get(0), model2.getContents().get(0), null);
+		DiffModel diff = DiffService.doDiff(match, false);
+		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getOwnedElements());
+		return !differences.isEmpty();
+	}
 
 	/**
 	 * Loads resource file as UML2 model

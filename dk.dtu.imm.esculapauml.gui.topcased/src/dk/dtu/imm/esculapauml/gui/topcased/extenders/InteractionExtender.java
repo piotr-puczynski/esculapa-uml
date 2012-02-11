@@ -63,6 +63,7 @@ public class InteractionExtender implements ExtenderInterface {
 	private String messageColor = "0,128,255", lifelineColor = "128,128,255", executionColor = "192,192,192";
 	private boolean changeColors = true;
 	private int distanceBetweenMessages = 30;
+	private int lifelineWidth = 100;
 	private boolean autoResize = true;
 
 	/**
@@ -285,10 +286,9 @@ public class InteractionExtender implements ExtenderInterface {
 	 *            Lifeline to plot.
 	 */
 	private void createLifeline(Diagram di, Lifeline lifeline) {
-
 		GraphNode node = (GraphNode) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) lifeline, "default");
 		node.setPosition(new Point(calculateXForNewLifeline(di), 40));
-		node.setSize(new Dimension(50, calculateHeightForNewLifeline(di)));
+		node.setSize(new Dimension(lifelineWidth, calculateHeightForNewLifeline(di)));
 		// CreateGraphNodeCommand com = new
 		// CreateGraphNodeCommand((EditDomain)
 		// modeler.getAdapter(EditDomain.class), childGraphNode,
@@ -367,7 +367,7 @@ public class InteractionExtender implements ExtenderInterface {
 					if (annotation.getDetails().get("generated").equals("true")) {
 						if (null == annotation.getDetails().get("topcased-ploted") || !annotation.getDetails().get("topcased-ploted").equals("true")) {
 							//supported elements
-							if (object instanceof Lifeline || object instanceof Message) {
+							if (object instanceof Lifeline || object instanceof Message || object instanceof BehaviorExecutionSpecification) {
 								toAdd.add((Element) object);
 							}
 						}
@@ -522,6 +522,13 @@ public class InteractionExtender implements ExtenderInterface {
 	 */
 	public void setAutoResize(boolean autoResize) {
 		this.autoResize = autoResize;
+	}
+
+	/**
+	 * @param lifelineWidth the lifelineWidth to set
+	 */
+	public void setLifelineWidth(int lifelineWidth) {
+		this.lifelineWidth = lifelineWidth;
 	}
 
 }
