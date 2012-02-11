@@ -220,7 +220,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	 * @param msg
 	 * @return
 	 */
-	public static Message getNextMessage(Message message) {
+	private Message getNextMessage(Message message) {
 		MessageEnd receiveEvent = message.getReceiveEvent();
 		if (receiveEvent instanceof MessageOccurrenceSpecification) {
 			Lifeline targetLifeline = (Lifeline) EcoreUtil.getObjectByType(((MessageOccurrenceSpecification) receiveEvent).getCovereds(), Literals.LIFELINE);
@@ -245,7 +245,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	 * @param msg
 	 * @return
 	 */
-	public static Message getPreviousMessage(Message message) {
+	private Message getPreviousMessage(Message message) {
 		MessageEnd sendEvent = message.getSendEvent();
 		if (sendEvent instanceof MessageOccurrenceSpecification) {
 			Lifeline sourceLifeline = (Lifeline) EcoreUtil.getObjectByType(((MessageOccurrenceSpecification) sendEvent).getCovereds(), Literals.LIFELINE);

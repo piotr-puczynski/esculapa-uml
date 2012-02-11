@@ -44,80 +44,81 @@ public final class InteractionUtils {
 	public static Lifeline getMessageTargetLifeline(Message message) {
 		if (message.getReceiveEvent() instanceof MessageOccurrenceSpecification) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
-			if (moc.getCovereds().size() > 0) {
-				return moc.getCovereds().get(0);
-			}
-
+			return getLifelineOfOccurenceSpecification(moc);
 		}
 		return null;
 	}
-	
+
 	public static Lifeline getMessageSourceLifeline(Message message) {
 		if (message.getSendEvent() instanceof MessageOccurrenceSpecification) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
-			if (moc.getCovereds().size() > 0) {
-				return moc.getCovereds().get(0);
-			}
-
+			return getLifelineOfOccurenceSpecification(moc);
 		}
 		return null;
 	}
-	
+
+	public static Lifeline getLifelineOfOccurenceSpecification(OccurrenceSpecification occurrence) {
+		if (occurrence.getCovereds().size() > 0) {
+			return occurrence.getCovereds().get(0);
+		}
+		return null;
+	}
+
 	public static BehaviorExecutionSpecification getMessageSourceExecutionSpecification(Message message) {
 		Lifeline lifeline = getMessageSourceLifeline(message);
-		if(null != lifeline) {
+		if (null != lifeline) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
 			int mocIndex = lifeline.getCoveredBys().indexOf(moc);
-			//we find all behavior execution specifications
+			// we find all behavior execution specifications
 			List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
-			for(InteractionFragment ifbes: allBes) {
+			for (InteractionFragment ifbes : allBes) {
 				BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ifbes;
 				OccurrenceSpecification start = bes.getStart();
 				OccurrenceSpecification finish = bes.getFinish();
-				//check borders
-				if(moc == start || moc == finish) {
+				// check borders
+				if (moc == start || moc == finish) {
 					return bes;
 				}
-				//otherwise check range
-				if(null != start && null != finish) {
+				// otherwise check range
+				if (null != start && null != finish) {
 					int startIndex = lifeline.getCoveredBys().indexOf(start);
 					int finishIndex = lifeline.getCoveredBys().indexOf(finish);
-					if(mocIndex > startIndex && mocIndex < finishIndex) {
+					if (mocIndex > startIndex && mocIndex < finishIndex) {
 						return bes;
 					}
 				}
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	public static BehaviorExecutionSpecification getMessageTargetExecutionSpecification(Message message) {
 		Lifeline lifeline = getMessageTargetLifeline(message);
-		if(null != lifeline) {
+		if (null != lifeline) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
 			int mocIndex = lifeline.getCoveredBys().indexOf(moc);
-			//we find all behavior execution specifications
+			// we find all behavior execution specifications
 			List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
-			for(InteractionFragment ifbes: allBes) {
+			for (InteractionFragment ifbes : allBes) {
 				BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ifbes;
 				OccurrenceSpecification start = bes.getStart();
 				OccurrenceSpecification finish = bes.getFinish();
-				//check borders
-				if(moc == start || moc == finish) {
+				// check borders
+				if (moc == start || moc == finish) {
 					return bes;
 				}
-				//otherwise check range
-				if(null != start && null != finish) {
+				// otherwise check range
+				if (null != start && null != finish) {
 					int startIndex = lifeline.getCoveredBys().indexOf(start);
 					int finishIndex = lifeline.getCoveredBys().indexOf(finish);
-					if(mocIndex > startIndex && mocIndex < finishIndex) {
+					if (mocIndex > startIndex && mocIndex < finishIndex) {
 						return bes;
 					}
 				}
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -126,6 +127,32 @@ public final class InteractionUtils {
 		if (lifelines.size() > 0) {
 			return lifelines.get(0);
 		}
+		return null;
+	}
+	
+	public static MessageOccurrenceSpecification getPreviousMessageOccurrence(MessageOccurrenceSpecification mos) {
+		Lifeline lifeline = getLifelineOfOccurenceSpecification(mos);
+		if (null != lifeline) {
+			List<InteractionFragment> allMsgs = filter(is(MessageOccurrenceSpecification.class), lifeline.getCoveredBys());
+			int index = allMsgs.indexOf(mos);
+			if(index > 0) {
+				return (MessageOccurrenceSpecification) allMsgs.get(index - 1);
+			}
+		}
+
+		return null;
+	}
+	
+	public static MessageOccurrenceSpecification getNextMessageOccurrence(MessageOccurrenceSpecification mos) {
+		Lifeline lifeline = getLifelineOfOccurenceSpecification(mos);
+		if (null != lifeline) {
+			List<InteractionFragment> allMsgs = filter(is(MessageOccurrenceSpecification.class), lifeline.getCoveredBys());
+			int index = allMsgs.indexOf(mos);
+			if(index < allMsgs.size() - 1) {
+				return (MessageOccurrenceSpecification) allMsgs.get(index + 1);
+			}
+		}
+
 		return null;
 	}
 

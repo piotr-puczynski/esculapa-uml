@@ -32,6 +32,7 @@ import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.topcased.modeler.ModelerPropertyConstants;
 import org.topcased.modeler.di.model.Diagram;
+import org.topcased.modeler.di.model.DiagramElement;
 import org.topcased.modeler.di.model.GraphConnector;
 import org.topcased.modeler.di.model.GraphEdge;
 import org.topcased.modeler.di.model.GraphElement;
@@ -41,21 +42,14 @@ import org.topcased.modeler.diagrams.model.util.DiagramsUtils;
 import org.topcased.modeler.editor.Modeler;
 import org.topcased.modeler.uml.sequencediagram.util.SequenceUtils;
 import org.topcased.modeler.utils.Utils;
-//import org.topcased.modeler.exceptions.BoundsFormatException;
-//import org.topcased.modeler.tools.Importer;
-//import org.topcased.modeler.utils.Utils;
-//import org.topcased.modeler.commands.CreateGraphNodeCommand;
-//import org.eclipse.gef.EditPart;
-//import org.eclipse.gef.GraphicalEditPart;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
-import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterable;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterator;
 
 /**
- * Extends sequence diagrams by new generated elements.
+ * Extends TOPCASED sequence diagrams by new generated elements.
  * 
  * @author Piotr J. Puczynski
  * 
@@ -68,6 +62,8 @@ public class InteractionExtender implements ExtenderInterface {
 	private EList<Element> toAdd = new BasicEList<Element>();
 	private String messageColor = "0,128,255", lifelineColor = "128,128,255", executionColor = "192,192,192";
 	private boolean changeColors = true;
+	private int distanceBetweenMessages = 30;
+	private boolean autoResize = true;
 
 	/**
 	 * @param modeler
@@ -115,6 +111,56 @@ public class InteractionExtender implements ExtenderInterface {
 				createMessage(di, (Message) element);
 			}
 		}
+
+		finalizeDiagram(di);
+
+		if (autoResize) {
+			autoResizeDiagram(di);
+		}
+	}
+
+	/**
+	 * @param di
+	 */
+	private void autoResizeDiagram(Diagram di) {
+		// reuse an existing functions
+		Dimension dim = Utils.getDiagramOptimizedDimension(modeler);
+		DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_FORMAT_NAME, "");
+		DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_WIDTH, String.valueOf(dim.width + 100));
+		DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_HEIGHT, String.valueOf(dim.height + 100));
+	}
+
+	/**
+	 * Function used to normalize and finalize all the graphics elements of the
+	 * diagram.
+	 * 
+	 * @param di
+	 */
+	private void finalizeDiagram(Diagram di) {
+		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
+		DiagramElementIterator dit = iterDiagram.iterator();
+		while (dit.hasNext()) {
+			DiagramElement diElement = dit.next();
+			if (dit.getModel() instanceof BehaviorExecutionSpecification) {
+				// we normalize the size of BES so it finishes where is the last
+				// message
+				// or if there is only one message the minimum size is 15
+				GraphNode besNode = (GraphNode) diElement;
+				if (besNode.getAnchorage().size() < 2) {
+					// only one or no messsage
+					besNode.getSize().setHeight(15);
+				} else {
+					Point lowestPoint = new Point(0, 0);
+					for (GraphConnector gc : besNode.getAnchorage()) {
+						if (lowestPoint.y < gc.getPosition().y) {
+							lowestPoint.setLocation(gc.getPosition());
+						}
+					}
+					besNode.getSize().setHeight(lowestPoint.y);
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -139,16 +185,27 @@ public class InteractionExtender implements ExtenderInterface {
 		GraphConnector targetConnector = SequenceUtils.createGraphConnector(new Point(0, 0), target, edge);
 		// we need to update the location of points according to previous
 		// message
-		Message prevMessage = UseCaseExecutor.getPreviousMessage(message);
-		if (message != null) {
-			GraphEdge prevMessageEdge = (GraphEdge) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), prevMessage, true);
+		MessageOccurrenceSpecification sourcePrev = InteractionUtils.getPreviousMessageOccurrence((MessageOccurrenceSpecification) message.getSendEvent());
+		MessageOccurrenceSpecification targetPrev = InteractionUtils.getPreviousMessageOccurrence((MessageOccurrenceSpecification) message.getReceiveEvent());
+
+		if (sourcePrev != null) {
+			GraphEdge prevMessageEdge = (GraphEdge) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), sourcePrev.getMessage(), true);
 			if (prevMessageEdge != null) {
 				for (GraphConnector gc : prevMessageEdge.getAnchor()) {
 					if (gc.getGraphElement() == srcConnector.getGraphElement()) {
-						srcConnector.setPosition(gc.getPosition().getTranslated(0, 20));
+						srcConnector.setPosition(gc.getPosition().getTranslated(0, distanceBetweenMessages));
 					}
+				}
+
+			}
+		}
+
+		if (targetPrev != null) {
+			GraphEdge prevMessageEdge = (GraphEdge) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), targetPrev.getMessage(), true);
+			if (prevMessageEdge != null) {
+				for (GraphConnector gc : prevMessageEdge.getAnchor()) {
 					if (gc.getGraphElement() == targetConnector.getGraphElement()) {
-						targetConnector.setPosition(gc.getPosition().getTranslated(0, 20));
+						targetConnector.setPosition(gc.getPosition().getTranslated(0, distanceBetweenMessages));
 					}
 				}
 
@@ -163,31 +220,60 @@ public class InteractionExtender implements ExtenderInterface {
 					Point srcPoint = getAbsolutePosition(srcConnector);
 					Point targetPoint = getAbsolutePosition(targetConnector);
 					Point deltaPoint = srcPoint.getCopy().translate(targetPoint.getNegated());
-					//if target is higher than source
-					if(deltaPoint.y > 0) {
-						//we reduce a size of spec and shift it down
-						((GraphNode)targetConnector.getGraphElement()).getSize().expand(0, -deltaPoint.y);
-						((GraphNode)targetConnector.getGraphElement()).getPosition().translate(0, deltaPoint.y);
+					// if target is higher than source
+					if (deltaPoint.y > 0) {
+						// we reduce a size of spec and shift it down
+						((GraphNode) targetConnector.getGraphElement()).getSize().expand(0, -deltaPoint.y);
+						((GraphNode) targetConnector.getGraphElement()).getPosition().translate(0, deltaPoint.y);
 					}
-					//target.setPosition(getAbsolutePosition(srcConnector));
+					// target.setPosition(getAbsolutePosition(srcConnector));
 				}
 			}
 		}
 
+		// make sure for other cases
+		Point srcPoint = getAbsolutePosition(srcConnector);
+		Point targetPoint = getAbsolutePosition(targetConnector);
+		Point deltaPoint = srcPoint.getCopy().translate(targetPoint.getNegated());
+		// if target is higher than source
+		if (deltaPoint.y > 0) {
+			// we change the target point
+			targetConnector.getPosition().translate(0, deltaPoint.y);
+		}
+
 		di.getContained().add(edge);
+		setAsPlotted(message);
 	}
 
-	/**Translates the position of connector down to diagram coordinates.
+	/**
+	 * Translates the position of connector down to diagram coordinates.
+	 * 
 	 * @param srcConnector
 	 * @return
 	 */
 	private Point getAbsolutePosition(GraphConnector connector) {
-		Point pos = connector.getPosition().getCopy();
-		GraphElement graph = connector.getGraphElement();
+		return getAbsolutePosition(connector.getGraphElement(), connector.getPosition());
+	}
+
+	// private Point getAbsolutePosition(GraphElement element) {
+	// return getAbsolutePosition(element, new Point(0, 0));
+	// }
+
+	/**
+	 * Translates the position of point in context element down to diagram
+	 * coordinates.
+	 * 
+	 * @param context
+	 * @param position
+	 * @return
+	 */
+	private Point getAbsolutePosition(GraphElement context, Point position) {
+		Point pos = position.getCopy();
+		GraphElement graph = context;
 		do {
 			pos.translate(graph.getPosition());
 			graph = graph.getContainer();
-		} while(!(graph instanceof Diagram));
+		} while (!(graph instanceof Diagram));
 		return pos;
 	}
 
@@ -281,7 +367,10 @@ public class InteractionExtender implements ExtenderInterface {
 				if (null != annotation) {
 					if (annotation.getDetails().get("generated").equals("true")) {
 						if (null == annotation.getDetails().get("topcased-ploted") || !annotation.getDetails().get("topcased-ploted").equals("true")) {
-							toAdd.add((Element) object);
+							//supported elements
+							if (object instanceof Lifeline || object instanceof Message) {
+								toAdd.add((Element) object);
+							}
 						}
 
 					}
@@ -418,6 +507,22 @@ public class InteractionExtender implements ExtenderInterface {
 	 */
 	public void setChangeColors(boolean changeColors) {
 		this.changeColors = changeColors;
+	}
+
+	/**
+	 * @param distanceBetweenMessages
+	 *            the distanceBetweenMessages to set
+	 */
+	public void setDistanceBetweenMessages(int distanceBetweenMessages) {
+		this.distanceBetweenMessages = distanceBetweenMessages;
+	}
+
+	/**
+	 * @param autoResize
+	 *            the autoResize to set
+	 */
+	public void setAutoResize(boolean autoResize) {
+		this.autoResize = autoResize;
 	}
 
 }
