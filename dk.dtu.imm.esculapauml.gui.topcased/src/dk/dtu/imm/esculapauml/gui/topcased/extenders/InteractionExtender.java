@@ -226,7 +226,6 @@ public class InteractionExtender implements ExtenderInterface {
 						((GraphNode) targetConnector.getGraphElement()).getSize().expand(0, -deltaPoint.y);
 						((GraphNode) targetConnector.getGraphElement()).getPosition().translate(0, deltaPoint.y);
 					}
-					// target.setPosition(getAbsolutePosition(srcConnector));
 				}
 			}
 		}
