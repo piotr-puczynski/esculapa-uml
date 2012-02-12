@@ -102,9 +102,14 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	}
 
 	protected void insertSpecificationAfter(Lifeline lifeline, MessageOccurrenceSpecification toInsert, MessageOccurrenceSpecification after) {
+		List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
 		if (null == after) {
-			// generate at the end
-			lifeline.getCoveredBys().add(toInsert);
+			// generate at the end but always before BES
+			if (allBes.isEmpty()) {
+				lifeline.getCoveredBys().add(toInsert);
+			} else {
+				lifeline.getCoveredBys().add(lifeline.getCoveredBys().indexOf(allBes.get(0)), toInsert);
+			}
 		} else {
 			int insertIndex = lifeline.getCoveredBys().indexOf(after);
 			if (-1 == insertIndex) {
@@ -115,7 +120,6 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 				// point with finish to after
 				// if yes, we need to update it with toInsert
 				if (extendBehavorExecutionSpecificationsIfNecessary) {
-					List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
 					for (InteractionFragment ifbes : allBes) {
 						BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ifbes;
 						if (bes.getFinish() == after) {
@@ -130,6 +134,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 								besGenerator.setStartAndFinish(toInsert);
 								besGenerator.generate();
 							} else {
+								// extend existing bes
 								bes.setFinish(toInsert);
 							}
 							break;
