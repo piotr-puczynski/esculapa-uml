@@ -30,10 +30,14 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
+import org.eclipse.emf.compare.diff.service.DiffEngineRegistry;
 import org.eclipse.emf.compare.diff.service.DiffService;
 import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
+import org.eclipse.emf.compare.match.service.MatchEngineRegistry;
 import org.eclipse.emf.compare.match.service.MatchService;
+import org.eclipse.emf.compare.uml2.diff.UML2DiffEngine;
+import org.eclipse.emf.compare.uml2.match.UML2MatchEngine;
 
 /**
  * Testing methods help
@@ -42,6 +46,8 @@ import org.eclipse.emf.compare.match.service.MatchService;
  * 
  */
 public class TestUtils {
+	
+	private static boolean compareInit = false;
 
 	/**
 	 * Compares two models using EMF Compare and checks if there are any
@@ -53,12 +59,24 @@ public class TestUtils {
 	 * @throws InterruptedException
 	 */
 	public static boolean modelsHaveNoDifferences(Resource model1, Resource model2) throws InterruptedException {
+		if(!compareInit) {
+			DiffEngineRegistry.INSTANCE.putValue("uml", new UML2DiffEngine());
+			MatchEngineRegistry.INSTANCE.putValue("uml", new UML2MatchEngine());
+			compareInit = true;
+		}
 		Map<String, Object> options = new HashMap<String, Object>();
 		// option to avoid diffs of generator's random ids
 		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
 		MatchModel match = MatchService.doMatch(model1.getContents().get(0), model2.getContents().get(0), options);
 		DiffModel diff = DiffService.doDiff(match, false);
 		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getDifferences());
+		if(!differences.isEmpty()) {
+			System.out.println("Differences start:");
+			for(DiffElement de: differences) {
+				System.out.println(de.toString());
+			}
+			System.out.println("Differences end.");
+		}
 		return differences.isEmpty();
 	}
 
