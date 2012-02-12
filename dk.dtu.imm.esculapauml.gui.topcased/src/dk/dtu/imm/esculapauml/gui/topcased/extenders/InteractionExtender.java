@@ -148,6 +148,7 @@ public class InteractionExtender implements ExtenderInterface {
 	private void finalizeDiagram(Diagram di) {
 		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
 		DiagramElementIterator dit = iterDiagram.iterator();
+		Point globalLowestPoint = new Point(0, 0);
 		while (dit.hasNext()) {
 			DiagramElement diElement = dit.next();
 			if (dit.getModel() instanceof BehaviorExecutionSpecification) {
@@ -168,8 +169,19 @@ public class InteractionExtender implements ExtenderInterface {
 					}
 					besNode.getSize().setHeight(lowestPoint.y);
 				}
+				globalLowestPoint = Point.max(globalLowestPoint, getAbsolutePosition(besNode).translate(besNode.getSize()));
 			}
 		}
+		//restart iteration
+		dit = iterDiagram.shallowIterator();
+		while (dit.hasNext()) {
+			GraphNode diNode = dit.nextNode();
+			if (dit.getModel() instanceof Lifeline) {
+				//set all lifelines length to the maximal point + margin
+				diNode.getSize().setHeight(globalLowestPoint.y + distanceBetweenMessages);
+			}
+		}
+
 
 	}
 
