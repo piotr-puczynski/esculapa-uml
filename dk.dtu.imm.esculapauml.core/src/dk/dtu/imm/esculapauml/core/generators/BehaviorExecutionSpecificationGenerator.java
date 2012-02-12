@@ -89,6 +89,14 @@ public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<B
 	public void setFinish(OccurrenceSpecification finish) {
 		this.finish = finish;
 	}
+	
+	/**
+	 * @param start and finish
+	 *            the start and finish to set
+	 */
+	public void setStartAndFinish(OccurrenceSpecification occurrence) {
+		this.start = this.finish = occurrence;
+	}
 
 	/**
 	 * @param position

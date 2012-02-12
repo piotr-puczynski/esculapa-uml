@@ -64,7 +64,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		// first lets generate event for operation
 		CallEvent event = UMLFactory.eINSTANCE.createCallEvent();
 		event.setOperation(operation);
-		
+
 		targetLifeline.getInteraction().getNearestPackage().getPackagedElements().add(event);
 		systemState.addGeneratedElement(event);
 
@@ -119,7 +119,19 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 					for (InteractionFragment ifbes : allBes) {
 						BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ifbes;
 						if (bes.getFinish() == after) {
-							bes.setFinish(toInsert);
+							// if we do not generate reply and "after" is a
+							// reply we need to generate new execution for this
+							// message on existing lifeline
+							if (generated.getMessageSort() != MessageSort.REPLY_LITERAL && after.getMessage().getMessageSort() == MessageSort.REPLY_LITERAL) {
+								BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, diagnostic,
+										lifeline);
+								// insert after previous spec
+								besGenerator.setPosition(lifeline.getCoveredBys().indexOf(bes) + 1);
+								besGenerator.setStartAndFinish(toInsert);
+								besGenerator.generate();
+							} else {
+								bes.setFinish(toInsert);
+							}
 							break;
 						}
 					}
@@ -177,7 +189,8 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	}
 
 	/**
-	 * @param customName the customName to set
+	 * @param customName
+	 *            the customName to set
 	 */
 	public void setCustomName(String customName) {
 		this.customName = customName;

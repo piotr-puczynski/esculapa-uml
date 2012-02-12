@@ -171,8 +171,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			Message message = messageGenerator.generate();
 			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
 					(BasicDiagnostic) checker.getDiagnostics(), targetlifeline);
-			besGenerator.setStart((OccurrenceSpecification) message.getReceiveEvent());
-			besGenerator.setFinish((OccurrenceSpecification) message.getReceiveEvent());
+			besGenerator.setStartAndFinish((OccurrenceSpecification) message.getReceiveEvent());
 			besGenerator.generate();
 			executeMessage(message);
 		} else {
