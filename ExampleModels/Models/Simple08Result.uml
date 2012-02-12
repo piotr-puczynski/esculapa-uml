@@ -120,12 +120,12 @@
         <details xmi:id="_YTdvYlTxEeG_UolSF0pshQ" key="generated" value="true"/>
       </eAnnotations>
     </packagedElement>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_YTin4FTxEeG_UolSF0pshQ" name="EventOf">
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_YTin4FTxEeG_UolSF0pshQ" name="EventOfReplyOfs">
       <eAnnotations xmi:id="_YTin4VTxEeG_UolSF0pshQ" source="dk.dtu.imm.esculapauml">
         <details xmi:id="_YTin4lTxEeG_UolSF0pshQ" key="generated" value="true"/>
       </eAnnotations>
     </packagedElement>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_YTkdEFTxEeG_UolSF0pshQ" name="EventOf">
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_YTkdEFTxEeG_UolSF0pshQ" name="EventOfReplyOfm">
       <eAnnotations xmi:id="_YTkdEVTxEeG_UolSF0pshQ" source="dk.dtu.imm.esculapauml">
         <details xmi:id="_YTkdElTxEeG_UolSF0pshQ" key="generated" value="true"/>
       </eAnnotations>

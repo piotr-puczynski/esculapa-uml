@@ -64,15 +64,16 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		// first lets generate event for operation
 		CallEvent event = UMLFactory.eINSTANCE.createCallEvent();
 		event.setOperation(operation);
-		event.setName("EventOf" + getOperationName());
 		
 		targetLifeline.getInteraction().getNearestPackage().getPackagedElements().add(event);
 		systemState.addGeneratedElement(event);
 
 		if (null != customName) {
 			generated = sourceLifeline.getInteraction().createMessage(customName);
+			event.setName("EventOf" + customName);
 		} else {
 			generated = sourceLifeline.getInteraction().createMessage(getOperationName());
+			event.setName("EventOf" + getOperationName());
 		}
 		generated.setMessageSort(messageSort);
 		systemState.addGeneratedElement(generated);
