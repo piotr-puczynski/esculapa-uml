@@ -153,11 +153,12 @@ public class InteractionExtender implements ExtenderInterface {
 			if (dit.getModel() instanceof BehaviorExecutionSpecification) {
 				// we normalize the size of BES so it finishes where is the last
 				// message
-				// or if there is only one message the minimum size is 15
+				// or if there is only one message the minimum size is
+				// distanceBetweenMessages/2
 				GraphNode besNode = (GraphNode) diElement;
 				if (besNode.getAnchorage().size() < 2) {
 					// only one or no messsage
-					besNode.getSize().setHeight(15);
+					besNode.getSize().setHeight(distanceBetweenMessages / 2);
 				} else {
 					Point lowestPoint = new Point(0, 0);
 					for (GraphConnector gc : besNode.getAnchorage()) {
@@ -200,9 +201,35 @@ public class InteractionExtender implements ExtenderInterface {
 		if (sourcePrev != null) {
 			GraphEdge prevMessageEdge = (GraphEdge) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), sourcePrev.getMessage(), true);
 			if (prevMessageEdge != null) {
-				for (GraphConnector gc : prevMessageEdge.getAnchor()) {
-					if (gc.getGraphElement() == srcConnector.getGraphElement()) {
-						srcConnector.setPosition(gc.getPosition().getTranslated(0, distanceBetweenMessages));
+				if (!prevMessageEdge.getAnchor().isEmpty()) {
+					// we have two cases. one when both occurrences are on
+					// the same bes
+					boolean found = false;
+					for (GraphConnector gc : prevMessageEdge.getAnchor()) {
+						if (gc.getGraphElement() == srcConnector.getGraphElement()) {
+							srcConnector.setPosition(Point.max(srcConnector.getPosition(), gc.getPosition().getTranslated(0, distanceBetweenMessages)));
+							found = true;
+						}
+					}
+					// and second that they are on separate bes
+					if (!found) {
+						// here we need to set the correct position of bes in
+						// case it was generated and we starting it
+						if (wasGenerated(sourceSpec)) {
+							if (sourceSpec.getStart() instanceof MessageOccurrenceSpecification) {
+								if (((MessageOccurrenceSpecification) sourceSpec.getStart()).getMessage() == message) {
+									// get target connector
+									GraphConnector toConnector = prevMessageEdge.getAnchor().get(prevMessageEdge.getAnchor().size() - 1);
+									Point expected = getAbsolutePosition(toConnector).translate(0, distanceBetweenMessages);
+									Point current = getAbsolutePosition(source);
+									// calculate a shift
+									int verticalShift = expected.y - current.y;
+									// and shift bes
+									source.getPosition().translate(0, Math.max(verticalShift, 0));
+
+								}
+							}
+						}
 					}
 				}
 
@@ -212,14 +239,17 @@ public class InteractionExtender implements ExtenderInterface {
 		if (targetPrev != null) {
 			GraphEdge prevMessageEdge = (GraphEdge) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), targetPrev.getMessage(), true);
 			if (prevMessageEdge != null) {
-				for (GraphConnector gc : prevMessageEdge.getAnchor()) {
-					if (gc.getGraphElement() == targetConnector.getGraphElement()) {
-						targetConnector.setPosition(gc.getPosition().getTranslated(0, distanceBetweenMessages));
+				if (!prevMessageEdge.getAnchor().isEmpty()) {
+					for (GraphConnector gc : prevMessageEdge.getAnchor()) {
+						if (gc.getGraphElement() == targetConnector.getGraphElement()) {
+							targetConnector.setPosition(Point.max(targetConnector.getPosition(), gc.getPosition().getTranslated(0, distanceBetweenMessages)));
+						}
 					}
 				}
 
 			}
 		}
+
 		// make sure generated bes is not forcing message to go "back in time"
 		if (wasGenerated(targetSpec)) {
 			// if it is a first message of spec
@@ -260,13 +290,21 @@ public class InteractionExtender implements ExtenderInterface {
 	 * This function is used only for BES on existing lifelines.
 	 * 
 	 * @param di
-	 *            Diagram to cange.
+	 *            Diagram to change.
 	 * @param bes
 	 *            BehaviorExecutionSpecification to plot.
 	 */
 	private void createBehaviorExecutionSpecification(Diagram di, BehaviorExecutionSpecification bes) {
-		
-
+		Lifeline lifeline = InteractionUtils.getLifelineOfFragment((InteractionFragment) bes);
+		GraphNode lifelineNode = (GraphNode) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), lifeline, true);
+		GraphNode besNode = (GraphNode) modeler.getActiveConfiguration().getCreationUtils().createGraphElement((EObject) bes, "default");
+		if (changeColors) {
+			DIUtils.setProperty(besNode, ModelerPropertyConstants.BACKGROUND_COLOR, executionColor);
+		}
+		besNode.setPosition(new Point(0, 0));
+		besNode.setSize(new Dimension(20, distanceBetweenMessages / 2));
+		lifelineNode.getContained().add(besNode);
+		setAsPlotted(bes);
 	}
 
 	/**
@@ -351,9 +389,9 @@ public class InteractionExtender implements ExtenderInterface {
 		return getAbsolutePosition(connector.getGraphElement(), connector.getPosition());
 	}
 
-	// private Point getAbsolutePosition(GraphElement element) {
-	// return getAbsolutePosition(element, new Point(0, 0));
-	// }
+	private Point getAbsolutePosition(GraphElement element) {
+		return getAbsolutePosition(element, new Point(0, 0));
+	}
 
 	/**
 	 * Translates the position of point in context element down to diagram

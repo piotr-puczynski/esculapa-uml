@@ -44,7 +44,7 @@ public final class InteractionUtils {
 	public static Lifeline getMessageTargetLifeline(Message message) {
 		if (message.getReceiveEvent() instanceof MessageOccurrenceSpecification) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
-			return getLifelineOfOccurenceSpecification(moc);
+			return getLifelineOfFragment(moc);
 		}
 		return null;
 	}
@@ -52,12 +52,12 @@ public final class InteractionUtils {
 	public static Lifeline getMessageSourceLifeline(Message message) {
 		if (message.getSendEvent() instanceof MessageOccurrenceSpecification) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
-			return getLifelineOfOccurenceSpecification(moc);
+			return getLifelineOfFragment(moc);
 		}
 		return null;
 	}
 
-	public static Lifeline getLifelineOfOccurenceSpecification(OccurrenceSpecification occurrence) {
+	public static Lifeline getLifelineOfFragment(InteractionFragment occurrence) {
 		if (occurrence.getCovereds().size() > 0) {
 			return occurrence.getCovereds().get(0);
 		}
@@ -129,31 +129,42 @@ public final class InteractionUtils {
 		}
 		return null;
 	}
-	
+
 	public static MessageOccurrenceSpecification getPreviousMessageOccurrence(MessageOccurrenceSpecification mos) {
-		Lifeline lifeline = getLifelineOfOccurenceSpecification(mos);
+		Lifeline lifeline = getLifelineOfFragment(mos);
 		if (null != lifeline) {
 			List<InteractionFragment> allMsgs = filter(is(MessageOccurrenceSpecification.class), lifeline.getCoveredBys());
 			int index = allMsgs.indexOf(mos);
-			if(index > 0) {
+			if (index > 0) {
 				return (MessageOccurrenceSpecification) allMsgs.get(index - 1);
 			}
 		}
 
 		return null;
 	}
-	
+
 	public static MessageOccurrenceSpecification getNextMessageOccurrence(MessageOccurrenceSpecification mos) {
-		Lifeline lifeline = getLifelineOfOccurenceSpecification(mos);
+		Lifeline lifeline = getLifelineOfFragment(mos);
 		if (null != lifeline) {
 			List<InteractionFragment> allMsgs = filter(is(MessageOccurrenceSpecification.class), lifeline.getCoveredBys());
 			int index = allMsgs.indexOf(mos);
-			if(index < allMsgs.size() - 1) {
+			if (index < allMsgs.size() - 1) {
 				return (MessageOccurrenceSpecification) allMsgs.get(index + 1);
 			}
 		}
 
 		return null;
+	}
+
+	/**
+	 * Filters the specifications of CoveredBys given lifeline with given class type.
+	 * @param lifeline
+	 * @param type
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	public static List<InteractionFragment> filterSpecifications(Lifeline lifeline, Class type) {
+		return filter(is(type), lifeline.getCoveredBys());
 	}
 
 }
