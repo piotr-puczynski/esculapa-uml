@@ -68,7 +68,6 @@ public class BehaviorExecutionSpecificationGenerator extends AbstractGenerator<B
 		if (null != finish) {
 			generated.setFinish(finish);
 		}
-		lifeline.getCoveredBys().add(generated);
 		systemState.addGeneratedElement(generated);
 		logger.info("Generated new element: " + generated.getLabel());
 		return generated;
