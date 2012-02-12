@@ -42,7 +42,7 @@ public class Simple08Test extends LoggingTest {
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is no error
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
-		//models have no differences
+		// models have no differences
 		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }

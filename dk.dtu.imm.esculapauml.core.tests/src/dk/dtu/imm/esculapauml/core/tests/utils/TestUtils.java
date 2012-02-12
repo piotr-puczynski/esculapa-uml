@@ -46,20 +46,20 @@ import org.eclipse.emf.compare.uml2.match.UML2MatchEngine;
  * 
  */
 public class TestUtils {
-	
+
 	private static boolean compareInit = false;
 
 	/**
-	 * Compares two models using EMF Compare and checks if there are any
+	 * Compares two UML2 models using EMF Compare and checks if there are any
 	 * differences.
 	 * 
 	 * @param model1
 	 * @param model2
-	 * @return
+	 * @return true if models are the same
 	 * @throws InterruptedException
 	 */
 	public static boolean modelsHaveNoDifferences(Resource model1, Resource model2) throws InterruptedException {
-		if(!compareInit) {
+		if (!compareInit) {
 			DiffEngineRegistry.INSTANCE.putValue("uml", new UML2DiffEngine());
 			MatchEngineRegistry.INSTANCE.putValue("uml", new UML2MatchEngine());
 			compareInit = true;
@@ -70,9 +70,9 @@ public class TestUtils {
 		MatchModel match = MatchService.doMatch(model1.getContents().get(0), model2.getContents().get(0), options);
 		DiffModel diff = DiffService.doDiff(match, false);
 		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getDifferences());
-		if(!differences.isEmpty()) {
+		if (!differences.isEmpty()) {
 			System.out.println("Differences start:");
-			for(DiffElement de: differences) {
+			for (DiffElement de : differences) {
 				System.out.println(de.toString());
 			}
 			System.out.println("Differences end.");
