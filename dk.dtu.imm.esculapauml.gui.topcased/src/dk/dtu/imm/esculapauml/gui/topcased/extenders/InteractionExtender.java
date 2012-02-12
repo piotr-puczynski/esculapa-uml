@@ -12,6 +12,7 @@
 package dk.dtu.imm.esculapauml.gui.topcased.extenders;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Dimension;
@@ -107,6 +108,13 @@ public class InteractionExtender implements ExtenderInterface {
 				createLifeline(di, (Lifeline) element);
 			}
 		}
+		recalculateElementsToPlot(new BasicEList<EObject>(toAdd).iterator());
+		for (Element element : toAdd) {
+			if (element instanceof BehaviorExecutionSpecification) {
+				createBehaviorExecutionSpecification(di, (BehaviorExecutionSpecification) element);
+			}
+		}
+		recalculateElementsToPlot(new BasicEList<EObject>(toAdd).iterator());
 		for (Element element : toAdd) {
 			if (element instanceof Message) {
 				createMessage(di, (Message) element);
@@ -246,35 +254,19 @@ public class InteractionExtender implements ExtenderInterface {
 	}
 
 	/**
-	 * Translates the position of connector down to diagram coordinates.
+	 * Creates new BehaviorExecutionSpecification's graphical representation in
+	 * diagram.
 	 * 
-	 * @param srcConnector
-	 * @return
-	 */
-	private Point getAbsolutePosition(GraphConnector connector) {
-		return getAbsolutePosition(connector.getGraphElement(), connector.getPosition());
-	}
-
-	// private Point getAbsolutePosition(GraphElement element) {
-	// return getAbsolutePosition(element, new Point(0, 0));
-	// }
-
-	/**
-	 * Translates the position of point in context element down to diagram
-	 * coordinates.
+	 * This function is used only for BES on existing lifelines.
 	 * 
-	 * @param context
-	 * @param position
-	 * @return
+	 * @param di
+	 *            Diagram to cange.
+	 * @param bes
+	 *            BehaviorExecutionSpecification to plot.
 	 */
-	private Point getAbsolutePosition(GraphElement context, Point position) {
-		Point pos = position.getCopy();
-		GraphElement graph = context;
-		do {
-			pos.translate(graph.getPosition());
-			graph = graph.getContainer();
-		} while (!(graph instanceof Diagram));
-		return pos;
+	private void createBehaviorExecutionSpecification(Diagram di, BehaviorExecutionSpecification bes) {
+		
+
 	}
 
 	/**
@@ -350,15 +342,55 @@ public class InteractionExtender implements ExtenderInterface {
 	}
 
 	/**
+	 * Translates the position of connector down to diagram coordinates.
+	 * 
+	 * @param srcConnector
+	 * @return
+	 */
+	private Point getAbsolutePosition(GraphConnector connector) {
+		return getAbsolutePosition(connector.getGraphElement(), connector.getPosition());
+	}
+
+	// private Point getAbsolutePosition(GraphElement element) {
+	// return getAbsolutePosition(element, new Point(0, 0));
+	// }
+
+	/**
+	 * Translates the position of point in context element down to diagram
+	 * coordinates.
+	 * 
+	 * @param context
+	 * @param position
+	 * @return
+	 */
+	private Point getAbsolutePosition(GraphElement context, Point position) {
+		Point pos = position.getCopy();
+		GraphElement graph = context;
+		do {
+			pos.translate(graph.getPosition());
+			graph = graph.getContainer();
+		} while (!(graph instanceof Diagram));
+		return pos;
+	}
+
+	/**
+	 * Used to filter interaction for a first time.
+	 * 
+	 */
+	private void calculateElementsToPlot() {
+		TreeIterator<EObject> contents = interaction.eAllContents();
+		recalculateElementsToPlot(contents);
+	}
+
+	/**
 	 * Finds elements to be added to diagram based on annotations.
 	 * "topcased-ploted" is used to avoid duplication of graphical nodes if user
 	 * runs a checker subsequently.
 	 * 
 	 * @return
 	 */
-	private void calculateElementsToPlot() {
+	private void recalculateElementsToPlot(Iterator<EObject> contents) {
 		toAdd.clear();
-		TreeIterator<EObject> contents = interaction.eAllContents();
 		while (contents.hasNext()) {
 			EObject object = contents.next();
 			if (object instanceof EModelElement) {
@@ -366,7 +398,7 @@ public class InteractionExtender implements ExtenderInterface {
 				if (null != annotation) {
 					if (annotation.getDetails().get("generated").equals("true")) {
 						if (null == annotation.getDetails().get("topcased-ploted") || !annotation.getDetails().get("topcased-ploted").equals("true")) {
-							//supported elements
+							// supported elements
 							if (object instanceof Lifeline || object instanceof Message || object instanceof BehaviorExecutionSpecification) {
 								toAdd.add((Element) object);
 							}
@@ -525,7 +557,8 @@ public class InteractionExtender implements ExtenderInterface {
 	}
 
 	/**
-	 * @param lifelineWidth the lifelineWidth to set
+	 * @param lifelineWidth
+	 *            the lifelineWidth to set
 	 */
 	public void setLifelineWidth(int lifelineWidth) {
 		this.lifelineWidth = lifelineWidth;
