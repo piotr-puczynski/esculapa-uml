@@ -54,7 +54,6 @@
         <lifeline xmi:id="_YTY241TxEeG_UolSF0pshQ" name="D" represents="_YTYP0FTxEeG_UolSF0pshQ" coveredBy="_YTe9gVTxEeG_UolSF0pshQ _YTin5lTxEeG_UolSF0pshQ _YTgLoFTxEeG_UolSF0pshQ">
           <eAnnotations xmi:id="_YTY25FTxEeG_UolSF0pshQ" source="dk.dtu.imm.esculapauml">
             <details xmi:id="_YTY25VTxEeG_UolSF0pshQ" key="generated" value="true"/>
-            <details xmi:id="_YZ-nEFTxEeG_UolSF0pshQ" key="topcased-ploted" value="true"/>
           </eAnnotations>
         </lifeline>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_E4xAcE5-EeGfWN6qfI76hw" name="MessageOccurrenceSpecification1" covered="_4vZa4E59EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw" message="_E46KYE5-EeGfWN6qfI76hw"/>
@@ -74,7 +73,6 @@
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_YTgLoFTxEeG_UolSF0pshQ" name="BehaviorExecutionSpecificationOfD" covered="_YTY241TxEeG_UolSF0pshQ" start="_YTe9gVTxEeG_UolSF0pshQ" finish="_YTin5lTxEeG_UolSF0pshQ">
           <eAnnotations xmi:id="_YTgLoVTxEeG_UolSF0pshQ" source="dk.dtu.imm.esculapauml">
             <details xmi:id="_YTgLolTxEeG_UolSF0pshQ" key="generated" value="true"/>
-            <details xmi:id="_YZ-nEVTxEeG_UolSF0pshQ" key="topcased-ploted" value="true"/>
           </eAnnotations>
         </fragment>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_YTin5lTxEeG_UolSF0pshQ" name="SendMessageOccurrenceSpecificationOfReplyOfs" covered="_YTY241TxEeG_UolSF0pshQ" event="_YTin4FTxEeG_UolSF0pshQ" message="_YTin41TxEeG_UolSF0pshQ">
@@ -101,19 +99,16 @@
         <message xmi:id="_YTeWcFTxEeG_UolSF0pshQ" name="s" receiveEvent="_YTe9gVTxEeG_UolSF0pshQ" sendEvent="_YTeWc1TxEeG_UolSF0pshQ">
           <eAnnotations xmi:id="_YTeWcVTxEeG_UolSF0pshQ" source="dk.dtu.imm.esculapauml">
             <details xmi:id="_YTeWclTxEeG_UolSF0pshQ" key="generated" value="true"/>
-            <details xmi:id="_YaCRdFTxEeG_UolSF0pshQ" key="topcased-ploted" value="true"/>
           </eAnnotations>
         </message>
         <message xmi:id="_YTin41TxEeG_UolSF0pshQ" name="ReplyOfs" messageSort="reply" receiveEvent="_YTjO8lTxEeG_UolSF0pshQ" sendEvent="_YTin5lTxEeG_UolSF0pshQ">
           <eAnnotations xmi:id="_YTin5FTxEeG_UolSF0pshQ" source="dk.dtu.imm.esculapauml">
             <details xmi:id="_YTin5VTxEeG_UolSF0pshQ" key="generated" value="true"/>
-            <details xmi:id="_YaEGpFTxEeG_UolSF0pshQ" key="topcased-ploted" value="true"/>
           </eAnnotations>
         </message>
         <message xmi:id="_YTlEIFTxEeG_UolSF0pshQ" name="ReplyOfm" messageSort="reply" receiveEvent="_YTlEJlTxEeG_UolSF0pshQ" sendEvent="_YTlEI1TxEeG_UolSF0pshQ">
           <eAnnotations xmi:id="_YTlEIVTxEeG_UolSF0pshQ" source="dk.dtu.imm.esculapauml">
             <details xmi:id="_YTlEIlTxEeG_UolSF0pshQ" key="generated" value="true"/>
-            <details xmi:id="_YaF71FTxEeG_UolSF0pshQ" key="topcased-ploted" value="true"/>
           </eAnnotations>
         </message>
       </ownedBehavior>

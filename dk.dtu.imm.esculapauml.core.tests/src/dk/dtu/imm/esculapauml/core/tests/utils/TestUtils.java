@@ -12,7 +12,9 @@
 package dk.dtu.imm.esculapauml.core.tests.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -29,6 +31,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.compare.diff.metamodel.DiffElement;
 import org.eclipse.emf.compare.diff.metamodel.DiffModel;
 import org.eclipse.emf.compare.diff.service.DiffService;
+import org.eclipse.emf.compare.match.MatchOptions;
 import org.eclipse.emf.compare.match.metamodel.MatchModel;
 import org.eclipse.emf.compare.match.service.MatchService;
 
@@ -39,19 +42,24 @@ import org.eclipse.emf.compare.match.service.MatchService;
  * 
  */
 public class TestUtils {
-	
+
 	/**
-	 * Compares two models using EMF Compare and checks if there are any differences.
+	 * Compares two models using EMF Compare and checks if there are any
+	 * differences.
+	 * 
 	 * @param model1
 	 * @param model2
 	 * @return
-	 * @throws InterruptedException 
+	 * @throws InterruptedException
 	 */
-	public static boolean modelHaveDifferences(Resource model1, Resource model2) throws InterruptedException {
-		MatchModel match = MatchService.doContentMatch(model1.getContents().get(0), model2.getContents().get(0), null);
+	public static boolean modelsHaveNoDifferences(Resource model1, Resource model2) throws InterruptedException {
+		Map<String, Object> options = new HashMap<String, Object>();
+		// option to avoid diffs of generator's random ids
+		options.put(MatchOptions.OPTION_IGNORE_XMI_ID, true);
+		MatchModel match = MatchService.doMatch(model1.getContents().get(0), model2.getContents().get(0), options);
 		DiffModel diff = DiffService.doDiff(match, false);
-		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getOwnedElements());
-		return !differences.isEmpty();
+		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getDifferences());
+		return differences.isEmpty();
 	}
 
 	/**
@@ -90,9 +98,10 @@ public class TestUtils {
 		});
 		return umlInteraction;
 	}
-	
+
 	/**
 	 * Finds transition by name. Looks in all state machines.
+	 * 
 	 * @param model
 	 * @param transitionName
 	 * @return

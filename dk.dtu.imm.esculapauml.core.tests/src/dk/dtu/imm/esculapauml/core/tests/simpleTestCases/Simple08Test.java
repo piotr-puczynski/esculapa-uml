@@ -32,7 +32,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  */
 public class Simple08Test extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("Simple08.uml");
-	private Resource modelResult = TestUtils.getUMLResource("Simple08Result.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("Simple08Result.uml");
 
 	@Test
 	public void extendInteraction() throws InterruptedException {
@@ -43,6 +43,6 @@ public class Simple08Test extends LoggingTest {
 		// there is no error
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		//models have no differences
-		assertFalse(TestUtils.modelHaveDifferences(model, modelResult));
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }
