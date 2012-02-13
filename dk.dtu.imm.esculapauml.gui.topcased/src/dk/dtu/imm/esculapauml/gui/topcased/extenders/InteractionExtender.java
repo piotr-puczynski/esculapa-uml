@@ -172,16 +172,15 @@ public class InteractionExtender implements ExtenderInterface {
 				globalLowestPoint = Point.max(globalLowestPoint, getAbsolutePosition(besNode).translate(besNode.getSize()));
 			}
 		}
-		//restart iteration
+		// restart iteration
 		dit = iterDiagram.shallowIterator();
 		while (dit.hasNext()) {
 			GraphNode diNode = dit.nextNode();
 			if (dit.getModel() instanceof Lifeline) {
-				//set all lifelines length to the maximal point + margin
+				// set all lifelines length to the maximal point + margin
 				diNode.getSize().setHeight(globalLowestPoint.y + distanceBetweenMessages);
 			}
 		}
-
 
 	}
 
@@ -291,6 +290,11 @@ public class InteractionExtender implements ExtenderInterface {
 			targetConnector.getPosition().translate(0, deltaPoint.y);
 		}
 
+		// if we are not finishing an execution
+		// shift down the interaction before we add message to diagram
+		if (targetSpec.getFinish() != message.getReceiveEvent()) {
+			shiftInteractionVerticallyFromY(di, getAbsolutePosition(targetConnector).y, distanceBetweenMessages);
+		}
 		di.getContained().add(edge);
 		setAsPlotted(message);
 	}
@@ -401,6 +405,12 @@ public class InteractionExtender implements ExtenderInterface {
 		return getAbsolutePosition(connector.getGraphElement(), connector.getPosition());
 	}
 
+	/**
+	 * Translates the position of element down to diagram coordinates.
+	 * 
+	 * @param element
+	 * @return
+	 */
 	private Point getAbsolutePosition(GraphElement element) {
 		return getAbsolutePosition(element, new Point(0, 0));
 	}
@@ -550,6 +560,33 @@ public class InteractionExtender implements ExtenderInterface {
 			}
 		}
 		return result;
+	}
+
+	/**
+	 * Shifts elements of diagram below given height by delta vertically.
+	 * 
+	 * @param fromY
+	 * @param deltaY
+	 */
+	private void shiftInteractionVerticallyFromY(Diagram di, int fromY, int deltaY) {
+		DiagramElementIterable iterDiagram = new DiagramElementIterable(di);
+		DiagramElementIterator dit = iterDiagram.iterator();
+		while (dit.hasNext()) {
+			GraphNode diNode = dit.nextNode();
+			if (dit.getModel() instanceof BehaviorExecutionSpecification) {
+				// check if current position is in the range shift it
+				Point pos = getAbsolutePosition(diNode);
+				if (pos.y > fromY) {
+					diNode.getPosition().translate(0, deltaY);
+				} else {
+					// if its not starting below but its size is in the range
+					// then expand it
+					if (pos.getTranslated(diNode.getSize()).y > fromY) {
+						diNode.getSize().expand(0, deltaY);
+					}
+				}
+			}
+		}
 	}
 
 	/**
