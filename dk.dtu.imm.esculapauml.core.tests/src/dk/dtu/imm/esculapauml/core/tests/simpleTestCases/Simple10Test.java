@@ -33,7 +33,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  */
 public class Simple10Test extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("Simple10.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("Simple10Result.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/Simple10.uml");
 
 	@Test
 	public void extendInteraction() throws InterruptedException {
