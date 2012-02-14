@@ -18,7 +18,7 @@ import org.junit.Test;
 import dk.dtu.imm.esculapauml.core.sal.parser.*;
 
 /**
- * Tests of the SOCL parser
+ * Tests of the SAL parser
  * @author Piotr J. Puczynski
  * 
  */
