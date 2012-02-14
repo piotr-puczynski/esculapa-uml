@@ -23,18 +23,15 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for generation of part of missing model interaction: three lifelines to
- * generate, three messages to generate four replies to generate. This includes
- * two messages from the same lifeline.
+ * Testing transition to itself and operation called multiple times on the same object.
  * 
- * Testing extension of sequence diagram down.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple11Test extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("Simple11.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/Simple11.uml");
+public class SelfTransitionTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("SelfTransition.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/SelfTransition.uml");
 
 	@Test
 	public void extendInteraction() throws InterruptedException {
