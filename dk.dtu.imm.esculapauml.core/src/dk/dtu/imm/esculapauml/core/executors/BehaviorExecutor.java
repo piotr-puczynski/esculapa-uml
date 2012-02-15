@@ -30,6 +30,7 @@ import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.FunctionBehavior;
 import org.eclipse.uml2.uml.Lifeline;
+import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.StateMachine;
@@ -268,6 +269,12 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 					// this shouldn't happen as function behavior should be an
 					// operation
 					checker.addOtherProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.", transition);
+				}
+			}
+			else if (effect instanceof OpaqueBehavior) {
+				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(checker, instanceSpecification, transition, effect.getName());
+				obe.prepare();
+				if(!checker.hasErrors()) {
 				}
 			}
 		}

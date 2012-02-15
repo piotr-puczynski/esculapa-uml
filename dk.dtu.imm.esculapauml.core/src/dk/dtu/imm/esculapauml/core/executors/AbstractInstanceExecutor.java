@@ -21,7 +21,7 @@ import org.eclipse.uml2.uml.UMLFactory;
  */
 public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	
-	protected InstanceSpecification instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
+	protected InstanceSpecification instanceSpecification;
 	protected String instanceName;
 
 	/**
@@ -29,6 +29,15 @@ public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	 */
 	public AbstractInstanceExecutor(T checker) {
 		super(checker);
+		instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
+	}
+	
+	/**
+	 * @param checker
+	 */
+	public AbstractInstanceExecutor(T checker, InstanceSpecification instanceSpecification) {
+		super(checker);
+		this.instanceSpecification = instanceSpecification;
 	}
 
 	/**
