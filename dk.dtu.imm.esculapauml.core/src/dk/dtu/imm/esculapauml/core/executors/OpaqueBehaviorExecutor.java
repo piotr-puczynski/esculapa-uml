@@ -14,7 +14,6 @@ package dk.dtu.imm.esculapauml.core.executors;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.InstanceSpecification;
-import org.eclipse.uml2.uml.LiteralSpecification;
 import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
@@ -37,7 +36,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	private String behavior;
 	private EObject owner;
 	private SALNode root;
-	LiteralSpecification reply = null;
+	ValueSpecification reply = null;
 
 	/**
 	 * @return the reply
@@ -94,8 +93,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		reply = evaluateExpression(node.getChild(0));
 	}
 
-	protected LiteralSpecification evaluateExpression(SALNode node) {
-		LiteralSpecification result = null;
+	protected ValueSpecification evaluateExpression(SALNode node) {
+		ValueSpecification result = null;
 		switch (node.getId()) {
 		case SALParserTreeConstants.JJTLOGICCONSTANT:
 			result = UMLFactory.eINSTANCE.createLiteralString();
