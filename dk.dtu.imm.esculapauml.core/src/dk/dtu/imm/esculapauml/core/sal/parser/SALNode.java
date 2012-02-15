@@ -22,7 +22,6 @@ public class SALNode extends SimpleNode {
 	 */
 	public SALNode(int i) {
 		super(i);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -31,11 +30,14 @@ public class SALNode extends SimpleNode {
 	 */
 	public SALNode(SALParser p, int i) {
 		super(p, i);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public int getId() {
 		return id;
+	}
+	
+	public SALNode getChild(int i) {
+		return (SALNode) jjtGetChild(i);
 	}
 
 	@Override
