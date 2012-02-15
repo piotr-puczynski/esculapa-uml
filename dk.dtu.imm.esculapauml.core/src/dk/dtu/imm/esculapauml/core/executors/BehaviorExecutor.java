@@ -274,8 +274,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 			else if (effect instanceof OpaqueBehavior) {
 				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(checker, instanceSpecification, transition, effect.getName());
 				obe.prepare();
-				if(!checker.hasErrors()) {
-				}
+				obe.execute();
 			}
 		}
 
