@@ -14,7 +14,7 @@ package dk.dtu.imm.esculapauml.core.executors;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.InstanceSpecification;
-import org.eclipse.uml2.uml.LiteralString;
+import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
 
@@ -97,9 +97,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		ValueSpecification result = null;
 		switch (node.getId()) {
 		case SALParserTreeConstants.JJTLOGICCONSTANT:
-			result = UMLFactory.eINSTANCE.createLiteralString();
-			((LiteralString)result).setValue(String.valueOf(node.jjtGetValue()));
-
+			LiteralBoolean boolResult = UMLFactory.eINSTANCE.createLiteralBoolean();
+			boolResult.setValue((boolean) node.jjtGetValue());
+			result = boolResult;
 			break;
 		}
 		return result;

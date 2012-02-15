@@ -57,7 +57,7 @@
           <element href="SimpleReply.uml#_fRnNsDJJEeGjS-_RcLljMA"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_SOFQgDJKEeGjS-_RcLljMA" position="40,70" size="20,50">
-          <anchorage xmi:id="_FirqADJMEeGjS-_RcLljMA" position="16,13" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
+          <anchorage xmi:id="_HzUxEFgWEeGNWfnyZ1uO5w" position="11,17" graphEdge="_HzaQoFgWEeGNWfnyZ1uO5w"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_SOFQgTJKEeGjS-_RcLljMA" presentation="default">
             <element href="SimpleReply.uml#_SOTS8DJKEeGjS-_RcLljMA"/>
           </semanticModel>
@@ -68,17 +68,17 @@
           <element href="SimpleReply.uml#_o900UDJJEeGjS-_RcLljMA"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_0ZJ9QDJLEeGjS-_RcLljMA" position="40,66" size="20,50">
-          <anchorage xmi:id="_Fis4IDJMEeGjS-_RcLljMA" position="13,17" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
+          <anchorage xmi:id="_HzZpkFgWEeGNWfnyZ1uO5w" position="9,21" graphEdge="_HzaQoFgWEeGNWfnyZ1uO5w"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_0ZJ9QTJLEeGjS-_RcLljMA" presentation="default">
             <element href="SimpleReply.uml#_0ZLLYDJLEeGjS-_RcLljMA"/>
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_FitfMDJMEeGjS-_RcLljMA" anchor="_FirqADJMEeGjS-_RcLljMA _Fis4IDJMEeGjS-_RcLljMA">
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_FitfMTJMEeGjS-_RcLljMA" presentation="default">
-          <element href="SimpleReply.uml#_Fi2CEDJMEeGjS-_RcLljMA"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_HzaQoFgWEeGNWfnyZ1uO5w" anchor="_HzUxEFgWEeGNWfnyZ1uO5w _HzZpkFgWEeGNWfnyZ1uO5w">
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HzaQoVgWEeGNWfnyZ1uO5w" presentation="default">
+          <element href="SimpleReply.uml#_Hzg-UFgWEeGNWfnyZ1uO5w"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_FitfMjJMEeGjS-_RcLljMA" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_HzaQolgWEeGNWfnyZ1uO5w" id="nameEdgeObject" offset="0,-10"/>
       </contained>
     </diagrams>
   </subdiagrams>

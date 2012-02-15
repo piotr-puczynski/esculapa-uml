@@ -13,7 +13,7 @@
           <transition xmi:id="_leLEhkOKEeG4EdriM4MjZA" name="Transition1" source="_i03f8EOKEeG4EdriM4MjZA" target="_kg3uwEOKEeG4EdriM4MjZA"/>
           <transition xmi:id="_l7n1hUOKEeG4EdriM4MjZA" name="Transition2" source="_kg3uwEOKEeG4EdriM4MjZA" target="_k8QDMkOKEeG4EdriM4MjZA">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_iuxyEFfuEeG869Uz7qAJow" name="reply true;"/>
-            <trigger xmi:id="_oopccEOKEeG4EdriM4MjZA" event="_Fi1bATJMEeGjS-_RcLljMA"/>
+            <trigger xmi:id="_oopccEOKEeG4EdriM4MjZA"/>
           </transition>
         </region>
       </ownedBehavior>
@@ -32,20 +32,20 @@
           <end xmi:id="_o4c6MDJLEeGjS-_RcLljMA"/>
           <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
         </ownedConnector>
-        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_Fi0z8DJMEeGjS-_RcLljMA _SOTS8DJKEeGjS-_RcLljMA"/>
-        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_Fi1bADJMEeGjS-_RcLljMA _0ZLLYDJLEeGjS-_RcLljMA"/>
-        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Fi0z8DJMEeGjS-_RcLljMA" name="MessageOccurrenceSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_Fi1bATJMEeGjS-_RcLljMA" message="_Fi2CEDJMEeGjS-_RcLljMA"/>
-        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Fi1bADJMEeGjS-_RcLljMA" name="MessageOccurrenceSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" event="_Fi1bATJMEeGjS-_RcLljMA" message="_Fi2CEDJMEeGjS-_RcLljMA"/>
-        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_SOTS8DJKEeGjS-_RcLljMA" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_Fi0z8DJMEeGjS-_RcLljMA" finish="_Fi0z8DJMEeGjS-_RcLljMA"/>
-        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_0ZLLYDJLEeGjS-_RcLljMA" name="BehaviorExecutionSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" start="_Fi1bADJMEeGjS-_RcLljMA" finish="_Fi1bADJMEeGjS-_RcLljMA"/>
-        <message xmi:id="_Fi2CEDJMEeGjS-_RcLljMA" name="m" receiveEvent="_Fi1bADJMEeGjS-_RcLljMA" sendEvent="_Fi0z8DJMEeGjS-_RcLljMA">
-          <argument xmi:type="uml:LiteralString" xmi:id="_BQSPwFfzEeG869Uz7qAJow" name="return">
+        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_HzfJIFgWEeGNWfnyZ1uO5w _SOTS8DJKEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_HzgXQFgWEeGNWfnyZ1uO5w _0ZLLYDJLEeGjS-_RcLljMA"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_HzfJIFgWEeGNWfnyZ1uO5w" name="MessageOccurrenceSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_HzgXQVgWEeGNWfnyZ1uO5w" message="_Hzg-UFgWEeGNWfnyZ1uO5w"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_HzgXQFgWEeGNWfnyZ1uO5w" name="MessageOccurrenceSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" event="_HzgXQVgWEeGNWfnyZ1uO5w" message="_Hzg-UFgWEeGNWfnyZ1uO5w"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_SOTS8DJKEeGjS-_RcLljMA" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_HzfJIFgWEeGNWfnyZ1uO5w" finish="_HzfJIFgWEeGNWfnyZ1uO5w"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_0ZLLYDJLEeGjS-_RcLljMA" name="BehaviorExecutionSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" start="_HzgXQFgWEeGNWfnyZ1uO5w" finish="_HzgXQFgWEeGNWfnyZ1uO5w"/>
+        <message xmi:id="_Hzg-UFgWEeGNWfnyZ1uO5w" name="m" receiveEvent="_HzgXQFgWEeGNWfnyZ1uO5w" sendEvent="_HzfJIFgWEeGNWfnyZ1uO5w">
+          <argument xmi:type="uml:LiteralBoolean" xmi:id="_KCORkFgWEeGNWfnyZ1uO5w" name="return">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
           </argument>
         </message>
       </ownedBehavior>
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_Fi1bATJMEeGjS-_RcLljMA" name="CallEvent1" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_HzgXQVgWEeGNWfnyZ1uO5w" name="CallEvent1" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
   </packagedElement>
 </uml:Model>
