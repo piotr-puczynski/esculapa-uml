@@ -3,6 +3,6 @@
    <description name="EsculapaUML Update Site" url="https://esculapa-uml.eclipselabs.org.codespot.com/git/update_site/">
       EsculapaUML Tools Update Site.
    </description>
-   <feature url="features/dk.dtu.imm.esculapauml.core.feature_1.0.0.201202081010.jar" id="dk.dtu.imm.esculapauml.core.feature" version="1.0.0.201202081010"/>
-   <feature url="features/dk.dtu.imm.esculapauml.gui.topcased.feature_1.0.0.201202081010.jar" id="dk.dtu.imm.esculapauml.gui.topcased.feature" version="1.0.0.201202081010"/>
+   <feature url="features/dk.dtu.imm.esculapauml.core.feature_1.0.0.201202150949.jar" id="dk.dtu.imm.esculapauml.core.feature" version="1.0.0.201202150949"/>
+   <feature url="features/dk.dtu.imm.esculapauml.gui.topcased.feature_1.0.0.201202150949.jar" id="dk.dtu.imm.esculapauml.gui.topcased.feature" version="1.0.0.201202150949"/>
 </site>
