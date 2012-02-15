@@ -98,7 +98,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		switch (node.getId()) {
 		case SALParserTreeConstants.JJTLOGICCONSTANT:
 			result = UMLFactory.eINSTANCE.createLiteralString();
-			((LiteralString)result).setValue((String) node.jjtGetValue());
+			((LiteralString)result).setValue(String.valueOf(node.jjtGetValue()));
 
 			break;
 		}
