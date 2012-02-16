@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.common.util.UML2Util;
@@ -91,8 +92,12 @@ public class TestUtils {
 		resourceSet.getPackageRegistry().put(UMLPackage.eNS_URI, UMLPackage.eINSTANCE);
 
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
+		// prepare UML primitive types
+		URIConverter.URI_MAP.put(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI),
+				URI.createFileURI(System.getProperty("user.home") + "/git/EsculapaUML/ExampleModels/SystemLibs/libraries/UMLPrimitiveTypes.library.uml"));
+
 		// Map uriMap = resourceSet.getURIConverter().getURIMap();
-		URI uri = URI.createURI("file:/C:/Users/" + System.getProperty("user.name") + "/git/EsculapaUML/ExampleModels/Models/" + modelFileName);
+		URI uri = URI.createURI("file:/" + System.getProperty("user.home") + "/git/EsculapaUML/ExampleModels/Models/" + modelFileName);
 
 		return resourceSet.getResource(uri, true);
 	}
