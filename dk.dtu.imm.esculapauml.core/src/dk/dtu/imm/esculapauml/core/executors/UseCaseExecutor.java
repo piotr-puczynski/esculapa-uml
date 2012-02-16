@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.BehavioredClassifier;
@@ -113,7 +114,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 				if (signature instanceof Operation) {
 					ValueSpecification result = targetExecutor.runOperation(message, (Operation) signature);
-					if(checker.hasErrors()) {
+					if (checker.hasErrors()) {
 						return;
 					}
 					// if next message is not a reply after unwind, we should
@@ -123,6 +124,11 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 					Message reply = getNextMessage(currentMessage);
 					if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
 						reply = generateReplyMessage(message);
+					} else {
+						fixReplyMessage(reply, message);
+					}
+					if (checker.hasErrors()) {
+						return;
 					}
 					// check and set result of a message
 					setMessageReturn(reply, result);
@@ -137,7 +143,30 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	}
 
 	/**
+	 * This method assures that the reply message points to the same operation
+	 * than original message. If not, it's a warning, if there is no event then
+	 * it should set the correct one.
+	 * 
+	 * @param reply
+	 * @param message
+	 */
+	private void fixReplyMessage(Message reply, Message message) {
+		Operation mOperation = InteractionUtils.getMessageOperation(message);
+		Operation rOperation = InteractionUtils.getMessageOperation(reply);
+		if (null == rOperation) {
+			// fix it
+			InteractionUtils.setMessageOperation(reply, mOperation);
+		} else {
+			if (rOperation != mOperation) {
+				checker.addOtherProblem(Diagnostic.ERROR, "Reply " + reply.getLabel() + " does not correspond to message " + message.getLabel() + " operation",
+						reply);
+			}
+		}
+	}
+
+	/**
 	 * Places the return value on reply message.
+	 * 
 	 * @param message
 	 * @param result
 	 */

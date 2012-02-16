@@ -68,6 +68,21 @@ public final class InteractionUtils {
 		}
 		return null;
 	}
+	
+	public static void setMessageOperation(Message message, Operation operation) {
+		if (message.getSendEvent() instanceof MessageOccurrenceSpecification) {
+			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
+			if (moc.getEvent() instanceof CallEvent) {
+				((CallEvent) moc.getEvent()).setOperation(operation);
+			}
+		}
+		if (message.getReceiveEvent() instanceof MessageOccurrenceSpecification) {
+			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
+			if (moc.getEvent() instanceof CallEvent) {
+				((CallEvent) moc.getEvent()).setOperation(operation);
+			}
+		}
+	}
 
 	public static Lifeline getLifelineOfFragment(InteractionFragment occurrence) {
 		if (occurrence.getCovereds().size() > 0) {
