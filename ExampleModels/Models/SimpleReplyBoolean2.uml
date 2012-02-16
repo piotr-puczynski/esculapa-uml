@@ -12,7 +12,10 @@
           <subvertex xmi:type="uml:FinalState" xmi:id="_k8QDMkOKEeG4EdriM4MjZA" name="FinalState1"/>
           <transition xmi:id="_leLEhkOKEeG4EdriM4MjZA" name="Transition1" source="_i03f8EOKEeG4EdriM4MjZA" target="_kg3uwEOKEeG4EdriM4MjZA"/>
           <transition xmi:id="_l7n1hUOKEeG4EdriM4MjZA" name="testTransition" source="_kg3uwEOKEeG4EdriM4MjZA" target="_k8QDMkOKEeG4EdriM4MjZA">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_iuxyEFfuEeG869Uz7qAJow" name="reply true;"/>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_iuxyEFfuEeG869Uz7qAJow" name="myEffect">
+              <language>SAL</language>
+              <body>reply false</body>
+            </effect>
             <trigger xmi:id="_oopccEOKEeG4EdriM4MjZA" event="_HzgXQVgWEeGNWfnyZ1uO5w"/>
           </transition>
         </region>
