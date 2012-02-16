@@ -62,6 +62,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	public ValueSpecification getReply() {
 		return reply;
 	}
+	
+	/**
+	 * Checks if reply exists.
+	 * @return boolean
+	 */
+	public boolean hasReply() {
+		return null != reply;
+	}
 
 	/**
 	 * @param checker

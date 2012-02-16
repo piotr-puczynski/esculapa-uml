@@ -11,14 +11,21 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import static ch.lambdaj.Lambda.filter;
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static org.hamcrest.Matchers.equalTo;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -29,6 +36,7 @@ import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.OccurrenceSpecification;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
+import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.generators.BehaviorExecutionSpecificationGenerator;
@@ -105,7 +113,9 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 
 			if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 				if (signature instanceof Operation) {
-					targetExecutor.runOperation(message, (Operation) signature, true);
+					ValueSpecification result = targetExecutor.runOperation(message, (Operation) signature);
+					//check and set result of a message
+					checkMessageReturn(message, result);
 					// if next message is not a reply after unwind, we should
 					// generate and immediately execute reply message
 					// we need to immediately execute to update currentMessage in case there are other replies on stack to generate
@@ -117,10 +127,24 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 				}
 			} else if (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
 				if (signature instanceof Operation) {
-					targetExecutor.runOperation(message, (Operation) signature, false);
+					targetExecutor.runOperation(message, (Operation) signature);
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param message
+	 * @param result
+	 */
+	private void checkMessageReturn(Message message, ValueSpecification result) {
+		result.setName("return");
+		List<ValueSpecification> results = filter(having(on(ElementImport.class).getName(), equalTo("return")), message.getArguments());
+		if(!results.isEmpty()) {
+			message.getArguments().removeAll(results);
+		}
+		message.getArguments().add(result);
+		
 	}
 
 	/**

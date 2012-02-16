@@ -27,15 +27,17 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Constraint;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.FunctionBehavior;
 import org.eclipse.uml2.uml.Lifeline;
+import org.eclipse.uml2.uml.Message;
+import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Vertex;
 import org.hamcrest.Matcher;
 
@@ -54,6 +56,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
 	protected ArrayList<Transition> enabledTransitions = new ArrayList<Transition>();
 	protected StateMachine checkee;
+	
+	private class FireTransitionResult {
+		public ValueSpecification reply = null;
+	}
 
 	/**
 	 * @param checker
@@ -141,16 +147,18 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	}
 
 	/**
+	 * Operation used to trigger event in state machine.
 	 * @param operation
 	 */
-	public void runOperation(Element operationOwner, Operation operation, boolean isSynch) {
+	public ValueSpecification runOperation(Message operationOwner, Operation operation) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
 		List<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
 		if (goodTransitions.size() > 0) {
 			goodTransitions = filterTransitionsWithValidGuards(goodTransitions);
 			if (goodTransitions.size() == 1) {
-				fireTransition(goodTransitions.get(0));
+				FireTransitionResult ftr = fireTransition(goodTransitions.get(0));
 				calculateEnabledTransitions();
+				return ftr.reply;
 			} else if (goodTransitions.size() == 0) {
 				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" cannot process an event \""
 						+ operation.getLabel() + "\" because guards are not satisfied. Event is lost.", operationOwner);
@@ -160,7 +168,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 				checker.addOtherProblem(Diagnostic.ERROR, "Conflicting transitions.", goodTransitions.toArray());
 			}
 		} else {
-			if (isSynch) {
+			if (operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
 						+ "\" is not ready to respond to an event \"" + operation.getLabel() + "\".", operationOwner);
 			} else {
@@ -170,6 +178,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 						+ operation.getLabel() + "\". Event is lost.", operationOwner);
 			}
 		}
+		return null;
 	}
 
 	/**
@@ -238,8 +247,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	 * Fire transition
 	 * 
 	 * @param transition
+	 * @return 
 	 */
-	protected void fireTransition(Transition transition) {
+	protected FireTransitionResult fireTransition(Transition transition) {
+		FireTransitionResult ftr = new FireTransitionResult();
 		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + transition.getLabel());
 		// remove the source vertex from active configuration
 		Vertex source = transition.getSource();
@@ -249,16 +260,17 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		activeConfiguration.add(target);
 
 		// run effect of transition
-		runEffect(transition);
-
+		runEffect(transition, ftr);
+		return ftr;
 	}
 
 	/**
 	 * executes an effect
+	 * @param ftr 
 	 * 
 	 * @param effect
 	 */
-	protected void runEffect(Transition transition) {
+	protected void runEffect(Transition transition, FireTransitionResult ftr) {
 		Behavior effect = transition.getEffect();
 		if (null != effect) {
 			if (effect instanceof FunctionBehavior) {
@@ -275,6 +287,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(checker, instanceSpecification, transition, effect.getName());
 				obe.prepare();
 				obe.execute();
+				if(obe.hasReply()) {
+					ftr.reply = obe.getReply();
+				}
 			}
 		}
 
