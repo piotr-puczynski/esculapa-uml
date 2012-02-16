@@ -29,6 +29,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.LiteralBoolean;
+import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.PackageableElement;
@@ -208,8 +209,24 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		case SALParserTreeConstants.JJTLOGICCONSTANT:
 			result = evaluateLogicalConstant(node);
 			break;
+		case SALParserTreeConstants.JJTINTEGERCONSTANT:
+			result = evaluateIntegerConstant(node);
+			break;
 		}
 		return result;
+	}
+
+	/**
+	 * Compiles SAL Integer Constant to UML Literal.
+	 * @param node
+	 * @return
+	 */
+	private ValueSpecification evaluateIntegerConstant(SALNode node) {
+		LiteralInteger intResult = UMLFactory.eINSTANCE.createLiteralInteger();
+		PrimitiveType intPrimitiveType = importPrimitiveType("Integer");
+		intResult.setType(intPrimitiveType);
+		intResult.setValue((int) node.jjtGetValue());
+		return intResult;
 	}
 
 	/**
