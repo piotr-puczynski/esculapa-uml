@@ -25,7 +25,6 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.BehavioredClassifier;
-import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -114,11 +113,15 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 			if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 				if (signature instanceof Operation) {
 					ValueSpecification result = targetExecutor.runOperation(message, (Operation) signature);
-					//check and set result of a message
+					if(checker.hasErrors()) {
+						return;
+					}
+					// check and set result of a message
 					checkMessageReturn(message, result);
 					// if next message is not a reply after unwind, we should
 					// generate and immediately execute reply message
-					// we need to immediately execute to update currentMessage in case there are other replies on stack to generate
+					// we need to immediately execute to update currentMessage
+					// in case there are other replies on stack to generate
 					Message reply = getNextMessage(currentMessage);
 					if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
 						reply = generateReplyMessage(message);
@@ -138,13 +141,15 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	 * @param result
 	 */
 	private void checkMessageReturn(Message message, ValueSpecification result) {
-		result.setName("return");
-		List<ValueSpecification> results = filter(having(on(ElementImport.class).getName(), equalTo("return")), message.getArguments());
-		if(!results.isEmpty()) {
-			message.getArguments().removeAll(results);
+		if (null != result) {
+			result.setName("return");
+			List<ValueSpecification> results = filter(having(on(ValueSpecification.class).getName(), equalTo("return")), message.getArguments());
+			if (!results.isEmpty()) {
+				message.getArguments().removeAll(results);
+			}
+			message.getArguments().add(result);
 		}
-		message.getArguments().add(result);
-		
+
 	}
 
 	/**

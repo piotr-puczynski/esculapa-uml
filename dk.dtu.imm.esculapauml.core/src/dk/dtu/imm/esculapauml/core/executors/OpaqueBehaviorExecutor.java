@@ -41,6 +41,7 @@ import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALNode;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParser;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParserTreeConstants;
+import dk.dtu.imm.esculapauml.core.sal.parser.TokenMgrError;
 
 /**
  * Executor to execute SAL statements as OpaqueBehavior in Effects of
@@ -53,7 +54,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 
 	private String behavior;
 	private EObject owner;
-	private SALNode root;
+	private SALNode root = null;
 	ValueSpecification reply = null;
 
 	/**
@@ -62,9 +63,10 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	public ValueSpecification getReply() {
 		return reply;
 	}
-	
+
 	/**
 	 * Checks if reply exists.
+	 * 
 	 * @return boolean
 	 */
 	public boolean hasReply() {
@@ -96,6 +98,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 			root = parser.parse();
 		} catch (ParseException e) {
 			checker.addOtherProblem(Diagnostic.ERROR, "[SAL] Parse error: " + e.getMessage(), owner);
+		} catch (TokenMgrError e) {
+			checker.addOtherProblem(Diagnostic.ERROR, "[SAL] " + e.getMessage(), owner);
 		}
 	}
 
@@ -104,13 +108,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	 * 
 	 */
 	public void execute() {
-		for (int i = 0; i < root.jjtGetNumChildren() && !checker.hasErrors(); ++i) {
+		for (int i = 0; !checker.hasErrors() && null != root && i < root.jjtGetNumChildren(); ++i) {
 			executeNode(root.getChild(i));
 		}
 	}
 
 	/**
 	 * Executes first level nodes.
+	 * 
 	 * @param node
 	 */
 	protected void executeNode(SALNode node) {
@@ -126,8 +131,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	}
 
 	/**
-	 * Executes reply.
-	 * Reply result is written to local variable and then it is possible to get it.
+	 * Executes reply. Reply result is written to local variable and then it is
+	 * possible to get it.
+	 * 
 	 * @param node
 	 */
 	protected void executeReply(SALNode node) {
@@ -136,6 +142,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 
 	/**
 	 * Evaluates any kind of expression.
+	 * 
 	 * @param node
 	 * @return
 	 */
@@ -151,6 +158,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 
 	/**
 	 * Compiles SAL Logical Constant to UML Literal.
+	 * 
 	 * @param node
 	 * @return
 	 */
@@ -163,7 +171,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	}
 
 	/**
-	 * Imports UML primitive type. If no import is found already existing, the new import is automatically created.
+	 * Imports UML primitive type. If no import is found already existing, the
+	 * new import is automatically created.
+	 * 
 	 * @param name
 	 * @return
 	 */
@@ -198,6 +208,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 
 	/**
 	 * Loads library in the same resource set as for checked object.
+	 * 
 	 * @param uri
 	 * @return
 	 */
