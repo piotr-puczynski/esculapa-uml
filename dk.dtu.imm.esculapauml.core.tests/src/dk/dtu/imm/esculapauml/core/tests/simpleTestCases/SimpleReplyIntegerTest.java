@@ -27,7 +27,6 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 /**
  * Test replaying with opaque effect integer.
  * 
- * Testing extension of sequence diagram down.
  * 
  * @author Piotr J. Puczynski
  * 
