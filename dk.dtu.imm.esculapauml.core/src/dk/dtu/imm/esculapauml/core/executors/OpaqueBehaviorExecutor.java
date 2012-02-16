@@ -157,8 +157,10 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	 * 
 	 */
 	public void execute() {
-		for (int i = 0; !checker.hasErrors() && null != root && i < root.jjtGetNumChildren(); ++i) {
-			executeNode(root.getChild(i));
+		if (null != root) {
+			for (int i = 0; !checker.hasErrors() && i < root.jjtGetNumChildren(); ++i) {
+				executeNode(root.getChild(i));
+			}
 		}
 	}
 
