@@ -188,6 +188,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	 * @param node
 	 */
 	protected void executeReply(SALNode node) {
+		if (null != reply) {
+			// this should not happen unless there is more than one reply in the
+			// behavior
+			checker.addOtherProblem(Diagnostic.WARNING, "[SAL] Reply keyword used more than once in one opaque behavior", owner);
+		}
 		reply = evaluateExpression(node.getChild(0));
 	}
 
