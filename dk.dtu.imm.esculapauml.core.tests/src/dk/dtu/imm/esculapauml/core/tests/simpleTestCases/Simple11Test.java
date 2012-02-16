@@ -12,6 +12,7 @@
 package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -39,6 +40,7 @@ public class Simple11Test extends LoggingTest {
 	@Test
 	public void extendInteraction() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
+		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();

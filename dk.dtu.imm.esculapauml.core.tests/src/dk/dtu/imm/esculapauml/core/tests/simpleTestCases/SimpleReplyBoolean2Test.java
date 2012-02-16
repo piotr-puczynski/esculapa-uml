@@ -18,24 +18,25 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.Transition;
 import org.junit.Test;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
+import dk.dtu.imm.esculapauml.core.executors.OpaqueBehaviorExecutor;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for generation of part of missing model interaction: two lifelines to
- * generate, two messages to generate three replies to generate.
+ * Test replaying with opaque effect boolean as body (advanced mode).
  * 
- * Testing that two separate behavior specifications has been generated on D.
+ * Testing extension of sequence diagram down.
  * 
- * Testing message flow and sequence of messages.
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple09Test extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("Simple09.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/Simple09.uml");
+public class SimpleReplyBoolean2Test extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("SimpleReplyBoolean2.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/SimpleReplyBoolean2.uml");
 
 	@Test
 	public void extendInteraction() throws InterruptedException {
@@ -48,5 +49,12 @@ public class Simple09Test extends LoggingTest {
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		// models have no differences
 		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		
+		// we have a test transition
+		Transition transition = TestUtils.getTransitionByName(model, "testTransition");
+		assertNotNull(transition);
+		// behavior as SAL in body
+		assertEquals(OpaqueBehaviorExecutor.LANG_ID, ((OpaqueBehavior)transition.getEffect()).getLanguages().get(0));
+		assertEquals("reply false", ((OpaqueBehavior)transition.getEffect()).getBodies().get(0));
 	}
 }
