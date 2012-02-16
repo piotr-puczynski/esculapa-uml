@@ -13,7 +13,7 @@
           <transition xmi:id="_leLEhkOKEeG4EdriM4MjZA" name="Transition1" source="_i03f8EOKEeG4EdriM4MjZA" target="_kg3uwEOKEeG4EdriM4MjZA"/>
           <transition xmi:id="_l7n1hUOKEeG4EdriM4MjZA" name="Transition2" source="_kg3uwEOKEeG4EdriM4MjZA" target="_k8QDMkOKEeG4EdriM4MjZA">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_iuxyEFfuEeG869Uz7qAJow" name="reply true;"/>
-            <trigger xmi:id="_oopccEOKEeG4EdriM4MjZA"/>
+            <trigger xmi:id="_oopccEOKEeG4EdriM4MjZA" event="_HzgXQVgWEeGNWfnyZ1uO5w"/>
           </transition>
         </region>
       </ownedBehavior>
@@ -46,6 +46,6 @@
       </ownedBehavior>
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_HzgXQVgWEeGNWfnyZ1uO5w" name="CallEvent1" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_HzgXQVgWEeGNWfnyZ1uO5w" name="mEvent" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
   </packagedElement>
 </uml:Model>
