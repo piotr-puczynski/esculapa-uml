@@ -89,7 +89,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_uwCOwE59EeGfWN6qfI76hw">
     <model href="SelfTransition.uml#_uwBnsE59EeGfWN6qfI76hw"/>
-    <diagrams xmi:id="_uwCOwU59EeGfWN6qfI76hw" position="0,0" size="100,100" name="UseCase1" viewport="0,69">
+    <diagrams xmi:id="_uwCOwU59EeGfWN6qfI76hw" position="0,0" size="100,100" name="UseCase1" viewport="0,0">
       <property xmi:id="_uxJCAE59EeGfWN6qfI76hw" key="pageFormatName" value=""/>
       <property xmi:id="_uxJCAU59EeGfWN6qfI76hw" key="diagramWidth" value="549"/>
       <property xmi:id="_uxJCAk59EeGfWN6qfI76hw" key="diagramHeight" value="520"/>
@@ -108,47 +108,47 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_Dpi0QE5-EeGfWN6qfI76hw" position="68,57" size="20,50">
           <anchorage xmi:id="_E4decE5-EeGfWN6qfI76hw" position="16,20" graphEdge="_E4nPcU5-EeGfWN6qfI76hw"/>
-          <anchorage xmi:id="_heWTkVb_EeG5_ue4ZM7xkQ" position="16,50" graphEdge="_heWTklb_EeG5_ue4ZM7xkQ"/>
+          <anchorage xmi:id="_KIlq8VioEeGzK-CyVtE9FA" position="16,50" graphEdge="_KIlq8lioEeGzK-CyVtE9FA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Dpi0QU5-EeGfWN6qfI76hw" presentation="default">
             <element href="SelfTransition.uml#_Dpo64E5-EeGfWN6qfI76hw"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_I8BNQFb_EeGkgovSIzcEeg" position="68,143" size="20,47">
           <anchorage xmi:id="_LtXTgFb_EeGkgovSIzcEeg" position="18,17" graphEdge="_LtXTglb_EeGkgovSIzcEeg"/>
-          <anchorage xmi:id="_hefdglb_EeG5_ue4ZM7xkQ" position="18,47" graphEdge="_hefdg1b_EeG5_ue4ZM7xkQ"/>
+          <anchorage xmi:id="_KIvb-VioEeGzK-CyVtE9FA" position="18,47" graphEdge="_KIvb-lioEeGzK-CyVtE9FA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_I8BNQVb_EeGkgovSIzcEeg" presentation="default">
             <element href="SelfTransition.uml#_I8K-QFb_EeGkgovSIzcEeg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_KgAIgFb_EeGkgovSIzcEeg" position="68,215" size="20,46">
           <anchorage xmi:id="_NupOwFb_EeGkgovSIzcEeg" position="15,16" graphEdge="_NupOwlb_EeGkgovSIzcEeg"/>
-          <anchorage xmi:id="_heWTmFb_EeG5_ue4ZM7xkQ" position="15,46" graphEdge="_heWTmVb_EeG5_ue4ZM7xkQ"/>
+          <anchorage xmi:id="_KIvb8lioEeGzK-CyVtE9FA" position="15,46" graphEdge="_KIvb81ioEeGzK-CyVtE9FA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KgAIgVb_EeGkgovSIzcEeg" presentation="default">
             <element href="SelfTransition.uml#_KgAIglb_EeGkgovSIzcEeg"/>
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_AdmcsE5-EeGfWN6qfI76hw" position="298,40" size="100,331">
+      <contained xsi:type="di:GraphNode" xmi:id="_AdmcsE5-EeGfWN6qfI76hw" position="300,40" size="100,331">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_AdmcsU5-EeGfWN6qfI76hw" presentation="default">
           <element href="SelfTransition.uml#_AdvmoE5-EeGfWN6qfI76hw"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_ECCMwE5-EeGfWN6qfI76hw" position="40,64" size="20,43">
           <anchorage xmi:id="_E4nPcE5-EeGfWN6qfI76hw" position="17,13" graphEdge="_E4nPcU5-EeGfWN6qfI76hw"/>
-          <anchorage xmi:id="_heWTkFb_EeG5_ue4ZM7xkQ" position="17,43" graphEdge="_heWTklb_EeG5_ue4ZM7xkQ"/>
+          <anchorage xmi:id="_KIlq8FioEeGzK-CyVtE9FA" position="17,43" graphEdge="_KIlq8lioEeGzK-CyVtE9FA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ECCMwU5-EeGfWN6qfI76hw" presentation="default">
             <element href="SelfTransition.uml#_ECDa4E5-EeGfWN6qfI76hw"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_Jnd-AFb_EeGkgovSIzcEeg" position="40,148" size="20,42">
           <anchorage xmi:id="_LtXTgVb_EeGkgovSIzcEeg" position="9,12" graphEdge="_LtXTglb_EeGkgovSIzcEeg"/>
-          <anchorage xmi:id="_hefdgVb_EeG5_ue4ZM7xkQ" position="9,42" graphEdge="_hefdg1b_EeG5_ue4ZM7xkQ"/>
+          <anchorage xmi:id="_KIvb-FioEeGzK-CyVtE9FA" position="9,42" graphEdge="_KIvb-lioEeGzK-CyVtE9FA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Jnd-AVb_EeGkgovSIzcEeg" presentation="default">
             <element href="SelfTransition.uml#_JnnH8Fb_EeGkgovSIzcEeg"/>
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_K54oIFb_EeGkgovSIzcEeg" position="40,221" size="20,40">
           <anchorage xmi:id="_NupOwVb_EeGkgovSIzcEeg" position="12,10" graphEdge="_NupOwlb_EeGkgovSIzcEeg"/>
-          <anchorage xmi:id="_heWTl1b_EeG5_ue4ZM7xkQ" position="12,40" graphEdge="_heWTmVb_EeG5_ue4ZM7xkQ"/>
+          <anchorage xmi:id="_KIvb8VioEeGzK-CyVtE9FA" position="12,40" graphEdge="_KIvb81ioEeGzK-CyVtE9FA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_K54oIVb_EeGkgovSIzcEeg" presentation="default">
             <element href="SelfTransition.uml#_K54oIlb_EeGkgovSIzcEeg"/>
           </semanticModel>
@@ -172,26 +172,26 @@
         </semanticModel>
         <contained xsi:type="di:EdgeObjectOffset" xmi:id="_NupOxFb_EeGkgovSIzcEeg" id="nameEdgeObject" offset="0,-10"/>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_heWTklb_EeG5_ue4ZM7xkQ" anchor="_heWTkFb_EeG5_ue4ZM7xkQ _heWTkVb_EeG5_ue4ZM7xkQ">
-        <property xmi:id="_heWTk1b_EeG5_ue4ZM7xkQ" key="foregroundColor" value="0,128,255"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_heWTlFb_EeG5_ue4ZM7xkQ" presentation="default">
-          <element href="SelfTransition.uml#_hdv2o1b_EeG5_ue4ZM7xkQ"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_KIlq8lioEeGzK-CyVtE9FA" anchor="_KIlq8FioEeGzK-CyVtE9FA _KIlq8VioEeGzK-CyVtE9FA">
+        <property xmi:id="_KIlq81ioEeGzK-CyVtE9FA" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KIlq9FioEeGzK-CyVtE9FA" presentation="default">
+          <element href="SelfTransition.uml#_KIJmE1ioEeGzK-CyVtE9FA"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_heWTlVb_EeG5_ue4ZM7xkQ" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_KIlq9VioEeGzK-CyVtE9FA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_heWTmVb_EeG5_ue4ZM7xkQ" anchor="_heWTl1b_EeG5_ue4ZM7xkQ _heWTmFb_EeG5_ue4ZM7xkQ">
-        <property xmi:id="_heWTmlb_EeG5_ue4ZM7xkQ" key="foregroundColor" value="0,128,255"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_heWTm1b_EeG5_ue4ZM7xkQ" presentation="default">
-          <element href="SelfTransition.uml#_hd5nqFb_EeG5_ue4ZM7xkQ"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_KIvb81ioEeGzK-CyVtE9FA" anchor="_KIvb8VioEeGzK-CyVtE9FA _KIvb8lioEeGzK-CyVtE9FA">
+        <property xmi:id="_KIvb9FioEeGzK-CyVtE9FA" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KIvb9VioEeGzK-CyVtE9FA" presentation="default">
+          <element href="SelfTransition.uml#_KIJmH1ioEeGzK-CyVtE9FA"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_heWTnFb_EeG5_ue4ZM7xkQ" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_KIvb9lioEeGzK-CyVtE9FA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_hefdg1b_EeG5_ue4ZM7xkQ" anchor="_hefdgVb_EeG5_ue4ZM7xkQ _hefdglb_EeG5_ue4ZM7xkQ">
-        <property xmi:id="_hefdhFb_EeG5_ue4ZM7xkQ" key="foregroundColor" value="0,128,255"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_hefdhVb_EeG5_ue4ZM7xkQ" presentation="default">
-          <element href="SelfTransition.uml#_heCxk1b_EeG5_ue4ZM7xkQ"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_KIvb-lioEeGzK-CyVtE9FA" anchor="_KIvb-FioEeGzK-CyVtE9FA _KIvb-VioEeGzK-CyVtE9FA">
+        <property xmi:id="_KIvb-1ioEeGzK-CyVtE9FA" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_KIvb_FioEeGzK-CyVtE9FA" presentation="default">
+          <element href="SelfTransition.uml#_KIchA1ioEeGzK-CyVtE9FA"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_hefdhlb_EeG5_ue4ZM7xkQ" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_KIvb_VioEeGzK-CyVtE9FA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
     </diagrams>
   </subdiagrams>

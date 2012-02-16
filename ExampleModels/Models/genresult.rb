@@ -1,4 +1,4 @@
-#Script to generate result of a given model (Ruby)
+#Script to generate result(s) of a given model(s) (Ruby)
 #Author Piotr J. Puczynski
 
 require 'fileutils'
