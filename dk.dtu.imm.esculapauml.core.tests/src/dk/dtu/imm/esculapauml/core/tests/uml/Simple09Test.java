@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -24,26 +24,29 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
+ * Test for generation of part of missing model interaction: two lifelines to
+ * generate, two messages to generate three replies to generate.
  * 
- * Message without operation specified
+ * Testing that two separate behavior specifications has been generated on D.
  * 
+ * Testing message flow and sequence of messages.
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple03Test extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("Simple03.uml");
+public class Simple09Test extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("Simple09.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/Simple09.uml");
 
 	@Test
-	public void noOperationSpecified() {
+	public void extendInteraction() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostic = checker.getDiagnostics();
-		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
-		// an error is...
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR, "The Message \"Message1\" has no operation set."));
+		Diagnostic diagnostics = checker.getDiagnostics();
+		// there is no error
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+		// models have no differences
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }

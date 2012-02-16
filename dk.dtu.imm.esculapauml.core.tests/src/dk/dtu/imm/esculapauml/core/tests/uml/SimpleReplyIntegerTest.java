@@ -9,33 +9,36 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.Transition;
 import org.junit.Test;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Testing transition to itself and operation called multiple times on the same object.
+ * Test replaying with opaque effect integer.
  * 
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class SelfTransitionTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("SelfTransition.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/SelfTransition.uml");
+public class SimpleReplyIntegerTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("SimpleReplyInteger.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/SimpleReplyInteger.uml");
 
 	@Test
 	public void extendInteraction() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
+		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
@@ -43,5 +46,11 @@ public class SelfTransitionTest extends LoggingTest {
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		// models have no differences
 		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+
+		// we have a test transition
+		Transition transition = TestUtils.getTransitionByName(model, "testTransition");
+		assertNotNull(transition);
+		// behavior as name
+		assertEquals("reply 304;", transition.getEffect().getName());
 	}
 }

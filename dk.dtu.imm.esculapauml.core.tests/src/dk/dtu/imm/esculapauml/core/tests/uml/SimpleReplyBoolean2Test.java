@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -9,51 +9,39 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Interaction;
-import org.eclipse.uml2.uml.Transition;
 import org.junit.Test;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for conflicting transitions.
+ * Testing transition to itself and operation called multiple times on the same object.
+ * 
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
-public class Simple07Test extends LoggingTest {
-	
-	private Resource model = TestUtils.getUMLResource("Simple07.uml");
-	
+public class SelfTransitionTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("SelfTransition.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/SelfTransition.uml");
+
 	@Test
-	public void conflictingTransitions() {
+	public void extendInteraction() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
-		assertNotNull(interaction);
-		//get two conflicting transitions
-		Transition t1 = TestUtils.getTransitionByName(model, "conflict1");
-		Transition t2 = TestUtils.getTransitionByName(model, "conflict2");
-		assertNotNull(t1);
-		assertNotNull(t2);
-		
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		// there are errors
-		assertEquals(2, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
-		// the errors are
-		// TestUtils.printDiagnostic(diagnostics);
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "StateMachine instance \"testInstance\" contains conflicting transitions and cannot process an event \"s\"."));
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "Conflicting transitions.", t2, t1));
+		// there is no error
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+		// models have no differences
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
-
 }

@@ -9,11 +9,9 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,17 +22,17 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for generation of part of missing model interaction: three lifelines to
- * generate, three messages to generate four replies to generate.
+ * Test for generation of part of missing model interaction: one lifeline to
+ * generate, one message to generate two replies to generate
  * 
+ * also the instance specifications should be generated
  * 
- * Testing message flow and sequence of messages.
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple10Test extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("Simple10.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/Simple10.uml");
+public class Simple08Test extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("Simple08.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/Simple08.uml");
 
 	@Test
 	public void extendInteraction() throws InterruptedException {

@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,17 +25,16 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
  * Test for generation of part of missing model interaction: three lifelines to
- * generate, three messages to generate four replies to generate. This includes
- * two messages from the same lifeline.
+ * generate, three messages to generate four replies to generate.
  * 
- * Testing extension of sequence diagram down.
  * 
+ * Testing message flow and sequence of messages.
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple11Test extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("Simple11.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/Simple11.uml");
+public class Simple10Test extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("Simple10.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/Simple10.uml");
 
 	@Test
 	public void extendInteraction() throws InterruptedException {

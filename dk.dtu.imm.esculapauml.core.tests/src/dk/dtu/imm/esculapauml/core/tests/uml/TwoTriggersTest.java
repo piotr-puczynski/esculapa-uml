@@ -9,9 +9,10 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -22,28 +23,32 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for generation of part of missing model interaction: one lifeline to
- * generate, one message to generate two replies to generate
  * 
- * also the instance specifications should be generated
+ * Check for possibility of using more than one trigger on transition. It is
+ * checked in two separate use cases calling different operation on the same
+ * class.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple08Test extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("Simple08.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/Simple08.uml");
+public class TwoTriggersTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("TwoTriggers.uml");
 
 	@Test
-	public void extendInteraction() throws InterruptedException {
+	public void okInteraction() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
+		Interaction interaction2 = TestUtils.getInteraction(model, "UseCase2Detail");
 		assertNotNull(interaction);
+		assertNotNull(interaction2);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		// there is no error
+		// no errors
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
-		// models have no differences
-		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		checker = new UseCaseChecker(interaction2);
+		checker.check();
+		diagnostics = checker.getDiagnostics();
+		// no errors
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 	}
 }

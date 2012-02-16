@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -24,29 +24,25 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for generation of part of missing model interaction: two lifelines to
- * generate, two messages to generate three replies to generate.
- * 
- * Testing that two separate behavior specifications has been generated on D.
- * 
- * Testing message flow and sequence of messages.
+ * Test for representant (not actor) on lifeline with no behavior defined
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple09Test extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("Simple09.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/Simple09.uml");
+public class Simple05Test extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("Simple05.uml");
 
 	@Test
-	public void extendInteraction() throws InterruptedException {
+	public void noBehaviorDefined() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		// there is no error
-		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
-		// models have no differences
-		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		// there is an error
+		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		// there is one error
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		// the errors are
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "The Lifeline \"Lifeline2\" representant \"C\" has no behavior defined."));
 	}
 }

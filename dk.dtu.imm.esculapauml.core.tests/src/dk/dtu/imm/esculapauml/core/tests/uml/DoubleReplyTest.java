@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -18,31 +18,41 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Interaction;
+import org.eclipse.uml2.uml.Transition;
 import org.junit.Test;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for representant (not actor) on lifeline with no behavior defined
+ * Test the situation when two reply statements are on one transition in one
+ * effect. The checker should give a warning and the last statement should
+ * provide returned reply.
+ * 
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple05Test extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("Simple05.uml");
+public class DoubleReplyTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("DoubleReply.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/DoubleReply.uml");
 
 	@Test
-	public void noBehaviorDefined() {
+	public void extendInteraction() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		// there is one error
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
-		// the errors are
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "The Lifeline \"Lifeline2\" representant \"C\" has no behavior defined."));
+		// there is no error
+		assertEquals(Diagnostic.WARNING, diagnostics.getSeverity());
+		// models have no differences
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+
+		// we have a test transition
+		Transition transition = TestUtils.getTransitionByName(model, "testTransition");
+		assertNotNull(transition);
+		// behavior as name
+		assertEquals("reply 100; reply 304;", transition.getEffect().getName());
+		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.WARNING, "[SAL] Reply statement used more than once in one opaque behavior", transition));
 	}
 }

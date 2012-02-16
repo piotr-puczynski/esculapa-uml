@@ -9,10 +9,11 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -23,23 +24,29 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Sending two messages to the same class, no errors
+ * Test for generation of part of missing model interaction: three lifelines to
+ * generate, three messages to generate four replies to generate. This includes
+ * two messages from the same lifeline.
+ * 
+ * Testing extension of sequence diagram down.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
-public class Simple04Test extends LoggingTest {
-	
-	private Resource model = TestUtils.getUMLResource("Simple04.uml");
+public class Simple11Test extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("Simple11.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/Simple11.uml");
 
 	@Test
-	public void checkInteraction() {
+	public void extendInteraction() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostic = checker.getDiagnostics();
-		// no errors
-		assertEquals(Diagnostic.OK, diagnostic.getSeverity());
+		Diagnostic diagnostics = checker.getDiagnostics();
+		// there is no error
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+		// models have no differences
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
-
 }

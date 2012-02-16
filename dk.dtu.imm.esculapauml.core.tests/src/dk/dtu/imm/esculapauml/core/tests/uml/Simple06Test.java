@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -18,39 +18,36 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Interaction;
-import org.eclipse.uml2.uml.Transition;
 import org.junit.Test;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test replaying with opaque effect integer.
- * 
+ * Test for warning in case state machine is not able to accept call event.
+ * Event is lost.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class SimpleReplyIntegerTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("SimpleReplyInteger.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/SimpleReplyInteger.uml");
+public class Simple06Test extends LoggingTest {
+
+	private Resource model = TestUtils.getUMLResource("Simple06.uml");
 
 	@Test
-	public void extendInteraction() throws InterruptedException {
+	public void eventLost() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostics = checker.getDiagnostics();
-		// there is no error
-		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
-		// models have no differences
-		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
-
-		// we have a test transition
-		Transition transition = TestUtils.getTransitionByName(model, "testTransition");
-		assertNotNull(transition);
-		// behavior as name
-		assertEquals("reply 304;", transition.getEffect().getName());
+		Diagnostic diagnostic = checker.getDiagnostics();
+		// there is an error
+		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
+		// a error is...
+		//TestUtils.printDiagnostic(diagnostic);
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR,
+				"StateMachine instance \"testInstance\" is not ready to respond to an event \"s\"."));
 	}
+
 }

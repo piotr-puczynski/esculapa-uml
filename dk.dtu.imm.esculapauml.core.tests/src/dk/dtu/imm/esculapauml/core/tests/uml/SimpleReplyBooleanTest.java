@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,16 +25,15 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test the situation when two reply statements are on one transition in one
- * effect. The checker should give a warning and the last statement should
- * provide returned reply.
+ * Test replaying with opaque effect boolean as name (simple mode).
+ * 
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class DoubleReplyTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("DoubleReply.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/DoubleReply.uml");
+public class SimpleReplyBooleanTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("SimpleReplyBoolean.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/SimpleReplyBoolean.uml");
 
 	@Test
 	public void extendInteraction() throws InterruptedException {
@@ -44,7 +43,7 @@ public class DoubleReplyTest extends LoggingTest {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is no error
-		assertEquals(Diagnostic.WARNING, diagnostics.getSeverity());
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		// models have no differences
 		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 
@@ -52,7 +51,6 @@ public class DoubleReplyTest extends LoggingTest {
 		Transition transition = TestUtils.getTransitionByName(model, "testTransition");
 		assertNotNull(transition);
 		// behavior as name
-		assertEquals("reply 100; reply 304;", transition.getEffect().getName());
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.WARNING, "[SAL] Reply statement used more than once in one opaque behavior", transition));
+		assertEquals("reply true;", transition.getEffect().getName());
 	}
 }

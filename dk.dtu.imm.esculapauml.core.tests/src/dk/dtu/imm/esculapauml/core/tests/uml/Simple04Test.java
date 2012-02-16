@@ -9,11 +9,10 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.simpleTestCases;
+package dk.dtu.imm.esculapauml.core.tests.uml;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -24,30 +23,23 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for warning in case state machine is not able to accept call event.
- * Event is lost.
- * 
+ * Sending two messages to the same class, no errors
  * @author Piotr J. Puczynski
- * 
+ *
  */
-public class Simple06Test extends LoggingTest {
-
-	private Resource model = TestUtils.getUMLResource("Simple06.uml");
+public class Simple04Test extends LoggingTest {
+	
+	private Resource model = TestUtils.getUMLResource("Simple04.uml");
 
 	@Test
-	public void eventLost() {
+	public void checkInteraction() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostic = checker.getDiagnostics();
-		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
-		// a error is...
-		//TestUtils.printDiagnostic(diagnostic);
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR,
-				"StateMachine instance \"testInstance\" is not ready to respond to an event \"s\"."));
+		// no errors
+		assertEquals(Diagnostic.OK, diagnostic.getSeverity());
 	}
 
 }
