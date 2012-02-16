@@ -20,12 +20,14 @@ import static org.hamcrest.Matchers.is;
 import java.util.List;
 
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
+import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.OccurrenceSpecification;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Type;
 
 /**
@@ -53,6 +55,16 @@ public final class InteractionUtils {
 		if (message.getSendEvent() instanceof MessageOccurrenceSpecification) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
 			return getLifelineOfFragment(moc);
+		}
+		return null;
+	}
+
+	public static Operation getMessageOperation(Message message) {
+		if (message.getSendEvent() instanceof MessageOccurrenceSpecification) {
+			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
+			if (moc.getEvent() instanceof CallEvent) {
+				return ((CallEvent) moc.getEvent()).getOperation();
+			}
 		}
 		return null;
 	}
@@ -157,7 +169,9 @@ public final class InteractionUtils {
 	}
 
 	/**
-	 * Filters the specifications of CoveredBys given lifeline with given class type.
+	 * Filters the specifications of CoveredBys given lifeline with given class
+	 * type.
+	 * 
 	 * @param lifeline
 	 * @param type
 	 * @return

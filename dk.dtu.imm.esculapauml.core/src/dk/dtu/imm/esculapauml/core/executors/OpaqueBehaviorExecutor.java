@@ -14,8 +14,10 @@ package dk.dtu.imm.esculapauml.core.executors;
 import static ch.lambdaj.Lambda.filter;
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
+import static ch.lambdaj.Lambda.join;
 import static org.hamcrest.Matchers.equalTo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -28,6 +30,7 @@ import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.UMLFactory;
@@ -52,10 +55,11 @@ import dk.dtu.imm.esculapauml.core.sal.parser.TokenMgrError;
  */
 public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> {
 
-	private String behavior;
-	private EObject owner;
-	private SALNode root = null;
-	ValueSpecification reply = null;
+	protected OpaqueBehavior behavior;
+	protected EObject owner;
+	protected SALNode root = null;
+	protected ValueSpecification reply = null;
+	public static final String LANG_ID = "SAL";
 
 	/**
 	 * @return the reply
@@ -76,14 +80,10 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	/**
 	 * @param checker
 	 */
-	public OpaqueBehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification, EObject owner, String behavior) {
+	public OpaqueBehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification, EObject owner, OpaqueBehavior behavior) {
 		super(checker, instanceSpecification);
 		this.owner = owner;
-		if (null != behavior) {
-			this.behavior = behavior;
-		} else {
-			this.behavior = "";
-		}
+		this.behavior = behavior;
 	}
 
 	/*
@@ -93,7 +93,18 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	 */
 	@Override
 	public void prepare() {
-		SALParser parser = new SALParser(behavior);
+		// the executor might work in two modes
+		// advanced when the SAL string is taken from the bodies according to
+		// meta-model
+		// and with simple when the body is taken from the name (only if
+		// advanced elements are not specified)
+		String toParse;
+		if (isInAdvancedMode()) {
+			toParse = calculateBodyAdvanced();
+		} else {
+			toParse = calculateBodySimple();
+		}
+		SALParser parser = new SALParser(toParse);
 		try {
 			root = parser.parse();
 		} catch (ParseException e) {
@@ -101,6 +112,44 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		} catch (TokenMgrError e) {
 			checker.addOtherProblem(Diagnostic.ERROR, "[SAL] " + e.getMessage(), owner);
 		}
+	}
+
+	/**
+	 * Calculate body from a name.
+	 * 
+	 * @return
+	 */
+	protected String calculateBodySimple() {
+		return behavior.getName();
+	}
+
+	/**
+	 * Calculate body from the bodies and languages.
+	 * 
+	 * @return
+	 */
+	protected String calculateBodyAdvanced() {
+		int i = 0;
+		List<String> bodies = new ArrayList<String>();
+		for (String lang : behavior.getLanguages()) {
+			if (lang.equals(LANG_ID)) {
+				if (behavior.getBodies().size() > i) {
+					bodies.add(behavior.getBodies().get(i));
+				}
+			}
+			++i;
+		}
+		return join(bodies, ";");
+	}
+
+	/**
+	 * If the mode is advanced the meta-model elements are used to get bodies of
+	 * behavior.
+	 * 
+	 * @return
+	 */
+	protected boolean isInAdvancedMode() {
+		return !behavior.getLanguages().isEmpty() || !behavior.getBodies().isEmpty();
 	}
 
 	/**

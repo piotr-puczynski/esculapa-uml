@@ -116,8 +116,6 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 					if(checker.hasErrors()) {
 						return;
 					}
-					// check and set result of a message
-					checkMessageReturn(message, result);
 					// if next message is not a reply after unwind, we should
 					// generate and immediately execute reply message
 					// we need to immediately execute to update currentMessage
@@ -125,8 +123,10 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 					Message reply = getNextMessage(currentMessage);
 					if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
 						reply = generateReplyMessage(message);
-						executeMessage(reply);
 					}
+					// check and set result of a message
+					setMessageReturn(reply, result);
+					executeMessage(reply);
 				}
 			} else if (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
 				if (signature instanceof Operation) {
@@ -137,10 +137,11 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	}
 
 	/**
+	 * Places the return value on reply message.
 	 * @param message
 	 * @param result
 	 */
-	private void checkMessageReturn(Message message, ValueSpecification result) {
+	private void setMessageReturn(Message message, ValueSpecification result) {
 		if (null != result) {
 			result.setName("return");
 			List<ValueSpecification> results = filter(having(on(ValueSpecification.class).getName(), equalTo("return")), message.getArguments());
@@ -165,6 +166,7 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 		MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), sourceLifeline, targetLifeline);
 		messageGenerator.setMessageSort(MessageSort.REPLY_LITERAL);
 		messageGenerator.setCustomName("ReplyOf" + message.getName());
+		messageGenerator.setOperation(InteractionUtils.getMessageOperation(message));
 		// the reply must be inserted after currentMessage (not after message)
 		if (sourceLifeline.getCoveredBys().contains(currentMessage.getReceiveEvent())) {
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
