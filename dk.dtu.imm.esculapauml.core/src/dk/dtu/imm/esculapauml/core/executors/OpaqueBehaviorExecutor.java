@@ -230,7 +230,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	 */
 	@Override
 	public ValueSpecification visit(SimpleNode node, Object data) {
-		// TODO Auto-generated method stub
+		// not visiting
 		return null;
 	}
 

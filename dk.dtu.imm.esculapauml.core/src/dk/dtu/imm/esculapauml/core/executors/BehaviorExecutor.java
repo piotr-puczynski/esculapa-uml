@@ -56,9 +56,65 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
 	protected ArrayList<Transition> enabledTransitions = new ArrayList<Transition>();
 	protected StateMachine checkee;
-	
-	private class FireTransitionResult {
-		public ValueSpecification reply = null;
+
+	/**
+	 * Class used only internally to exchange a result of firing a transition.
+	 * @author Piotr J. Puczynski
+	 *
+	 */
+	protected class FireTransitionResult {
+		private ValueSpecification reply = null;
+		private boolean allowedToHaveReply = true;
+		Transition transition;
+		/**
+		 * @return the transition
+		 */
+		public Transition getTransition() {
+			return transition;
+		}
+
+		/**
+		 * @param transition
+		 */
+		public FireTransitionResult(Transition transition) {
+			super();
+			this.transition = transition;
+		}
+
+		/**
+		 * @return the reply
+		 */
+		public ValueSpecification getReply() {
+			return reply;
+		}
+
+		/**
+		 * @param reply
+		 *            the reply to set
+		 */
+		public void setReply(ValueSpecification reply) {
+			if (isAllowedToHaveReply()) {
+				this.reply = reply;
+			} else {
+				checker.addOtherProblem(Diagnostic.ERROR, "The transition is not allowed to have reply.", transition);
+			}
+			
+		}
+
+		/**
+		 * @return the allowedToHaveReply
+		 */
+		public boolean isAllowedToHaveReply() {
+			return allowedToHaveReply;
+		}
+
+		/**
+		 * @param allowedToHaveReply
+		 *            the allowedToHaveReply to set
+		 */
+		public void setAllowedToHaveReply(boolean allowedToHaveReply) {
+			this.allowedToHaveReply = allowedToHaveReply;
+		}
 	}
 
 	/**
@@ -126,11 +182,12 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 					hasDummies = true;
 					// if there is only one dummy
 					if (dummiesInVertex.size() == 1) {
-						fireTransition(dummiesInVertex.get(0));
+						FireTransitionResult ftr = new FireTransitionResult(dummiesInVertex.get(0));
+						ftr.setAllowedToHaveReply(false);
+						fireTransition(ftr);
 					} else {
-						// TODO error: state machine not deterministic
-						// for now we take the first transition
-						fireTransition(dummiesInVertex.get(0));
+						// error: conflicting transitions
+						checker.addOtherProblem(Diagnostic.ERROR, "Conflicting transitions.", dummiesInVertex.toArray());
 					}
 					break;
 				}
@@ -148,6 +205,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 
 	/**
 	 * Operation used to trigger event in state machine.
+	 * 
 	 * @param operation
 	 */
 	public ValueSpecification runOperation(Message operationOwner, Operation operation) {
@@ -158,7 +216,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 			if (goodTransitions.size() == 1) {
 				FireTransitionResult ftr = fireTransition(goodTransitions.get(0));
 				calculateEnabledTransitions();
-				return ftr.reply;
+				return ftr.getReply();
 			} else if (goodTransitions.size() == 0) {
 				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" cannot process an event \""
 						+ operation.getLabel() + "\" because guards are not satisfied. Event is lost.", operationOwner);
@@ -242,36 +300,44 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		// TODO implement guards
 		return true;
 	}
-
+	
 	/**
-	 * Fire transition
-	 * 
+	 * Fire transition with default FTR.
 	 * @param transition
-	 * @return 
+	 * @return
 	 */
 	protected FireTransitionResult fireTransition(Transition transition) {
-		FireTransitionResult ftr = new FireTransitionResult();
-		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + transition.getLabel());
+		FireTransitionResult ftr = new FireTransitionResult(transition);
+		return fireTransition(ftr);
+	}
+
+	/**
+	 * Fire transition in FTR.
+	 * 
+	 * @param transition
+	 * @return
+	 */
+	protected FireTransitionResult fireTransition(FireTransitionResult ftr) {
+		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + ftr.getTransition().getLabel());
 		// remove the source vertex from active configuration
-		Vertex source = transition.getSource();
+		Vertex source = ftr.getTransition().getSource();
 		activeConfiguration.remove(source);
 		// add target vertex to active configuration
-		Vertex target = transition.getTarget();
+		Vertex target = ftr.getTransition().getTarget();
 		activeConfiguration.add(target);
 
 		// run effect of transition
-		runEffect(transition, ftr);
+		runEffect(ftr);
 		return ftr;
 	}
 
 	/**
 	 * executes an effect
-	 * @param ftr 
 	 * 
-	 * @param effect
+	 * @param ftr
 	 */
-	protected void runEffect(Transition transition, FireTransitionResult ftr) {
-		Behavior effect = transition.getEffect();
+	protected void runEffect(FireTransitionResult ftr) {
+		Behavior effect = ftr.getTransition().getEffect();
 		if (null != effect) {
 			if (effect instanceof FunctionBehavior) {
 				BehavioralFeature bf = effect.getSpecification();
@@ -280,15 +346,14 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 				} else {
 					// this shouldn't happen as function behavior should be an
 					// operation
-					checker.addOtherProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.", transition);
+					checker.addOtherProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.", ftr.getTransition());
 				}
-			}
-			else if (effect instanceof OpaqueBehavior) {
-				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(checker, instanceSpecification, transition, (OpaqueBehavior)effect);
+			} else if (effect instanceof OpaqueBehavior) {
+				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(checker, instanceSpecification, ftr.getTransition(), (OpaqueBehavior) effect);
 				obe.prepare();
 				obe.execute();
-				if(obe.hasReply()) {
-					ftr.reply = obe.getReply();
+				if (obe.hasReply()) {
+					ftr.setReply(obe.getReply());
 				}
 			}
 		}
