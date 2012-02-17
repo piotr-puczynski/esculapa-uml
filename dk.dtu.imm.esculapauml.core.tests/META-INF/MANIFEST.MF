@@ -4,7 +4,8 @@ Bundle-Name: Esculapa UML Core Tests
 Bundle-SymbolicName: dk.dtu.imm.esculapauml.core.tests
 Bundle-Version: 1.0.0.qualifier
 Fragment-Host: dk.dtu.imm.esculapauml.core;bundle-version="1.0.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
+ JavaSE-1.6
 Require-Bundle: org.junit;bundle-version="4.8.2",
  org.eclipse.emf.compare;bundle-version="1.2.1",
  org.eclipse.emf.compare.uml2;bundle-version="1.2.1"

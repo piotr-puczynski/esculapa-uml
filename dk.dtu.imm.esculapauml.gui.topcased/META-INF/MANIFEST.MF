@@ -15,5 +15,6 @@ Require-Bundle: org.eclipse.ui,
  dk.dtu.imm.esculapauml.core;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.15"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
+ JavaSE-1.6
 Import-Package: org.eclipse.core.expressions
