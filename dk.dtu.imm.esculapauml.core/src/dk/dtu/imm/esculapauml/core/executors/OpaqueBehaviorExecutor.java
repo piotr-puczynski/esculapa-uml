@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -42,6 +41,7 @@ import org.eclipse.uml2.uml.VisibilityKind;
 import org.eclipse.uml2.uml.resource.UMLResource;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
+import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAssignment;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALCall;
@@ -69,34 +69,17 @@ import dk.dtu.imm.esculapauml.core.sal.parser.TokenMgrError;
 public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> implements SALParserVisitor {
 
 	protected OpaqueBehavior behavior;
-	protected EObject owner;
+	protected TransitionReplyChecker trc;
 	protected SALNode root = null;
-	protected ValueSpecification reply = null;
 	public static final String LANG_ID = "SAL";
-
-	/**
-	 * @return the reply
-	 */
-	public ValueSpecification getReply() {
-		return reply;
-	}
-
-	/**
-	 * Checks if reply exists.
-	 * 
-	 * @return boolean
-	 */
-	public boolean hasReply() {
-		return null != reply;
-	}
 
 	/**
 	 * @param checker
 	 */
-	public OpaqueBehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification, EObject owner, OpaqueBehavior behavior) {
+	public OpaqueBehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification, TransitionReplyChecker trc) {
 		super(checker, instanceSpecification);
-		this.owner = owner;
-		this.behavior = behavior;
+		this.trc = trc;
+		this.behavior = (OpaqueBehavior) trc.getCheckedObject().getEffect();
 	}
 
 	/*
@@ -121,9 +104,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		try {
 			root = parser.parse();
 		} catch (ParseException e) {
-			checker.addOtherProblem(Diagnostic.ERROR, "[SAL] Parse error: " + e.getMessage(), owner);
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Parse error: " + e.getMessage());
 		} catch (TokenMgrError e) {
-			checker.addOtherProblem(Diagnostic.ERROR, "[SAL] " + e.getMessage(), owner);
+			trc.addProblem(Diagnostic.ERROR, "[SAL] " + e.getMessage());
 		}
 	}
 
@@ -260,13 +243,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	 */
 	@Override
 	public ValueSpecification visit(SALReplyStatement node, Object data) {
-		if (null != reply) {
-			// this should not happen unless there is more than one reply in the
-			// behavior
-			checker.addOtherProblem(Diagnostic.WARNING, "[SAL] Reply statement used more than once in one opaque behavior", owner);
-		}
-		reply = node.getChild(0).jjtAccept(this, data);
-		return reply;
+		trc.setReply(node.getChild(0).jjtAccept(this, data));
+		return trc.getReply();
 	}
 
 	/* (non-Javadoc)

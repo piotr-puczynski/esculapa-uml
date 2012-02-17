@@ -23,8 +23,12 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  * @author Piotr. J. Puczynski (piotr.puczynski)
  * 
  */
-public abstract class AbstractChecker<T> implements CheckerInterface {
-	public final static String ESCULAPA_NAMESPACE = "dk.dtu.imm.esculapauml";
+/**
+ * @author Piotr J. Puczynski
+ *
+ * @param <T>
+ */
+public abstract class AbstractChecker<T> implements Checker {
 
 	protected T checkee;
 	protected BasicDiagnostic diagnostics;
@@ -42,42 +46,38 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 		checkee = objectToCheck;
 		this.systemState = systemState;
 	}
+	
+	AbstractChecker(Checker checker, T objectToCheck) {
+		diagnostics = (BasicDiagnostic) checker.getDiagnostics();
+		checkee = objectToCheck;
+		this.systemState = checker.getSystemState();
+	}
 
-	/**
-	 * Basic function to add problem to diagnostics for its own object to check.
-	 * Mostly used internally but it is possible to call it from outside too.
-	 * 
-	 * @param severity
-	 * @param message
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#addProblem(int, java.lang.String)
 	 */
 	public void addProblem(int severity, String message) {
 		logger.warn("New diagnostic with severity: " + severity + " and message: " + message);
 		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, new Object[] { checkee }));
 	}
-	
-	/**
-	 * Function to add problem to diagnostics containing other object(s).
-	 * 
-	 * @param severity
-	 * @param message
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#addOtherProblem(int, java.lang.String, java.lang.Object[])
 	 */
 	public void addOtherProblem(int severity, String message, Object... objects) {
 		logger.warn("New diagnostic with severity: " + severity + " and message: " + message);
 		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, objects));
 	}
 
-	/**
-	 * This data structure contains an overview of all occurred errors.
-	 * 
-	 * @return the diagnostics
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#getDiagnostics()
 	 */
 	public Diagnostic getDiagnostics() {
 		return diagnostics;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#hasErrors()
 	 */
 	public boolean hasErrors() {
@@ -93,9 +93,8 @@ public abstract class AbstractChecker<T> implements CheckerInterface {
 		return checkee;
 	}
 	
-	/**
-	 * returns system state
-	 * @return
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#getSystemState()
 	 */
 	public SystemState getSystemState() {
 		return systemState;

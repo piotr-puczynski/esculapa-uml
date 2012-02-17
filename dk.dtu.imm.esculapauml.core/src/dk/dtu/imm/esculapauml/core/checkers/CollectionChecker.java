@@ -48,7 +48,7 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 	@Override
 	public void check() {
 		for(T elem : checkee) {
-			CheckerInterface checker = null;
+			Checker checker = null;
 			if(elem instanceof Lifeline) {
 				checker = new LifelineChecker(systemState, diagnostics, (Lifeline) elem);
 			} else if(elem instanceof Message) {

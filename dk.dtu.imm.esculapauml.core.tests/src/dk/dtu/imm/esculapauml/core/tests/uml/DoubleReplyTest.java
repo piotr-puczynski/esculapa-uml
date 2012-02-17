@@ -53,6 +53,6 @@ public class DoubleReplyTest extends LoggingTest {
 		assertNotNull(transition);
 		// behavior as name
 		assertEquals("reply 100; reply 304;", transition.getEffect().getName());
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.WARNING, "[SAL] Reply statement used more than once in one opaque behavior", transition));
+		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.WARNING, "Reply statement used more than once for a trigger.", transition));
 	}
 }

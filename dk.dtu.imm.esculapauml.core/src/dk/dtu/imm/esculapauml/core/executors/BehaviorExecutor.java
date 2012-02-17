@@ -44,6 +44,7 @@ import org.hamcrest.Matcher;
 import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
+import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
@@ -56,66 +57,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
 	protected ArrayList<Transition> enabledTransitions = new ArrayList<Transition>();
 	protected StateMachine checkee;
-
-	/**
-	 * Class used only internally to exchange a result of firing a transition.
-	 * @author Piotr J. Puczynski
-	 *
-	 */
-	protected class FireTransitionResult {
-		private ValueSpecification reply = null;
-		private boolean allowedToHaveReply = true;
-		Transition transition;
-		/**
-		 * @return the transition
-		 */
-		public Transition getTransition() {
-			return transition;
-		}
-
-		/**
-		 * @param transition
-		 */
-		public FireTransitionResult(Transition transition) {
-			super();
-			this.transition = transition;
-		}
-
-		/**
-		 * @return the reply
-		 */
-		public ValueSpecification getReply() {
-			return reply;
-		}
-
-		/**
-		 * @param reply
-		 *            the reply to set
-		 */
-		public void setReply(ValueSpecification reply) {
-			if (isAllowedToHaveReply()) {
-				this.reply = reply;
-			} else {
-				checker.addOtherProblem(Diagnostic.ERROR, "The transition is not allowed to have reply.", transition);
-			}
-			
-		}
-
-		/**
-		 * @return the allowedToHaveReply
-		 */
-		public boolean isAllowedToHaveReply() {
-			return allowedToHaveReply;
-		}
-
-		/**
-		 * @param allowedToHaveReply
-		 *            the allowedToHaveReply to set
-		 */
-		public void setAllowedToHaveReply(boolean allowedToHaveReply) {
-			this.allowedToHaveReply = allowedToHaveReply;
-		}
-	}
 
 	/**
 	 * @param checker
@@ -166,6 +107,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		enabledTransitions.clear();
 		// check for dummy (empty) transitions and fire them
 		boolean hasDummies;
+		TransitionReplyChecker ftr = new TransitionReplyChecker(checker, null);
+		ftr.setAllowedToHaveReply(false);
 		do {
 			hasDummies = false;
 			for (Vertex vertex : activeConfiguration) {
@@ -182,8 +125,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 					hasDummies = true;
 					// if there is only one dummy
 					if (dummiesInVertex.size() == 1) {
-						FireTransitionResult ftr = new FireTransitionResult(dummiesInVertex.get(0));
-						ftr.setAllowedToHaveReply(false);
+						ftr.setNextTransition(dummiesInVertex.get(0));
 						fireTransition(ftr);
 					} else {
 						// error: conflicting transitions
@@ -214,7 +156,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		if (goodTransitions.size() > 0) {
 			goodTransitions = filterTransitionsWithValidGuards(goodTransitions);
 			if (goodTransitions.size() == 1) {
-				FireTransitionResult ftr = fireTransition(goodTransitions.get(0));
+				TransitionReplyChecker ftr = fireTransition(goodTransitions.get(0));
 				calculateEnabledTransitions();
 				return ftr.getReply();
 			} else if (goodTransitions.size() == 0) {
@@ -306,8 +248,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	 * @param transition
 	 * @return
 	 */
-	protected FireTransitionResult fireTransition(Transition transition) {
-		FireTransitionResult ftr = new FireTransitionResult(transition);
+	protected TransitionReplyChecker fireTransition(Transition transition) {
+		TransitionReplyChecker ftr = new TransitionReplyChecker(checker, transition);
 		return fireTransition(ftr);
 	}
 
@@ -317,13 +259,13 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	 * @param transition
 	 * @return
 	 */
-	protected FireTransitionResult fireTransition(FireTransitionResult ftr) {
-		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + ftr.getTransition().getLabel());
+	protected TransitionReplyChecker fireTransition(TransitionReplyChecker ftr) {
+		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + ftr.getCheckedObject().getLabel());
 		// remove the source vertex from active configuration
-		Vertex source = ftr.getTransition().getSource();
+		Vertex source = ftr.getCheckedObject().getSource();
 		activeConfiguration.remove(source);
 		// add target vertex to active configuration
-		Vertex target = ftr.getTransition().getTarget();
+		Vertex target = ftr.getCheckedObject().getTarget();
 		activeConfiguration.add(target);
 
 		// run effect of transition
@@ -336,8 +278,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 	 * 
 	 * @param ftr
 	 */
-	protected void runEffect(FireTransitionResult ftr) {
-		Behavior effect = ftr.getTransition().getEffect();
+	protected void runEffect(TransitionReplyChecker ftr) {
+		Behavior effect = ftr.getCheckedObject().getEffect();
 		if (null != effect) {
 			if (effect instanceof FunctionBehavior) {
 				BehavioralFeature bf = effect.getSpecification();
@@ -346,15 +288,12 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 				} else {
 					// this shouldn't happen as function behavior should be an
 					// operation
-					checker.addOtherProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.", ftr.getTransition());
+					ftr.addProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.");
 				}
 			} else if (effect instanceof OpaqueBehavior) {
-				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(checker, instanceSpecification, ftr.getTransition(), (OpaqueBehavior) effect);
+				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(checker, instanceSpecification, ftr);
 				obe.prepare();
 				obe.execute();
-				if (obe.hasReply()) {
-					ftr.setReply(obe.getReply());
-				}
 			}
 		}
 
