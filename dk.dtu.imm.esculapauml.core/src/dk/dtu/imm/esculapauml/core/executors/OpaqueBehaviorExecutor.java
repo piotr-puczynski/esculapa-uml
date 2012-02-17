@@ -43,9 +43,20 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALAssignment;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALCall;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALIdentifier;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALIntegerConstant;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALLogicConstant;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALMemeberOp;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALNode;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALParameters;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParser;
-import dk.dtu.imm.esculapauml.core.sal.parser.SALParserTreeConstants;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALReplyStatement;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALRoot;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALStringConstant;
+import dk.dtu.imm.esculapauml.core.sal.parser.SimpleNode;
 import dk.dtu.imm.esculapauml.core.sal.parser.TokenMgrError;
 
 /**
@@ -55,7 +66,7 @@ import dk.dtu.imm.esculapauml.core.sal.parser.TokenMgrError;
  * @author Piotr J. Puczynski
  * 
  */
-public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> {
+public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> implements SALParserVisitor {
 
 	protected OpaqueBehavior behavior;
 	protected EObject owner;
@@ -160,106 +171,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 	 */
 	public void execute() {
 		if (null != root) {
-			for (int i = 0; !checker.hasErrors() && i < root.jjtGetNumChildren(); ++i) {
-				executeNode(root.getChild(i));
-			}
+			root.jjtAccept(this, null);
 		}
 	}
-
-	/**
-	 * Executes first level nodes.
-	 * 
-	 * @param node
-	 */
-	protected void executeNode(SALNode node) {
-		switch (node.getId()) {
-		case SALParserTreeConstants.JJTREPLYSTATEMENT:
-			executeReply(node);
-			break;
-		default:
-			evaluateExpression(node);
-			// checker.addOtherProblem(Diagnostic.ERROR,
-			// "[SAL] Statement not allowed here:  " + node.toString(), owner);
-		}
-	}
-
-	/**
-	 * Executes reply. Reply result is written to local variable and then it is
-	 * possible to get it.
-	 * 
-	 * @param node
-	 */
-	protected void executeReply(SALNode node) {
-		if (null != reply) {
-			// this should not happen unless there is more than one reply in the
-			// behavior
-			checker.addOtherProblem(Diagnostic.WARNING, "[SAL] Reply statement used more than once in one opaque behavior", owner);
-		}
-		reply = evaluateExpression(node.getChild(0));
-	}
-
-	/**
-	 * Evaluates any kind of expression.
-	 * 
-	 * @param node
-	 * @return
-	 */
-	protected ValueSpecification evaluateExpression(SALNode node) {
-		ValueSpecification result = null;
-		switch (node.getId()) {
-		case SALParserTreeConstants.JJTLOGICCONSTANT:
-			result = evaluateLogicalConstant(node);
-			break;
-		case SALParserTreeConstants.JJTINTEGERCONSTANT:
-			result = evaluateIntegerConstant(node);
-			break;
-		case SALParserTreeConstants.JJTSTRINGCONSTANT:
-			result = evaluateStringConstant(node);
-			break;
-		}
-		return result;
-	}
-
-	/**
-	 * Compiles SAL String Constant to UML Literal.
-	 * @param node
-	 * @return
-	 */
-	private ValueSpecification evaluateStringConstant(SALNode node) {
-		LiteralString strResult = UMLFactory.eINSTANCE.createLiteralString();
-		PrimitiveType strPrimitiveType = importPrimitiveType("String");
-		strResult.setType(strPrimitiveType);
-		strResult.setValue((String) node.jjtGetValue());
-		return strResult;
-	}
-
-	/**
-	 * Compiles SAL Integer Constant to UML Literal.
-	 * @param node
-	 * @return
-	 */
-	private ValueSpecification evaluateIntegerConstant(SALNode node) {
-		LiteralInteger intResult = UMLFactory.eINSTANCE.createLiteralInteger();
-		PrimitiveType intPrimitiveType = importPrimitiveType("Integer");
-		intResult.setType(intPrimitiveType);
-		intResult.setValue((int) node.jjtGetValue());
-		return intResult;
-	}
-
-	/**
-	 * Compiles SAL Logical Constant to UML Literal.
-	 * 
-	 * @param node
-	 * @return
-	 */
-	protected ValueSpecification evaluateLogicalConstant(SALNode node) {
-		LiteralBoolean boolResult = UMLFactory.eINSTANCE.createLiteralBoolean();
-		PrimitiveType booleanPrimitiveType = importPrimitiveType("Boolean");
-		boolResult.setType(booleanPrimitiveType);
-		boolResult.setValue((boolean) node.jjtGetValue());
-		return boolResult;
-	}
-
 	/**
 	 * Imports UML primitive type. If no import is found already existing, the
 	 * new import is automatically created.
@@ -309,6 +223,122 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		Resource resource = resourceSet.getResource(uri, true);
 		package_ = (org.eclipse.uml2.uml.Package) EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE);
 		return package_;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SimpleNode, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SimpleNode node, Object data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALRoot, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALRoot node, Object data) {
+		ValueSpecification result = null;
+		for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
+			result = node.getChild(i).jjtAccept(this, data);
+		}
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALAssignment, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALAssignment node, Object data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALReplyStatement, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALReplyStatement node, Object data) {
+		if (null != reply) {
+			// this should not happen unless there is more than one reply in the
+			// behavior
+			checker.addOtherProblem(Diagnostic.WARNING, "[SAL] Reply statement used more than once in one opaque behavior", owner);
+		}
+		reply = node.getChild(0).jjtAccept(this, data);
+		return reply;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALIntegerConstant, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALIntegerConstant node, Object data) {
+		LiteralInteger intResult = UMLFactory.eINSTANCE.createLiteralInteger();
+		PrimitiveType intPrimitiveType = importPrimitiveType("Integer");
+		intResult.setType(intPrimitiveType);
+		intResult.setValue((int) node.jjtGetValue());
+		return intResult;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALLogicConstant, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALLogicConstant node, Object data) {
+		LiteralBoolean boolResult = UMLFactory.eINSTANCE.createLiteralBoolean();
+		PrimitiveType booleanPrimitiveType = importPrimitiveType("Boolean");
+		boolResult.setType(booleanPrimitiveType);
+		boolResult.setValue((boolean) node.jjtGetValue());
+		return boolResult;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALStringConstant, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALStringConstant node, Object data) {
+		LiteralString strResult = UMLFactory.eINSTANCE.createLiteralString();
+		PrimitiveType strPrimitiveType = importPrimitiveType("String");
+		strResult.setType(strPrimitiveType);
+		strResult.setValue((String) node.jjtGetValue());
+		return strResult;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALIdentifier, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALIdentifier node, Object data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALCall, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALCall node, Object data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALMemeberOp, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALMemeberOp node, Object data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALParameters, java.lang.Object)
+	 */
+	@Override
+	public ValueSpecification visit(SALParameters node, Object data) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
