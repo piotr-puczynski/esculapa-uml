@@ -255,7 +255,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		LiteralInteger intResult = UMLFactory.eINSTANCE.createLiteralInteger();
 		PrimitiveType intPrimitiveType = importPrimitiveType("Integer");
 		intResult.setType(intPrimitiveType);
-		intResult.setValue((int) node.jjtGetValue());
+		intResult.setValue((Integer) node.jjtGetValue());
 		return intResult;
 	}
 
@@ -267,7 +267,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		LiteralBoolean boolResult = UMLFactory.eINSTANCE.createLiteralBoolean();
 		PrimitiveType booleanPrimitiveType = importPrimitiveType("Boolean");
 		boolResult.setType(booleanPrimitiveType);
-		boolResult.setValue((boolean) node.jjtGetValue());
+		boolResult.setValue((Boolean) node.jjtGetValue());
 		return boolResult;
 	}
 
