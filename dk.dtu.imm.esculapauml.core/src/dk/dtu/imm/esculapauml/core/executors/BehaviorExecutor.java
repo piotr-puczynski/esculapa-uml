@@ -97,18 +97,18 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 			activeConfiguration.add(StateMachineUtils.getInitial(r));
 		}
 		// calculate enabled transitions
-		calculateEnabledTransitions();
+		TransitionReplyChecker trc = new TransitionReplyChecker(checker, null);
+		trc.setAllowedToHaveReply(false);
+		calculateEnabledTransitions(trc);
 	}
 
 	/**
 	 * 
 	 */
-	protected void calculateEnabledTransitions() {
+	protected void calculateEnabledTransitions(TransitionReplyChecker trc) {
 		enabledTransitions.clear();
 		// check for dummy (empty) transitions and fire them
 		boolean hasDummies;
-		TransitionReplyChecker ftr = new TransitionReplyChecker(checker, null);
-		ftr.setAllowedToHaveReply(false);
 		do {
 			hasDummies = false;
 			for (Vertex vertex : activeConfiguration) {
@@ -125,8 +125,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 					hasDummies = true;
 					// if there is only one dummy
 					if (dummiesInVertex.size() == 1) {
-						ftr.setNextTransition(dummiesInVertex.get(0));
-						fireTransition(ftr);
+						trc.setNextTransition(dummiesInVertex.get(0));
+						fireTransition(trc);
 					} else {
 						// error: conflicting transitions
 						checker.addOtherProblem(Diagnostic.ERROR, "Conflicting transitions.", dummiesInVertex.toArray());
@@ -156,9 +156,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		if (goodTransitions.size() > 0) {
 			goodTransitions = filterTransitionsWithValidGuards(goodTransitions);
 			if (goodTransitions.size() == 1) {
-				TransitionReplyChecker ftr = fireTransition(goodTransitions.get(0));
-				calculateEnabledTransitions();
-				return ftr.getReply();
+				TransitionReplyChecker trc = fireTransition(goodTransitions.get(0));
+				calculateEnabledTransitions(trc);
+				return trc.getReply();
 			} else if (goodTransitions.size() == 0) {
 				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" cannot process an event \""
 						+ operation.getLabel() + "\" because guards are not satisfied. Event is lost.", operationOwner);
