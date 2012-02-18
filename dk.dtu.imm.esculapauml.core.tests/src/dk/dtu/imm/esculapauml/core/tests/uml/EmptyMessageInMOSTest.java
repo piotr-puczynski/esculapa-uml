@@ -25,17 +25,17 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
  * 
- * Check for existence of an error when there is MOC on lifeline pointing to no
+ * Check for existence of an error when there is MOS on lifeline pointing to no
  * message.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class EmptyMessageInMOCTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("EmptyMessageInMOC.uml");
+public class EmptyMessageInMOSTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("EmptyMessageInMOS.uml");
 
 	@Test
-	public void emptyMessageInMOC() {
+	public void emptyMessageInMOS() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
