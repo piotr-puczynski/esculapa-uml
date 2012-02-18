@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.Region;
@@ -33,6 +34,14 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 	public CollectionChecker(SystemState systemState, Collection<T> objectToCheck) {
 		super(systemState, objectToCheck);
 	}
+	
+	/**
+	 * @param checker
+	 * @param objectToCheck
+	 */
+	public CollectionChecker(Checker checker, Collection<T> objectToCheck) {
+		super(checker, objectToCheck);
+	}
 
 	/**
 	 * @param existingDiagnostics
@@ -50,11 +59,13 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 		for(T elem : checkee) {
 			Checker checker = null;
 			if(elem instanceof Lifeline) {
-				checker = new LifelineChecker(systemState, diagnostics, (Lifeline) elem);
+				checker = new LifelineChecker(this, (Lifeline) elem);
 			} else if(elem instanceof Message) {
-				checker = new MessageChecker(systemState, diagnostics, (Message) elem);
+				checker = new MessageChecker(this, (Message) elem);
 			} else if(elem instanceof Region) {
-				checker = new RegionChecker(systemState, diagnostics, (Region) elem);
+				checker = new RegionChecker(this, (Region) elem);
+			} else if(elem instanceof InteractionFragment) {
+				checker = new InteractionFragmentChecker(this, (InteractionFragment) elem);
 			}
 			
 			// add more classes here if needed

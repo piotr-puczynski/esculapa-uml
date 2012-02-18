@@ -48,6 +48,15 @@ public class MessageChecker extends AbstractChecker<Message> {
 		logger = Logger.getLogger(MessageChecker.class);
 	}
 
+	/**
+	 * @param checker
+	 * @param elem
+	 */
+	public MessageChecker(Checker checker, Message message) {
+		super(checker, message);
+		logger = Logger.getLogger(MessageChecker.class);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -55,7 +64,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 	 */
 	@Override
 	public void check() {
-		logger.debug(checkee.getLabel() +": start check");
+		logger.debug(checkee.getLabel() + ": start check");
 		endsCheck();
 		operationConformanceCheck();
 

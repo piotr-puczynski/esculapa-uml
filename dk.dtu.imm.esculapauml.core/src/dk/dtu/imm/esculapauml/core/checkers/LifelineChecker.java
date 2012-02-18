@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.ConnectableElement;
+import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Type;
@@ -38,6 +39,15 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 		super(systemState, existingDiagnostics, lifeline);
 		logger = Logger.getLogger(LifelineChecker.class);
 	}
+	
+	/**
+	 * @param checker
+	 * @param lifeline
+	 */
+	public LifelineChecker(Checker checker, Lifeline lifeline) {
+		super(checker, lifeline);
+		logger = Logger.getLogger(LifelineChecker.class);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -48,6 +58,16 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	public void check() {
 		logger.debug(checkee.getLabel() +": start check");
 		structuralExistenceCheck();
+		fregmentsCheck();
+	}
+
+	/**
+	 * Checks all interaction fragments (structural check).
+	 * 
+	 */
+	protected void fregmentsCheck() {
+		CollectionChecker<?> cc = new CollectionChecker<InteractionFragment>(this, checkee.getCoveredBys());
+		cc.check();
 	}
 
 	/**

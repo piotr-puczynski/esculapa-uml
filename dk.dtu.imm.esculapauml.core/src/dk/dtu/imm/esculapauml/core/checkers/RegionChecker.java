@@ -52,6 +52,14 @@ public class RegionChecker extends AbstractChecker<Region> {
 		super(systemState, objectToCheck);
 	}
 
+	/**
+	 * @param checker
+	 * @param objectToCheck
+	 */
+	public RegionChecker(Checker checker, Region objectToCheck) {
+		super(checker, objectToCheck);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
