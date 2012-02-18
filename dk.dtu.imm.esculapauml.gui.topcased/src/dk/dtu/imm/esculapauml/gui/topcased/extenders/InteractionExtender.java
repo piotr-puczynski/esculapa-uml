@@ -48,6 +48,7 @@ import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterable;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.DiagramElementIterator;
+import dk.dtu.imm.esculapauml.gui.topcased.utils.PosUtils;
 
 /**
  * Extends TOPCASED sequence diagrams by new generated elements.
@@ -169,7 +170,7 @@ public class InteractionExtender implements ExtenderInterface {
 					}
 					besNode.getSize().setHeight(lowestPoint.y);
 				}
-				globalLowestPoint = Point.max(globalLowestPoint, getAbsolutePosition(besNode).translate(besNode.getSize()));
+				globalLowestPoint = Point.max(globalLowestPoint, PosUtils.getAbsolutePosition(besNode).translate(besNode.getSize()));
 			}
 		}
 		// restart iteration
@@ -231,8 +232,8 @@ public class InteractionExtender implements ExtenderInterface {
 								if (((MessageOccurrenceSpecification) sourceSpec.getStart()).getMessage() == message) {
 									// get target connector
 									GraphConnector toConnector = prevMessageEdge.getAnchor().get(prevMessageEdge.getAnchor().size() - 1);
-									Point expected = getAbsolutePosition(toConnector).translate(0, distanceBetweenMessages);
-									Point current = getAbsolutePosition(source);
+									Point expected = PosUtils.getAbsolutePosition(toConnector).translate(0, distanceBetweenMessages);
+									Point current = PosUtils.getAbsolutePosition(source);
 									// calculate a shift
 									int verticalShift = expected.y - current.y;
 									// and shift bes
@@ -267,8 +268,8 @@ public class InteractionExtender implements ExtenderInterface {
 			if (targetSpec.getStart() instanceof MessageOccurrenceSpecification) {
 				if (((MessageOccurrenceSpecification) targetSpec.getStart()).getMessage() == message) {
 					// update size and location of bes
-					Point srcPoint = getAbsolutePosition(srcConnector);
-					Point targetPoint = getAbsolutePosition(targetConnector);
+					Point srcPoint = PosUtils.getAbsolutePosition(srcConnector);
+					Point targetPoint = PosUtils.getAbsolutePosition(targetConnector);
 					Point deltaPoint = srcPoint.getCopy().translate(targetPoint.getNegated());
 					// if target is higher than source
 					if (deltaPoint.y > 0) {
@@ -281,8 +282,8 @@ public class InteractionExtender implements ExtenderInterface {
 		}
 
 		// make sure for other cases
-		Point srcPoint = getAbsolutePosition(srcConnector);
-		Point targetPoint = getAbsolutePosition(targetConnector);
+		Point srcPoint = PosUtils.getAbsolutePosition(srcConnector);
+		Point targetPoint = PosUtils.getAbsolutePosition(targetConnector);
 		Point deltaPoint = srcPoint.getCopy().translate(targetPoint.getNegated());
 		// if target is higher than source
 		if (deltaPoint.y > 0) {
@@ -293,7 +294,7 @@ public class InteractionExtender implements ExtenderInterface {
 		// if we are not finishing an execution
 		// shift down the interaction before we add message to diagram
 		if (targetSpec.getFinish() != message.getReceiveEvent()) {
-			shiftInteractionVerticallyFromY(di, getAbsolutePosition(targetConnector).y, distanceBetweenMessages);
+			shiftInteractionVerticallyFromY(di, PosUtils.getAbsolutePosition(targetConnector).y, distanceBetweenMessages);
 		}
 		di.getContained().add(edge);
 		setAsPlotted(message);
@@ -393,44 +394,6 @@ public class InteractionExtender implements ExtenderInterface {
 		// e.printStackTrace();
 		// }
 
-	}
-
-	/**
-	 * Translates the position of connector down to diagram coordinates.
-	 * 
-	 * @param srcConnector
-	 * @return
-	 */
-	private Point getAbsolutePosition(GraphConnector connector) {
-		return getAbsolutePosition(connector.getGraphElement(), connector.getPosition());
-	}
-
-	/**
-	 * Translates the position of element down to diagram coordinates.
-	 * 
-	 * @param element
-	 * @return
-	 */
-	private Point getAbsolutePosition(GraphElement element) {
-		return getAbsolutePosition(element, new Point(0, 0));
-	}
-
-	/**
-	 * Translates the position of point in context element down to diagram
-	 * coordinates.
-	 * 
-	 * @param context
-	 * @param position
-	 * @return
-	 */
-	private Point getAbsolutePosition(GraphElement context, Point position) {
-		Point pos = position.getCopy();
-		GraphElement graph = context;
-		do {
-			pos.translate(graph.getPosition());
-			graph = graph.getContainer();
-		} while (!(graph instanceof Diagram));
-		return pos;
 	}
 
 	/**
@@ -575,7 +538,7 @@ public class InteractionExtender implements ExtenderInterface {
 			GraphNode diNode = dit.nextNode();
 			if (dit.getModel() instanceof BehaviorExecutionSpecification) {
 				// check if current position is in the range shift it
-				Point pos = getAbsolutePosition(diNode);
+				Point pos = PosUtils.getAbsolutePosition(diNode);
 				if (pos.y > fromY) {
 					diNode.getPosition().translate(0, deltaY);
 				} else {
