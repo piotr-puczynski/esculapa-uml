@@ -17,10 +17,13 @@ import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 
+import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
+
 /**
  * Checker to check coveredbys on lifelines.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class InteractionFragmentChecker extends AbstractChecker<InteractionFragment> {
 
@@ -33,16 +36,18 @@ public class InteractionFragmentChecker extends AbstractChecker<InteractionFragm
 		logger = Logger.getLogger(InteractionFragmentChecker.class);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dk.dtu.imm.esculapauml.core.checkers.Checker#check()
 	 */
 	@Override
 	public void check() {
-		logger.debug(checkee.getLabel() +": start check");
-		if(checkee instanceof MessageOccurrenceSpecification) {
+		logger.debug(checkee.getLabel() + ": start check");
+		if (checkee instanceof MessageOccurrenceSpecification) {
 			checkMessageOccurrence();
 		}
-		if(checkee instanceof BehaviorExecutionSpecification) {
+		if (checkee instanceof BehaviorExecutionSpecification) {
 			checkBehavior();
 		}
 	}
@@ -52,13 +57,29 @@ public class InteractionFragmentChecker extends AbstractChecker<InteractionFragm
 	 */
 	protected void checkBehavior() {
 		BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) checkee;
-		if(null == bes.getStart()) {
+		if (null == bes.getStart()) {
 			addProblem(Diagnostic.ERROR, "BehaviorExecutionSpecification \"" + checkee.getLabel() + "\" has no start set.");
 		}
-		if(null == bes.getFinish()) {
+		if (null == bes.getFinish()) {
 			addProblem(Diagnostic.ERROR, "BehaviorExecutionSpecification \"" + checkee.getLabel() + "\" has no finish set.");
 		}
-		
+		// detect problems with order of the start and finish
+		if (bes.getStart() instanceof MessageOccurrenceSpecification && bes.getFinish() instanceof MessageOccurrenceSpecification) {
+			int startIndex = InteractionUtils.getLifelineOfFragment(bes).getCoveredBys().indexOf(bes.getStart());
+			int finishIndex = InteractionUtils.getLifelineOfFragment(bes).getCoveredBys().indexOf(bes.getFinish());
+			if (-1 == startIndex) {
+				addProblem(Diagnostic.ERROR, "BehaviorExecutionSpecification \"" + checkee.getLabel()
+						+ "\" start points to fragment not placed on covering lifeline.");
+			}
+			if (-1 == finishIndex) {
+				addProblem(Diagnostic.ERROR, "BehaviorExecutionSpecification \"" + checkee.getLabel()
+						+ "\" finish points to fragment not placed on covering lifeline.");
+			}
+			if (-1 != startIndex && -1 != finishIndex && startIndex > finishIndex) {
+				addProblem(Diagnostic.ERROR, "BehaviorExecutionSpecification \"" + checkee.getLabel()
+						+ "\" start and finish have wrong order on the covering lifeline.");
+			}
+		}
 	}
 
 	/**
@@ -66,7 +87,7 @@ public class InteractionFragmentChecker extends AbstractChecker<InteractionFragm
 	 */
 	protected void checkMessageOccurrence() {
 		MessageOccurrenceSpecification mos = (MessageOccurrenceSpecification) checkee;
-		if(null == mos.getMessage()) {
+		if (null == mos.getMessage()) {
 			addProblem(Diagnostic.ERROR, "MessageOccurrenceSpecification \"" + checkee.getLabel() + "\" points to no message.");
 		}
 	}
