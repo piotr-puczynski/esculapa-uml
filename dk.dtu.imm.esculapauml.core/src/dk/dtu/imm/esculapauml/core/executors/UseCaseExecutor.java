@@ -217,26 +217,37 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 	protected void behaviorExecution(BehaviorExecutor executor, Operation operation) {
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
 		Lifeline sourceLifeline = executor.getLifeline();
-		Lifeline targetlifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
-		if (null == targetlifeline) {
+		Lifeline targetLifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
+		if (null == targetLifeline) {
 			// there is no lifeline now that could correspond to the object
 			// we need to create it
-			LifelineGenerator lifelineGenerator = new LifelineGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), checkee, targetClass);
-			targetlifeline = lifelineGenerator.generate();
+			LifelineGenerator lifelineGenerator = new LifelineGenerator(checker, checkee, targetClass);
+			targetLifeline = lifelineGenerator.generate();
 			// we will need also to generate BehaviorExecutionSpecification and
 			// a message (with call event)
-			MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), sourceLifeline, targetlifeline);
+			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
 			messageGenerator.setOperation(operation);
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
 			Message message = messageGenerator.generate();
 			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
-					(BasicDiagnostic) checker.getDiagnostics(), targetlifeline);
+					(BasicDiagnostic) checker.getDiagnostics(), targetLifeline);
 			besGenerator.setStartAndFinish((OccurrenceSpecification) message.getReceiveEvent());
 			besGenerator.generate();
 			executeMessage(message);
 		} else {
-			// check if next message conforming with operation
-			// TODO check
+			// check if operation and lifelines are the same
+			Message message = getNextMessage(currentMessage);
+			if (InteractionUtils.getMessageOperation(message) != operation || InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
+					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline) {
+				// message not conform to given operation
+				// we need to generate a new message
+				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
+				messageGenerator.setOperation(operation);
+				messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
+				// TODO: add setting receive event in correct place
+				message = messageGenerator.generate();
+			}
+			executeMessage(message);
 		}
 
 	}
@@ -289,8 +300,8 @@ public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
 				ArrayList<MessageOccurrenceSpecification> targetSpecs = new ArrayList<MessageOccurrenceSpecification>(targetSpecsCol);
 				int sourceIndex = targetSpecs.indexOf(receiveEvent);
 				if ((sourceIndex >= 0) && (sourceIndex + 1 != targetSpecs.size())) {
-					MessageOccurrenceSpecification previousEnd = targetSpecs.get(sourceIndex + 1);
-					return previousEnd.getMessage();
+					MessageOccurrenceSpecification nextEnd = targetSpecs.get(sourceIndex + 1);
+					return nextEnd.getMessage();
 				}
 			}
 

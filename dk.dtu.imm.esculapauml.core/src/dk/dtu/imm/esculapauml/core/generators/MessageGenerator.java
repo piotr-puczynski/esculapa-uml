@@ -28,6 +28,7 @@ import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
 
+import dk.dtu.imm.esculapauml.core.checkers.Checker;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
@@ -49,6 +50,18 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	 */
 	public MessageGenerator(SystemState systemState, BasicDiagnostic diagnostic, Lifeline sourceLifeline, Lifeline targetLifeline) {
 		super(systemState, diagnostic);
+		logger = Logger.getLogger(MessageGenerator.class);
+		this.targetLifeline = targetLifeline;
+		this.sourceLifeline = sourceLifeline;
+	}
+
+	/**
+	 * @param checker
+	 * @param sourceLifeline2
+	 * @param targetLifeline2
+	 */
+	public MessageGenerator(Checker checker, Lifeline sourceLifeline, Lifeline targetLifeline) {
+		super(checker);
 		logger = Logger.getLogger(MessageGenerator.class);
 		this.targetLifeline = targetLifeline;
 		this.sourceLifeline = sourceLifeline;

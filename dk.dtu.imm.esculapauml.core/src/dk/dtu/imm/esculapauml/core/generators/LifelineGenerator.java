@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.generators;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Connector;
 import org.eclipse.uml2.uml.ConnectorEnd;
 import org.eclipse.uml2.uml.Interaction;
@@ -21,6 +22,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 
+import dk.dtu.imm.esculapauml.core.checkers.Checker;
 import dk.dtu.imm.esculapauml.core.checkers.LifelineChecker;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 
@@ -42,6 +44,18 @@ public class LifelineGenerator extends AbstractGenerator<Lifeline> {
 	 */
 	public LifelineGenerator(SystemState systemState, BasicDiagnostic diagnostic, Interaction interaction, Type type) {
 		super(systemState, diagnostic);
+		logger = Logger.getLogger(LifelineGenerator.class);
+		this.interaction = interaction;
+		this.type = type;
+	}
+
+	/**
+	 * @param checker
+	 * @param checkee
+	 * @param targetClass
+	 */
+	public LifelineGenerator(Checker checker, Interaction interaction, Class type) {
+		super(checker);
 		logger = Logger.getLogger(LifelineGenerator.class);
 		this.interaction = interaction;
 		this.type = type;

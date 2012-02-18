@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.core.generators;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 
+import dk.dtu.imm.esculapauml.core.checkers.Checker;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
@@ -35,5 +36,14 @@ public abstract class AbstractGenerator<T> implements GeneratorInterface<T> {
 		super();
 		this.systemState = systemState;
 		this.diagnostic = diagnostic;
+	}
+
+	/**
+	 * @param checker
+	 */
+	public AbstractGenerator(Checker checker) {
+		super();
+		this.systemState = checker.getSystemState();
+		this.diagnostic = (BasicDiagnostic) checker.getDiagnostics();
 	}
 }
