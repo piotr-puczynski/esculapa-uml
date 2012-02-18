@@ -15,6 +15,7 @@ package dk.dtu.imm.esculapauml.gui.topcased.handlers;
 import java.util.List;
 
 import dk.dtu.imm.esculapauml.gui.topcased.extenders.InteractionExtender;
+import dk.dtu.imm.esculapauml.gui.topcased.fixers.InteractionOrderFixer;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.GuiUtils;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.TopcasedMarkerHelper;
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
@@ -39,6 +40,8 @@ public class CheckUseCaseHandler extends AbstractHandler {
 		Modeler modeler = GuiUtils.getModeler(event);
 		Interaction interaction = GuiUtils.getUMLInteractionArgument(elements);
 		if (null != interaction) {
+			InteractionOrderFixer fixer = new InteractionOrderFixer(modeler, interaction);
+			fixer.fix();
 			UseCaseChecker checker = new UseCaseChecker(interaction);
 			checker.check();
 			InteractionExtender ie = new InteractionExtender(modeler, checker.getCheckedObject());
