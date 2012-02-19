@@ -40,13 +40,11 @@ public class IllFormedSelfDummyTest extends LoggingTest {
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		// there is no error
-		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+		// TestUtils.printDiagnostic(diagnostics);
 		// there is an error
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		assertEquals(2, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-				"BehaviorExecutionSpecification \"BehaviorExecutionSpecification1\" has no start set."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Transition is ill-formed."));
 	}
 }

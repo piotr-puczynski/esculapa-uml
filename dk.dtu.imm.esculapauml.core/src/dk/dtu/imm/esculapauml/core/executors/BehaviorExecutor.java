@@ -109,14 +109,20 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 		enabledTransitions.clear();
 		// check for dummy (empty) transitions and fire them
 		boolean hasDummies;
+		ArrayList<Transition> dummiesTaken = new ArrayList<Transition>();
 		do {
 			hasDummies = false;
 			for (Vertex vertex : activeConfiguration) {
 				ArrayList<Transition> dummiesInVertex = new ArrayList<Transition>();
 				for (Transition transition : vertex.getOutgoings()) {
 					if (isGuardSatisfied(transition.getGuard()) && transition.getTriggers().size() == 0) {
-						// TODO check for bad empty transitions (if source and
-						// target are the same)
+						if(dummiesTaken.contains(transition)) {
+							// check for bad empty transitions (if source and
+							// target are the same)
+							checker.addOtherProblem(Diagnostic.ERROR, "Transition is ill-formed.", transition);
+						} else {
+							dummiesTaken.add(transition);
+						}
 						dummiesInVertex.add(transition);
 
 					}
