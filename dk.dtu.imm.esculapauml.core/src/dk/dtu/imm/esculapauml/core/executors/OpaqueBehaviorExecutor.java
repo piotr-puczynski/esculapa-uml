@@ -128,7 +128,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChe
 		int i = 0;
 		List<String> bodies = new ArrayList<String>();
 		for (String lang : behavior.getLanguages()) {
-			if (lang.equals(LANG_ID)) {
+			if (lang.equalsIgnoreCase(LANG_ID)) {
 				if (behavior.getBodies().size() > i) {
 					bodies.add(behavior.getBodies().get(i));
 				}
