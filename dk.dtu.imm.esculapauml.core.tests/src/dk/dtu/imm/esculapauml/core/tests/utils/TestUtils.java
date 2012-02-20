@@ -105,6 +105,7 @@ public class TestUtils {
 			System.setProperty("org.eclipse.ocl.uml", repositoryPath + "dk.dtu.imm.esculapauml.core.tests/libs/ocl");
 			System.setProperty("org.eclipse.uml2.uml.resources", repositoryPath + "dk.dtu.imm.esculapauml.core.tests/libs/uml");
 			org.eclipse.ocl.uml.OCL.initialize(null); // null for global init
+			org.eclipse.ocl.uml.OCL.initialize(resourceSet);
 			umlInit = true;
 		}
 
