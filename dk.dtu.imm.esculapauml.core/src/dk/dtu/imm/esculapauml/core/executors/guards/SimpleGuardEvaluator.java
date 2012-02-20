@@ -11,11 +11,21 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.guards;
 
+import static ch.lambdaj.Lambda.filter;
+
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Vertex;
+import org.hamcrest.Matcher;
+
+import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
+import dk.dtu.imm.esculapauml.core.validators.Validator;
+import dk.dtu.imm.esculapauml.core.validators.ValidatorsFactory;
 
 /**
  * Guard evaluator for vertices based on simple evaluation.
@@ -23,13 +33,23 @@ import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
  *
  */
 public class SimpleGuardEvaluator implements GuardEvaluator {
+	
+	protected InstanceExecutor executor;
+	protected Vertex vertex;
+	
+	protected Matcher<Transition> satisfied = new Predicate<Transition>() {
+		public boolean apply(Transition item) {
+			return isGuardSatisfied(item.getGuard());
+		}
+	};
 
 	/**
 	 * @param executor
 	 * @param vertex
 	 */
 	public SimpleGuardEvaluator(InstanceExecutor executor, Vertex vertex) {
-		// TODO Auto-generated constructor stub
+		this.executor = executor;
+		this.vertex = vertex;
 	}
 
 	/* (non-Javadoc)
@@ -37,8 +57,27 @@ public class SimpleGuardEvaluator implements GuardEvaluator {
 	 */
 	@Override
 	public EList<Transition> getTransitionsWithEnabledGuards() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BasicEList<Transition>(filter(satisfied, vertex.getOutgoings()));
+	}
+	
+	/**
+	 * Check if guard is satisfied
+	 * 
+	 * @param guard
+	 * @return
+	 */
+	protected boolean isGuardSatisfied(Constraint guard) {
+		if (null == guard) {
+			// no guard
+			return true;
+		}
+		Validator validator = ValidatorsFactory.getInstance().getValidatorFor(executor, guard);
+		if (null == validator) {
+			// we do not have validator for this type of constraint
+			executor.getChecker().addOtherProblem(Diagnostic.WARNING, "Guard on the transition is not supported by EsculapaUML.", guard.getOwner());
+			return true;
+		}
+		return validator.validateConstraint();
 	}
 
 }
