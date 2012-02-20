@@ -43,14 +43,14 @@ public class GuardEvaluatorsFactory {
 	 * @return
 	 */
 	public GuardEvaluator getGuardEvaluator(InstanceExecutor executor, Vertex vertex) {
-		if(vertex instanceof Pseudostate) {
-			Pseudostate pseudoVertex = (Pseudostate)vertex;
+		if (vertex instanceof Pseudostate) {
+			Pseudostate pseudoVertex = (Pseudostate) vertex;
 			// if else is allowed
-			if(pseudoVertex.getKind() == PseudostateKind.CHOICE_LITERAL || pseudoVertex.getKind() == PseudostateKind.JUNCTION_LITERAL) {
+			if (pseudoVertex.getKind() == PseudostateKind.CHOICE_LITERAL || pseudoVertex.getKind() == PseudostateKind.JUNCTION_LITERAL) {
 				return new GuardWithElseEvaluator(executor, vertex);
 			}
 		}
-		//otherwise use general evaluator
+		// otherwise use general evaluator
 		return new SimpleGuardEvaluator(executor, vertex);
 	}
 }

@@ -15,35 +15,27 @@ import org.eclipse.uml2.uml.Constraint;
 
 /**
  * Empty constraint validator always evaluates to true.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
-public class EmptyConstraintValidator implements Validator {
-	
-	protected Constraint constraint;
+public class EmptyConstraintValidator extends AbstractValidator implements Validator {
 
 	/**
-	 * @param constraint
 	 */
 	public EmptyConstraintValidator(Constraint constraint) {
-		super();
-		this.constraint = constraint;
+		super(null, constraint);
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#validateConstraint()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.validators.Validator#validateConstraint()
 	 */
 	@Override
 	public boolean validateConstraint() {
 		return true;
-	}
-
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#getConstraint()
-	 */
-	@Override
-	public Constraint getConstraint() {
-		return constraint;
 	}
 
 }

@@ -12,39 +12,40 @@
 package dk.dtu.imm.esculapauml.core.validators;
 
 import org.eclipse.uml2.uml.Constraint;
-import org.eclipse.uml2.uml.OpaqueExpression;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
-
 /**
- * Factory used to create different types of validators.
+ * Validator validates opaque expressions in all supported languages.
  * @author Piotr J. Puczynski
  *
  */
-public class ValidatorsFactory {
-	private static ValidatorsFactory instance = null;
-	
-	
-	protected ValidatorsFactory() {
-		super();
+public class OpaqueValidator extends AbstractValidator implements Validator {
+
+	/**
+	 * @param executor
+	 * @param constraint
+	 */
+	public OpaqueValidator(InstanceExecutor executor, Constraint constraint) {
+		super(executor, constraint);
 	}
-	
-	public static ValidatorsFactory getInstance() {
-		if (instance == null) {
-			instance = new ValidatorsFactory();
-		}
-		return instance;
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#validateConstraint()
+	 */
+	@Override
+	public boolean validateConstraint() {
+		// TODO Auto-generated method stub
+		return false;
 	}
-	
-	public Validator getValidatorFor(InstanceExecutor executor, Constraint constraint) {
-		if(null == constraint.getSpecification()) {
-			return new EmptyConstraintValidator(constraint);
-		}
-		if(constraint.getSpecification() instanceof OpaqueExpression) {
-			return new OpaqueValidator(executor, constraint);
-		}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#getConstraint()
+	 */
+	@Override
+	public Constraint getConstraint() {
+		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
