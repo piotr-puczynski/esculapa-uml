@@ -20,5 +20,9 @@ import org.eclipse.uml2.uml.Transition;
  *
  */
 public interface GuardEvaluator {
+	/**
+	 * Operation returns only the outgoing transitions from vertex that are enabled at the moment of evaluation.
+	 * @return
+	 */
 	EList<Transition> getTransitionsWithEnabledGuards();
 }

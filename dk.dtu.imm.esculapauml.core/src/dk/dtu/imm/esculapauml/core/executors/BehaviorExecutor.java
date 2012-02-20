@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.CallEvent;
-import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.FunctionBehavior;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -39,16 +39,11 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Vertex;
-import org.hamcrest.Matcher;
-
-import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
+import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
-import dk.dtu.imm.esculapauml.core.validators.OCLValidator;
-import dk.dtu.imm.esculapauml.core.validators.Validator;
-import dk.dtu.imm.esculapauml.core.validators.ValidatorsFactory;
 
 /**
  * @author Piotr J. Puczynski
@@ -119,9 +114,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			hasDummies = false;
 			for (Vertex vertex : activeConfiguration) {
 				ArrayList<Transition> dummiesInVertex = new ArrayList<Transition>();
-				for (Transition transition : vertex.getOutgoings()) {
-					if (isGuardSatisfied(transition.getGuard()) && transition.getTriggers().size() == 0) {
-						
+				EList<Transition> satisfiedTransitions = GuardEvaluatorsFactory.getInstance().getGuardEvaluator(this, vertex).getTransitionsWithEnabledGuards();
+				for (Transition transition : satisfiedTransitions) {
+					if (transition.getTriggers().size() == 0) {
 						if (dummiesTaken.contains(transition)) {
 							// check for bad empty transitions (if source and
 							// target are the same)
@@ -130,7 +125,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 							dummiesTaken.add(transition);
 						}
 						dummiesInVertex.add(transition);
-
 					}
 				}
 				if (dummiesInVertex.size() > 0) {
@@ -150,7 +144,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		// add outgoing transitions of active states
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: active states:");
 		for (Vertex vertex : activeConfiguration) {
-			enabledTransitions.addAll(vertex.getOutgoings());
+			enabledTransitions.addAll(GuardEvaluatorsFactory.getInstance().getGuardEvaluator(this, vertex).getTransitionsWithEnabledGuards());
 			logger.debug(checkee.getLabel() + "[" + instanceName + "]: " + vertex.getLabel());
 		}
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: active states end");
@@ -164,9 +158,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	public ValueSpecification runOperation(Message operationOwner, Operation operation) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
+		// TODO: call again calculateEnabledTransitions to reevaluate guards
 		List<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
 		if (goodTransitions.size() > 0) {
-			goodTransitions = filterTransitionsWithValidGuards(goodTransitions);
 			if (goodTransitions.size() == 1) {
 				TransitionReplyChecker trc = fireTransition(goodTransitions.get(0));
 				calculateEnabledTransitions(trc);
@@ -215,19 +209,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param operation
 	 * @return
 	 */
-	private List<Transition> filterTransitionsWithValidGuards(List<Transition> transitions) {
-		Matcher<Transition> satisfied = new Predicate<Transition>() {
-			public boolean apply(Transition item) {
-				return isGuardSatisfied(item.getGuard());
-			}
-		};
-		return filter(satisfied, transitions);
-	}
-
-	/**
-	 * @param operation
-	 * @return
-	 */
 	public boolean hasTriggerForOperation(Operation operation) {
 		List<Trigger> triggers = flatten(collect(enabledTransitions, on(Transition.class).getTriggers()));
 		triggers = filter(having(on(Trigger.class).getEvent(), is(CallEvent.class)), triggers);
@@ -238,26 +219,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Check if guard is satisfied
-	 * 
-	 * @param t
-	 * @return
-	 */
-	protected boolean isGuardSatisfied(Constraint guard) {
-		if (null == guard) {
-			// no guard
-			return true;
-		}
-		Validator validator = ValidatorsFactory.getInstance().getValidatorFor(this, guard);
-		if (null == validator) {
-			// we do not have validator for this type of constraint
-			checker.addOtherProblem(Diagnostic.WARNING, "Guard on the transition is not supported by EsculapaUML.", guard.getOwner());
-			return true;
-		}
-		return validator.validateConstraint();
 	}
 
 	/**
