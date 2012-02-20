@@ -11,6 +11,9 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.validators;
 
+import org.eclipse.ocl.OCLInput;
+import org.eclipse.ocl.uml.UMLEnvironment;
+import org.eclipse.ocl.uml.UMLEnvironmentFactory;
 import org.eclipse.uml2.uml.Constraint;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
@@ -35,7 +38,11 @@ public class OCLValidator extends AbstractValidator implements Validator {
 	 */
 	@Override
 	public boolean validateConstraint() {
-		// TODO Auto-generated method stub
+		//OCLInput document = new OCLInput(in);
+		UMLEnvironmentFactory envFactory = new UMLEnvironmentFactory(constraint.getModel().eResource().getResourceSet());
+		UMLEnvironment env = envFactory.createEnvironment();
+		org.eclipse.ocl.uml.OCL myOCL = org.eclipse.ocl.uml.OCL.newInstance(env);
+		boolean check = myOCL.check(executor.getInstanceSpecification(), constraint);
 		return false;
 	}
 

@@ -20,7 +20,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.common.util.UML2Util;
@@ -49,6 +48,8 @@ import org.eclipse.emf.compare.uml2.match.UML2MatchEngine;
 public class TestUtils {
 
 	private static boolean compareInit = false;
+	private static boolean umlInit = false;
+	private static final String repositoryPath = System.getProperty("user.home") + "/git/EsculapaUML/";
 
 	/**
 	 * Compares two UML2 models using EMF Compare and checks if there are any
@@ -93,13 +94,25 @@ public class TestUtils {
 
 		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE);
 		// prepare UML primitive types
-		URIConverter.URI_MAP.put(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI),
-				URI.createFileURI(System.getProperty("user.home") + "/git/EsculapaUML/ExampleModels/SystemLibs/libraries/UMLPrimitiveTypes.library.uml"));
+		// if (!umlInit) {
+		// URIConverter.URI_MAP.put(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI),
+		// URI.createFileURI(repositoryPath +
+		// "ExampleModels/SystemLibs/libraries/UMLPrimitiveTypes.library.uml"));
+		// }
 
 		// Map uriMap = resourceSet.getURIConverter().getURIMap();
-		URI uri = URI.createURI("file:/" + System.getProperty("user.home") + "/git/EsculapaUML/ExampleModels/Models/" + modelFileName);
+		if (!umlInit) {
+			System.setProperty("org.eclipse.ocl.uml", repositoryPath + "dk.dtu.imm.esculapauml.core.tests/libs/ocl");
+			System.setProperty("org.eclipse.uml2.uml.resources", repositoryPath + "dk.dtu.imm.esculapauml.core.tests/libs/uml");
+			org.eclipse.ocl.uml.OCL.initialize(null); // null for global init
+			umlInit = true;
+		}
 
-		return resourceSet.getResource(uri, true);
+		URI uri = URI.createURI("file:/" + repositoryPath + "ExampleModels/Models/" + modelFileName);
+
+		Resource result = resourceSet.getResource(uri, true);
+
+		return result;
 	}
 
 	/**
