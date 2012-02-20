@@ -13,21 +13,21 @@ package dk.dtu.imm.esculapauml.core.validators;
 
 import org.eclipse.uml2.uml.Constraint;
 
-import dk.dtu.imm.esculapauml.core.checkers.Checker;
+import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
  * Guard validator is used to evaluate OCL guards constraints.
  * @author Piotr J. Puczynski
  *
  */
-public class OCLValidator implements Validator {
+public class OCLValidator extends AbstractValidator implements Validator {
 
 	/**
-	 * @param checker
+	 * @param executor
 	 * @param constraint
 	 */
-	public OCLValidator(Checker checker, Constraint constraint) {
-		// TODO Auto-generated constructor stub
+	public OCLValidator(InstanceExecutor executor, Constraint constraint) {
+		super(executor, constraint);
 	}
 
 	/* (non-Javadoc)
@@ -37,15 +37,6 @@ public class OCLValidator implements Validator {
 	public boolean validateConstraint() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#getConstraint()
-	 */
-	@Override
-	public Constraint getConstraint() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

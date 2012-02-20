@@ -12,6 +12,7 @@
 package dk.dtu.imm.esculapauml.core.validators;
 
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.OpaqueExpression;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
@@ -22,12 +23,15 @@ import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
  */
 public class OpaqueValidator extends AbstractValidator implements Validator {
 
+	
+	protected OpaqueExpression specification;
 	/**
 	 * @param executor
 	 * @param constraint
 	 */
 	public OpaqueValidator(InstanceExecutor executor, Constraint constraint) {
 		super(executor, constraint);
+		specification = (OpaqueExpression) constraint.getSpecification();
 	}
 
 	/* (non-Javadoc)
@@ -35,17 +39,10 @@ public class OpaqueValidator extends AbstractValidator implements Validator {
 	 */
 	@Override
 	public boolean validateConstraint() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#getConstraint()
-	 */
-	@Override
-	public Constraint getConstraint() {
-		// TODO Auto-generated method stub
-		return null;
+		// EList<String> langs = new BasicEList<String>(specification.getLanguages());
+		// TODO: process many languages
+		OCLValidator ocl = new OCLValidator(executor, constraint);
+		return ocl.validateConstraint();
 	}
 
 }
