@@ -31,7 +31,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  */
 public class JunctionWithBooleanGuardsTest extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("JunctionWithBooleanGuards.uml");
-	//private Resource referenceModel = TestUtils.getUMLResource("results/JunctionWithBooleanGuards.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/JunctionWithBooleanGuards.uml");
 
 	@Test
 	public void junction() throws InterruptedException {
@@ -43,6 +43,6 @@ public class JunctionWithBooleanGuardsTest extends LoggingTest {
 		// there is no error
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		// models have no differences
-		//assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }

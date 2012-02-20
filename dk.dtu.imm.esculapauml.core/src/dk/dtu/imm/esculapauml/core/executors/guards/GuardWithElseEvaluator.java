@@ -61,7 +61,7 @@ public class GuardWithElseEvaluator extends SimpleGuardEvaluator implements Guar
 		BasicEList<Transition> elses = new BasicEList<Transition>(filter(isElseTransition, vertex.getOutgoings()));
 		if (elses.size() > 1) {
 			// only one else is allowed
-			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "Only one \"else\" is allowed.", elses.toArray());
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "Only one 'else' is allowed.", elses.toArray());
 			// return empty list
 			return new BasicEList<Transition>();
 		}

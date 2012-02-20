@@ -11,37 +11,39 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.validators;
 
-import org.eclipse.emf.ecore.EObject;
+import static ch.lambdaj.Lambda.join;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.ocl.EvaluationEnvironment;
-import org.eclipse.ocl.OCLInput;
 import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.helper.ConstraintKind;
+import org.eclipse.ocl.expressions.BooleanLiteralExp;
 import org.eclipse.ocl.helper.OCLHelper;
 import org.eclipse.ocl.options.EvaluationOptions;
-import org.eclipse.ocl.uml.OCL.Query;
-import org.eclipse.ocl.uml.OCLExpression;
 import org.eclipse.ocl.uml.UMLEnvironment;
 import org.eclipse.ocl.uml.UMLEnvironmentFactory;
-import org.eclipse.ocl.uml.UMLEvaluationEnvironment;
 import org.eclipse.ocl.uml.options.EvaluationMode;
 import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
-import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.OpaqueExpression;
-import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Property;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
  * Guard validator is used to evaluate OCL guards constraints.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class OCLValidator extends AbstractValidator implements Validator {
 
 	protected OpaqueExpression specification;
+	protected Logger logger = Logger.getLogger(OCLValidator.class);
 
 	/**
 	 * @param executor
@@ -52,29 +54,55 @@ public class OCLValidator extends AbstractValidator implements Validator {
 		specification = (OpaqueExpression) constraint.getSpecification();
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#validateConstraint()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.validators.Validator#validateConstraint()
 	 */
 	@Override
 	public boolean validateConstraint() {
-		//OCLInput document = new OCLInput(in); 
 		UMLEnvironmentFactory envFactory = new UMLEnvironmentFactory(constraint.getModel().eResource().getResourceSet());
 		UMLEnvironment env = envFactory.createEnvironment();
 		org.eclipse.ocl.uml.OCL myOCL = org.eclipse.ocl.uml.OCL.newInstance(env);
-		EvaluationOptions.setOption(myOCL.getEvaluationEnvironment(), UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.RUNTIME_OBJECTS);
+		EvaluationEnvironment<?, ?, ?, ?, ?> evalEnv = myOCL.getEvaluationEnvironment();
+		EvaluationOptions.setOption(evalEnv, UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.RUNTIME_OBJECTS);
+		// TODO: add custom variables with evalEnv.add if needed
 		org.eclipse.ocl.expressions.OCLExpression<?> oclConstraint = null;
-		myOCL.setEvaluationTracingEnabled(true);
-		myOCL.setParseTracingEnabled(true);
+		if (logger.getEffectiveLevel() == Level.DEBUG) {
+			myOCL.setEvaluationTracingEnabled(true);
+			myOCL.setParseTracingEnabled(true);
+		}
+
 		OCLHelper<?, ?, ?, ?> helper = myOCL.createOCLHelper();
 		helper.setInstanceContext(executor.getInstanceSpecification());
 		try {
-			oclConstraint = helper.createQuery("false"); //specification.getBodies().get(0)
+			oclConstraint = helper.createQuery(calculateBody());
 		} catch (ParserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL Parser: " + e.getMessage(), constraint.getOwner());
+			return false;
 		}
-		//boolean check = myOCL.check(executor.getInstanceSpecification(), oclConstraint);
-		return false;
+		if (oclConstraint instanceof BooleanLiteralExp) {
+			return ((BooleanLiteralExp<?>) oclConstraint).getBooleanSymbol().booleanValue();
+		} else {
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL expression must return Boolean value", constraint.getOwner());
+			return false;
+		}
+	}
+	
+	
+	protected String calculateBody() {
+		int i = 0;
+		List<String> bodies = new ArrayList<String>();
+		for (String lang : specification.getLanguages()) {
+			if (lang.equalsIgnoreCase("ocl")) {
+				if (specification.getBodies().size() > i) {
+					bodies.add(specification.getBodies().get(i));
+				}
+			}
+			++i;
+		}
+		return join(bodies, " and ");
 	}
 
 }
