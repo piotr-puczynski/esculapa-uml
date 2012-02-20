@@ -9,29 +9,34 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.executors;
+package dk.dtu.imm.esculapauml.core.validators;
 
-import org.apache.log4j.Logger;
+import org.eclipse.uml2.uml.Constraint;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 
 /**
+ * Guard validator is used to evaluate OCL guards constraints.
  * @author Piotr J. Puczynski
  *
  */
-public abstract class AbstractExecutor implements Executor {
-	protected Checker checker;
-	protected Logger logger = Logger.getLogger(AbstractExecutor.class);
-	public AbstractExecutor(Checker checker) {
-		this.checker = checker;
+public class OCLValidator implements Validator {
+
+	/**
+	 * @param checker
+	 * @param constraint
+	 */
+	public OCLValidator(Checker checker, Constraint constraint) {
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.executors.ExecutorInterface#getChecker()
+	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#validateConstraint()
 	 */
 	@Override
-	public Checker getChecker() {
-		return checker;
+	public boolean validateConstraint() {
+		// TODO Auto-generated method stub
+		return false;
 	}
-	
+
 }

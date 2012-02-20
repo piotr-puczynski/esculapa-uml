@@ -46,23 +46,28 @@ import ch.lambdaj.function.matcher.Predicate;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
+import dk.dtu.imm.esculapauml.core.validators.OCLValidator;
+import dk.dtu.imm.esculapauml.core.validators.Validator;
+import dk.dtu.imm.esculapauml.core.validators.ValidatorsFactory;
 
 /**
  * @author Piotr J. Puczynski
  * 
  */
-public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> {
+public class BehaviorExecutor extends AbstractInstanceExecutor {
 
 	protected Lifeline lifeline;
 	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
 	protected ArrayList<Transition> enabledTransitions = new ArrayList<Transition>();
 	protected StateMachine checkee;
+	protected BehaviorChecker checker;
 
 	/**
 	 * @param checker
 	 */
 	public BehaviorExecutor(BehaviorChecker checker, Lifeline lifeline) {
 		super(checker);
+		this.checker = checker;
 		checkee = checker.getCheckedObject();
 		this.lifeline = lifeline;
 		instanceName = lifeline.getName();
@@ -245,6 +250,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> 
 			// no guard
 			return true;
 		}
+		//Validator validator = ValidatorsFactory.getInstance().getValidatorFor(this, guard);
 		// TODO implement guards
 		return true;
 	}

@@ -11,27 +11,23 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import org.apache.log4j.Logger;
-
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 
 /**
+ * The interface for executors.
+ * Executor is associated with checker for that object class.
  * @author Piotr J. Puczynski
  *
  */
-public abstract class AbstractExecutor implements Executor {
-	protected Checker checker;
-	protected Logger logger = Logger.getLogger(AbstractExecutor.class);
-	public AbstractExecutor(Checker checker) {
-		this.checker = checker;
-	}
+public interface Executor {
 	
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.executors.ExecutorInterface#getChecker()
+	/**
+	 * Prepare the execution.
 	 */
-	@Override
-	public Checker getChecker() {
-		return checker;
-	}
+	void prepare();
 	
+	/**
+	 * get corresponding / owning checker
+	 */
+	Checker getChecker();
 }

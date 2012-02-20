@@ -51,17 +51,19 @@ import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
  * @author Piotr J. Puczynski
  * 
  */
-public class UseCaseExecutor extends AbstractExecutor<UseCaseChecker> {
+public class UseCaseExecutor extends AbstractExecutor {
 
-	private Message currentMessage;
-	private Interaction checkee;
-	private SystemState systemState;
+	protected Message currentMessage;
+	protected Interaction checkee;
+	protected SystemState systemState;
+	protected UseCaseChecker checker;
 
 	/**
 	 * @param checker
 	 */
 	public UseCaseExecutor(UseCaseChecker checker) {
 		super(checker);
+		this.checker = checker;
 		checkee = checker.getCheckedObject();
 		systemState = checker.getSystemState();
 		logger = Logger.getLogger(UseCaseExecutor.class);

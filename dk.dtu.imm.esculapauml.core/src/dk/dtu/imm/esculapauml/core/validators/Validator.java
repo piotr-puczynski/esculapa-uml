@@ -9,23 +9,17 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.executors;
+package dk.dtu.imm.esculapauml.core.validators;
 
 /**
- * The interface for executors.
- * Executor is associated with checker for that object class.
+ * Interface used by all types of validators.
  * @author Piotr J. Puczynski
- *
+ * 
  */
-public interface ExecutorInterface<T> {
-	
+public interface Validator {
 	/**
-	 * Prepare the execution.
+	 * Validates a constraint and returns boolean result.
+	 * @return
 	 */
-	void prepare();
-	
-	/**
-	 * get corresponding / owning checker
-	 */
-	T getChecker();
+	boolean validateConstraint();
 }

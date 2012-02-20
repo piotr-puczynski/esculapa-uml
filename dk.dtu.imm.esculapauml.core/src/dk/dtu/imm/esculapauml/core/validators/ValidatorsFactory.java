@@ -9,29 +9,36 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.executors;
+package dk.dtu.imm.esculapauml.core.validators;
 
-import org.apache.log4j.Logger;
+import org.eclipse.uml2.uml.Constraint;
 
-import dk.dtu.imm.esculapauml.core.checkers.Checker;
+import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
+
 
 /**
+ * Factory used to create different types of validators.
  * @author Piotr J. Puczynski
  *
  */
-public abstract class AbstractExecutor implements Executor {
-	protected Checker checker;
-	protected Logger logger = Logger.getLogger(AbstractExecutor.class);
-	public AbstractExecutor(Checker checker) {
-		this.checker = checker;
+public class ValidatorsFactory {
+	private static ValidatorsFactory instance = null;
+	
+	
+	protected ValidatorsFactory() {
+		super();
 	}
 	
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.executors.ExecutorInterface#getChecker()
-	 */
-	@Override
-	public Checker getChecker() {
-		return checker;
+	public static ValidatorsFactory getInstance() {
+		if (instance == null) {
+			instance = new ValidatorsFactory();
+		}
+		return instance;
+	}
+	
+	public Validator getValidatorFor(InstanceExecutor executor, Constraint constraint) {
+		
+		return null;
 	}
 	
 }

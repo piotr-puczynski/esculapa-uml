@@ -66,18 +66,21 @@ import dk.dtu.imm.esculapauml.core.sal.parser.TokenMgrError;
  * @author Piotr J. Puczynski
  * 
  */
-public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor<BehaviorChecker> implements SALParserVisitor {
+public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements SALParserVisitor {
 
 	protected OpaqueBehavior behavior;
 	protected TransitionReplyChecker trc;
 	protected SALNode root = null;
+	protected BehaviorChecker checker;
 	public static final String LANG_ID = "SAL";
+	
 
 	/**
 	 * @param checker
 	 */
 	public OpaqueBehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification, TransitionReplyChecker trc) {
 		super(checker, instanceSpecification);
+		this.checker = checker;
 		this.trc = trc;
 		this.behavior = (OpaqueBehavior) trc.getCheckedObject().getEffect();
 	}

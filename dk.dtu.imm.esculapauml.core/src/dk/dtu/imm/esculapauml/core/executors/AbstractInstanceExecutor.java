@@ -14,12 +14,14 @@ package dk.dtu.imm.esculapauml.core.executors;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.UMLFactory;
 
+import dk.dtu.imm.esculapauml.core.checkers.Checker;
+
 /**
  * Executes instances.
  * @author Piotr J. Puczynski
  *
  */
-public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
+public abstract class AbstractInstanceExecutor extends AbstractExecutor implements InstanceExecutor {
 	
 	protected InstanceSpecification instanceSpecification;
 	protected String instanceName;
@@ -27,7 +29,7 @@ public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	/**
 	 * @param checker
 	 */
-	public AbstractInstanceExecutor(T checker) {
+	public AbstractInstanceExecutor(Checker checker) {
 		super(checker);
 		instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
 	}
@@ -35,20 +37,20 @@ public abstract class AbstractInstanceExecutor<T> extends AbstractExecutor<T> {
 	/**
 	 * @param checker
 	 */
-	public AbstractInstanceExecutor(T checker, InstanceSpecification instanceSpecification) {
+	public AbstractInstanceExecutor(Checker checker, InstanceSpecification instanceSpecification) {
 		super(checker);
 		this.instanceSpecification = instanceSpecification;
 	}
 
-	/**
-	 * @return the instance
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getInstanceSpecification()
 	 */
 	public InstanceSpecification getInstanceSpecification() {
 		return instanceSpecification;
 	}
 
-	/**
-	 * @return the instanceName
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getInstanceName()
 	 */
 	public String getInstanceName() {
 		return instanceName;

@@ -11,27 +11,22 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import org.apache.log4j.Logger;
-
-import dk.dtu.imm.esculapauml.core.checkers.Checker;
+import org.eclipse.uml2.uml.InstanceSpecification;
 
 /**
  * @author Piotr J. Puczynski
  *
  */
-public abstract class AbstractExecutor implements Executor {
-	protected Checker checker;
-	protected Logger logger = Logger.getLogger(AbstractExecutor.class);
-	public AbstractExecutor(Checker checker) {
-		this.checker = checker;
-	}
-	
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.executors.ExecutorInterface#getChecker()
+public interface InstanceExecutor extends Executor {
+	/**
+	 * Returns the executed instance.
+	 * @return
 	 */
-	@Override
-	public Checker getChecker() {
-		return checker;
-	}
+	InstanceSpecification getInstanceSpecification();
 	
+	/**
+	 * Returns the name of the executed instance.
+	 * @return
+	 */
+	public String getInstanceName();
 }
