@@ -11,6 +11,8 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.validators;
 
+import org.eclipse.uml2.uml.Constraint;
+
 /**
  * Interface used by all types of validators.
  * @author Piotr J. Puczynski
@@ -22,4 +24,10 @@ public interface Validator {
 	 * @return
 	 */
 	boolean validateConstraint();
+	
+	/**
+	 * Gets the validated constraint.
+	 * @return
+	 */
+	Constraint getConstraint();
 }

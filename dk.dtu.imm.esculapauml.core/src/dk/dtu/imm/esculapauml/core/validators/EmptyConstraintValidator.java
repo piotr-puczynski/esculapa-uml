@@ -13,21 +13,21 @@ package dk.dtu.imm.esculapauml.core.validators;
 
 import org.eclipse.uml2.uml.Constraint;
 
-import dk.dtu.imm.esculapauml.core.checkers.Checker;
-
 /**
- * Guard validator is used to evaluate OCL guards constraints.
+ * Empty constraint validator always evaluates to true.
  * @author Piotr J. Puczynski
  *
  */
-public class OCLValidator implements Validator {
+public class EmptyConstraintValidator implements Validator {
+	
+	protected Constraint constraint;
 
 	/**
-	 * @param checker
 	 * @param constraint
 	 */
-	public OCLValidator(Checker checker, Constraint constraint) {
-		// TODO Auto-generated constructor stub
+	public EmptyConstraintValidator(Constraint constraint) {
+		super();
+		this.constraint = constraint;
 	}
 
 	/* (non-Javadoc)
@@ -35,8 +35,7 @@ public class OCLValidator implements Validator {
 	 */
 	@Override
 	public boolean validateConstraint() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -44,8 +43,7 @@ public class OCLValidator implements Validator {
 	 */
 	@Override
 	public Constraint getConstraint() {
-		// TODO Auto-generated method stub
-		return null;
+		return constraint;
 	}
 
 }

@@ -121,7 +121,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				ArrayList<Transition> dummiesInVertex = new ArrayList<Transition>();
 				for (Transition transition : vertex.getOutgoings()) {
 					if (isGuardSatisfied(transition.getGuard()) && transition.getTriggers().size() == 0) {
-						if(dummiesTaken.contains(transition)) {
+						if (dummiesTaken.contains(transition)) {
 							// check for bad empty transitions (if source and
 							// target are the same)
 							checker.addOtherProblem(Diagnostic.ERROR, "Transition is ill-formed.", transition);
@@ -250,13 +250,18 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			// no guard
 			return true;
 		}
-		//Validator validator = ValidatorsFactory.getInstance().getValidatorFor(this, guard);
-		// TODO implement guards
-		return true;
+		Validator validator = ValidatorsFactory.getInstance().getValidatorFor(this, guard);
+		if (null == validator) {
+			// we do not have validator for this type of constraint
+			checker.addOtherProblem(Diagnostic.WARNING, "Guard on the transition is not supported by EsculapaUML.", guard.getOwner());
+			return true;
+		}
+		return validator.validateConstraint();
 	}
-	
+
 	/**
 	 * Fire transition with default FTR.
+	 * 
 	 * @param transition
 	 * @return
 	 */
