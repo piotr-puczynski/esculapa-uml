@@ -11,9 +11,8 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.validators;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Constraint;
-import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.OpaqueExpression;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
@@ -41,6 +40,9 @@ public class ValidatorsFactory {
 	public Validator getValidatorFor(InstanceExecutor executor, Constraint constraint) {
 		if(null == constraint.getSpecification()) {
 			return new EmptyConstraintValidator(constraint);
+		}
+		if(constraint.getSpecification() instanceof OpaqueExpression) {
+			
 		}
 		return null;
 	}

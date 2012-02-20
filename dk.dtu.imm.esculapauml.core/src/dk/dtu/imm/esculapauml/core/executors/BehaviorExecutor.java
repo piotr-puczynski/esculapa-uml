@@ -121,6 +121,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				ArrayList<Transition> dummiesInVertex = new ArrayList<Transition>();
 				for (Transition transition : vertex.getOutgoings()) {
 					if (isGuardSatisfied(transition.getGuard()) && transition.getTriggers().size() == 0) {
+						
 						if (dummiesTaken.contains(transition)) {
 							// check for bad empty transitions (if source and
 							// target are the same)
