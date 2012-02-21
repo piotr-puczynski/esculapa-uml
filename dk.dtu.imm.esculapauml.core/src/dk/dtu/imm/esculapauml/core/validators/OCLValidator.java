@@ -86,14 +86,13 @@ public class OCLValidator extends AbstractValidator implements Validator {
 		}
 		@SuppressWarnings("unchecked")
 		Object result = myOCL.evaluate(executor.getInstanceSpecification(), (OCLExpression<Classifier>) oclConstraint);
-
 		if (result instanceof Boolean) {
 			return (Boolean) result;
 		} else {
 			executor.getChecker().addOtherProblem(
 					Diagnostic.ERROR,
-					"OCL expression in guard must return Boolean value (current value is of type '" + ((null == result) ? "null" : result.getClass().getName())
-							+ "'", constraint.getOwner());
+					"OCL expression in guard must return 'Boolean' value (current value is of type '" + ((null == result) ? "null" : result.getClass().getSimpleName())
+							+ "')", constraint.getOwner());
 			return false;
 		}
 	}

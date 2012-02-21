@@ -25,16 +25,16 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
  * 
- * Check for guards error when the guard syntax is wrong.
+ * Check for guards error when the guard result is not boolean.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class GuardWithWrongValueTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("GuardWithWrongValue.uml");
+public class GuardWithWrongValueTypeTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("GuardWithWrongValueType.uml");
 
 	@Test
-	public void guardWithWrongValue() {
+	public void guardWithWrongValueType() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
