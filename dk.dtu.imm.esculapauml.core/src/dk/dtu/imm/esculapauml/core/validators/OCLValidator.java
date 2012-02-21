@@ -91,7 +91,7 @@ public class OCLValidator extends AbstractValidator implements Validator {
 		if (result instanceof Boolean) {
 			return (boolean) result;
 		} else {
-			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL expression must return Boolean value", constraint.getOwner());
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL expression in guard must return Boolean value", constraint.getOwner());
 			return false;
 		}
 	}

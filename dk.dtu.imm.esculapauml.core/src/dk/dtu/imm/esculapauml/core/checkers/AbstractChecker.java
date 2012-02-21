@@ -57,17 +57,21 @@ public abstract class AbstractChecker<T> implements Checker {
 	/* (non-Javadoc)
 	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#addProblem(int, java.lang.String)
 	 */
-	public void addProblem(int severity, String message) {
+	public BasicDiagnostic addProblem(int severity, String message) {
 		logger.warn("New diagnostic with severity: " + severity + " and message: " + message);
-		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, new Object[] { checkee }));
+		BasicDiagnostic result = new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, new Object[] { checkee });
+		diagnostics.add(result);
+		return result;
 	}
 
 	/* (non-Javadoc)
 	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#addOtherProblem(int, java.lang.String, java.lang.Object[])
 	 */
-	public void addOtherProblem(int severity, String message, Object... objects) {
+	public BasicDiagnostic addOtherProblem(int severity, String message, Object... objects) {
 		logger.warn("New diagnostic with severity: " + severity + " and message: " + message);
-		diagnostics.add(new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, objects));
+		BasicDiagnostic result = new BasicDiagnostic(severity, ESCULAPA_NAMESPACE, 0, message, objects);
+		diagnostics.add(result);
+		return result;
 	}
 
 	/* (non-Javadoc)

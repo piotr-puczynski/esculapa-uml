@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
@@ -38,7 +39,7 @@ public interface Checker {
 	 * @param severity
 	 * @param message
 	 */
-	void addProblem(int severity, String message);
+	BasicDiagnostic addProblem(int severity, String message);
 	
 	/**
 	 * Function to add problem to diagnostics containing other object(s).
@@ -46,18 +47,18 @@ public interface Checker {
 	 * @param severity
 	 * @param message
 	 */
-	public void addOtherProblem(int severity, String message, Object... objects);
+	BasicDiagnostic addOtherProblem(int severity, String message, Object... objects);
 	
 	/**
 	 * This data structure contains an overview of all occurred errors.
 	 * 
 	 * @return the diagnostics
 	 */
-	public Diagnostic getDiagnostics();
+	Diagnostic getDiagnostics();
 	
 	/**
 	 * returns system state
 	 * @return
 	 */
-	public SystemState getSystemState();
+	SystemState getSystemState();
 }
