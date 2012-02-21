@@ -44,10 +44,10 @@ public class NonDeterministicReplyTest extends LoggingTest {
 		// TestUtils.printDiagnostic(diagnostics);
 
 		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		assertEquals(Diagnostic.WARNING, diagnostics.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-				"Conflicting transitions."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.WARNING,
+				"Conflicting transitions: [Transition2, Transition3]"));
 	}
 }

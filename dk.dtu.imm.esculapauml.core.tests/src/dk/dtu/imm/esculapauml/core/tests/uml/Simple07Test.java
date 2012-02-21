@@ -47,13 +47,12 @@ public class Simple07Test extends LoggingTest {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		// there are errors
-		assertEquals(2, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
-		// the errors are
 		// TestUtils.printDiagnostic(diagnostics);
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "StateMachine instance \"testInstance\" contains conflicting transitions and cannot process an event \"s\"."));
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "Conflicting transitions.", t2, t1));
+		assertEquals(Diagnostic.WARNING, diagnostics.getSeverity());
+		// there are errors
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		// the errors are
+		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.WARNING, "Conflicting transitions: [conflict2, conflict1]", t2, t1));
 	}
 
 }

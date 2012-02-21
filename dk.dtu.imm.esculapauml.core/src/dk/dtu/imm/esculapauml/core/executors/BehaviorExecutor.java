@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
@@ -42,6 +43,7 @@ import org.eclipse.uml2.uml.Vertex;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
+import dk.dtu.imm.esculapauml.core.executors.behaviors.TransitionChooser;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
@@ -113,7 +115,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		do {
 			hasDummies = false;
 			for (Vertex vertex : activeConfiguration) {
-				ArrayList<Transition> dummiesInVertex = new ArrayList<Transition>();
+				EList<Transition> dummiesInVertex = new BasicEList<Transition>();
 				EList<Transition> satisfiedTransitions = GuardEvaluatorsFactory.getInstance().getGuardEvaluator(this, vertex).getTransitionsWithEnabledGuards();
 				for (Transition transition : satisfiedTransitions) {
 					if (transition.getTriggers().size() == 0) {
@@ -129,18 +131,12 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				}
 				if (dummiesInVertex.size() > 0) {
 					hasDummies = true;
-					// if there is only one dummy
-					if (dummiesInVertex.size() == 1) {
-						trc.setNextTransition(dummiesInVertex.get(0));
-						fireTransition(trc);
-					} else {
-						// error: conflicting transitions
-						checker.addOtherProblem(Diagnostic.ERROR, "Conflicting transitions.", dummiesInVertex.toArray());
-					}
+					trc.setNextTransition(TransitionChooser.choose(this, dummiesInVertex));
+					fireTransition(trc);
 					break;
 				}
 			}
-			if(checker.hasErrors()) {
+			if (checker.hasErrors()) {
 				return;
 			}
 		} while (hasDummies);
@@ -162,20 +158,11 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	public ValueSpecification runOperation(Message operationOwner, Operation operation) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
 		// TODO: call again calculateEnabledTransitions to reevaluate guards
-		List<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
+		EList<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
 		if (goodTransitions.size() > 0) {
-			if (goodTransitions.size() == 1) {
-				TransitionReplyChecker trc = fireTransition(goodTransitions.get(0));
-				calculateEnabledTransitions(trc);
-				return trc.getReply();
-			} else if (goodTransitions.size() == 0) {
-				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" cannot process an event \""
-						+ operation.getLabel() + "\" because guards are not satisfied. Event is lost.", operationOwner);
-			} else {
-				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
-						+ "\" contains conflicting transitions and cannot process an event \"" + operation.getLabel() + "\".", operationOwner);
-				checker.addOtherProblem(Diagnostic.ERROR, "Conflicting transitions.", goodTransitions.toArray());
-			}
+			TransitionReplyChecker trc = fireTransition(TransitionChooser.choose(this, goodTransitions));
+			calculateEnabledTransitions(trc);
+			return trc.getReply();
 		} else {
 			if (operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
@@ -194,8 +181,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param operation
 	 * @return
 	 */
-	private List<Transition> getEnabledTransitionsForOperation(Operation operation) {
-		ArrayList<Transition> result = new ArrayList<Transition>();
+	private EList<Transition> getEnabledTransitionsForOperation(Operation operation) {
+		EList<Transition> result = new BasicEList<Transition>();
 		for (Transition transition : enabledTransitions) {
 			List<Trigger> triggers = filter(having(on(Trigger.class).getEvent(), is(CallEvent.class)), transition.getTriggers());
 			for (Trigger trigger : triggers) {
