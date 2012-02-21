@@ -19,7 +19,6 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.ocl.EvaluationEnvironment;
 import org.eclipse.ocl.ParserException;
@@ -78,25 +77,32 @@ public class OCLValidator extends AbstractValidator implements Validator {
 
 		OCLHelper<?, ?, ?, ?> helper = myOCL.createOCLHelper();
 		helper.setInstanceContext(executor.getInstanceSpecification());
+		String body = calculateBody();
 		try {
-			oclConstraint = helper.createQuery(calculateBody());
+			oclConstraint = helper.createQuery(body);
 		} catch (ParserException e) {
-			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL Parser: " + e.getMessage(), constraint.getOwner());
-			((BasicDiagnostic)executor.getChecker().getDiagnostics()).addAll(helper.getProblems());
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL parsing exception of '" + body + "': " + e.getMessage(), constraint.getOwner());
 			return false;
 		}
 		@SuppressWarnings("unchecked")
 		Object result = myOCL.evaluate(executor.getInstanceSpecification(), (OCLExpression<Classifier>) oclConstraint);
-		
+
 		if (result instanceof Boolean) {
-			return (boolean) result;
+			return (Boolean) result;
 		} else {
-			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL expression in guard must return Boolean value", constraint.getOwner());
+			executor.getChecker().addOtherProblem(
+					Diagnostic.ERROR,
+					"OCL expression in guard must return Boolean value (current value is of type '" + ((null == result) ? "null" : result.getClass().getName())
+							+ "'", constraint.getOwner());
 			return false;
 		}
 	}
-	
-	
+
+	/**
+	 * Calculates an ocl body string.
+	 * 
+	 * @return
+	 */
 	protected String calculateBody() {
 		int i = 0;
 		List<String> bodies = new ArrayList<String>();
