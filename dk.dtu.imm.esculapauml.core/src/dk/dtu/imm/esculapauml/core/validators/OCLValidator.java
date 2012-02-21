@@ -19,16 +19,18 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.ocl.EvaluationEnvironment;
 import org.eclipse.ocl.ParserException;
-import org.eclipse.ocl.expressions.BooleanLiteralExp;
+import org.eclipse.ocl.expressions.OCLExpression;
 import org.eclipse.ocl.helper.OCLHelper;
 import org.eclipse.ocl.options.EvaluationOptions;
 import org.eclipse.ocl.uml.UMLEnvironment;
 import org.eclipse.ocl.uml.UMLEnvironmentFactory;
 import org.eclipse.ocl.uml.options.EvaluationMode;
 import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.OpaqueExpression;
 
@@ -68,7 +70,7 @@ public class OCLValidator extends AbstractValidator implements Validator {
 		EvaluationEnvironment<?, ?, ?, ?, ?> evalEnv = myOCL.getEvaluationEnvironment();
 		EvaluationOptions.setOption(evalEnv, UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.RUNTIME_OBJECTS);
 		// TODO: add custom variables with evalEnv.add if needed
-		org.eclipse.ocl.expressions.OCLExpression<?> oclConstraint = null;
+		OCLExpression<?> oclConstraint = null;
 		if (logger.getEffectiveLevel() == Level.DEBUG) {
 			myOCL.setEvaluationTracingEnabled(true);
 			myOCL.setParseTracingEnabled(true);
@@ -80,10 +82,14 @@ public class OCLValidator extends AbstractValidator implements Validator {
 			oclConstraint = helper.createQuery(calculateBody());
 		} catch (ParserException e) {
 			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL Parser: " + e.getMessage(), constraint.getOwner());
+			((BasicDiagnostic)executor.getChecker().getDiagnostics()).addAll(helper.getProblems());
 			return false;
 		}
-		if (oclConstraint instanceof BooleanLiteralExp) {
-			return ((BooleanLiteralExp<?>) oclConstraint).getBooleanSymbol().booleanValue();
+		@SuppressWarnings("unchecked")
+		Object result = myOCL.evaluate(executor.getInstanceSpecification(), (OCLExpression<Classifier>) oclConstraint);
+		
+		if (result instanceof Boolean) {
+			return (boolean) result;
 		} else {
 			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OCL expression must return Boolean value", constraint.getOwner());
 			return false;
