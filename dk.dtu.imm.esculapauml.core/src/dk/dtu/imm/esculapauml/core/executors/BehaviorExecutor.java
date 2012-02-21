@@ -140,7 +140,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 					break;
 				}
 			}
-		} while (hasDummies && !checker.hasErrors());
+			if(checker.hasErrors()) {
+				return;
+			}
+		} while (hasDummies);
 		// add outgoing transitions of active states
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: active states:");
 		for (Vertex vertex : activeConfiguration) {
