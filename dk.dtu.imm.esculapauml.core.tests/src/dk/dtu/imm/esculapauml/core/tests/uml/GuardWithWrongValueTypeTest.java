@@ -46,6 +46,6 @@ public class GuardWithWrongValueTypeTest extends LoggingTest {
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "OCL parsing exception of '=sss': 2:1:2:1 \"=\" unexpected token(s)"));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "OCL expression in guard must return 'Boolean' value (current value is of type 'HashSet')"));
 	}
 }

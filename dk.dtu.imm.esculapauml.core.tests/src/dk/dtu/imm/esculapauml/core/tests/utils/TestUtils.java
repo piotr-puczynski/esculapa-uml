@@ -22,6 +22,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.ocl.Environment;
+import org.eclipse.ocl.uml.UMLEnvironmentFactory;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Transition;
@@ -104,8 +106,11 @@ public class TestUtils {
 		if (!umlInit) {
 			System.setProperty("org.eclipse.ocl.uml", repositoryPath + "dk.dtu.imm.esculapauml.core.tests/libs/ocl");
 			System.setProperty("org.eclipse.uml2.uml.resources", repositoryPath + "dk.dtu.imm.esculapauml.core.tests/libs/uml");
-			org.eclipse.ocl.uml.OCL.initialize(null); // null for global init
+			String result = org.eclipse.ocl.uml.OCL.initialize(null); // null for global init
+			assert result == null;
 			// org.eclipse.ocl.uml.OCL.initialize(resourceSet);
+			Environment.Registry.INSTANCE.registerEnvironment(
+					new UMLEnvironmentFactory().createEnvironment());
 			umlInit = true;
 		}
 
