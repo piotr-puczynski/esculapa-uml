@@ -11,6 +11,11 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.validators;
 
+import static ch.lambdaj.Lambda.filter;
+import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.not;
+
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.OpaqueExpression;
 
@@ -18,13 +23,14 @@ import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
  * Validator validates opaque expressions in all supported languages.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class OpaqueValidator extends AbstractValidator implements Validator {
 
-	
 	protected OpaqueExpression specification;
+
 	/**
 	 * @param executor
 	 * @param constraint
@@ -34,13 +40,30 @@ public class OpaqueValidator extends AbstractValidator implements Validator {
 		specification = (OpaqueExpression) constraint.getSpecification();
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#validateConstraint()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.validators.Validator#validateConstraint()
+	 */
+	/**
+	 * Checks that the specified guards are ocl guards and that the language is
+	 * specified for all of them.
 	 */
 	@Override
 	public boolean validateConstraint() {
-		// EList<String> langs = new BasicEList<String>(specification.getLanguages());
-		// TODO: process many languages
+		if (specification.getBodies().isEmpty()) {
+			executor.getChecker().addOtherProblem(Diagnostic.WARNING, "OpaqueExpression specified as a constraint has no bodies.", constraint.getOwner());
+			return true;
+		}
+		if (specification.getBodies().size() != specification.getLanguages().size()) {
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OpaqueExpression specified as a constraint has different number of bodies than languages.", constraint.getOwner());
+			return false;
+		}
+		if(!filter(not(equalToIgnoringCase("ocl")), specification.getLanguages()).isEmpty()) {
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OpaqueExpression specified as a constraint has unrecognized languages.", constraint.getOwner());
+			return false;
+		}
 		OCLValidator ocl = new OCLValidator(executor, constraint);
 		return ocl.validateConstraint();
 	}
