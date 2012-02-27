@@ -39,7 +39,7 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 		super(systemState, existingDiagnostics, lifeline);
 		logger = Logger.getLogger(LifelineChecker.class);
 	}
-	
+
 	/**
 	 * @param checker
 	 * @param lifeline
@@ -56,7 +56,7 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	 */
 	@Override
 	public void check() {
-		logger.debug(checkee.getLabel() +": start check");
+		logger.debug(checkee.getLabel() + ": start check");
 		structuralExistenceCheck();
 		fregmentsCheck();
 	}
@@ -96,18 +96,24 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 		if (type instanceof BehavioredClassifier) {
 			// we do not expect actor to have defined behavior
 			if (!(type instanceof Actor)) {
-				Behavior behavior = ((BehavioredClassifier) type).getClassifierBehavior();
-				if (null == behavior) {
-					addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
-							+ "\" has no behavior defined.", checkee, type);
+				// if class is abstract we should not instantiate it
+				if (((BehavioredClassifier) type).isAbstract()) {
+					addOtherProblem(Diagnostic.ERROR, "The Lifeline '" + checkee.getLabel() + "' representant '" + type.getLabel()
+							+ "' is abstract and cannot be instantiated.", checkee, type);
 				} else {
-					if (behavior instanceof StateMachine) {
-						prepareBehaviorCheckerForLifeline((BehavioredClassifier) type, (StateMachine) behavior);
-					} else {
+					Behavior behavior = ((BehavioredClassifier) type).getClassifierBehavior();
+					if (null == behavior) {
 						addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
-								+ "\" has no behavior defined not as StateMachine.", checkee, type);
-					}
+								+ "\" has no behavior defined.", checkee, type);
+					} else {
+						if (behavior instanceof StateMachine) {
+							prepareBehaviorCheckerForLifeline((BehavioredClassifier) type, (StateMachine) behavior);
+						} else {
+							addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
+									+ "\" has no behavior defined not as StateMachine.", checkee, type);
+						}
 
+					}
 				}
 			}
 		}
@@ -118,7 +124,7 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	 */
 	protected void prepareBehaviorCheckerForLifeline(BehavioredClassifier type, StateMachine sm) {
 		BehaviorChecker bc = systemState.getBehaviorChecker(type);
-		if(null == bc) {
+		if (null == bc) {
 			bc = new BehaviorChecker(systemState, diagnostics, sm, type);
 			bc.check();
 		}
