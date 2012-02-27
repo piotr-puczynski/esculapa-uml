@@ -14,11 +14,6 @@
                   label="Check Use Case"
                   style="push">
             </command>
-            <command
-                  commandId="dk.dtu.imm.esculapauml.gui.topcased.checkInteraction"
-                  label="Check Interaction"
-                  style="push">
-            </command>
             <visibleWhen
                   checkEnabled="false">
                <or>
@@ -76,11 +71,6 @@
             defaultHandler="dk.dtu.imm.esculapauml.gui.topcased.handlers.CheckUseCaseHandler"
             id="dk.dtu.imm.esculapauml.gui.topcased.checkUseCase"
             name="Check Use Case">
-      </command>
-      <command
-            defaultHandler="dk.dtu.imm.esculapauml.gui.topcased.handlers.CheckInteractionHandler"
-            id="dk.dtu.imm.esculapauml.gui.topcased.checkInteraction"
-            name="Check Interaction">
       </command>
    </extension>
 
