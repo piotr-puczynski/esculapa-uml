@@ -12,21 +12,41 @@
 package dk.dtu.imm.esculapauml.core.executors;
 
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.ValueSpecification;
 
 /**
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public interface InstanceExecutor extends Executor {
 	/**
 	 * Returns the executed instance.
+	 * 
 	 * @return
 	 */
 	InstanceSpecification getInstanceSpecification();
-	
+
 	/**
 	 * Returns the name of the executed instance.
+	 * 
 	 * @return
 	 */
-	public String getInstanceName();
+	String getInstanceName();
+
+	/**
+	 * Sets local variable.
+	 * 
+	 * @param name
+	 * @param value
+	 * @return
+	 */
+	void setVariable(String name, ValueSpecification value);
+
+	/**
+	 * Gets local variable.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	ValueSpecification getVariable(String name);
 }

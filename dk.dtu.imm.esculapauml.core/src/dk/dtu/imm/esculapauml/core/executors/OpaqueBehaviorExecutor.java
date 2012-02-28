@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.ElementImport;
-import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralString;
@@ -73,14 +72,13 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	protected SALNode root = null;
 	protected BehaviorChecker checker;
 	public static final String LANG_ID = "SAL";
-	
 
 	/**
 	 * @param checker
 	 */
-	public OpaqueBehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification, TransitionReplyChecker trc) {
-		super(checker, instanceSpecification);
-		this.checker = checker;
+	public OpaqueBehaviorExecutor(InstanceExecutor instanceExecutor, TransitionReplyChecker trc) {
+		super(instanceExecutor.getChecker(), instanceExecutor.getInstanceSpecification());
+		checker = (BehaviorChecker) instanceExecutor.getChecker();
 		this.trc = trc;
 		this.behavior = (OpaqueBehavior) trc.getCheckedObject().getEffect();
 	}
@@ -160,6 +158,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			root.jjtAccept(this, null);
 		}
 	}
+
 	/**
 	 * Imports UML primitive type. If no import is found already existing, the
 	 * new import is automatically created.
@@ -211,8 +210,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return package_;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SimpleNode, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SimpleNode, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SimpleNode node, Object data) {
@@ -220,8 +223,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALRoot, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALRoot, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALRoot node, Object data) {
@@ -232,17 +239,26 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALAssignment, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALAssignment, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALAssignment node, Object data) {
-		// TODO Auto-generated method stub
-		return null;
+		ValueSpecification value = node.getChild(0).jjtAccept(this, data);
+		setVariable((String) node.jjtGetValue(), value);
+		return value;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALReplyStatement, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALReplyStatement, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALReplyStatement node, Object data) {
@@ -250,8 +266,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return trc.getReply();
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALIntegerConstant, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALIntegerConstant, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALIntegerConstant node, Object data) {
@@ -262,8 +282,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return intResult;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALLogicConstant, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALLogicConstant, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALLogicConstant node, Object data) {
@@ -274,8 +298,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return boolResult;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALStringConstant, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALStringConstant, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALStringConstant node, Object data) {
@@ -286,8 +314,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return strResult;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALIdentifier, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALIdentifier, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALIdentifier node, Object data) {
@@ -295,8 +327,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALCall, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALCall, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALCall node, Object data) {
@@ -304,8 +340,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALMemeberOp, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALMemeberOp, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALMemeberOp node, Object data) {
@@ -313,8 +353,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALParameters, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALParameters, java.lang.Object)
 	 */
 	@Override
 	public ValueSpecification visit(SALParameters node, Object data) {

@@ -23,14 +23,14 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test class variavle visability for state machine.
+ * Test class variable visibility and usage in guard for state machine.
  * 
  * @author Piotr J. Puczynski
  * 
  */
 public class ClassVariableInGuardTest extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("ClassVariableInGuard.uml");
-	//private Resource referenceModel = TestUtils.getUMLResource("results/LocalVariableCreation.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/ClassVariableInGuard.uml");
 
 	@Test
 	public void classVariableInGuardTest() throws InterruptedException {
@@ -40,10 +40,10 @@ public class ClassVariableInGuardTest extends LoggingTest {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is no error
-		TestUtils.printDiagnostic(diagnostics);
+		// TestUtils.printDiagnostic(diagnostics);
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
-		
+
 		// models have no differences
-		//assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }

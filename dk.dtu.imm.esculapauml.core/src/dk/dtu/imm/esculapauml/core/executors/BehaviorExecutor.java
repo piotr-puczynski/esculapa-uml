@@ -260,7 +260,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 					ftr.addProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.");
 				}
 			} else if (effect instanceof OpaqueBehavior) {
-				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(checker, instanceSpecification, ftr);
+				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(this, ftr);
 				obe.prepare();
 				obe.execute();
 			}

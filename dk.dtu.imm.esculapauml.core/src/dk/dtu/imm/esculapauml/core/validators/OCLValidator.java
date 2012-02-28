@@ -32,7 +32,6 @@ import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.OpaqueExpression;
-
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
@@ -67,8 +66,8 @@ public class OCLValidator extends AbstractValidator implements Validator {
 		UMLEnvironment env = envFactory.createEnvironment();
 		org.eclipse.ocl.uml.OCL myOCL = org.eclipse.ocl.uml.OCL.newInstance(env);
 		EvaluationEnvironment<?, ?, ?, ?, ?> evalEnv = myOCL.getEvaluationEnvironment();
-		EvaluationOptions.setOption(evalEnv, UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.RUNTIME_OBJECTS);
-		// TODO: add custom variables with evalEnv.add if needed
+		//EvaluationOptions.setOption(evalEnv, UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.RUNTIME_OBJECTS);
+		EvaluationOptions.setOption(evalEnv, UMLEvaluationOptions.EVALUATION_MODE, EvaluationMode.INSTANCE_MODEL);
 		OCLExpression<?> oclConstraint = null;
 		if (logger.getEffectiveLevel() == Level.DEBUG) {
 			myOCL.setEvaluationTracingEnabled(true);
