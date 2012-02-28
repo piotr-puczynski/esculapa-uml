@@ -23,17 +23,17 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test of creation of integer variable in state machine and then check it with OCL constraint.
+ * Test class variavle visability for state machine.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class LocalVariableCreationTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("LocalVariableCreation.uml");
+public class ClassVariableInGuardTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("ClassVariableInGuard.uml");
 	//private Resource referenceModel = TestUtils.getUMLResource("results/LocalVariableCreation.uml");
 
 	@Test
-	public void localVariableCreationTest() throws InterruptedException {
+	public void classVariableInGuardTest() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
