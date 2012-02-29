@@ -30,7 +30,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  */
 public class LocalVariableCreationTest extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("LocalVariableCreation.uml");
-	//private Resource referenceModel = TestUtils.getUMLResource("results/LocalVariableCreation.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/LocalVariableCreation.uml");
 
 	@Test
 	public void localVariableCreationTest() throws InterruptedException {
@@ -44,6 +44,6 @@ public class LocalVariableCreationTest extends LoggingTest {
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		
 		// models have no differences
-		//assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }
