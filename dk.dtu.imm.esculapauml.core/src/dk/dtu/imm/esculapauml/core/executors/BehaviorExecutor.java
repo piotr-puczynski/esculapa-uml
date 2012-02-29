@@ -63,11 +63,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param checker
 	 */
 	public BehaviorExecutor(BehaviorChecker checker, Lifeline lifeline) {
-		super(checker);
+		super(checker, lifeline.getName());
 		this.checker = checker;
 		checkee = checker.getCheckedObject();
 		this.lifeline = lifeline;
-		instanceName = lifeline.getName();
 		logger = Logger.getLogger(BehaviorExecutor.class);
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
 	}

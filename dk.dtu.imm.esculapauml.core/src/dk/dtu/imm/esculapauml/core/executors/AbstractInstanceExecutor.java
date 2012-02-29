@@ -36,22 +36,26 @@ import dk.dtu.imm.esculapauml.core.checkers.Checker;
 public abstract class AbstractInstanceExecutor extends AbstractExecutor implements InstanceExecutor {
 
 	protected InstanceSpecification instanceSpecification;
+	protected Class localClass = null;
 	protected String instanceName;
 
 	/**
 	 * @param checker
 	 */
-	public AbstractInstanceExecutor(Checker checker) {
+	public AbstractInstanceExecutor(Checker checker, String instanceName) {
 		super(checker);
 		instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
+		this.instanceName = instanceName;
 	}
 
 	/**
+	 * Copy constructor.
 	 * @param checker
 	 */
-	public AbstractInstanceExecutor(Checker checker, InstanceSpecification instanceSpecification) {
-		super(checker);
-		this.instanceSpecification = instanceSpecification;
+	public AbstractInstanceExecutor(InstanceExecutor executor) {
+		super(executor.getChecker());
+		this.instanceSpecification = executor.getInstanceSpecification();
+		this.instanceName = executor.getInstanceName();
 	}
 
 	/*
@@ -85,11 +89,28 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		Class myClass = (Class) instanceSpecification.getClassifiers().get(0);
 		Property prop = null;
 		List<Property> properties = filter(having(on(Property.class).getName(), equalTo(name)), myClass.getAllAttributes());
+		if(null != localClass) {
+			// include private attributes of the original class
+			properties.addAll(filter(having(on(Property.class).getName(), equalTo(name)), myClass.getSuperClasses().get(0).getAllAttributes()));
+		}
 		if (!properties.isEmpty()) {
 			// class variable
 			prop = properties.get(0);
 		} else {
-			// TODO: create local slot
+			if (null == localClass) {
+				// Lazily create class to hold local variables
+				localClass = checker.getSystemState().getInstancePackage().createOwnedClass(instanceName + "Local", false);
+				localClass.getSuperClasses().add((Class) instanceSpecification.getClassifiers().get(0));
+				checker.getSystemState().addGeneratedElement(localClass);
+				instanceSpecification.getClassifiers().set(0, localClass);
+			}
+			properties = filter(having(on(Property.class).getName(), equalTo(name)), localClass.getAllAttributes());
+			if (properties.isEmpty()) {
+				// create local variable
+				prop = localClass.createOwnedAttribute(name, value.getType());
+			} else {
+				prop = properties.get(0);
+			}
 		}
 		Slot slot = null;
 		// do we have a slot that is needed?
@@ -101,7 +122,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			slot = slots.get(0);
 			// check for value name (for multiplicity many values)
 			List<ValueSpecification> values = filter(having(on(ValueSpecification.class).getName(), equalTo(value.getName())), slot.getValues());
-			if(!values.isEmpty()) {
+			if (!values.isEmpty()) {
 				slot.getValues().removeAll(values);
 			}
 		}

@@ -77,7 +77,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * @param checker
 	 */
 	public OpaqueBehaviorExecutor(InstanceExecutor instanceExecutor, TransitionReplyChecker trc) {
-		super(instanceExecutor.getChecker(), instanceExecutor.getInstanceSpecification());
+		super(instanceExecutor);
 		checker = (BehaviorChecker) instanceExecutor.getChecker();
 		this.trc = trc;
 		this.behavior = (OpaqueBehavior) trc.getCheckedObject().getEffect();
