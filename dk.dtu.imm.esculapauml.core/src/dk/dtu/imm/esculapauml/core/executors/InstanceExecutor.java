@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.ValueSpecification;
 
@@ -49,4 +50,16 @@ public interface InstanceExecutor extends Executor {
 	 * @return
 	 */
 	ValueSpecification getVariable(String name);
+	
+	/**
+	 * Gets the original class of the instance type.
+	 * @return
+	 */
+	Class getOriginalClass();
+	
+	/**
+	 * Gets the local variables class that inherits from original class.
+	 * @return
+	 */
+	Class getLocalClass();
 }

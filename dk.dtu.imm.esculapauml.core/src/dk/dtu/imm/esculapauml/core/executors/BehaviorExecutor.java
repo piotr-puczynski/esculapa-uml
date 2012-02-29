@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.CallEvent;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.FunctionBehavior;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -63,7 +64,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param checker
 	 */
 	public BehaviorExecutor(BehaviorChecker checker, Lifeline lifeline) {
-		super(checker, lifeline.getName());
+		super(checker, lifeline.getName(), (Class) checker.getCheckedObject().getContext());
 		this.checker = checker;
 		checkee = checker.getCheckedObject();
 		this.lifeline = lifeline;
@@ -86,12 +87,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	@Override
 	public void prepare() {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: loading initial conf");
-		instanceSpecification.getClassifiers().add(checker.getCheckedObject().getContext());
-		instanceSpecification.setName(instanceName);
-		// add to instance package
-		checker.getSystemState().getInstancePackage().getPackagedElements().add(instanceSpecification);
-		checker.getSystemState().addGeneratedElement(instanceSpecification);
-
 		activeConfiguration.clear();
 		// enable initials
 		for (Region r : checkee.getRegions()) {

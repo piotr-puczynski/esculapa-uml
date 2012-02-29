@@ -16,6 +16,7 @@ import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static org.hamcrest.Matchers.equalTo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.uml2.uml.Class;
@@ -37,25 +38,72 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 
 	protected InstanceSpecification instanceSpecification;
 	protected Class localClass = null;
+	protected Class originalClass;
 	protected String instanceName;
 
 	/**
 	 * @param checker
 	 */
-	public AbstractInstanceExecutor(Checker checker, String instanceName) {
+	public AbstractInstanceExecutor(Checker checker, String instanceName, Class originalClass) {
 		super(checker);
-		instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
 		this.instanceName = instanceName;
+		this.originalClass = originalClass;
+		createInstanceSpecification();
 	}
 
 	/**
 	 * Copy constructor.
+	 * 
 	 * @param checker
 	 */
 	public AbstractInstanceExecutor(InstanceExecutor executor) {
 		super(executor.getChecker());
 		this.instanceSpecification = executor.getInstanceSpecification();
 		this.instanceName = executor.getInstanceName();
+		this.originalClass = executor.getOriginalClass();
+		this.localClass = executor.getLocalClass();
+	}
+
+	/**
+	 * Creates the instance specification for this executor.
+	 */
+	protected void createInstanceSpecification() {
+		// create instance specification
+		instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
+		checker.getSystemState().getInstancePackage().getPackagedElements().add(instanceSpecification);
+		checker.getSystemState().addGeneratedElement(instanceSpecification);
+		instanceSpecification.getClassifiers().add(originalClass);
+		instanceSpecification.setName(instanceName);
+	}
+
+	/**
+	 * Lazily creates class to hold local variables
+	 */
+	protected void swapInstanceSpecificationToLocal() {
+		localClass = checker.getSystemState().getInstancePackage().createOwnedClass(instanceName + "Local", false);
+		localClass.getSuperClasses().add(originalClass);
+		checker.getSystemState().addGeneratedElement(localClass);
+		instanceSpecification.getClassifiers().set(0, localClass);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getLocalClass()
+	 */
+	public Class getLocalClass() {
+		return localClass;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getOriginalClass()
+	 */
+	public Class getOriginalClass() {
+		return originalClass;
 	}
 
 	/*
@@ -86,31 +134,29 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * .lang.String, org.eclipse.uml2.uml.ValueSpecification)
 	 */
 	public void setVariable(String name, ValueSpecification value) {
-		Class myClass = (Class) instanceSpecification.getClassifiers().get(0);
 		Property prop = null;
-		List<Property> properties = filter(having(on(Property.class).getName(), equalTo(name)), myClass.getAllAttributes());
-		if(null != localClass) {
+		List<Property> properties = new ArrayList<Property>();
+		if (null != localClass) {
 			// include private attributes of the original class
-			properties.addAll(filter(having(on(Property.class).getName(), equalTo(name)), myClass.getSuperClasses().get(0).getAllAttributes()));
+			properties = filter(having(on(Property.class).getName(), equalTo(name)), localClass.getAttributes());
 		}
-		if (!properties.isEmpty()) {
-			// class variable
-			prop = properties.get(0);
-		} else {
-			if (null == localClass) {
-				// Lazily create class to hold local variables
-				localClass = checker.getSystemState().getInstancePackage().createOwnedClass(instanceName + "Local", false);
-				localClass.getSuperClasses().add((Class) instanceSpecification.getClassifiers().get(0));
-				checker.getSystemState().addGeneratedElement(localClass);
-				instanceSpecification.getClassifiers().set(0, localClass);
-			}
-			properties = filter(having(on(Property.class).getName(), equalTo(name)), localClass.getAllAttributes());
+
+		if (properties.isEmpty()) {
+			// class variable or new local variable
+			properties = filter(having(on(Property.class).getName(), equalTo(name)), originalClass.getAllAttributes());
 			if (properties.isEmpty()) {
-				// create local variable
+				// new local variable
+				if (null == localClass) {
+					swapInstanceSpecificationToLocal();
+				}
 				prop = localClass.createOwnedAttribute(name, value.getType());
 			} else {
+				// class variable
 				prop = properties.get(0);
 			}
+		} else {
+			// local variable
+			prop = properties.get(0);
 		}
 		Slot slot = null;
 		// do we have a slot that is needed?
