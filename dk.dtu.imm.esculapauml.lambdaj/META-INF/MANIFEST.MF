@@ -58,5 +58,4 @@ Export-Package: ch.lambdaj,
  org.objenesis.instantiator.perc,
  org.objenesis.instantiator.sun,
  org.objenesis.strategy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
- JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
