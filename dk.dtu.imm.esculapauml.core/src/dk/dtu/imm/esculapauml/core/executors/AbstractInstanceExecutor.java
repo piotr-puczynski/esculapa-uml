@@ -87,7 +87,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		EList<Property> properties = originalClass.getAllAttributes();
 		for (Property property : properties) {
 			if (null != property.getDefaultValue()) {
-				if (property.getType() == property.getDefaultValue().getType()) {
+				if (property.getType().conformsTo(property.getDefaultValue().getType())) {
 					setVariable(property.getName(), property.getDefaultValue());
 				} else {
 					checker.addProblem(Diagnostic.ERROR, "Default value for property '" + property.getLabel() + "' of class '" + originalClass.getLabel()
@@ -198,7 +198,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			prop = properties.get(0);
 		}
 		// type check
-		if (prop.getType() != value.getType()) {
+		if (!prop.getType().conformsTo(value.getType())) {
 			return false;
 		}
 		Slot slot = null;

@@ -67,6 +67,6 @@ public class Simple02Test extends LoggingTest {
 				+ "\" does not have send message occurence specification.", empty));
 		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "The Message \"" + empty.getLabel()
 				+ "\" does not have receive message occurence specification.", empty));
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "The Message \"" + empty.getLabel() + "\" has no operation set.", empty));
+		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.ERROR, "The message '" + empty.getLabel() + "' has no operation set.", empty));
 	}
 }

@@ -102,8 +102,8 @@ public class MessageChecker extends AbstractChecker<Message> {
 							if (ce.getType() instanceof Classifier) {
 								Classifier type = (Classifier) ce.getType();
 								if (!type.getOperations().contains(signature)) {
-									addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" calls non-existing operation in class \""
-											+ ((Operation) signature).getClass_().getLabel() + "\".");
+									addProblem(Diagnostic.ERROR, "The message '" + checkee.getLabel() + "' calls non-existing operation in class '"
+											+ ((Operation) signature).getClass_().getLabel() + "'.");
 								}
 							}
 						}
@@ -116,24 +116,27 @@ public class MessageChecker extends AbstractChecker<Message> {
 					EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>(((Operation) signature).getOwnedParameters());
 
 					if (arguments.size() != parameters.size()) {
-						addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" has wrong number of arguments.");
+						addProblem(Diagnostic.ERROR, "The message '" + checkee.getLabel() + "' has wrong number of arguments (expected: " + parameters.size()
+								+ ").");
 					} else {
 						Iterator<ValueSpecification> a = arguments.iterator();
 						Iterator<Parameter> p = parameters.iterator();
 
 						while (a.hasNext() && p.hasNext()) {
-							Type argumentType = a.next().getType();
+							ValueSpecification arg = a.next();
+							Type argumentType = arg.getType();
 							Type parameterType = p.next().getType();
 
 							if (argumentType == null ? parameterType != null : !argumentType.conformsTo(parameterType)) {
-								addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" has wrong type of arguments.");
+								addProblem(Diagnostic.ERROR, "The argument '" + arg.getLabel() + "' of the message '" + checkee.getLabel()
+										+ "' has wrong type (expected: " + parameterType.getName() + ").");
 								break;
 							}
 						}
 					}
 				}
 			} else { // operation is not specified
-				addProblem(Diagnostic.ERROR, "The Message \"" + checkee.getLabel() + "\" has no operation set.");
+				addProblem(Diagnostic.ERROR, "The message '" + checkee.getLabel() + "' has no operation set.");
 			}
 		}
 

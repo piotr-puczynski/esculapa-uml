@@ -42,7 +42,7 @@ public class TypeCheckInOpaqueBehaviorsTest extends LoggingTest {
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		TestUtils.printDiagnostic(diagnostics);
+		// TestUtils.printDiagnostic(diagnostics);
 
 		// there is an error
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());

@@ -45,6 +45,6 @@ public class Simple03Test extends LoggingTest {
 		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
 		// an error is...
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR, "The Message \"Message1\" has no operation set."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR, "The message 'Message1' has no operation set."));
 	}
 }
