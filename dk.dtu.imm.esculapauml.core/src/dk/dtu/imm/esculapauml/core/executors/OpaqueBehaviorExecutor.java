@@ -248,8 +248,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALAssignment node, Object data) {
+		String varName = (String) node.jjtGetValue();
 		ValueSpecification value = node.getChild(0).jjtAccept(this, data);
-		setVariable((String) node.jjtGetValue(), value);
+		if (null != value) {
+			if (!setVariable(varName, value)) {
+				trc.addProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + varName + "' to value of type: " + value.getType().getName());
+				return null;
+			}
+		}
 		return value;
 	}
 
@@ -262,8 +268,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALReplyStatement node, Object data) {
-		trc.setReply(node.getChild(0).jjtAccept(this, data));
-		return trc.getReply();
+		ValueSpecification replyValue = node.getChild(0).jjtAccept(this, data);
+		if (null != replyValue) {
+			trc.setReply(replyValue);
+		}
+		return replyValue;
 	}
 
 	/*

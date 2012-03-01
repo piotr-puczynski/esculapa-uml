@@ -11,9 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import static ch.lambdaj.Lambda.collect;
 import static ch.lambdaj.Lambda.filter;
-import static ch.lambdaj.Lambda.flatten;
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static org.hamcrest.Matchers.is;
@@ -142,7 +140,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		// add outgoing transitions of active states
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: active states:");
 		for (Vertex vertex : activeConfiguration) {
-			enabledTransitions.addAll(GuardEvaluatorsFactory.getInstance().getGuardEvaluator(this, vertex).getTransitionsWithEnabledGuards());
+			enabledTransitions.addAll(vertex.getOutgoings());
 			logger.debug(checkee.getLabel() + "[" + instanceName + "]: " + vertex.getLabel());
 		}
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: active states end");
@@ -156,6 +154,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	public ValueSpecification runOperation(Message operationOwner, Operation operation) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
+		// TODO: add check of guards in these transitions
 		EList<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
 		if (goodTransitions.isEmpty()) {
 			if (operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
@@ -169,6 +168,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			}
 		} else {
 			TransitionReplyChecker trc = fireTransition(TransitionChooser.choose(this, goodTransitions));
+			// dispatch completion event
 			calculateEnabledTransitions(trc);
 			return trc.getReply();
 		}
@@ -191,22 +191,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			}
 		}
 		return result;
-	}
-
-	/**
-	 * @param operation
-	 * @return
-	 */
-	public boolean hasTriggerForOperation(Operation operation) {
-		List<Trigger> triggers = flatten(collect(enabledTransitions, on(Transition.class).getTriggers()));
-		triggers = filter(having(on(Trigger.class).getEvent(), is(CallEvent.class)), triggers);
-		for (Trigger trigger : triggers) {
-			if (((CallEvent) trigger.getEvent()).getOperation() == operation) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
