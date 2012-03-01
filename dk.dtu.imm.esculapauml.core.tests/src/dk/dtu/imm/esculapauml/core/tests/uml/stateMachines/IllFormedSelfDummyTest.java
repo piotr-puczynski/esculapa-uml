@@ -46,6 +46,6 @@ public class IllFormedSelfDummyTest extends LoggingTest {
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Transition is ill-formed."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Transition is ill-formed. Loop has been detected during firing of completion transitions."));
 	}
 }

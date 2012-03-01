@@ -92,40 +92,45 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		for (Region r : checkee.getRegions()) {
 			activeConfiguration.add(StateMachineUtils.getInitial(r));
 		}
-		// calculate enabled transitions
+		// dispatch completion event
 		TransitionReplyChecker trc = new TransitionReplyChecker(checker, null);
 		trc.setAllowedToHaveReply(false);
 		calculateEnabledTransitions(trc);
 	}
 
 	/**
+	 * This function calculates the enabled transitions. It also fires the
+	 * completion transition. It should be called after every run-to-completion
+	 * step.
 	 * 
 	 */
 	protected void calculateEnabledTransitions(TransitionReplyChecker trc) {
 		enabledTransitions.clear();
 		// check for dummy (empty) transitions and fire them
-		boolean hasDummies;
-		ArrayList<Transition> dummiesTaken = new ArrayList<Transition>();
+		boolean hasCompletionTransitions;
+		// for loops detection
+		ArrayList<Transition> completionTransitionTaken = new ArrayList<Transition>();
 		do {
-			hasDummies = false;
+			hasCompletionTransitions = false;
 			for (Vertex vertex : activeConfiguration) {
-				EList<Transition> dummiesInVertex = new BasicEList<Transition>();
+				EList<Transition> completionTransitionsOurgoingFromVertex = new BasicEList<Transition>();
 				EList<Transition> satisfiedTransitions = GuardEvaluatorsFactory.getInstance().getGuardEvaluator(this, vertex).getTransitionsWithEnabledGuards();
 				for (Transition transition : satisfiedTransitions) {
-					if (transition.getTriggers().size() == 0) {
-						if (dummiesTaken.contains(transition)) {
-							// check for bad empty transitions (if source and
-							// target are the same)
-							checker.addOtherProblem(Diagnostic.ERROR, "Transition is ill-formed.", transition);
+					if (transition.getTriggers().isEmpty()) {
+						if (completionTransitionTaken.contains(transition)) {
+							// check for loops created by completion transitions
+							checker.addOtherProblem(Diagnostic.ERROR,
+									"Transition is ill-formed. Loop has been detected during firing of completion transitions.", transition);
 						} else {
-							dummiesTaken.add(transition);
+							completionTransitionTaken.add(transition);
 						}
-						dummiesInVertex.add(transition);
+						completionTransitionsOurgoingFromVertex.add(transition);
 					}
 				}
-				if (dummiesInVertex.size() > 0) {
-					hasDummies = true;
-					trc.setNextTransition(TransitionChooser.choose(this, dummiesInVertex));
+				if (!completionTransitionsOurgoingFromVertex.isEmpty()) {
+					hasCompletionTransitions = true;
+					trc.setNextTransition(TransitionChooser.choose(this, completionTransitionsOurgoingFromVertex));
+					// fire completion transition
 					fireTransition(trc);
 					break;
 				}
@@ -133,7 +138,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			if (checker.hasErrors()) {
 				return;
 			}
-		} while (hasDummies);
+		} while (hasCompletionTransitions);
 		// add outgoing transitions of active states
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: active states:");
 		for (Vertex vertex : activeConfiguration) {
@@ -151,13 +156,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	public ValueSpecification runOperation(Message operationOwner, Operation operation) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
-		// TODO: call again calculateEnabledTransitions to reevaluate guards
 		EList<Transition> goodTransitions = getEnabledTransitionsForOperation(operation);
-		if (goodTransitions.size() > 0) {
-			TransitionReplyChecker trc = fireTransition(TransitionChooser.choose(this, goodTransitions));
-			calculateEnabledTransitions(trc);
-			return trc.getReply();
-		} else {
+		if (goodTransitions.isEmpty()) {
 			if (operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
 						+ "\" is not ready to respond to an event \"" + operation.getLabel() + "\".", operationOwner);
@@ -167,6 +167,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
 						+ operation.getLabel() + "\". Event is lost.", operationOwner);
 			}
+		} else {
+			TransitionReplyChecker trc = fireTransition(TransitionChooser.choose(this, goodTransitions));
+			calculateEnabledTransitions(trc);
+			return trc.getReply();
 		}
 		return null;
 	}
