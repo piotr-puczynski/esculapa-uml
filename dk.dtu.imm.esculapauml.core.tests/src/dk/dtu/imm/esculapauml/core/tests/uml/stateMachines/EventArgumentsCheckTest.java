@@ -25,29 +25,28 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * 
- * Check for error message about conflict when there are two transitions without
- * guards that have reply.
+ * Test for checking that the argument from the event is passed to state machine
+ * and is a local variable there.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class TypeCheckInOpaqueBehaviorsTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("TypeCheckInOpaqueBehaviors.uml");
+public class EventArgumentsCheckTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("EventArgumentsCheck.uml");
+
+	// private Resource referenceModel =
+	// TestUtils.getUMLResource("results/EventArgumentsCheck.uml");
 
 	@Test
-	public void typeCheckInOpaqueBehaviorsTest() {
+	public void eventArgumentsCheckTest() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		// TestUtils.printDiagnostic(diagnostics);
-
-		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
-		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Type check failed when trying to assign 'm' to value of type: Boolean"));
+		// there is no error
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+		// models have no differences
+		// assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }
