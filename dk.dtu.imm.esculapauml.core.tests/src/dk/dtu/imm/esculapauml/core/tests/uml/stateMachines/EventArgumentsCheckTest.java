@@ -33,9 +33,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  */
 public class EventArgumentsCheckTest extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("EventArgumentsCheck.uml");
-
-	// private Resource referenceModel =
-	// TestUtils.getUMLResource("results/EventArgumentsCheck.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/EventArgumentsCheck.uml");
 
 	@Test
 	public void eventArgumentsCheckTest() throws InterruptedException {
@@ -47,6 +45,6 @@ public class EventArgumentsCheckTest extends LoggingTest {
 		// there is no error
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		// models have no differences
-		// assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }
