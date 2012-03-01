@@ -48,7 +48,7 @@
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_xBPh0mPFEeGI1tpOP3qeGg" name="BehaviorExecutionSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" start="_zcD-cWPFEeGI1tpOP3qeGg" finish="_zcD-cWPFEeGI1tpOP3qeGg"/>
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_wstcQGPFEeGI1tpOP3qeGg" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_zcD-cGPFEeGI1tpOP3qeGg" finish="_zcD-cGPFEeGI1tpOP3qeGg"/>
         <message xmi:id="_zcD-c2PFEeGI1tpOP3qeGg" name="c" receiveEvent="_zcD-cWPFEeGI1tpOP3qeGg" sendEvent="_zcD-cGPFEeGI1tpOP3qeGg">
-          <argument xmi:type="uml:LiteralString" xmi:id="_8V1UIGPIEeGI1tpOP3qeGg" name="c" value="7">
+          <argument xmi:type="uml:LiteralInteger" xmi:id="_8V1UIGPIEeGI1tpOP3qeGg" name="c" value="7">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
           </argument>
         </message>

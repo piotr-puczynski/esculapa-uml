@@ -33,7 +33,7 @@ public class ClassVariableDefaultValueTest extends LoggingTest {
 	private Resource referenceModel = TestUtils.getUMLResource("results/ClassVariableDefaultValue.uml");
 
 	@Test
-	public void classVariableInGuardTest() throws InterruptedException {
+	public void classVariableDefaultValueTest() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);

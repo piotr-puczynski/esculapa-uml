@@ -17,10 +17,12 @@ import static ch.lambdaj.Lambda.on;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Property;
@@ -172,6 +174,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * .lang.String, org.eclipse.uml2.uml.ValueSpecification)
 	 */
 	public boolean setVariable(String name, ValueSpecification value) {
+		ValueSpecification valueToSet = EcoreUtil.copy(value);
 		checkLocalClassUpdates();
 		Property prop = null;
 		List<Property> properties = new ArrayList<Property>();
@@ -188,7 +191,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				if (null == localClass) {
 					swapInstanceSpecificationToLocal();
 				}
-				prop = localClass.createOwnedAttribute(name, value.getType());
+				prop = localClass.createOwnedAttribute(name, valueToSet.getType());
 			} else {
 				// class variable
 				prop = properties.get(0);
@@ -198,7 +201,8 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			prop = properties.get(0);
 		}
 		// type check
-		if (!prop.getType().conformsTo(value.getType())) {
+		if (!prop.getType().conformsTo(valueToSet.getType())) {
+			EcoreUtil.delete(valueToSet);
 			return false;
 		}
 		Slot slot = null;
@@ -215,7 +219,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				slot.getValues().removeAll(values);
 			}
 		}
-		slot.getValues().add(value);
+		slot.getValues().add(valueToSet);
 		return true;
 	}
 
@@ -259,5 +263,25 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				}
 			}
 		}
+	}
+
+	/**
+	 * Creates a deep copy of instance values.
+	 * 
+	 * @return
+	 */
+	protected Collection<Slot> getDeepCopyOfMySlots() {
+		checkLocalClassUpdates();
+		return EcoreUtil.copyAll(instanceSpecification.getSlots());
+	}
+
+	/**
+	 * Restores slots with other values.
+	 * 
+	 * @return
+	 */
+	protected void restoreCopyOfMySlots(Collection<Slot> slots) {
+		instanceSpecification.getSlots().clear();
+		instanceSpecification.getSlots().addAll(slots);
 	}
 }

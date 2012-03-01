@@ -75,11 +75,11 @@ public class TestUtils {
 		DiffModel diff = DiffService.doDiff(match, false);
 		List<DiffElement> differences = new ArrayList<DiffElement>(diff.getDifferences());
 		if (!differences.isEmpty()) {
-			System.out.println("Differences start:");
+			System.out.println("===============================Differences start:");
 			for (DiffElement de : differences) {
 				System.out.println(de.toString());
 			}
-			System.out.println("Differences end.");
+			System.out.println("===============================Differences end.");
 		}
 		return differences.isEmpty();
 	}

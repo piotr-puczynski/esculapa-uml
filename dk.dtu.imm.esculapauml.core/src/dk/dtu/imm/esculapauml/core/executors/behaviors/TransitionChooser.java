@@ -33,7 +33,11 @@ public class TransitionChooser {
 			String names = joinFrom(transitions, Transition.class).getName();
 			executor.getChecker().addOtherProblem(Diagnostic.WARNING, "Conflicting transitions: [" + names + "]", transitions.toArray());
 		}
-		// make a choice of first transition
-		return transitions.get(0);
+		// make a choice of first transition if possible
+		if(transitions.isEmpty()) {
+			return null;
+		} else {
+			return transitions.get(0);
+		}
 	}
 }
