@@ -19,6 +19,8 @@ import static org.hamcrest.Matchers.equalTo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Property;
@@ -74,6 +76,26 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		checker.getSystemState().addGeneratedElement(instanceSpecification);
 		instanceSpecification.getClassifiers().add(originalClass);
 		instanceSpecification.setName(instanceName);
+		evaluateDefaultValues();
+	}
+
+	/**
+	 * Evaluates default values in the class (if any) for existing properties.
+	 * 
+	 */
+	protected void evaluateDefaultValues() {
+		EList<Property> properties = originalClass.getAllAttributes();
+		for (Property property : properties) {
+			if (null != property.getDefaultValue()) {
+				if (property.getType() == property.getDefaultValue().getType()) {
+					setVariable(property.getName(), property.getDefaultValue());
+				} else {
+					checker.addProblem(Diagnostic.ERROR, "Default value for property '" + property.getLabel() + "' of class '" + originalClass.getLabel()
+							+ "' is of the a wrong type.");
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -149,7 +171,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#setVariable(java
 	 * .lang.String, org.eclipse.uml2.uml.ValueSpecification)
 	 */
-	public void setVariable(String name, ValueSpecification value) {
+	public boolean setVariable(String name, ValueSpecification value) {
 		checkLocalClassUpdates();
 		Property prop = null;
 		List<Property> properties = new ArrayList<Property>();
@@ -175,6 +197,10 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			// local variable
 			prop = properties.get(0);
 		}
+		// type check
+		if (prop.getType() != value.getType()) {
+			return false;
+		}
 		Slot slot = null;
 		// do we have a slot that is needed?
 		List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), instanceSpecification.getSlots());
@@ -190,6 +216,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			}
 		}
 		slot.getValues().add(value);
+		return true;
 	}
 
 	/*

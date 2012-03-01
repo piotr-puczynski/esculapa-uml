@@ -39,15 +39,16 @@ public interface InstanceExecutor extends Executor {
 	 * 
 	 * @param name
 	 * @param value
-	 * @return
+	 * @return true if set successfully or false if type check failed and
+	 *         variable was not set.
 	 */
-	void setVariable(String name, ValueSpecification value);
+	boolean setVariable(String name, ValueSpecification value);
 
 	/**
 	 * Gets local variable.
 	 * 
 	 * @param name
-	 * @return
+	 * @return value if variable was found or null if it was not.
 	 */
 	ValueSpecification getVariable(String name);
 
