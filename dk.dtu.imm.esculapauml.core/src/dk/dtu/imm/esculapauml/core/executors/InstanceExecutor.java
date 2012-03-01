@@ -50,15 +50,26 @@ public interface InstanceExecutor extends Executor {
 	 * @return
 	 */
 	ValueSpecification getVariable(String name);
-	
+
+	/**
+	 * Gets local variable. ValueName is null for single multiplicity variables.
+	 * 
+	 * @param name
+	 * @param valueName
+	 * @return
+	 */
+	ValueSpecification getVariable(String name, String valueName);
+
 	/**
 	 * Gets the original class of the instance type.
+	 * 
 	 * @return
 	 */
 	Class getOriginalClass();
-	
+
 	/**
 	 * Gets the local variables class that inherits from original class.
+	 * 
 	 * @return
 	 */
 	Class getLocalClass();

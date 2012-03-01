@@ -86,6 +86,21 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		instanceSpecification.getClassifiers().set(0, localClass);
 	}
 
+	/**
+	 * This method is used to check if other executor didn't update our instance
+	 * specification with swapInstanceSpecificationToLocal() function. In case
+	 * it did, we also need an update to know about a local class.
+	 * 
+	 */
+	protected void checkLocalClassUpdates() {
+		if (null == localClass) {
+			if (instanceSpecification.getClassifiers().get(0) != originalClass) {
+				localClass = (Class) instanceSpecification.getClassifiers().get(0);
+			}
+		}
+
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -93,6 +108,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getLocalClass()
 	 */
 	public Class getLocalClass() {
+		checkLocalClassUpdates();
 		return localClass;
 	}
 
@@ -134,6 +150,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * .lang.String, org.eclipse.uml2.uml.ValueSpecification)
 	 */
 	public void setVariable(String name, ValueSpecification value) {
+		checkLocalClassUpdates();
 		Property prop = null;
 		List<Property> properties = new ArrayList<Property>();
 		if (null != localClass) {
@@ -183,7 +200,37 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * .lang.String)
 	 */
 	public ValueSpecification getVariable(String name) {
-		return null;
+		return getVariable(name, null);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getVariable(java
+	 * .lang.String, java.lang.String)
+	 */
+	public ValueSpecification getVariable(String name, String valueName) {
+		List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature().getName(), equalTo(name)), instanceSpecification.getSlots());
+		if (slots.isEmpty()) {
+			return null;
+		} else {
+			if (null == valueName) {
+				// single multiplicity value
+				if (slots.get(0).getValues().isEmpty()) {
+					return null;
+				} else {
+					return slots.get(0).getValues().get(0);
+				}
+			} else {
+				// multi multiplicity value
+				List<ValueSpecification> values = filter(having(on(ValueSpecification.class).getName(), equalTo(valueName)), slots.get(0).getValues());
+				if (values.isEmpty()) {
+					return null;
+				} else {
+					return values.get(0);
+				}
+			}
+		}
+	}
 }
