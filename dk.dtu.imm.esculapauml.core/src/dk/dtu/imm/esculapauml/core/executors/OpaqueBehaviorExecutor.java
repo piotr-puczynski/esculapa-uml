@@ -251,8 +251,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		String varName = (String) node.jjtGetValue();
 		ValueSpecification value = node.getChild(0).jjtAccept(this, data);
 		if (null != value) {
-			if (!setVariable(varName, value)) {
-				trc.addProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + varName + "' to value of type: " + value.getType().getName());
+			if (!setVariable(varName, value, trc.getCheckedObject())) {
 				return null;
 			}
 		}

@@ -253,11 +253,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			ValueSpecification arg = a.next();
 			Parameter param = p.next();
 			if (param.getDirection() == ParameterDirectionKind.IN_LITERAL) {
-				if (arg.getType().conformsTo(param.getType())) {
-					setVariable(arg.getName(), arg);
-				} else {
-					// TODO: runtime type check error
-				}
+				setVariable(arg.getName(), arg, operationOwner);
 			}
 		}
 

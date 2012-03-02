@@ -24,6 +24,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
@@ -89,11 +90,10 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		EList<Property> properties = originalClass.getAllAttributes();
 		for (Property property : properties) {
 			if (null != property.getDefaultValue()) {
-				if (property.getType().conformsTo(property.getDefaultValue().getType())) {
-					setVariable(property.getName(), property.getDefaultValue());
-				} else {
+				if (!setVariable(property.getName(), property.getDefaultValue(), null)) {
 					checker.addProblem(Diagnostic.ERROR, "Default value for property '" + property.getLabel() + "' of class '" + originalClass.getLabel()
 							+ "' is of the a wrong type.");
+					break;
 				}
 			}
 		}
@@ -171,9 +171,10 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#setVariable(java
-	 * .lang.String, org.eclipse.uml2.uml.ValueSpecification)
+	 * .lang.String, org.eclipse.uml2.uml.ValueSpecification,
+	 * org.eclipse.uml2.uml.Element)
 	 */
-	public boolean setVariable(String name, ValueSpecification value) {
+	public boolean setVariable(String name, ValueSpecification value, Element errorContext) {
 		ValueSpecification valueToSet = EcoreUtil.copy(value);
 		checkLocalClassUpdates();
 		Property prop = null;
@@ -202,6 +203,10 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		}
 		// type check
 		if (!prop.getType().conformsTo(valueToSet.getType())) {
+			if (null != errorContext) {
+				checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "' to value of type: "
+						+ value.getType().getName() + ". Required type must conform to: " + prop.getType().getName() + ".", errorContext);
+			}
 			EcoreUtil.delete(valueToSet);
 			return false;
 		}

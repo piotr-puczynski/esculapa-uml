@@ -48,6 +48,6 @@ public class TypeCheckInOpaqueBehaviorsTest extends LoggingTest {
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Type check failed when trying to assign 'm' to value of type: Boolean"));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Type check failed when trying to assign 'm' to value of type: Boolean. Required type must conform to: Integer."));
 	}
 }
