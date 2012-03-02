@@ -11,7 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -165,8 +164,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		Transition goodTransition = getEnabledTransitionForOperation(operationOwner, operation);
 		if (null == goodTransition) {
 			if (operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
-				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName()
-						+ "\" is not ready to respond to an event \"" + operation.getLabel() + "\".", operationOwner);
+				checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is not ready to respond to an event '"
+						+ operation.getLabel() + "'.", operationOwner);
 			} else {
 				// warning, the machine is not able to process an operation
 				// event
@@ -203,8 +202,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		// transition
 		Predicate<Transition> hasTriggerForOperation = new Predicate<Transition>() {
 			public boolean apply(Transition item) {
-				for(Trigger t : item.getTriggers()) {
-					if(t.getEvent() instanceof CallEvent) {
+				for (Trigger t : item.getTriggers()) {
+					if (t.getEvent() instanceof CallEvent) {
 						if (((CallEvent) t.getEvent()).getOperation() == operation) {
 							return true;
 						}

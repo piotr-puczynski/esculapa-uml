@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.uml.sequence;
+package dk.dtu.imm.esculapauml.core.tests.uml.stateMachines;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -25,29 +25,28 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test for warning in case state machine is not able to accept call event.
- * Event is lost.
+ * Test of the transition that calculates based on the event argument in the
+ * same transition. In this case the guard evaluates to false and the machine
+ * couldn't respond to an event.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class Simple06Test extends LoggingTest {
-
-	private Resource model = TestUtils.getUMLResource("Simple06.uml");
+public class GuardAndEventInTheSameTransitionTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("GuardAndEventInTheSameTransition.uml");
 
 	@Test
-	public void eventLost() {
+	public void guardAndEventInTheSameTransition() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
-		Diagnostic diagnostic = checker.getDiagnostics();
+		Diagnostic diagnostics = checker.getDiagnostics();
+		TestUtils.printDiagnostic(diagnostics);
 		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostic.getSeverity());
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
-		// a error is...
-		// TestUtils.printDiagnostic(diagnostic);
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR, "Instance 'testInstance' is not ready to respond to an event 's'."));
+		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		// error is
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Instance 'Lifeline2' is not ready to respond to an event 'm'."));
 	}
-
 }
