@@ -174,7 +174,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		} else {
 			TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
 			// only synchronous calls can have a reply
-			trc.setAllowedToHaveReply(operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL);
+			trc.setAcceptReplies(operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL);
 			fireTransition(trc);
 			// dispatch completion event
 			calculateEnabledTransitions(trc);

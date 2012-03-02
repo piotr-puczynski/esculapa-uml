@@ -31,6 +31,7 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 	private Type returnType = null;
 	private Operation operation;
 	private boolean allowedToHaveReply = true;
+	private boolean acceptReplies = true;
 
 	/**
 	 * @param transition
@@ -76,6 +77,10 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 	 */
 	public void setReply(ValueSpecification reply) {
 		if (isAllowedToHaveReply()) {
+			if (!isAcceptingReplies()) {
+				addProblem(Diagnostic.WARNING, "Reply will be ignored. It was used in the context of asynchronous call.");
+				return;
+			}
 			if (null != this.reply) {
 				// duplication of reply for one operation
 				addProblem(Diagnostic.WARNING, "Reply statement used more than once for a trigger.");
@@ -135,5 +140,20 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 	 */
 	public Operation getOperation() {
 		return operation;
+	}
+
+	/**
+	 * @return the acceptReplies
+	 */
+	public boolean isAcceptingReplies() {
+		return acceptReplies;
+	}
+
+	/**
+	 * @param acceptReplies
+	 *            the acceptReplies to set
+	 */
+	public void setAcceptReplies(boolean acceptReplies) {
+		this.acceptReplies = acceptReplies;
 	}
 }
