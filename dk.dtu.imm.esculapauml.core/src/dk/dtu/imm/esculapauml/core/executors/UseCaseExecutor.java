@@ -11,14 +11,9 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import static ch.lambdaj.Lambda.filter;
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
-import static org.hamcrest.Matchers.equalTo;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -115,7 +110,8 @@ public class UseCaseExecutor extends AbstractExecutor {
 
 			if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 				if (signature instanceof Operation) {
-					ValueSpecification result = targetExecutor.runOperation(message, (Operation) signature);
+					Operation operation = (Operation) signature;
+					ValueSpecification result = targetExecutor.runOperation(message, operation);
 					if (checker.hasErrors()) {
 						return;
 					}
@@ -133,7 +129,7 @@ public class UseCaseExecutor extends AbstractExecutor {
 						return;
 					}
 					// check and set result of a message
-					setMessageReturn(reply, result);
+					setMessageReturn(message, reply, result);
 					executeMessage(reply);
 				}
 			} else if (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
@@ -167,19 +163,21 @@ public class UseCaseExecutor extends AbstractExecutor {
 	}
 
 	/**
-	 * Places the return value on reply message.
+	 * Copies original arguments to the reply, places the return value on reply
+	 * message.
 	 * 
 	 * @param message
+	 * @param reply
 	 * @param result
 	 */
-	private void setMessageReturn(Message message, ValueSpecification result) {
+	private void setMessageReturn(Message message, Message reply, ValueSpecification result) {
+		// clean old values
+		reply.getArguments().clear();
+		// set return
 		if (null != result) {
-			result.setName("return");
-			List<ValueSpecification> results = filter(having(on(ValueSpecification.class).getName(), equalTo("return")), message.getArguments());
-			if (!results.isEmpty()) {
-				message.getArguments().removeAll(results);
-			}
-			message.getArguments().add(result);
+			ValueSpecification ret = EcoreUtil.copy(result);
+			ret.setName("return");
+			reply.getArguments().add(ret);
 		}
 
 	}

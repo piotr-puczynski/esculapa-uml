@@ -98,7 +98,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			activeConfiguration.add(StateMachineUtils.getInitial(r));
 		}
 		// dispatch completion event
-		TransitionReplyChecker trc = new TransitionReplyChecker(checker, null);
+		TransitionReplyChecker trc = new TransitionReplyChecker(checker, null, null);
 		trc.setAllowedToHaveReply(false);
 		calculateEnabledTransitions(trc);
 	}
@@ -172,7 +172,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 						+ operation.getLabel() + "\". Event is lost.", operationOwner);
 			}
 		} else {
-			TransitionReplyChecker trc = fireTransition(goodTransition);
+			TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
+			// only synchronous calls can have a reply
+			trc.setAllowedToHaveReply(operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL);
+			fireTransition(trc);
 			// dispatch completion event
 			calculateEnabledTransitions(trc);
 			return trc.getReply();
@@ -260,34 +263,21 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	}
 
 	/**
-	 * Fire transition with default FTR.
-	 * 
-	 * @param transition
-	 * @return
-	 */
-	protected TransitionReplyChecker fireTransition(Transition transition) {
-		TransitionReplyChecker ftr = new TransitionReplyChecker(checker, transition);
-		return fireTransition(ftr);
-	}
-
-	/**
 	 * Fire transition in FTR.
 	 * 
 	 * @param transition
-	 * @return
 	 */
-	protected TransitionReplyChecker fireTransition(TransitionReplyChecker ftr) {
-		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + ftr.getCheckedObject().getLabel());
+	protected void fireTransition(TransitionReplyChecker trc) {
+		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + trc.getCheckedObject().getLabel());
 		// remove the source vertex from active configuration
-		Vertex source = ftr.getCheckedObject().getSource();
+		Vertex source = trc.getCheckedObject().getSource();
 		activeConfiguration.remove(source);
 		// add target vertex to active configuration
-		Vertex target = ftr.getCheckedObject().getTarget();
+		Vertex target = trc.getCheckedObject().getTarget();
 		activeConfiguration.add(target);
 
 		// run effect of transition
-		runEffect(ftr);
-		return ftr;
+		runEffect(trc);
 	}
 
 	/**
