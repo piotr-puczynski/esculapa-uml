@@ -207,7 +207,6 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "' to value of type: "
 						+ value.getType().getName() + ". Required type must conform to: " + prop.getType().getName() + ".", errorContext);
 			}
-			EcoreUtil.delete(valueToSet);
 			return false;
 		}
 		Slot slot = null;

@@ -20,7 +20,6 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.CallEvent;
@@ -226,12 +225,12 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			// we need to restore instance
 			if (null == result) {
 				restoreCopyOfMySlots(backupSlots);
-			} else {
+			} // else {
 				// cleanup
-				for (Slot slot : backupSlots) {
-					EcoreUtil.delete(slot);
-				}
-			}
+				// for (Slot slot : backupSlots) {
+			// EcoreUtil.delete(slot);
+			// }
+			// }
 
 		}
 		return result;
@@ -252,7 +251,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			ValueSpecification arg = a.next();
 			Parameter param = p.next();
 			if (param.getDirection() == ParameterDirectionKind.IN_LITERAL) {
-				setVariable(arg.getName(), arg, operationOwner);
+				if (!setVariable(arg.getName(), arg, operationOwner)) {
+					break;
+				}
 			}
 		}
 
