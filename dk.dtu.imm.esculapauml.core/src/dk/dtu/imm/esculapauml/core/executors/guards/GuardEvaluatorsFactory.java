@@ -22,18 +22,6 @@ import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
  * 
  */
 public class GuardEvaluatorsFactory {
-	private static GuardEvaluatorsFactory instance = null;
-
-	protected GuardEvaluatorsFactory() {
-		super();
-	}
-
-	public static GuardEvaluatorsFactory getInstance() {
-		if (instance == null) {
-			instance = new GuardEvaluatorsFactory();
-		}
-		return instance;
-	}
 
 	/**
 	 * Creates guard evaluator for given type of vertex.
@@ -42,7 +30,7 @@ public class GuardEvaluatorsFactory {
 	 * @param vertex
 	 * @return
 	 */
-	public GuardEvaluator getGuardEvaluator(InstanceExecutor executor, Vertex vertex) {
+	public static GuardEvaluator getGuardEvaluator(InstanceExecutor executor, Vertex vertex) {
 		if (vertex instanceof Pseudostate) {
 			Pseudostate pseudoVertex = (Pseudostate) vertex;
 			// if else is allowed

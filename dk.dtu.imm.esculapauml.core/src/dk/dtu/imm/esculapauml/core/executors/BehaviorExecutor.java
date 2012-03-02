@@ -11,15 +11,10 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import static ch.lambdaj.Lambda.filter;
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
-import static org.hamcrest.Matchers.is;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicEList;
@@ -47,9 +42,12 @@ import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Vertex;
 
+import ch.lambdaj.function.matcher.Predicate;
+
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.executors.behaviors.TransitionChooser;
+import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
@@ -63,6 +61,11 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
 	protected StateMachine checkee;
 	protected BehaviorChecker checker;
+	protected static Predicate<Transition> isCompletionTransition = new Predicate<Transition>() {
+		public boolean apply(Transition item) {
+			return item.getTriggers().isEmpty();
+		}
+	};
 
 	/**
 	 * @param checker
@@ -113,30 +116,30 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		boolean hasCompletionTransitions;
 		// for loops detection
 		ArrayList<Transition> completionTransitionTaken = new ArrayList<Transition>();
+
 		do {
 			hasCompletionTransitions = false;
 			for (Vertex vertex : activeConfiguration) {
-				EList<Transition> completionTransitionsOurgoingFromVertex = new BasicEList<Transition>();
-				EList<Transition> satisfiedTransitions = GuardEvaluatorsFactory.getInstance().getGuardEvaluator(this, vertex).getTransitionsWithEnabledGuards();
-				for (Transition transition : satisfiedTransitions) {
-					if (transition.getTriggers().isEmpty()) {
-						if (completionTransitionTaken.contains(transition)) {
-							// check for loops created by completion transitions
-							checker.addOtherProblem(Diagnostic.ERROR,
-									"Transition is ill-formed. Loop has been detected during firing of completion transitions.", transition);
-						} else {
-							completionTransitionTaken.add(transition);
-						}
-						completionTransitionsOurgoingFromVertex.add(transition);
+				GuardEvaluator ge = GuardEvaluatorsFactory.getGuardEvaluator(this, vertex);
+				ge.setPreconditions(isCompletionTransition);
+				EList<Transition> satisfiedCompletionTransitions = ge.getTransitionsWithEnabledGuards();
+				Transition transitionToTake = TransitionChooser.choose(this, satisfiedCompletionTransitions);
+				if (null != transitionToTake) {
+					// detection of loops created by completion transitions
+					if (completionTransitionTaken.contains(transitionToTake)) {
+						checker.addOtherProblem(Diagnostic.ERROR, "Transition is ill-formed. Loop has been detected during firing of completion transitions.",
+								transitionToTake);
+						break;
+					} else {
+						completionTransitionTaken.add(transitionToTake);
 					}
-				}
-				if (!completionTransitionsOurgoingFromVertex.isEmpty()) {
 					hasCompletionTransitions = true;
-					trc.setNextTransition(TransitionChooser.choose(this, completionTransitionsOurgoingFromVertex));
+					trc.setNextTransition(transitionToTake);
 					// fire completion transition
 					fireTransition(trc);
 					break;
 				}
+
 			}
 			if (checker.hasErrors()) {
 				return;
@@ -187,7 +190,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param operation
 	 * @return
 	 */
-	private Transition getEnabledTransitionForOperation(Message operationOwner, Operation operation) {
+	private Transition getEnabledTransitionForOperation(Message operationOwner, final Operation operation) {
 		// if there are any argument to set, make a deep copy of current
 		// instance (in case we need to restore it later)
 		Collection<Slot> backupSlots = null;
@@ -196,20 +199,25 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			// set the arguments as local values of state machine
 			preprocessOperationArguments(operationOwner, operation);
 		}
-		EList<Transition> results = new BasicEList<Transition>();
 		// for each state in active configuration check if we can fire
 		// transition
-		for (Vertex vertex : activeConfiguration) {
-			EList<Transition> satisfiedTransitions = GuardEvaluatorsFactory.getInstance().getGuardEvaluator(this, vertex).getTransitionsWithEnabledGuards();
-			for (Transition transition : satisfiedTransitions) {
-				List<Trigger> triggers = filter(having(on(Trigger.class).getEvent(), is(CallEvent.class)), transition.getTriggers());
-				for (Trigger trigger : triggers) {
-					if (((CallEvent) trigger.getEvent()).getOperation() == operation) {
-						results.add(transition);
-						break;
+		Predicate<Transition> hasTriggerForOperation = new Predicate<Transition>() {
+			public boolean apply(Transition item) {
+				for(Trigger t : item.getTriggers()) {
+					if(t.getEvent() instanceof CallEvent) {
+						if (((CallEvent) t.getEvent()).getOperation() == operation) {
+							return true;
+						}
 					}
 				}
+				return false;
 			}
+		};
+		EList<Transition> results = new BasicEList<Transition>();
+		for (Vertex vertex : activeConfiguration) {
+			GuardEvaluator ge = GuardEvaluatorsFactory.getGuardEvaluator(this, vertex);
+			ge.setPreconditions(hasTriggerForOperation);
+			results.addAll(ge.getTransitionsWithEnabledGuards());
 		}
 
 		Transition result = TransitionChooser.choose(this, results);
@@ -217,15 +225,15 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		if (null != backupSlots) {
 			// ups, there is no transition to fire
 			// we need to restore instance
-			if(null == result) {
+			if (null == result) {
 				restoreCopyOfMySlots(backupSlots);
 			} else {
 				// cleanup
-				for(Slot slot : backupSlots) {
+				for (Slot slot : backupSlots) {
 					EcoreUtil.delete(slot);
 				}
 			}
-			
+
 		}
 		return result;
 	}

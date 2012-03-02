@@ -29,17 +29,28 @@ import dk.dtu.imm.esculapauml.core.validators.ValidatorsFactory;
 
 /**
  * Guard evaluator for vertices based on simple evaluation.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class SimpleGuardEvaluator implements GuardEvaluator {
-	
+
 	protected InstanceExecutor executor;
 	protected Vertex vertex;
-	
+
+	protected Predicate<Transition> preconditions = null;
+
 	protected Matcher<Transition> satisfied = new Predicate<Transition>() {
 		public boolean apply(Transition item) {
-			return isGuardSatisfied(item.getGuard());
+			if (null == preconditions) {
+				return isGuardSatisfied(item.getGuard());
+			} else {
+				if (preconditions.apply(item)) {
+					return isGuardSatisfied(item.getGuard());
+				} else {
+					return false;
+				}
+			}
 		}
 	};
 
@@ -52,14 +63,17 @@ public class SimpleGuardEvaluator implements GuardEvaluator {
 		this.vertex = vertex;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator#getTransitionsWithEnabledGuards()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator#
+	 * getTransitionsWithEnabledGuards()
 	 */
 	@Override
 	public EList<Transition> getTransitionsWithEnabledGuards() {
 		return new BasicEList<Transition>(filter(satisfied, vertex.getOutgoings()));
 	}
-	
+
 	/**
 	 * Check if guard is satisfied
 	 * 
@@ -78,6 +92,22 @@ public class SimpleGuardEvaluator implements GuardEvaluator {
 			return true;
 		}
 		return validator.validateConstraint();
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator#getPreconditions()
+	 */
+	public Predicate<Transition> getPreconditions() {
+		return preconditions;
+	}
+
+	
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator#setPreconditions(ch.lambdaj.function.matcher.Predicate)
+	 */
+	public void setPreconditions(Predicate<Transition> preconditions) {
+		this.preconditions = preconditions;
 	}
 
 }

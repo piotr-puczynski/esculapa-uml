@@ -13,6 +13,8 @@ package dk.dtu.imm.esculapauml.core.executors.behaviors;
 
 import static ch.lambdaj.Lambda.joinFrom;
 
+import java.util.HashSet;
+
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Transition;
@@ -28,13 +30,14 @@ import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
  */
 public class TransitionChooser {
 	public static Transition choose(InstanceExecutor executor, EList<Transition> transitions) {
-		if (transitions.size() > 1) {
+		// make sure we have unique transitions
+		if (new HashSet<Transition>(transitions).size() > 1) {
 			// set a warning on conflicting transitions
 			String names = joinFrom(transitions, Transition.class).getName();
 			executor.getChecker().addOtherProblem(Diagnostic.WARNING, "Conflicting transitions: [" + names + "]", transitions.toArray());
 		}
 		// make a choice of first transition if possible
-		if(transitions.isEmpty()) {
+		if (transitions.isEmpty()) {
 			return null;
 		} else {
 			return transitions.get(0);
