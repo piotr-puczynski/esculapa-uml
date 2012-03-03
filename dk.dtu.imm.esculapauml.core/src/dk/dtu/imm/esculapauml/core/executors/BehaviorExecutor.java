@@ -24,10 +24,9 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.FunctionBehavior;
 import org.eclipse.uml2.uml.Lifeline;
-import org.eclipse.uml2.uml.Message;
-import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
@@ -159,23 +158,23 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * 
 	 * @param operation
 	 */
-	public ValueSpecification runOperation(Message operationOwner, Operation operation) {
+	public ValueSpecification callOperation(Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
-		Transition goodTransition = getEnabledTransitionForOperation(operationOwner, operation);
+		Transition goodTransition = getEnabledTransitionForOperation(operation, arguments, errorContext);
 		if (null == goodTransition) {
-			if (operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
+			if (isSynchronous) {
 				checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is not ready to respond to an event '"
-						+ operation.getLabel() + "'.", operationOwner);
+						+ operation.getLabel() + "'.", errorContext);
 			} else {
 				// warning, the machine is not able to process an operation
 				// event
 				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
-						+ operation.getLabel() + "\". Event is lost.", operationOwner);
+						+ operation.getLabel() + "\". Event is lost.", errorContext);
 			}
 		} else {
 			TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
 			// only synchronous calls can have a reply
-			trc.setAcceptReplies(operationOwner.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL);
+			trc.setAcceptReplies(isSynchronous);
 			fireTransition(trc);
 			// dispatch completion event
 			calculateEnabledTransitions(trc);
@@ -187,19 +186,20 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	/**
 	 * Prepares the event to be run on the instance. If guard is satisfied, the
 	 * transition is returned, otherwise null is returned.
-	 * 
-	 * @param operationOwner
 	 * @param operation
+	 * @param arguments
+	 * @param errorContext 
+	 * 
 	 * @return
 	 */
-	private Transition getEnabledTransitionForOperation(Message operationOwner, final Operation operation) {
+	private Transition getEnabledTransitionForOperation(final Operation operation, EList<ValueSpecification> arguments, Element errorContext) {
 		// if there are any argument to set, make a deep copy of current
 		// instance (in case we need to restore it later)
 		Collection<Slot> backupSlots = null;
-		if (!operationOwner.getArguments().isEmpty()) {
+		if (!arguments.isEmpty()) {
 			backupSlots = getDeepCopyOfMySlots();
 			// set the arguments as local values of state machine
-			preprocessOperationArguments(operationOwner, operation);
+			preprocessOperationArguments(operation, arguments, errorContext);
 		}
 		// for each state in active configuration check if we can fire
 		// transition
@@ -242,20 +242,20 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 
 	/**
 	 * Prepares operation arguments to be used in state machine
-	 * 
-	 * @param operationOwner
 	 * @param operation
+	 * @param arguments
+	 * @param errorContext 
 	 */
-	private void preprocessOperationArguments(Message operationOwner, Operation operation) {
+	private void preprocessOperationArguments(Operation operation, EList<ValueSpecification> arguments, Element errorContext) {
 		EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>((operation).getOwnedParameters());
-		Iterator<ValueSpecification> a = operationOwner.getArguments().iterator();
+		Iterator<ValueSpecification> a = arguments.iterator();
 		Iterator<Parameter> p = parameters.iterator();
 
 		while (a.hasNext() && p.hasNext()) {
 			ValueSpecification arg = a.next();
 			Parameter param = p.next();
 			if (param.getDirection() == ParameterDirectionKind.IN_LITERAL) {
-				if (!setVariable(arg.getName(), arg, operationOwner)) {
+				if (!setVariable(arg.getName(), arg, errorContext)) {
 					break;
 				}
 			}

@@ -168,7 +168,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
 				if (signature instanceof Operation) {
 					Operation operation = (Operation) signature;
-					ValueSpecification result = targetExecutor.runOperation(message, operation);
+					ValueSpecification result = targetExecutor.callOperation(operation, message.getArguments(), true, message);
 					if (checker.hasErrors()) {
 						return;
 					}
@@ -191,7 +191,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				}
 			} else if (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
 				if (signature instanceof Operation) {
-					targetExecutor.runOperation(message, (Operation) signature);
+					targetExecutor.callOperation((Operation) signature, message.getArguments(), false, message);
 				}
 			}
 		}
