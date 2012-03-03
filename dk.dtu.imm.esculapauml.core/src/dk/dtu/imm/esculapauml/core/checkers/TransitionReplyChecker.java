@@ -91,7 +91,7 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 					// reply was issued for operation that do not have return
 					// value
 					addProblem(Diagnostic.ERROR, "Failed to assign return value for operation '" + operation.getName() + "' to value of type: "
-							+ reply.getType().getName() + ". The operation is declared without result value.");
+							+ reply.getType().getName() + ". The operation is declared not to have result value.");
 					return;
 				} else {
 					if (!returnType.conformsTo(reply.getType())) {

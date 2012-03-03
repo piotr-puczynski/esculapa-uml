@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <elementImport xmi:id="_PtCWMGPFEeGI1tpOP3qeGg">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <elementImport xmi:id="_anVbIGR2EeGhjpUBPV0BEQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_anVbIWR2EeGhjpUBPV0BEQ">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Simple2">
+    <packagedElement xmi:type="uml:Class" xmi:id="_Hokf0DJJEeGjS-_RcLljMA" name="C" classifierBehavior="_iSpjsEOKEeG4EdriM4MjZA">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_iSpjsEOKEeG4EdriM4MjZA" name="StateMachine">
+        <region xmi:id="_iSpjsUOKEeG4EdriM4MjZA" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_i03f8EOKEeG4EdriM4MjZA" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_kg3uwEOKEeG4EdriM4MjZA" name="State1"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_k8QDMkOKEeG4EdriM4MjZA" name="FinalState1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_HZdZomPJEeGI1tpOP3qeGg" name="State2"/>
+          <transition xmi:id="_leLEhkOKEeG4EdriM4MjZA" name="Transition1" source="_i03f8EOKEeG4EdriM4MjZA" target="_kg3uwEOKEeG4EdriM4MjZA"/>
+          <transition xmi:id="_l7n1hUOKEeG4EdriM4MjZA" name="Transition2" source="_kg3uwEOKEeG4EdriM4MjZA" target="_HZdZomPJEeGI1tpOP3qeGg">
+            <trigger xmi:id="_oopccEOKEeG4EdriM4MjZA" name="" event="_zcD-cmPFEeGI1tpOP3qeGg"/>
+          </transition>
+          <transition xmi:id="_Wor85GPJEeGI1tpOP3qeGg" name="Transition3" source="_HZdZomPJEeGI1tpOP3qeGg" target="_k8QDMkOKEeG4EdriM4MjZA">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_wsWDEGR5EeGUtfjYGRN0kQ" name="reply &quot;muuuu&quot;;"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_IeJc8DJJEeGjS-_RcLljMA" name="m">
+        <ownedParameter xmi:id="_JazjIGPFEeGI1tpOP3qeGg" name="cowNumber">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_fbcqYGR2EeGhjpUBPV0BEQ" name="hasMilk">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_a3RJUDJJEeGjS-_RcLljMA" name="UseCase1" classifierBehavior="_d14PgDJJEeGjS-_RcLljMA">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_d14PgDJJEeGjS-_RcLljMA" name="UseCase1Detail">
+        <ownedAttribute xmi:id="_skGXcDJJEeGjS-_RcLljMA" name="Property1" type="_rbyEgDJJEeGjS-_RcLljMA"/>
+        <ownedAttribute xmi:id="_vfbOMDJLEeGjS-_RcLljMA" name="Property2" type="_Hokf0DJJEeGjS-_RcLljMA"/>
+        <ownedConnector xmi:id="_skIMoDJJEeGjS-_RcLljMA" name="Connector1">
+          <end xmi:id="_skIzsDJJEeGjS-_RcLljMA" role="_skGXcDJJEeGjS-_RcLljMA"/>
+          <end xmi:id="_o4c6MDJLEeGjS-_RcLljMA"/>
+          <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
+        </ownedConnector>
+        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_XATisGR5EeGUtfjYGRN0kQ _wstcQGPFEeGI1tpOP3qeGg"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_XATisWR5EeGUtfjYGRN0kQ _xBPh0mPFEeGI1tpOP3qeGg"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_XATisGR5EeGUtfjYGRN0kQ" name="MessageOccurrenceSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_XATismR5EeGUtfjYGRN0kQ" message="_XATis2R5EeGUtfjYGRN0kQ"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_XATisWR5EeGUtfjYGRN0kQ" name="MessageOccurrenceSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" event="_XATismR5EeGUtfjYGRN0kQ" message="_XATis2R5EeGUtfjYGRN0kQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_xBPh0mPFEeGI1tpOP3qeGg" name="BehaviorExecutionSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" start="_XATisWR5EeGUtfjYGRN0kQ" finish="_XATisWR5EeGUtfjYGRN0kQ"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_wstcQGPFEeGI1tpOP3qeGg" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_XATisGR5EeGUtfjYGRN0kQ" finish="_XATisGR5EeGUtfjYGRN0kQ"/>
+        <message xmi:id="_XATis2R5EeGUtfjYGRN0kQ" name="m" receiveEvent="_XATisWR5EeGUtfjYGRN0kQ" sendEvent="_XATisGR5EeGUtfjYGRN0kQ">
+          <argument xmi:type="uml:LiteralInteger" xmi:id="_ZQKsgGR5EeGUtfjYGRN0kQ" name="cowNumber">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </argument>
+          <argument xmi:type="uml:LiteralBoolean" xmi:id="_ZQKsgmR5EeGUtfjYGRN0kQ" name="hasMilk">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </argument>
+        </message>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_zcD-cmPFEeGI1tpOP3qeGg" name="m(cowNumber, hasMilk)" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_XATismR5EeGUtfjYGRN0kQ" name="CallEvent1" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
+  </packagedElement>
+</uml:Model>

@@ -26,17 +26,16 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
  * 
- * Test for warning information if the reply was send for asynchronous message
- * call.
+ * Test for error in case there was reply for operation without result type.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class ReplyToAsynchronousCallTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("ReplyToAsynchronousCall.uml");
+public class ReplyToVoidOperationTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("ReplyToVoidOperation.uml");
 
 	@Test
-	public void replyToAsynchronousCall() {
+	public void replyToVoidOperation() {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
@@ -45,10 +44,10 @@ public class ReplyToAsynchronousCallTest extends LoggingTest {
 		// TestUtils.printDiagnostic(diagnostics);
 
 		// there is an error
-		assertEquals(Diagnostic.WARNING, diagnostics.getSeverity());
+		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils
-				.diagnosticMessageExists(diagnostics, Diagnostic.WARNING, "Reply will be ignored. It was used in the context of asynchronous call."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
+				"Failed to assign return value for operation 'm' to value of type: String. The operation is declared not to have result value."));
 	}
 }
