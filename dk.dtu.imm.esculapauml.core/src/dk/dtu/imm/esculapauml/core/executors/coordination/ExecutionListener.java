@@ -27,4 +27,11 @@ public interface ExecutionListener extends EventListener {
 	 * @param event
 	 */
 	void callEventOccurred(EsculapaCallEvent event);
+
+	/**
+	 * Occurs when reply arrives.
+	 * 
+	 * @param event
+	 */
+	void replyEventOccurred(EsculapaReplyEvent event);
 }

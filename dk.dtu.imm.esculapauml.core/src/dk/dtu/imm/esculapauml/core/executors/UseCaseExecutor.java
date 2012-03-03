@@ -34,6 +34,7 @@ import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
 import dk.dtu.imm.esculapauml.core.generators.BehaviorExecutionSpecificationGenerator;
 import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
@@ -132,6 +133,16 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			executeMessage(message);
 		}
 
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#replyEventOccurred(dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent)
+	 */
+	@Override
+	public void replyEventOccurred(EsculapaReplyEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**

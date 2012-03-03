@@ -42,4 +42,15 @@ public class ExecutionCoordinator {
 			listener.callEventOccurred(callEvent);
 		}
 	}
+	
+	/**
+	 * Notify observers of new reply event that occurred.
+	 * 
+	 * @param callEvent
+	 */
+	public void fireCallEvent(EsculapaReplyEvent replyEvent) {
+		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
+			listener.replyEventOccurred(replyEvent);
+		}
+	}
 }
