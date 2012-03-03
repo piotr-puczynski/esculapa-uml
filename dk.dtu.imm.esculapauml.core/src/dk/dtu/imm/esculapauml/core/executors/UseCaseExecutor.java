@@ -11,7 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -34,6 +33,8 @@ import org.eclipse.uml2.uml.UMLPackage.Literals;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
 import dk.dtu.imm.esculapauml.core.generators.BehaviorExecutionSpecificationGenerator;
 import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
 import dk.dtu.imm.esculapauml.core.generators.MessageGenerator;
@@ -46,7 +47,7 @@ import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
  * @author Piotr J. Puczynski
  * 
  */
-public class UseCaseExecutor extends AbstractExecutor {
+public class UseCaseExecutor extends AbstractExecutor implements ExecutionListener {
 
 	protected Message currentMessage;
 	protected Interaction checkee;
@@ -61,6 +62,8 @@ public class UseCaseExecutor extends AbstractExecutor {
 		this.checker = checker;
 		checkee = checker.getCheckedObject();
 		systemState = checker.getSystemState();
+		// register listener
+		systemState.getCoordinator().addExecutionListener(this);
 		logger = Logger.getLogger(UseCaseExecutor.class);
 		logger.debug(checkee.getLabel() + ": executor created");
 	}
@@ -74,6 +77,20 @@ public class UseCaseExecutor extends AbstractExecutor {
 	public void prepare() {
 		logger.debug(checkee.getLabel() + ": executor preparation");
 		currentMessage = getFirstMessage();
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#
+	 * callEventOccurred
+	 * (dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent)
+	 */
+	@Override
+	public void callEventOccurred(EsculapaCallEvent event) {
+		// TODO Auto-generated method stub
 
 	}
 

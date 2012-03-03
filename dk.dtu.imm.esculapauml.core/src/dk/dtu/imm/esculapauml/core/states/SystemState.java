@@ -24,6 +24,7 @@ import org.eclipse.uml2.uml.Model;
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCoordinator;
 
 /**
  * State of the whole system. Stores the checkers responsible for stateful
@@ -37,7 +38,8 @@ public class SystemState {
 	private org.eclipse.uml2.uml.Package instancePackage = null;
 	private Set<Element> generatedElements = new HashSet<Element>();
 	private int stateId = -1;
-	UseCaseExecutor mainExecutor = null;
+	private ExecutionCoordinator coordinator;
+	private UseCaseExecutor mainExecutor = null;
 
 	/**
 	 * Init state
@@ -55,6 +57,7 @@ public class SystemState {
 		generatedElements.clear();
 		instancePackage = model.createNestedPackage(name + " Instance(" + ++stateId + ")");
 		addGeneratedElement(instancePackage);
+		coordinator = new ExecutionCoordinator();
 		this.mainExecutor = mainExecutor;
 	}
 
@@ -91,16 +94,23 @@ public class SystemState {
 	public UseCaseExecutor getMainExecutor() {
 		return mainExecutor;
 	}
-	
+
 	/**
-	 * Adds an annotation for new generated elements.
-	 * The annotations might be used later by other plug-ins, e.g. to draw new elements.
+	 * Adds an annotation for new generated elements. The annotations might be
+	 * used later by other plug-ins, e.g. to draw new elements.
+	 * 
 	 * @param element
 	 */
-	
+
 	protected void annotateAsGenerated(Element element) {
 		EAnnotation annotation = UML2Util.getEAnnotation(element, AbstractChecker.ESCULAPA_NAMESPACE, true);
 		annotation.getDetails().put("generated", "true");
 	}
 
+	/**
+	 * @return the coordinator
+	 */
+	public ExecutionCoordinator getCoordinator() {
+		return coordinator;
+	}
 }

@@ -14,7 +14,7 @@ package dk.dtu.imm.esculapauml.core.executors.coordination;
 import java.util.EventListener;
 
 /**
- * Interface for listeners of call events.
+ * Interface for listeners of execution events.
  * 
  * @author Piotr J. Puczynski
  * 
