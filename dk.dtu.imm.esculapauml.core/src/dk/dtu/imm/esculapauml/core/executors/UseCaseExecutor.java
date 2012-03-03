@@ -62,8 +62,6 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		this.checker = checker;
 		checkee = checker.getCheckedObject();
 		systemState = checker.getSystemState();
-		// register listener
-		systemState.getCoordinator().addExecutionListener(this);
 		logger = Logger.getLogger(UseCaseExecutor.class);
 		logger.debug(checkee.getLabel() + ": executor created");
 	}
@@ -76,6 +74,8 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	@Override
 	public void prepare() {
 		logger.debug(checkee.getLabel() + ": executor preparation");
+		// register listener
+		systemState.getCoordinator().addExecutionListener(this);
 		currentMessage = getFirstMessage();
 
 	}
@@ -87,10 +87,50 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	 * dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#
 	 * callEventOccurred
 	 * (dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent)
+	 * 
+	 * Operation called each time some operation is executed from outside (e.g.
+	 * in state machines). It enables extension of sequence diagrams or
+	 * synchronization with current execution (depending on mode).
 	 */
+
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
-		// TODO Auto-generated method stub
+		Operation operation = event.getOperation();
+		BehaviorExecutor executor = event.getSource();
+		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
+		Lifeline sourceLifeline = executor.getLifeline();
+		Lifeline targetLifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
+		if (null == targetLifeline) {
+			// there is no lifeline now that could correspond to the object
+			// we need to create it
+			LifelineGenerator lifelineGenerator = new LifelineGenerator(checker, checkee, targetClass);
+			targetLifeline = lifelineGenerator.generate();
+			// we will need also to generate BehaviorExecutionSpecification and
+			// a message (with call event)
+			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
+			messageGenerator.setOperation(operation);
+			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
+			Message message = messageGenerator.generate();
+			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
+					(BasicDiagnostic) checker.getDiagnostics(), targetLifeline);
+			besGenerator.setStartAndFinish((OccurrenceSpecification) message.getReceiveEvent());
+			besGenerator.generate();
+			executeMessage(message);
+		} else {
+			// check if operation and lifelines are the same
+			Message message = getNextMessage(currentMessage);
+			if (InteractionUtils.getMessageOperation(message) != operation || InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
+					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline) {
+				// message not conform to given operation
+				// we need to generate a new message
+				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
+				messageGenerator.setOperation(operation);
+				messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
+				// TODO: add setting receive event in correct place
+				message = messageGenerator.generate();
+			}
+			executeMessage(message);
+		}
 
 	}
 
@@ -221,52 +261,6 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		}
 		messageGenerator.setReceiveGenerateAfter((MessageOccurrenceSpecification) message.getSendEvent());
 		return messageGenerator.generate();
-	}
-
-	/**
-	 * Operation called each time some operation is executed from outside (e.g.
-	 * in state machines). It enables extension of sequence diagrams or
-	 * synchronization with current execution (depending on mode).
-	 * 
-	 * @param executor
-	 * @param operation
-	 */
-	protected void behaviorExecution(BehaviorExecutor executor, Operation operation) {
-		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
-		Lifeline sourceLifeline = executor.getLifeline();
-		Lifeline targetLifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
-		if (null == targetLifeline) {
-			// there is no lifeline now that could correspond to the object
-			// we need to create it
-			LifelineGenerator lifelineGenerator = new LifelineGenerator(checker, checkee, targetClass);
-			targetLifeline = lifelineGenerator.generate();
-			// we will need also to generate BehaviorExecutionSpecification and
-			// a message (with call event)
-			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
-			messageGenerator.setOperation(operation);
-			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
-			Message message = messageGenerator.generate();
-			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
-					(BasicDiagnostic) checker.getDiagnostics(), targetLifeline);
-			besGenerator.setStartAndFinish((OccurrenceSpecification) message.getReceiveEvent());
-			besGenerator.generate();
-			executeMessage(message);
-		} else {
-			// check if operation and lifelines are the same
-			Message message = getNextMessage(currentMessage);
-			if (InteractionUtils.getMessageOperation(message) != operation || InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
-					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline) {
-				// message not conform to given operation
-				// we need to generate a new message
-				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
-				messageGenerator.setOperation(operation);
-				messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
-				// TODO: add setting receive event in correct place
-				message = messageGenerator.generate();
-			}
-			executeMessage(message);
-		}
-
 	}
 
 	/**

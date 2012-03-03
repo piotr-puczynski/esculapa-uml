@@ -23,7 +23,6 @@ import org.eclipse.uml2.uml.Model;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
-import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCoordinator;
 
 /**
@@ -39,10 +38,9 @@ public class SystemState {
 	private Set<Element> generatedElements = new HashSet<Element>();
 	private int stateId = -1;
 	private ExecutionCoordinator coordinator;
-	private UseCaseExecutor mainExecutor = null;
 
 	/**
-	 * Init state
+	 * Initialize state
 	 */
 	public SystemState() {
 		super();
@@ -53,12 +51,11 @@ public class SystemState {
 	 * 
 	 * @param model
 	 */
-	public void prepare(String name, Model model, UseCaseExecutor mainExecutor) {
+	public void prepare(String name, Model model) {
 		generatedElements.clear();
 		instancePackage = model.createNestedPackage(name + " Instance(" + ++stateId + ")");
 		addGeneratedElement(instancePackage);
 		coordinator = new ExecutionCoordinator();
-		this.mainExecutor = mainExecutor;
 	}
 
 	public BehaviorChecker getBehaviorChecker(BehavioredClassifier type) {
@@ -86,13 +83,6 @@ public class SystemState {
 	 */
 	public org.eclipse.uml2.uml.Package getInstancePackage() {
 		return instancePackage;
-	}
-
-	/**
-	 * @return the mainExecutor
-	 */
-	public UseCaseExecutor getMainExecutor() {
-		return mainExecutor;
 	}
 
 	/**

@@ -13,6 +13,10 @@ package dk.dtu.imm.esculapauml.core.executors.coordination;
 
 import java.util.EventObject;
 
+import org.eclipse.uml2.uml.Operation;
+
+import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
+
 /**
  * Object of call event during execution.
  * 
@@ -25,12 +29,27 @@ public class EsculapaCallEvent extends EventObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Operation operation;
 
 	/**
 	 * @param source
 	 */
-	public EsculapaCallEvent(Object source) {
+	public EsculapaCallEvent(BehaviorExecutor source, Operation operation) {
 		super(source);
+		this.operation = operation;
+	}
+
+	public BehaviorExecutor getSource() {
+		return (BehaviorExecutor) source;
+	}
+
+	/**
+	 * Returns operation called.
+	 * 
+	 * @return the operation
+	 */
+	public Operation getOperation() {
+		return operation;
 	}
 
 }

@@ -45,6 +45,7 @@ import ch.lambdaj.function.matcher.Predicate;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.executors.behaviors.TransitionChooser;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
@@ -291,7 +292,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			if (effect instanceof FunctionBehavior) {
 				BehavioralFeature bf = effect.getSpecification();
 				if (bf instanceof Operation) {
-					checker.getSystemState().getMainExecutor().behaviorExecution(this, (Operation) bf);
+					// dispatch new execution event
+					EsculapaCallEvent ece = new EsculapaCallEvent(this, (Operation) bf);
+					checker.getSystemState().getCoordinator().fireCallEvent(ece);
 				} else {
 					// this shouldn't happen as function behavior should be an
 					// operation
