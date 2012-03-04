@@ -348,6 +348,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		BehaviorChecker behaviorChecker = checker.getSystemState().getBehaviorChecker(clazz);
 		if(null == behaviorChecker) {
 			behaviorChecker = new BehaviorChecker(checker, clazz);
+			behaviorChecker.check();
 		}
 		return behaviorChecker.registerInstance(name);
 	}
