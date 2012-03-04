@@ -13,7 +13,9 @@ package dk.dtu.imm.esculapauml.core.executors.coordination;
 
 import java.util.EventObject;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
@@ -32,14 +34,17 @@ public class EsculapaCallEvent extends EventObject {
 	private Operation operation;
 	private InstanceExecutor target;
 	private boolean isSynchronousCall;
+	private EList<ValueSpecification> arguments;
 
 	/**
 	 * @param source
+	 * @param arguments 
 	 */
-	public EsculapaCallEvent(Object source, InstanceExecutor target, Operation operation, boolean isSynchronousCall) {
+	public EsculapaCallEvent(Object source, InstanceExecutor target, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronousCall) {
 		super(source);
 		this.operation = operation;
 		this.target = target;
+		this.arguments = arguments;
 		setSynchronousCall(isSynchronousCall);
 	}
 
@@ -72,6 +77,13 @@ public class EsculapaCallEvent extends EventObject {
 	 */
 	public InstanceExecutor getTarget() {
 		return target;
+	}
+
+	/**
+	 * @return the arguments
+	 */
+	public EList<ValueSpecification> getArguments() {
+		return arguments;
 	}
 
 }

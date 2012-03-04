@@ -167,7 +167,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			}
 		} else {
 			// dispatch new execution event
-			EsculapaCallEvent ece = new EsculapaCallEvent(source, this, operation, isSynchronous);
+			EsculapaCallEvent ece = new EsculapaCallEvent(source, this, operation, arguments, isSynchronous);
 			checker.getSystemState().getCoordinator().fireEvent(ece);
 
 			TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
