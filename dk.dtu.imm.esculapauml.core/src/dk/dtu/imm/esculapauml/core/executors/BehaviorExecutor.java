@@ -165,6 +165,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				// event
 				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
 						+ operation.getLabel() + "\". Event is lost.", errorContext);
+				// asynchronous call returns immediately
+				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, operation);
+				checker.getSystemState().getCoordinator().fireEvent(ecrce);
 			}
 		} else {
 			// dispatch new execution event
