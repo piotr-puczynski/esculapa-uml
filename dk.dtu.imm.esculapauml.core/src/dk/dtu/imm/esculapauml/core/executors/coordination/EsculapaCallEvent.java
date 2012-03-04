@@ -30,13 +30,15 @@ public class EsculapaCallEvent extends EventObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Operation operation;
+	private boolean isSynchronousCall;
 
 	/**
 	 * @param source
 	 */
-	public EsculapaCallEvent(BehaviorExecutor source, Operation operation) {
+	public EsculapaCallEvent(BehaviorExecutor source, Operation operation, boolean isSynchronousCall) {
 		super(source);
 		this.operation = operation;
+		setSynchronousCall(isSynchronousCall);
 	}
 
 	public BehaviorExecutor getSource() {
@@ -50,6 +52,20 @@ public class EsculapaCallEvent extends EventObject {
 	 */
 	public Operation getOperation() {
 		return operation;
+	}
+
+	/**
+	 * @return the isSynchronousCall
+	 */
+	public boolean isSynchronousCall() {
+		return isSynchronousCall;
+	}
+
+	/**
+	 * @param isSynchronousCall the isSynchronousCall to set
+	 */
+	public void setSynchronousCall(boolean isSynchronousCall) {
+		this.isSynchronousCall = isSynchronousCall;
 	}
 
 }

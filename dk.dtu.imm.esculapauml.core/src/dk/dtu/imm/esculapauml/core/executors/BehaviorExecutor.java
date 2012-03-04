@@ -293,7 +293,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				BehavioralFeature bf = effect.getSpecification();
 				if (bf instanceof Operation) {
 					// dispatch new execution event
-					EsculapaCallEvent ece = new EsculapaCallEvent(this, (Operation) bf);
+					EsculapaCallEvent ece = new EsculapaCallEvent(this, (Operation) bf, true);
 					checker.getSystemState().getCoordinator().fireCallEvent(ece);
 				} else {
 					// this shouldn't happen as function behavior should be an

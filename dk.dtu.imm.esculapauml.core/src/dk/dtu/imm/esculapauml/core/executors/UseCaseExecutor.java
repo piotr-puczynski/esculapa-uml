@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.executors;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Stack;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -54,6 +55,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	protected Interaction checkee;
 	protected SystemState systemState;
 	protected UseCaseChecker checker;
+	protected Stack<Operation> callStack = new Stack<Operation>();
 
 	/**
 	 * @param checker
@@ -97,6 +99,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
 		Operation operation = event.getOperation();
+		callStack.add(operation);
 		BehaviorExecutor executor = event.getSource();
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
 		Lifeline sourceLifeline = executor.getLifeline();
