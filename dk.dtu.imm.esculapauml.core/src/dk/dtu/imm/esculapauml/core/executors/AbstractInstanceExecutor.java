@@ -54,6 +54,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		this.instanceName = instanceName;
 		this.originalClass = originalClass;
 		createInstanceSpecification();
+		checker.getSystemState().registerInstanceExecutor(this);
 	}
 
 	/**
@@ -67,6 +68,8 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		this.instanceName = executor.getInstanceName();
 		this.originalClass = executor.getOriginalClass();
 		this.localClass = executor.getLocalClass();
+		// do not register itself in the state registry, it's enough that our
+		// parent is registered
 	}
 
 	/**

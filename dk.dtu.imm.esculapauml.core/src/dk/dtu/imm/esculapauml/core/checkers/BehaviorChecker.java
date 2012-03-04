@@ -11,12 +11,9 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
-import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.BehavioredClassifier;
-import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.StateMachine;
 
 import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
@@ -30,15 +27,12 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  */
 public class BehaviorChecker extends AbstractStateMachineChecker {
 
-	protected ArrayList<BehaviorExecutor> executors = new ArrayList<BehaviorExecutor>();
-
 	/**
 	 * @param existingDiagnostics
 	 * @param objectToCheck
 	 */
 	public BehaviorChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, BehavioredClassifier type) {
 		super(systemState, existingDiagnostics, objectToCheck);
-		systemState.registerBehaviorChecker(type, this);
 		logger = Logger.getLogger(BehaviorChecker.class);
 	}
 
@@ -54,21 +48,11 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 
 	}
 	
-	public void registerInstance(Lifeline lifeline) {
-		BehaviorExecutor be = new BehaviorExecutor(this, lifeline);
-		executors.add(be);
+	public void registerInstance(String name) {
+		BehaviorExecutor be = new BehaviorExecutor(this, name);
 		if (!hasErrors()) {
 			be.prepare();
 		}
-	}
-
-	/**
-	 * Return default executor for a class
-	 * 
-	 * @return
-	 */
-	public BehaviorExecutor getDefaultExecutor() {
-		return executors.get(0);
 	}
 
 }

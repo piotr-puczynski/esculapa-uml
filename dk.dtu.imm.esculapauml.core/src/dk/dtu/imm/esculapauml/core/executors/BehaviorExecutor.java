@@ -26,7 +26,6 @@ import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.FunctionBehavior;
-import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
@@ -55,7 +54,6 @@ import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
  */
 public class BehaviorExecutor extends AbstractInstanceExecutor {
 
-	protected Lifeline lifeline;
 	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
 	protected StateMachine checkee;
 	protected BehaviorChecker checker;
@@ -68,22 +66,14 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	/**
 	 * @param checker
 	 */
-	public BehaviorExecutor(BehaviorChecker checker, Lifeline lifeline) {
-		super(checker, lifeline.getName(), (Class) checker.getCheckedObject().getContext());
+	public BehaviorExecutor(BehaviorChecker checker, String instanceName) {
+		super(checker, instanceName, (Class) checker.getCheckedObject().getContext());
 		this.checker = checker;
 		checkee = checker.getCheckedObject();
-		this.lifeline = lifeline;
 		logger = Logger.getLogger(BehaviorExecutor.class);
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
 	}
-
-	/**
-	 * @return the lifeline
-	 */
-	public Lifeline getLifeline() {
-		return lifeline;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

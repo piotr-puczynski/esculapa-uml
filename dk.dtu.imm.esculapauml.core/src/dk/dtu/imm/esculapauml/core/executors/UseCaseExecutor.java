@@ -20,7 +20,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -55,7 +55,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	protected Interaction checkee;
 	protected SystemState systemState;
 	protected UseCaseChecker checker;
-	protected Stack<Operation> callStack = new Stack<Operation>();
+	protected Stack<EsculapaCallEvent> callStack = new Stack<EsculapaCallEvent>();
 
 	/**
 	 * @param checker
@@ -98,11 +98,11 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
+		callStack.add(event);
 		Operation operation = event.getOperation();
-		callStack.add(operation);
 		BehaviorExecutor executor = event.getSource();
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
-		Lifeline sourceLifeline = executor.getLifeline();
+		Lifeline sourceLifeline = findLifelineForInstanceExecutor(executor);
 		Lifeline targetLifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
 		if (null == targetLifeline) {
 			// there is no lifeline now that could correspond to the object
@@ -137,15 +137,36 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		}
 
 	}
-	
-	
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#replyEventOccurred(dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent)
+
+	/**
+	 * Finds a lifeline that the instance executor represents in the diagram (if
+	 * there is any).
+	 * 
+	 * @param executor
+	 * @return
+	 */
+	private Lifeline findLifelineForInstanceExecutor(InstanceExecutor executor) {
+		// search based on name and class
+		for (Lifeline lifeline : checkee.getLifelines()) {
+			if (lifeline.getName() == executor.getInstanceName() && lifeline.getRepresents().getType() == executor.getOriginalClass()) {
+				return lifeline;
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#
+	 * replyEventOccurred
+	 * (dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent)
 	 */
 	@Override
 	public void replyEventOccurred(EsculapaReplyEvent event) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -175,8 +196,8 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		logger.info("Executing message " + message.getLabel());
 		currentMessage = message;
 		if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
-			BehavioredClassifier target = (BehavioredClassifier) InteractionUtils.getMessageTargetType(message);
-			BehaviorExecutor targetExecutor = systemState.getBehaviorChecker(target).getDefaultExecutor();
+			Lifeline targetLifeline = InteractionUtils.getMessageTargetLifeline(message);
+			BehaviorExecutor targetExecutor = (BehaviorExecutor) findInstanceExecutorForLifeline(targetLifeline);
 			NamedElement signature = message.getSignature();
 
 			if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
@@ -209,6 +230,19 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				}
 			}
 		}
+	}
+
+	/**
+	 * Uses systemState to find corresponding executor.
+	 * 
+	 * @param targetLifeline
+	 * @return
+	 */
+	private InstanceExecutor findInstanceExecutorForLifeline(Lifeline lifeline) {
+		if (lifeline.getRepresents().getType() instanceof Class) {
+			return systemState.getInstanceExecutor(lifeline.getName(), (Class) lifeline.getRepresents().getType());
+		}
+		return null;
 	}
 
 	/**
