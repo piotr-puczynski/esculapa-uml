@@ -11,34 +11,42 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
-import java.util.EventListener;
+import java.util.EventObject;
+
+import org.eclipse.uml2.uml.Operation;
+
+import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
- * Interface for listeners of execution events.
+ * Call models return of a flow from any call.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public interface ExecutionListener extends EventListener {
+public class EsculapaCallReturnControlEvent extends EventObject {
 
 	/**
-	 * Occurs when call event arrives.
 	 * 
-	 * @param event
 	 */
-	void callEventOccurred(EsculapaCallEvent event);
+	private static final long serialVersionUID = 1L;
+	private Operation operation;
 
 	/**
-	 * Occurs when reply arrives.
-	 * 
-	 * @param event
+	 * @param source
 	 */
-	void replyEventOccurred(EsculapaReplyEvent event);
+	public EsculapaCallReturnControlEvent(InstanceExecutor source, Operation operation) {
+		super(source);
+		this.operation = operation;
+	}
+
+	public InstanceExecutor getSource() {
+		return (InstanceExecutor) source;
+	}
 
 	/**
-	 * Occurs when control flow returns.
-	 * 
-	 * @param event
+	 * @return the operation
 	 */
-	void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event);
+	public Operation getOperation() {
+		return operation;
+	}
 }

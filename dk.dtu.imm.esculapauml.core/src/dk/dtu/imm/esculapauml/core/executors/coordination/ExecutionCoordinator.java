@@ -53,4 +53,15 @@ public class ExecutionCoordinator {
 			listener.replyEventOccurred(replyEvent);
 		}
 	}
+	
+	/**
+	 * Notify observers of control flow event that occurred.
+	 * 
+	 * @param replyEvent
+	 */
+	public void fireEvent(EsculapaCallReturnControlEvent controlEvent) {
+		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
+			listener.callReturnControlEventOccurred(controlEvent);
+		}
+	}
 }

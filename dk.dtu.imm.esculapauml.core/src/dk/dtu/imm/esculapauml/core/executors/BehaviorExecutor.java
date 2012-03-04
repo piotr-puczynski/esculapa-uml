@@ -44,6 +44,7 @@ import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.executors.behaviors.TransitionChooser;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
@@ -169,6 +170,11 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			// dispatch new execution event
 			EsculapaCallEvent ece = new EsculapaCallEvent(source, this, operation, arguments, isSynchronous);
 			checker.getSystemState().getCoordinator().fireEvent(ece);
+			if (!isSynchronous) {
+				// asynchronous call returns immediately
+				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, operation);
+				checker.getSystemState().getCoordinator().fireEvent(ecrce);
+			}
 
 			TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
 			// only synchronous calls can have a reply
@@ -182,6 +188,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				// dispatch new reply event
 				EsculapaReplyEvent ere = new EsculapaReplyEvent(this, operation, result);
 				checker.getSystemState().getCoordinator().fireEvent(ere);
+				// synchronous control flow returned here
+				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, operation);
+				checker.getSystemState().getCoordinator().fireEvent(ecrce);
 				return result;
 			}
 		}
@@ -346,7 +355,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	private InstanceExecutor createInstanceExecutor(String name, Class clazz) {
 		// check for appropriate checker
 		BehaviorChecker behaviorChecker = checker.getSystemState().getBehaviorChecker(clazz);
-		if(null == behaviorChecker) {
+		if (null == behaviorChecker) {
 			behaviorChecker = new BehaviorChecker(checker, clazz);
 			behaviorChecker.check();
 		}

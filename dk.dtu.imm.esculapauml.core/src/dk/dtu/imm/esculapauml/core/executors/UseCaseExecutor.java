@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
 import dk.dtu.imm.esculapauml.core.generators.BehaviorExecutionSpecificationGenerator;
@@ -204,6 +205,23 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#
+	 * callReturnControlEventOccurred
+	 * (dk.dtu.imm.esculapauml.core.executors.coordination
+	 * .EsculapaCallReturnControlEvent)
+	 */
+	@Override
+	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
+		if (!callStack.isEmpty() && callStack.peek().getSignature() == event.getOperation()) {
+			callStack.pop();
+		}
+
+	}
+
 	/**
 	 * Executes all messages
 	 */
@@ -236,9 +254,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 
 			if (signature instanceof Operation) {
 				Operation operation = (Operation) signature;
-				if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
-					callStack.add(message);
-				}
+				callStack.add(message);
 				targetExecutor.callOperation(message, operation, message.getArguments(), message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL, message);
 			}
 		}

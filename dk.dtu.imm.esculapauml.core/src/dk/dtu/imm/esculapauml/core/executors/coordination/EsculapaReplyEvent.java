@@ -16,14 +16,16 @@ import java.util.EventObject;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
 
-import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
+import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
+ * Class models the reply of a synchronous call.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class EsculapaReplyEvent extends EventObject {
-	
+
 	/**
 	 * 
 	 */
@@ -34,14 +36,14 @@ public class EsculapaReplyEvent extends EventObject {
 	/**
 	 * @param source
 	 */
-	public EsculapaReplyEvent(BehaviorExecutor source, Operation operation, ValueSpecification result) {
+	public EsculapaReplyEvent(InstanceExecutor source, Operation operation, ValueSpecification result) {
 		super(source);
 		this.operation = operation;
 		this.result = result;
 	}
-	
-	public BehaviorExecutor getSource() {
-		return (BehaviorExecutor) source;
+
+	public InstanceExecutor getSource() {
+		return (InstanceExecutor) source;
 	}
 
 	/**
@@ -57,5 +59,5 @@ public class EsculapaReplyEvent extends EventObject {
 	public ValueSpecification getResult() {
 		return result;
 	}
-	
+
 }
