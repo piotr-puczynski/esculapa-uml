@@ -149,8 +149,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#callOperation(
-	 * org.eclipse.uml2.uml.Operation, org.eclipse.emf.common.util.EList,
-	 * boolean, org.eclipse.uml2.uml.Element)
+	 * java.lang.Object, org.eclipse.uml2.uml.Operation,
+	 * org.eclipse.emf.common.util.EList, boolean, org.eclipse.uml2.uml.Element)
 	 */
 	public ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
@@ -169,7 +169,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			// dispatch new execution event
 			EsculapaCallEvent ece = new EsculapaCallEvent(source, this, operation, isSynchronous);
 			checker.getSystemState().getCoordinator().fireEvent(ece);
-			
+
 			TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
 			// only synchronous calls can have a reply
 			trc.setAcceptReplies(isSynchronous);
@@ -299,9 +299,14 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			if (effect instanceof FunctionBehavior) {
 				BehavioralFeature bf = effect.getSpecification();
 				if (bf instanceof Operation) {
-					// dispatch new execution event
-					EsculapaCallEvent ece = new EsculapaCallEvent(this, this, (Operation) bf, true);
-					checker.getSystemState().getCoordinator().fireEvent(ece);
+					Operation operation = (Operation) bf;
+					// trigger function on general class default executor
+					InstanceExecutor executor = getDefaultExecutorForOperation(operation);
+					if (!checker.hasErrors()) {
+						// simple no arguments call
+						EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
+						executor.callOperation(this, operation, arguments, true, ftr.getCheckedObject());
+					}
 				} else {
 					// this shouldn't happen as function behavior should be an
 					// operation
@@ -314,6 +319,37 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			}
 		}
 
+	}
+
+	/**
+	 * Finds or creates default executor for operation.
+	 * 
+	 * @param operation
+	 * @return
+	 */
+	private InstanceExecutor getDefaultExecutorForOperation(Operation operation) {
+		InstanceExecutor result = checker.getSystemState().getInstanceExecutor(operation.getClass_());
+		if (null == result) {
+			// create new instance executor
+			result = createInstanceExecutor(operation.getClass_().getName(), operation.getClass_());
+		}
+		return result;
+	}
+
+	/**
+	 * Creates instance executor with given name and class.
+	 * 
+	 * @param name
+	 * @param clazz
+	 * @return
+	 */
+	private InstanceExecutor createInstanceExecutor(String name, Class clazz) {
+		// check for appropriate checker
+		BehaviorChecker behaviorChecker = checker.getSystemState().getBehaviorChecker(clazz);
+		if(null == behaviorChecker) {
+			behaviorChecker = new BehaviorChecker(checker, clazz);
+		}
+		return behaviorChecker.registerInstance(name);
 	}
 
 }

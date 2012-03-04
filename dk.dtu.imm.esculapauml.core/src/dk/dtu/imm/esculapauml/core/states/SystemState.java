@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.states;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,12 +19,14 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.uml2.common.util.UML2Util;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Model;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
+import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCoordinator;
 
@@ -36,6 +39,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCoordinator;
  */
 public class SystemState {
 	private List<InstanceExecutor> instanceExecutors = new LinkedList<InstanceExecutor>();
+	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
 	private org.eclipse.uml2.uml.Package instancePackage = null;
 	private Set<Element> generatedElements = new HashSet<Element>();
 	private int stateId = -1;
@@ -77,6 +81,15 @@ public class SystemState {
 		}
 		return null;
 	}
+	
+	public InstanceExecutor getInstanceExecutor(Class clazz) {
+		for (InstanceExecutor instanceExecutor : instanceExecutors) {
+			if (instanceExecutor.getOriginalClass() == clazz) {
+				return instanceExecutor;
+			}
+		}
+		return null;
+	}
 
 	public void registerInstanceExecutor(InstanceExecutor instanceExecutor) {
 		instanceExecutors.add(instanceExecutor);
@@ -85,6 +98,14 @@ public class SystemState {
 	public void addGeneratedElement(Element element) {
 		annotateAsGenerated(element);
 		generatedElements.add(element);
+	}
+
+	public BehaviorChecker getBehaviorChecker(BehavioredClassifier type) {
+		return behaviorCheckers.get(type);
+	}
+
+	public void registerBehaviorChecker(BehavioredClassifier type, BehaviorChecker checker) {
+		behaviorCheckers.put(type, checker);
 	}
 
 	/**

@@ -102,12 +102,14 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 							+ "' is abstract and cannot be instantiated.", checkee, type);
 				} else {
 					Behavior behavior = ((BehavioredClassifier) type).getClassifierBehavior();
+					// TODO: remove below; this is redundant and this check
+					// exists in BehaviorChecker
 					if (null == behavior) {
 						addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
 								+ "\" has no behavior defined.", checkee, type);
 					} else {
 						if (behavior instanceof StateMachine) {
-							prepareBehaviorCheckerForLifeline((BehavioredClassifier) type, (StateMachine) behavior);
+							prepareBehaviorCheckerForLifeline((BehavioredClassifier) type);
 						} else {
 							addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
 									+ "\" has no behavior defined not as StateMachine.", checkee, type);
@@ -122,8 +124,8 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	/**
 	 * Initializes the checker for behavior of the lifeline representant
 	 */
-	protected void prepareBehaviorCheckerForLifeline(BehavioredClassifier type, StateMachine sm) {
-		BehaviorChecker bc = new BehaviorChecker(systemState, diagnostics, sm, type);
+	protected void prepareBehaviorCheckerForLifeline(BehavioredClassifier type) {
+		BehaviorChecker bc = new BehaviorChecker(this, type);
 		bc.check();
 		// register instance for lifeline
 		bc.registerInstance(checkee.getName());

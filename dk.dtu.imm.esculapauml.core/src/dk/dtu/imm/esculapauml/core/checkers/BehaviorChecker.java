@@ -13,11 +13,11 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.StateMachine;
 
 import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
-import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
  * Checker for behaviors
@@ -27,12 +27,17 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  */
 public class BehaviorChecker extends AbstractStateMachineChecker {
 
+	private BehavioredClassifier type;
+
 	/**
 	 * @param existingDiagnostics
 	 * @param objectToCheck
 	 */
-	public BehaviorChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, StateMachine objectToCheck, BehavioredClassifier type) {
-		super(systemState, existingDiagnostics, objectToCheck);
+	public BehaviorChecker(Checker checker, BehavioredClassifier type) {
+		super(checker.getSystemState(), (BasicDiagnostic) checker.getDiagnostics(), ((type.getClassifierBehavior() == null) ? null : (StateMachine) type
+				.getClassifierBehavior()));
+		this.type = type;
+		systemState.registerBehaviorChecker(type, this);
 		logger = Logger.getLogger(BehaviorChecker.class);
 	}
 
@@ -43,16 +48,30 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	 */
 	@Override
 	public void check() {
-		logger.debug(checkee.getLabel() +": start check");
-		checkRegions();
+		logger.debug(checkee.getLabel() + ": start check");
+		checkBehavior();
+		if (!hasErrors()) {
+			checkRegions();
+		}
 
 	}
-	
-	public void registerInstance(String name) {
+
+	/**
+	 * 
+	 */
+	private void checkBehavior() {
+		if (!(checkee instanceof StateMachine)) {
+			addOtherProblem(Diagnostic.ERROR, "Classifier '" + type.getLabel() + "' has behavior defined not as StateMachine.", type);
+		}
+	}
+
+	public BehaviorExecutor registerInstance(String name) {
 		BehaviorExecutor be = new BehaviorExecutor(this, name);
 		if (!hasErrors()) {
 			be.prepare();
 		}
+
+		return be;
 	}
 
 }

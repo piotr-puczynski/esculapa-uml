@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -99,10 +98,11 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
-		if (currentMessage == event.getSource()) {
+		if (!callStack.isEmpty() && callStack.peek() == event.getSource()) {
 			// we should skip this message generation since its us who called it
 			return;
 		}
+		// first we need to check if the next message conforms to the event
 		Operation operation = event.getOperation();
 		InstanceExecutor executor = event.getTarget();
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
