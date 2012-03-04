@@ -44,6 +44,7 @@ import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.executors.behaviors.TransitionChooser;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
@@ -73,7 +74,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		logger = Logger.getLogger(BehaviorExecutor.class);
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -143,12 +144,15 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 
 	}
 
-	/**
-	 * Operation used to trigger event in state machine.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param operation
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#callOperation(
+	 * org.eclipse.uml2.uml.Operation, org.eclipse.emf.common.util.EList,
+	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
-	public ValueSpecification callOperation(Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
+	public ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
 		Transition goodTransition = getEnabledTransitionForOperation(operation, arguments, errorContext);
 		if (null == goodTransition) {
@@ -162,13 +166,24 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 						+ operation.getLabel() + "\". Event is lost.", errorContext);
 			}
 		} else {
+			// dispatch new execution event
+			EsculapaCallEvent ece = new EsculapaCallEvent(source, this, operation, isSynchronous);
+			checker.getSystemState().getCoordinator().fireEvent(ece);
+			
 			TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
 			// only synchronous calls can have a reply
 			trc.setAcceptReplies(isSynchronous);
 			fireTransition(trc);
 			// dispatch completion event
 			calculateEnabledTransitions(trc);
-			return trc.getReply();
+			ValueSpecification result = trc.getReply();
+
+			if (isSynchronous) {
+				// dispatch new reply event
+				EsculapaReplyEvent ere = new EsculapaReplyEvent(this, operation, result);
+				checker.getSystemState().getCoordinator().fireEvent(ere);
+				return result;
+			}
 		}
 		return null;
 	}
@@ -176,9 +191,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	/**
 	 * Prepares the event to be run on the instance. If guard is satisfied, the
 	 * transition is returned, otherwise null is returned.
+	 * 
 	 * @param operation
 	 * @param arguments
-	 * @param errorContext 
+	 * @param errorContext
 	 * 
 	 * @return
 	 */
@@ -232,9 +248,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 
 	/**
 	 * Prepares operation arguments to be used in state machine
+	 * 
 	 * @param operation
 	 * @param arguments
-	 * @param errorContext 
+	 * @param errorContext
 	 */
 	private void preprocessOperationArguments(Operation operation, EList<ValueSpecification> arguments, Element errorContext) {
 		EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>((operation).getOwnedParameters());
@@ -283,8 +300,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				BehavioralFeature bf = effect.getSpecification();
 				if (bf instanceof Operation) {
 					// dispatch new execution event
-					EsculapaCallEvent ece = new EsculapaCallEvent(this, (Operation) bf, true);
-					checker.getSystemState().getCoordinator().fireCallEvent(ece);
+					EsculapaCallEvent ece = new EsculapaCallEvent(this, this, (Operation) bf, true);
+					checker.getSystemState().getCoordinator().fireEvent(ece);
 				} else {
 					// this shouldn't happen as function behavior should be an
 					// operation

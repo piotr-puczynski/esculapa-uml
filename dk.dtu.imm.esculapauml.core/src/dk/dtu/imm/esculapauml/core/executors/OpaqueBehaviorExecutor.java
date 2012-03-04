@@ -21,16 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ElementImport;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.PackageableElement;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.UMLFactory;
@@ -71,6 +74,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	protected TransitionReplyChecker trc;
 	protected SALNode root = null;
 	protected BehaviorChecker checker;
+	protected InstanceExecutor parent;
 	public static final String LANG_ID = "SAL";
 
 	/**
@@ -78,6 +82,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	public OpaqueBehaviorExecutor(InstanceExecutor instanceExecutor, TransitionReplyChecker trc) {
 		super(instanceExecutor);
+		parent = instanceExecutor;
 		checker = (BehaviorChecker) instanceExecutor.getChecker();
 		this.trc = trc;
 		this.behavior = (OpaqueBehavior) trc.getCheckedObject().getEffect();
@@ -208,6 +213,20 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		Resource resource = resourceSet.getResource(uri, true);
 		package_ = (org.eclipse.uml2.uml.Package) EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE);
 		return package_;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#callOperation(
+	 * org.eclipse.uml2.uml.Operation, org.eclipse.emf.common.util.EList,
+	 * boolean, org.eclipse.uml2.uml.Element)
+	 */
+	@Override
+	public ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
+		// redirect calls to parent
+		return parent.callOperation(source, operation, arguments, isSynchronous, errorContext);
 	}
 
 	/*

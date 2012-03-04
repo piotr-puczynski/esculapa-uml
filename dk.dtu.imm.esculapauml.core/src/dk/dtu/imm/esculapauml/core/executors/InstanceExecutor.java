@@ -11,9 +11,11 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 /**
@@ -40,7 +42,8 @@ public interface InstanceExecutor extends Executor {
 	 * 
 	 * @param name
 	 * @param value
-	 * @param errorContext context of the possible type error to display.
+	 * @param errorContext
+	 *            context of the possible type error to display.
 	 * 
 	 * @return true if set successfully or false if type check failed and
 	 *         variable was not set.
@@ -54,6 +57,18 @@ public interface InstanceExecutor extends Executor {
 	 * @return value if variable was found or null if it was not.
 	 */
 	ValueSpecification getVariable(String name);
+
+	/**
+	 * Operation used to call operation on instance.
+	 * 
+	 * @param source
+	 * @param operation
+	 * @param arguments
+	 * @param isSynchronous
+	 * @param errorContext
+	 * @return
+	 */
+	ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext);
 
 	/**
 	 * Gets local variable. ValueName is null for single multiplicity variables.

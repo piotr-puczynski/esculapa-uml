@@ -15,7 +15,7 @@ import java.util.EventObject;
 
 import org.eclipse.uml2.uml.Operation;
 
-import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
+import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
  * Object of call event during execution.
@@ -30,19 +30,17 @@ public class EsculapaCallEvent extends EventObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Operation operation;
+	private InstanceExecutor target;
 	private boolean isSynchronousCall;
 
 	/**
 	 * @param source
 	 */
-	public EsculapaCallEvent(BehaviorExecutor source, Operation operation, boolean isSynchronousCall) {
+	public EsculapaCallEvent(Object source, InstanceExecutor target, Operation operation, boolean isSynchronousCall) {
 		super(source);
 		this.operation = operation;
+		this.target = target;
 		setSynchronousCall(isSynchronousCall);
-	}
-
-	public BehaviorExecutor getSource() {
-		return (BehaviorExecutor) source;
 	}
 
 	/**
@@ -62,10 +60,18 @@ public class EsculapaCallEvent extends EventObject {
 	}
 
 	/**
-	 * @param isSynchronousCall the isSynchronousCall to set
+	 * @param isSynchronousCall
+	 *            the isSynchronousCall to set
 	 */
 	public void setSynchronousCall(boolean isSynchronousCall) {
 		this.isSynchronousCall = isSynchronousCall;
+	}
+
+	/**
+	 * @return the target
+	 */
+	public InstanceExecutor getTarget() {
+		return target;
 	}
 
 }

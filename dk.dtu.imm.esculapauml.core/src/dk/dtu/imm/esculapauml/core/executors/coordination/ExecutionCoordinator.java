@@ -37,7 +37,7 @@ public class ExecutionCoordinator {
 	 * 
 	 * @param callEvent
 	 */
-	public void fireCallEvent(EsculapaCallEvent callEvent) {
+	public void fireEvent(EsculapaCallEvent callEvent) {
 		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
 			listener.callEventOccurred(callEvent);
 		}
@@ -46,9 +46,9 @@ public class ExecutionCoordinator {
 	/**
 	 * Notify observers of new reply event that occurred.
 	 * 
-	 * @param callEvent
+	 * @param replyEvent
 	 */
-	public void fireCallEvent(EsculapaReplyEvent replyEvent) {
+	public void fireEvent(EsculapaReplyEvent replyEvent) {
 		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
 			listener.replyEventOccurred(replyEvent);
 		}

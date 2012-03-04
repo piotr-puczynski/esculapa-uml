@@ -21,6 +21,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -55,7 +56,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	protected Interaction checkee;
 	protected SystemState systemState;
 	protected UseCaseChecker checker;
-	protected Stack<EsculapaCallEvent> callStack = new Stack<EsculapaCallEvent>();
+	protected Stack<Message> callStack = new Stack<Message>();
 
 	/**
 	 * @param checker
@@ -98,12 +99,15 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
-		callStack.add(event);
+		if (currentMessage == event.getSource()) {
+			// we should skip this message generation since its us who called it
+			return;
+		}
 		Operation operation = event.getOperation();
-		BehaviorExecutor executor = event.getSource();
+		InstanceExecutor executor = event.getTarget();
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
-		Lifeline sourceLifeline = findLifelineForInstanceExecutor(executor);
-		Lifeline targetLifeline = InteractionUtils.findRepresentingLifeline(checkee, targetClass);
+		Lifeline sourceLifeline = findSourceLifeline(event);
+		Lifeline targetLifeline = findLifelineForInstanceExecutor(executor);
 		if (null == targetLifeline) {
 			// there is no lifeline now that could correspond to the object
 			// we need to create it
@@ -119,7 +123,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 					(BasicDiagnostic) checker.getDiagnostics(), targetLifeline);
 			besGenerator.setStartAndFinish((OccurrenceSpecification) message.getReceiveEvent());
 			besGenerator.generate();
-			executeMessage(message);
+			currentMessage = message;
 		} else {
 			// check if operation and lifelines are the same
 			Message message = getNextMessage(currentMessage);
@@ -133,9 +137,23 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				// TODO: add setting receive event in correct place
 				message = messageGenerator.generate();
 			}
-			executeMessage(message);
+			currentMessage = message;
 		}
 
+	}
+
+	/**
+	 * Finds source lifeline for an event.
+	 * 
+	 * @param event
+	 * @return
+	 */
+	private Lifeline findSourceLifeline(EsculapaCallEvent event) {
+		if (event.getSource() instanceof InstanceExecutor) {
+			// sent by another instance
+			return findLifelineForInstanceExecutor((InstanceExecutor) event.getSource());
+		}
+		return null;
 	}
 
 	/**
@@ -165,7 +183,24 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	 */
 	@Override
 	public void replyEventOccurred(EsculapaReplyEvent event) {
-		// TODO Auto-generated method stub
+		// if next message is not a reply after unwind, we should
+		// generate and immediately execute reply message
+		// we need to immediately execute to update currentMessage
+		// in case there are other replies on stack to generate
+		if (!callStack.isEmpty() && callStack.peek().getSignature() == event.getOperation()) {
+			Message reply = getNextMessage(currentMessage);
+			if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
+				reply = generateReplyMessage(currentMessage);
+			} else {
+				fixReplyMessage(reply, currentMessage);
+			}
+			if (checker.hasErrors()) {
+				return;
+			}
+			// check and set result of a message
+			setMessageReturn(currentMessage, reply, event.getResult());
+			currentMessage = reply;
+		}
 
 	}
 
@@ -194,40 +229,17 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	 */
 	protected void executeMessage(Message message) {
 		logger.info("Executing message " + message.getLabel());
-		currentMessage = message;
 		if ((message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) || (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL)) {
 			Lifeline targetLifeline = InteractionUtils.getMessageTargetLifeline(message);
 			BehaviorExecutor targetExecutor = (BehaviorExecutor) findInstanceExecutorForLifeline(targetLifeline);
 			NamedElement signature = message.getSignature();
 
-			if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
-				if (signature instanceof Operation) {
-					Operation operation = (Operation) signature;
-					ValueSpecification result = targetExecutor.callOperation(operation, message.getArguments(), true, message);
-					if (checker.hasErrors()) {
-						return;
-					}
-					// if next message is not a reply after unwind, we should
-					// generate and immediately execute reply message
-					// we need to immediately execute to update currentMessage
-					// in case there are other replies on stack to generate
-					Message reply = getNextMessage(currentMessage);
-					if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
-						reply = generateReplyMessage(message);
-					} else {
-						fixReplyMessage(reply, message);
-					}
-					if (checker.hasErrors()) {
-						return;
-					}
-					// check and set result of a message
-					setMessageReturn(message, reply, result);
-					executeMessage(reply);
+			if (signature instanceof Operation) {
+				Operation operation = (Operation) signature;
+				if (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) {
+					callStack.add(message);
 				}
-			} else if (message.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
-				if (signature instanceof Operation) {
-					targetExecutor.callOperation((Operation) signature, message.getArguments(), false, message);
-				}
+				targetExecutor.callOperation(message, operation, message.getArguments(), message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL, message);
 			}
 		}
 	}

@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.executors.coordination;
 
 import java.util.EventObject;
 
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
@@ -27,15 +28,15 @@ public class EsculapaReplyEvent extends EventObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private EsculapaCallEvent call;
+	private Operation operation;
 	private ValueSpecification result;
 
 	/**
 	 * @param source
 	 */
-	public EsculapaReplyEvent(BehaviorExecutor source, EsculapaCallEvent call, ValueSpecification result) {
+	public EsculapaReplyEvent(BehaviorExecutor source, Operation operation, ValueSpecification result) {
 		super(source);
-		this.call = call;
+		this.operation = operation;
 		this.result = result;
 	}
 	
@@ -44,10 +45,10 @@ public class EsculapaReplyEvent extends EventObject {
 	}
 
 	/**
-	 * @return the call
+	 * @return the operation
 	 */
-	public EsculapaCallEvent getCall() {
-		return call;
+	public Operation getOperation() {
+		return operation;
 	}
 
 	/**
