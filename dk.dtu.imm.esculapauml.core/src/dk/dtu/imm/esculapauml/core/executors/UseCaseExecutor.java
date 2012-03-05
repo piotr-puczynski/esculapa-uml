@@ -107,9 +107,9 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		}
 		Operation operation = event.getOperation();
 		InstanceExecutor targetExecutor = event.getTarget();
-		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
+		org.eclipse.uml2.uml.Class targetClass = targetExecutor.getOriginalClass();
 		Lifeline sourceLifeline = findSourceLifeline(event);
-		// we should assume that we have a source lifeline for now
+		// TODO: generate source if needed
 		Lifeline targetLifeline = findLifelineForInstanceExecutor(targetExecutor);
 		Message message;
 		if (null == targetLifeline) {
@@ -131,9 +131,9 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// we need to check if the next message conforms to the event
 			// check if operation and lifelines are the same
 			message = getNextMessage(currentMessage);
-			if (InteractionUtils.getMessageOperation(message) != operation || InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
-					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline
-					|| !areArgumentsEqual(message.getArguments(), event.getArguments())) {
+			if (null == message || InteractionUtils.getMessageOperation(message) != operation
+					|| InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
+					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline || !areArgumentsEqual(message.getArguments(), event.getArguments())) {
 				// message not conform to given operation
 				// we need to generate a new message
 				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
@@ -180,6 +180,13 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		if (event.getSource() instanceof InstanceExecutor) {
 			// sent by another instance
 			return findLifelineForInstanceExecutor((InstanceExecutor) event.getSource());
+		} else if (event.getSource() instanceof Message) {
+			// sent by some interaction
+			Lifeline result = InteractionUtils.getMessageSourceLifeline((Message) event.getSource());
+			if (checkee.getLifelines().contains(result)) {
+				// sent by us
+				return result;
+			}
 		}
 		return null;
 	}
