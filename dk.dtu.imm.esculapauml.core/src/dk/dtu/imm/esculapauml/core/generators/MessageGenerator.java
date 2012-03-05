@@ -39,6 +39,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 
 	private Lifeline sourceLifeline, targetLifeline;
 	private MessageOccurrenceSpecification sentGenerateAfter = null, receiveGenerateAfter = null;
+	private boolean setReciveAfterSent = false;
 	private MessageSort messageSort = MessageSort.SYNCH_CALL_LITERAL;
 	private Operation operation = null;
 	private boolean extendBehavorExecutionSpecificationsIfNecessary = true;
@@ -107,7 +108,11 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		eventReceive.setMessage(generated);
 		eventReceive.setName("ReceiveMessageOccurrenceSpecificationOf" + generated.getName());
 		eventReceive.setEnclosingInteraction(targetLifeline.getInteraction());
-		insertSpecificationAfter(targetLifeline, eventReceive, receiveGenerateAfter);
+		if (setReciveAfterSent) {
+			insertSpecificationAfter(targetLifeline, eventReceive, eventSend);
+		} else {
+			insertSpecificationAfter(targetLifeline, eventReceive, receiveGenerateAfter);
+		}
 		eventReceive.getCovereds().add(targetLifeline);
 		systemState.addGeneratedElement(eventReceive);
 		logger.info("Generated new element: " + generated.getLabel());
@@ -212,6 +217,13 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	 */
 	public void setCustomName(String customName) {
 		this.customName = customName;
+	}
+
+	/**
+	 * @param b
+	 */
+	public void setReceiveAfterSent(boolean b) {
+		setReciveAfterSent = b;
 	}
 
 }

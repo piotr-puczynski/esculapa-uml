@@ -68,7 +68,7 @@ public final class InteractionUtils {
 		}
 		return null;
 	}
-	
+
 	public static void setMessageOperation(Message message, Operation operation) {
 		if (message.getSendEvent() instanceof MessageOccurrenceSpecification) {
 			MessageOccurrenceSpecification moc = (MessageOccurrenceSpecification) message.getSendEvent();
@@ -194,6 +194,26 @@ public final class InteractionUtils {
 	@SuppressWarnings("rawtypes")
 	public static List<InteractionFragment> filterSpecifications(Lifeline lifeline, Class type) {
 		return filter(is(type), lifeline.getCoveredBys());
+	}
+
+	/**
+	 * Finds last occurrence of the message on given lifeline.
+	 * 
+	 * @param message
+	 * @param lifeline
+	 * @return
+	 */
+	public static MessageOccurrenceSpecification getLastMessageEventOnLifeline(Message message, Lifeline lifeline) {
+		int recv = lifeline.getCoveredBys().indexOf(message.getReceiveEvent());
+		int sent = lifeline.getCoveredBys().indexOf(message.getSendEvent());
+		int max = Math.max(recv, sent);
+		if (-1 == max) {
+			return null;
+		} else if (max == recv) {
+			return (MessageOccurrenceSpecification) message.getReceiveEvent();
+		} else {
+			return (MessageOccurrenceSpecification) message.getSendEvent();
+		}
 	}
 
 }

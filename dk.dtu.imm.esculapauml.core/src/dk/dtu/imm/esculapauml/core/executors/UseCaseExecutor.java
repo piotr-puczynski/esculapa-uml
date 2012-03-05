@@ -138,7 +138,11 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				// we need to generate a new message
 				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
 				messageGenerator.setOperation(operation);
-				messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
+				messageGenerator.setSentGenerateAfter(InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline));
+				if(sourceLifeline == targetLifeline) {
+					// for a self message
+					messageGenerator.setReceiveAfterSent(true);
+				}
 				// TODO: add setting receive event in correct place
 				message = messageGenerator.generate();
 			}
