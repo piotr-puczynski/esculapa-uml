@@ -161,7 +161,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	public void execute() {
 		if (null != root) {
-			root.jjtAccept(this, null);
+			SALEvaluationHelper helper = new SALEvaluationHelper();
+			root.jjtAccept(this, helper);
 		}
 	}
 
