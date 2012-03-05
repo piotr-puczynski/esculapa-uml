@@ -194,7 +194,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		if (!callStack.isEmpty()) {
 			Message callMessage = callStack.peek();
 			if (callMessage.getSignature() == event.getOperation()) {
-				Message reply = getNextMessage(callMessage);
+				Message reply = getNextMessage(currentMessage);
 				if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
 					reply = generateReplyMessage(callMessage);
 				} else {
