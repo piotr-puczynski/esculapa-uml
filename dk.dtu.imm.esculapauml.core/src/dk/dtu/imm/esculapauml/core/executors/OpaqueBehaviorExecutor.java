@@ -44,6 +44,7 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
+import dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper;
 import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAssignment;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALCall;
@@ -234,10 +235,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SimpleNode, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SimpleNode,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SimpleNode node, Object data) {
+	public ValueSpecification visit(SimpleNode node, SALEvaluationHelper data) {
 		// not visiting
 		return null;
 	}
@@ -247,10 +249,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALRoot, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALRoot,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALRoot node, Object data) {
+	public ValueSpecification visit(SALRoot node, SALEvaluationHelper data) {
 		ValueSpecification result = null;
 		for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
 			result = node.getChild(i).jjtAccept(this, data);
@@ -263,10 +266,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALAssignment, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALAssignment,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALAssignment node, Object data) {
+	public ValueSpecification visit(SALAssignment node, SALEvaluationHelper data) {
 		String varName = (String) node.jjtGetValue();
 		ValueSpecification value = node.getChild(0).jjtAccept(this, data);
 		if (null != value) {
@@ -282,10 +286,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALReplyStatement, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALReplyStatement,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALReplyStatement node, Object data) {
+	public ValueSpecification visit(SALReplyStatement node, SALEvaluationHelper data) {
 		ValueSpecification replyValue = node.getChild(0).jjtAccept(this, data);
 		if (null != replyValue) {
 			trc.setReply(replyValue);
@@ -298,10 +303,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALIntegerConstant, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALIntegerConstant,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALIntegerConstant node, Object data) {
+	public ValueSpecification visit(SALIntegerConstant node, SALEvaluationHelper data) {
 		LiteralInteger intResult = UMLFactory.eINSTANCE.createLiteralInteger();
 		PrimitiveType intPrimitiveType = importPrimitiveType("Integer");
 		intResult.setType(intPrimitiveType);
@@ -314,10 +320,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALLogicConstant, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALLogicConstant,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALLogicConstant node, Object data) {
+	public ValueSpecification visit(SALLogicConstant node, SALEvaluationHelper data) {
 		LiteralBoolean boolResult = UMLFactory.eINSTANCE.createLiteralBoolean();
 		PrimitiveType booleanPrimitiveType = importPrimitiveType("Boolean");
 		boolResult.setType(booleanPrimitiveType);
@@ -330,10 +337,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALStringConstant, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALStringConstant,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALStringConstant node, Object data) {
+	public ValueSpecification visit(SALStringConstant node, SALEvaluationHelper data) {
 		LiteralString strResult = UMLFactory.eINSTANCE.createLiteralString();
 		PrimitiveType strPrimitiveType = importPrimitiveType("String");
 		strResult.setType(strPrimitiveType);
@@ -346,10 +354,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALIdentifier, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALIdentifier,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALIdentifier node, Object data) {
+	public ValueSpecification visit(SALIdentifier node, SALEvaluationHelper data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -359,10 +368,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALCall, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALCall,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALCall node, Object data) {
+	public ValueSpecification visit(SALCall node, SALEvaluationHelper data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -372,10 +382,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALMemeberOp, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALMemeberOp,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALMemeberOp node, Object data) {
+	public ValueSpecification visit(SALMemeberOp node, SALEvaluationHelper data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -385,10 +396,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALParameters, java.lang.Object)
+	 * imm.esculapauml.core.sal.parser.SALParameters,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALParameters node, Object data) {
+	public ValueSpecification visit(SALParameters node, SALEvaluationHelper data) {
 		// TODO Auto-generated method stub
 		return null;
 	}
