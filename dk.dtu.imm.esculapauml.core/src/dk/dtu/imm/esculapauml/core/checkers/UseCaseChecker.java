@@ -22,7 +22,7 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  * 
  */
 public class UseCaseChecker extends AbstractInteractionChecker {
-	
+
 	protected UseCaseExecutor executor = new UseCaseExecutor(this);
 
 	public UseCaseChecker(Interaction interaction) {
@@ -55,8 +55,5 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 		printOutInteraction();
 
 	}
-	
-	
-	
 
 }

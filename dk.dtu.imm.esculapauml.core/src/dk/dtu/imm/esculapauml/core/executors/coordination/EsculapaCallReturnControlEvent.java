@@ -18,7 +18,7 @@ import org.eclipse.uml2.uml.Operation;
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
- * Call models return of a flow from any call.
+ * Class models return of a flow from any call.
  * 
  * @author Piotr J. Puczynski
  * 
