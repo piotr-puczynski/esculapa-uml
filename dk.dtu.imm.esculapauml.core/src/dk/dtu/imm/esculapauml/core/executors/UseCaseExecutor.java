@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.executors;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Stack;
 
 import org.apache.log4j.Logger;
@@ -131,7 +132,8 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// check if operation and lifelines are the same
 			message = getNextMessage(currentMessage);
 			if (InteractionUtils.getMessageOperation(message) != operation || InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
-					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline) {
+					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline
+					|| !areArgumentsEqual(message.getArguments(), event.getArguments())) {
 				// message not conform to given operation
 				// we need to generate a new message
 				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
@@ -144,6 +146,28 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		currentMessage = message;
 		callStack.add(message);
 
+	}
+
+	/**
+	 * Checks if the arguments are the same.
+	 * 
+	 * @param arguments
+	 * @param arguments2
+	 * @return
+	 */
+	private boolean areArgumentsEqual(EList<ValueSpecification> arguments, EList<ValueSpecification> arguments2) {
+		// TODO: add test case testing this code
+		Iterator<ValueSpecification> it = arguments.iterator();
+		Iterator<ValueSpecification> it2 = arguments2.iterator();
+		while (it.hasNext() && it2.hasNext()) {
+			ValueSpecification val = it.next();
+			ValueSpecification val2 = it2.next();
+			if (!val.equals(val2)) {
+				return false;
+			}
+		}
+
+		return !it.hasNext() && !it2.hasNext();
 	}
 
 	/**
