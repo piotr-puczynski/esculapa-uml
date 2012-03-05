@@ -12,7 +12,6 @@
 package dk.dtu.imm.esculapauml.core.generators;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Connector;
 import org.eclipse.uml2.uml.ConnectorEnd;
@@ -23,8 +22,6 @@ import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
-import dk.dtu.imm.esculapauml.core.checkers.LifelineChecker;
-import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
  * Generates new lifeline.
@@ -36,29 +33,19 @@ public class LifelineGenerator extends AbstractGenerator<Lifeline> {
 
 	private Interaction interaction;
 	private Type type;
-
-	/**
-	 * @param systemState
-	 * @param interaction
-	 * @param type
-	 */
-	public LifelineGenerator(SystemState systemState, BasicDiagnostic diagnostic, Interaction interaction, Type type) {
-		super(systemState, diagnostic);
-		logger = Logger.getLogger(LifelineGenerator.class);
-		this.interaction = interaction;
-		this.type = type;
-	}
+	private String name;
 
 	/**
 	 * @param checker
 	 * @param checkee
 	 * @param targetClass
 	 */
-	public LifelineGenerator(Checker checker, Interaction interaction, Class type) {
+	public LifelineGenerator(Checker checker, Interaction interaction, Class type, String name) {
 		super(checker);
 		logger = Logger.getLogger(LifelineGenerator.class);
 		this.interaction = interaction;
 		this.type = type;
+		this.name = name;
 	}
 
 	/*
@@ -75,13 +62,10 @@ public class LifelineGenerator extends AbstractGenerator<Lifeline> {
 		ConnectorEnd end = connector.createEnd();
 		end.setRole(prop);
 		systemState.addGeneratedElement(end);
-		generated = interaction.createLifeline(type.getLabel());
+		generated = interaction.createLifeline(name);
 		generated.setRepresents(prop);
 		systemState.addGeneratedElement(generated);
 		logger.info("Generated new element: " + generated.getLabel());
-		// check the lifeline to create an executor
-		LifelineChecker lc = new LifelineChecker(systemState, diagnostic, generated);
-		lc.check();
 		return generated;
 	}
 

@@ -101,33 +101,35 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	public void callEventOccurred(EsculapaCallEvent event) {
 		if (!callStack.isEmpty() && callStack.peek() == event.getSource()) {
 			// we should skip this message generation since its us who called it
+			// (so we already have it)
 			return;
 		}
-		// first we need to check if the next message conforms to the event
 		Operation operation = event.getOperation();
-		InstanceExecutor executor = event.getTarget();
+		InstanceExecutor targetExecutor = event.getTarget();
 		org.eclipse.uml2.uml.Class targetClass = operation.getClass_();
 		Lifeline sourceLifeline = findSourceLifeline(event);
-		Lifeline targetLifeline = findLifelineForInstanceExecutor(executor);
+		// we should assume that we have a source lifeline for now
+		Lifeline targetLifeline = findLifelineForInstanceExecutor(targetExecutor);
+		Message message;
 		if (null == targetLifeline) {
 			// there is no lifeline now that could correspond to the object
 			// we need to create it
-			LifelineGenerator lifelineGenerator = new LifelineGenerator(checker, checkee, targetClass);
+			LifelineGenerator lifelineGenerator = new LifelineGenerator(checker, checkee, targetClass, targetExecutor.getInstanceName());
 			targetLifeline = lifelineGenerator.generate();
 			// we will need also to generate BehaviorExecutionSpecification and
 			// a message (with call event)
 			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
 			messageGenerator.setOperation(operation);
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
-			Message message = messageGenerator.generate();
+			message = messageGenerator.generate();
 			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
 					(BasicDiagnostic) checker.getDiagnostics(), targetLifeline);
 			besGenerator.setStartAndFinish((OccurrenceSpecification) message.getReceiveEvent());
 			besGenerator.generate();
-			currentMessage = message;
 		} else {
+			// we need to check if the next message conforms to the event
 			// check if operation and lifelines are the same
-			Message message = getNextMessage(currentMessage);
+			message = getNextMessage(currentMessage);
 			if (InteractionUtils.getMessageOperation(message) != operation || InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
 					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline) {
 				// message not conform to given operation
@@ -138,8 +140,9 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				// TODO: add setting receive event in correct place
 				message = messageGenerator.generate();
 			}
-			currentMessage = message;
 		}
+		currentMessage = message;
+		callStack.add(message);
 
 	}
 
@@ -188,19 +191,22 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		// generate and immediately execute reply message
 		// we need to immediately execute to update currentMessage
 		// in case there are other replies on stack to generate
-		if (!callStack.isEmpty() && callStack.peek().getSignature() == event.getOperation()) {
-			Message reply = getNextMessage(currentMessage);
-			if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
-				reply = generateReplyMessage(currentMessage);
-			} else {
-				fixReplyMessage(reply, currentMessage);
+		if (!callStack.isEmpty()) {
+			Message callMessage = callStack.peek();
+			if (callMessage.getSignature() == event.getOperation()) {
+				Message reply = getNextMessage(callMessage);
+				if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
+					reply = generateReplyMessage(callMessage);
+				} else {
+					fixReplyMessage(reply, callMessage);
+				}
+				if (checker.hasErrors()) {
+					return;
+				}
+				// check and set result of a message
+				setMessageReturn(callMessage, reply, event.getResult());
+				currentMessage = reply;
 			}
-			if (checker.hasErrors()) {
-				return;
-			}
-			// check and set result of a message
-			setMessageReturn(currentMessage, reply, event.getResult());
-			currentMessage = reply;
 		}
 
 	}
