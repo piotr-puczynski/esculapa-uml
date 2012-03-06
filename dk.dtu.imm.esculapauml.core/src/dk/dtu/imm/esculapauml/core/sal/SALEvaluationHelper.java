@@ -11,6 +11,10 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.sal;
 
+import static ch.lambdaj.Lambda.join;
+
+import java.util.Stack;
+
 /**
  * Class utilized by visitors to pass extra information to nested SAL nodes.
  * 
@@ -18,5 +22,46 @@ package dk.dtu.imm.esculapauml.core.sal;
  * 
  */
 public class SALEvaluationHelper {
+
+	private Stack<String> evaluationContext = new Stack<String>();
+
+	/**
+	 * Adds new evaluation context to existing context.
+	 * 
+	 * @param id
+	 */
+	public void pushEvaluationContext(String id) {
+		evaluationContext.push(id);
+	}
+
+	/**
+	 * Removes last evaluation context.
+	 * 
+	 * @param id
+	 */
+	public String popEvaluationContext() {
+		if (hasEvaluationContext()) {
+			return evaluationContext.pop();
+		}
+		return null;
+	}
+
+	/**
+	 * Checks if any evaluation context was set.
+	 * 
+	 * @return
+	 */
+	public boolean hasEvaluationContext() {
+		return !evaluationContext.isEmpty();
+	}
+
+	/**
+	 * Calculates OCL expression of evaluation context.
+	 * 
+	 * @return the evaluationContext
+	 */
+	public String getEvaluationContextExpression() {
+		return join(evaluationContext, ".");
+	}
 
 }

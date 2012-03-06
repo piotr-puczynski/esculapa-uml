@@ -360,8 +360,15 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALIdentifier node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
-		return null;
+		String name = (String) node.jjtGetValue();
+		ValueSpecification result = null;
+		InstanceExecutor executor = parent;
+		while (data.hasEvaluationContext() && null != executor) {
+			// we need to find the proper executor to evaluate expression
+			// TODO do it
+			
+		}
+		return result;
 	}
 
 	/*
@@ -388,8 +395,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALMemeberOp node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
-		return null;
+		data.pushEvaluationContext((String) node.jjtGetValue());
+		ValueSpecification result = node.getChild(0).jjtAccept(this, data);
+		return result;
 	}
 
 	/*

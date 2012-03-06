@@ -333,36 +333,4 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 
 	}
 
-	/**
-	 * Finds or creates default executor for operation.
-	 * 
-	 * @param operation
-	 * @return
-	 */
-	private InstanceExecutor getDefaultExecutorForOperation(Operation operation) {
-		InstanceExecutor result = checker.getSystemState().getInstanceExecutor(operation.getClass_());
-		if (null == result) {
-			// create new instance executor
-			result = createInstanceExecutor(operation.getClass_().getName(), operation.getClass_());
-		}
-		return result;
-	}
-
-	/**
-	 * Creates instance executor with given name and class.
-	 * 
-	 * @param name
-	 * @param clazz
-	 * @return
-	 */
-	private InstanceExecutor createInstanceExecutor(String name, Class clazz) {
-		// check for appropriate checker
-		BehaviorChecker behaviorChecker = checker.getSystemState().getBehaviorChecker(clazz);
-		if (null == behaviorChecker) {
-			behaviorChecker = new BehaviorChecker(checker, clazz);
-			behaviorChecker.check();
-		}
-		return behaviorChecker.registerInstance(name);
-	}
-
 }

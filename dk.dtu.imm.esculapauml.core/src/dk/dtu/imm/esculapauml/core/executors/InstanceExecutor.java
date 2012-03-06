@@ -92,4 +92,5 @@ public interface InstanceExecutor extends Executor {
 	 * @return
 	 */
 	Class getLocalClass();
+	
 }

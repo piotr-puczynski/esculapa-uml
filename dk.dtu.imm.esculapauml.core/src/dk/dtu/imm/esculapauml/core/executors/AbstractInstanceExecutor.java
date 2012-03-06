@@ -15,6 +15,7 @@ import static ch.lambdaj.Lambda.filter;
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,19 +24,26 @@ import java.util.List;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
 
+import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 
 /**
  * Executes instances.
  * 
+ * @author Piotr J. Puczynski
+ * 
+ */
+/**
  * @author Piotr J. Puczynski
  * 
  */
@@ -179,30 +187,13 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 */
 	public boolean setVariable(String name, ValueSpecification value, Element errorContext) {
 		ValueSpecification valueToSet = EcoreUtil.copy(value);
-		checkLocalClassUpdates();
-		Property prop = null;
-		List<Property> properties = new ArrayList<Property>();
-		if (null != localClass) {
-			// include private attributes of the original class
-			properties = filter(having(on(Property.class).getName(), equalTo(name)), localClass.getAttributes());
-		}
-
-		if (properties.isEmpty()) {
-			// class variable or new local variable
-			properties = filter(having(on(Property.class).getName(), equalTo(name)), originalClass.getAllAttributes());
-			if (properties.isEmpty()) {
-				// new local variable
-				if (null == localClass) {
-					swapInstanceSpecificationToLocal();
-				}
-				prop = localClass.createOwnedAttribute(name, valueToSet.getType());
-			} else {
-				// class variable
-				prop = properties.get(0);
+		Property prop = findPropertyFor(name);
+		if (null == prop) {
+			if (null == localClass) {
+				swapInstanceSpecificationToLocal();
 			}
-		} else {
-			// local variable
-			prop = properties.get(0);
+			// create local variable
+			prop = localClass.createOwnedAttribute(name, valueToSet.getType());
 		}
 		// type check
 		if (!prop.getType().conformsTo(valueToSet.getType())) {
@@ -291,4 +282,80 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		instanceSpecification.getSlots().clear();
 		instanceSpecification.getSlots().addAll(slots);
 	}
+
+	/**
+	 * Looks in associations and attributes for given property.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	protected Property findPropertyFor(String name) {
+		checkLocalClassUpdates();
+		List<Property> properties = new ArrayList<Property>();
+		if (null != localClass) {
+			// include private attributes of the original class
+			properties = filter(having(on(Property.class).getName(), equalTo(name)), localClass.getAttributes());
+		}
+
+		if (properties.isEmpty()) {
+			// class variable or new local variable
+			properties = filter(having(on(Property.class).getName(), equalTo(name)), originalClass.getAllAttributes());
+		}
+		if (properties.isEmpty()) {
+			// class association
+			for (Association assoc : originalClass.getAssociations()) {
+				// there are always two ends
+				List<Property> assocProp = assoc.getMemberEnds();
+				if (assocProp.size() == 2) {
+					if (assocProp.get(0).getType() == assocProp.get(1).getType()) {
+						// self association
+						properties.addAll(filter(having(on(Property.class).getName(), equalTo(name)), assoc.getNavigableOwnedEnds()));
+					} else {
+						// exclude end that point to us
+						List<Property> filtered = filter(having(on(Property.class).getName(), equalTo(name)), assoc.getNavigableOwnedEnds());
+						filtered = filter(having(on(Property.class).getType(), not(equalTo(originalClass))), filtered);
+						properties.addAll(filtered);
+					}
+				}
+			}
+		}
+		if (properties.isEmpty()) {
+			return null;
+		} else {
+			return properties.get(0);
+		}
+	}
+
+	/**
+	 * Finds or creates default executor for operation.
+	 * 
+	 * @param operation
+	 * @return
+	 */
+	protected InstanceExecutor getDefaultExecutorForOperation(Operation operation) {
+		InstanceExecutor result = checker.getSystemState().getInstanceExecutor(operation.getClass_());
+		if (null == result) {
+			// create new instance executor
+			result = createInstanceExecutor(operation.getClass_().getName(), operation.getClass_());
+		}
+		return result;
+	}
+
+	/**
+	 * Creates instance executor with given name and class.
+	 * 
+	 * @param name
+	 * @param clazz
+	 * @return
+	 */
+	protected InstanceExecutor createInstanceExecutor(String name, Class clazz) {
+		// check for appropriate checker
+		BehaviorChecker behaviorChecker = checker.getSystemState().getBehaviorChecker(clazz);
+		if (null == behaviorChecker) {
+			behaviorChecker = new BehaviorChecker(checker, clazz);
+			behaviorChecker.check();
+		}
+		return behaviorChecker.registerInstance(name);
+	}
+
 }
