@@ -77,14 +77,12 @@ public class SalTests {
 		
 		SALNode member = root.getChild(0);
 		assertEquals(SALParserTreeConstants.JJTMEMEBEROP, member.getId());
-		assertEquals(2, member.jjtGetNumChildren());
+		assertEquals(1, member.jjtGetNumChildren());
+		assertEquals("obj1", member.jjtGetValue());
 		
-		SALNode obj1 = member.getChild(0);
-		SALNode member2 = member.getChild(1);
+		SALNode member2 = member.getChild(0);
 		
-		assertEquals(SALParserTreeConstants.JJTIDENTIFIER, obj1.getId());
 		assertEquals(SALParserTreeConstants.JJTIDENTIFIER, member2.getId());
-		assertEquals("obj1", obj1.jjtGetValue());
 		assertEquals("member2", member2.jjtGetValue());
 		
 	}
@@ -100,16 +98,14 @@ public class SalTests {
 		assertNotNull(root);
 		assertEquals(1, root.jjtGetNumChildren());
 		
-		SALNode member = root.getChild(0);
-		assertEquals(SALParserTreeConstants.JJTMEMEBEROP, member.getId());
-		assertEquals(2, member.jjtGetNumChildren());
-		
-		SALNode obj1 = member.getChild(0);
-		SALNode member2 = member.getChild(1);
-		
-		assertEquals(SALParserTreeConstants.JJTIDENTIFIER, obj1.getId());
-		assertEquals(SALParserTreeConstants.JJTCALL, member2.getId());
+		SALNode obj1 = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTMEMEBEROP, obj1.getId());
+		assertEquals(1, obj1.jjtGetNumChildren());
 		assertEquals("obj1", obj1.jjtGetValue());
+		
+		SALNode member2 = obj1.getChild(0);
+		
+		assertEquals(SALParserTreeConstants.JJTCALL, member2.getId());
 		assertEquals("member2", member2.jjtGetValue());
 		SALNode params = member2.getChild(0);
 		assertEquals(SALParserTreeConstants.JJTPARAMETERS, params.getId());
@@ -135,17 +131,16 @@ public class SalTests {
 		assertNotNull(root);
 		assertEquals(1, root.jjtGetNumChildren());
 		
-		SALNode member = root.getChild(0);
-		assertEquals(SALParserTreeConstants.JJTMEMEBEROP, member.getId());
-		assertEquals(2, member.jjtGetNumChildren());
-		
-		SALNode obj1 = member.getChild(0);
-		SALNode space = member.getChild(1);
-		
-		assertEquals(SALParserTreeConstants.JJTIDENTIFIER, obj1.getId());
-		assertEquals(SALParserTreeConstants.JJTMEMEBEROP, space.getId());
+		SALNode obj1 = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTMEMEBEROP, obj1.getId());
+		assertEquals(1, obj1.jjtGetNumChildren());
 		assertEquals("obj1", obj1.jjtGetValue());
-		assertEquals("Space", space.getChild(1).jjtGetValue());
+		
+		SALNode member = obj1.getChild(0);
+		assertEquals("member2", member.jjtGetValue());
+		
+		assertEquals(SALParserTreeConstants.JJTMEMEBEROP, member.getId());
+		assertEquals("Space", member.getChild(0).jjtGetValue());
 		
 	}
 	
