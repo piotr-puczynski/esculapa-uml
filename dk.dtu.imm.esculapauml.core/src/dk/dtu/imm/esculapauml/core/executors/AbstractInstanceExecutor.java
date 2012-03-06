@@ -84,7 +84,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * Creates the instance specification for this executor.
 	 */
 	protected void createInstanceSpecification() {
-		// create instance specification
+		// create instance specification only if it does not already exist
 		instanceSpecification = UMLFactory.eINSTANCE.createInstanceSpecification();
 		checker.getSystemState().getInstancePackage().getPackagedElements().add(instanceSpecification);
 		checker.getSystemState().addGeneratedElement(instanceSpecification);

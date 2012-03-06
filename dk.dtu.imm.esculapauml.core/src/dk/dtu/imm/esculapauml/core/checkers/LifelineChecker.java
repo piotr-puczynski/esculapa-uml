@@ -125,8 +125,11 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	 * Initializes the checker for behavior of the lifeline representant
 	 */
 	protected void prepareBehaviorCheckerForLifeline(BehavioredClassifier type) {
-		BehaviorChecker bc = new BehaviorChecker(this, type);
-		bc.check();
+		BehaviorChecker bc = systemState.getBehaviorChecker(type);
+		if(null == bc) {
+			bc = new BehaviorChecker(this, type);
+			bc.check();
+		}
 		// register instance for lifeline
 		bc.registerInstance(checkee.getName());
 	}

@@ -363,11 +363,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		String name = (String) node.jjtGetValue();
 		ValueSpecification result = null;
 		InstanceExecutor executor = parent;
-		while (data.hasEvaluationContext() && null != executor) {
+		//while (data.hasEvaluationContext() && null != executor) {
 			// we need to find the proper executor to evaluate expression
 			// TODO do it
 			
-		}
+		//}
 		return result;
 	}
 

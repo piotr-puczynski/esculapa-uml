@@ -17,13 +17,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
-import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
@@ -39,6 +42,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCoordinator;
  */
 public class SystemState {
 	private List<InstanceExecutor> instanceExecutors = new LinkedList<InstanceExecutor>();
+	private List<InstanceSpecification> existingInstances = new LinkedList<InstanceSpecification>();
 	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
 	private org.eclipse.uml2.uml.Package instancePackage = null;
 	private Set<Element> generatedElements = new HashSet<Element>();
@@ -57,11 +61,29 @@ public class SystemState {
 	 * 
 	 * @param model
 	 */
-	public void prepare(String name, Model model) {
+	public void prepare(String name, Element toCheck) {
 		generatedElements.clear();
-		instancePackage = model.createNestedPackage(name + " Instance(" + ++stateId + ")");
+		existingInstances.clear();
+		// search for existing instances
+		searchForExistingInstanceSpecifications(toCheck.getNearestPackage());
+		instancePackage = toCheck.getModel().createNestedPackage(name + " Instance(" + ++stateId + ")");
 		addGeneratedElement(instancePackage);
 		coordinator = new ExecutionCoordinator();
+	}
+
+	/**
+	 * Finds existing instances before the run.
+	 * 
+	 * @param nearestPackage
+	 */
+	private void searchForExistingInstanceSpecifications(Package package_) {
+		TreeIterator<EObject> it = package_.eAllContents();
+		while (it.hasNext()) {
+			EObject o = it.next();
+			if(o.eClass() == Literals.INSTANCE_SPECIFICATION) {
+				existingInstances.add((InstanceSpecification) o);
+			}
+		}
 	}
 
 	public InstanceExecutor getInstanceExecutor(InstanceSpecification instanceSpecification) {
@@ -81,7 +103,7 @@ public class SystemState {
 		}
 		return null;
 	}
-	
+
 	public InstanceExecutor getInstanceExecutor(Class clazz) {
 		for (InstanceExecutor instanceExecutor : instanceExecutors) {
 			if (instanceExecutor.getOriginalClass() == clazz) {
