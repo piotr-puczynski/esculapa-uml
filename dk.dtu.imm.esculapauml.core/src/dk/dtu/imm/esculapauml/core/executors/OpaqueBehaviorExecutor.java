@@ -16,6 +16,7 @@ import static ch.lambdaj.Lambda.join;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Level;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
@@ -285,7 +286,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		String oclExpression = data.getEvaluationContextExpression();
 		data.popEvaluationContext();
 		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
-		ocl.setDebug(true);
+		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
 		Object result = ocl.evaluate(oclExpression);
 		if (ocl.hasErrors() || null == result) {
 			return null;

@@ -205,7 +205,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	private Lifeline findLifelineForInstanceExecutor(InstanceExecutor executor) {
 		// search based on name and class
 		for (Lifeline lifeline : checkee.getLifelines()) {
-			if (lifeline.getName() == executor.getInstanceName() && lifeline.getRepresents().getType() == executor.getOriginalClass()) {
+			if (lifeline.getName().equals(executor.getInstanceName()) && lifeline.getRepresents().getType() == executor.getOriginalClass()) {
 				return lifeline;
 			}
 		}

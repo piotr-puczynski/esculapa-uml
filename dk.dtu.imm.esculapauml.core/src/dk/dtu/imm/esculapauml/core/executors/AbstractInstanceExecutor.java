@@ -34,7 +34,6 @@ import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
 
-import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 
 /**
@@ -351,28 +350,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 */
 	protected InstanceExecutor getDefaultExecutorForOperation(Operation operation) {
 		InstanceExecutor result = checker.getSystemState().getInstanceExecutor(operation.getClass_());
-		if (null == result) {
-			// create new instance executor
-			result = createInstanceExecutor(operation.getClass_().getName(), operation.getClass_());
-		}
 		return result;
-	}
-
-	/**
-	 * Creates instance executor with given name and class.
-	 * 
-	 * @param name
-	 * @param clazz
-	 * @return
-	 */
-	protected InstanceExecutor createInstanceExecutor(String name, Class clazz) {
-		// check for appropriate checker
-		BehaviorChecker behaviorChecker = checker.getSystemState().getBehaviorChecker(clazz);
-		if (null == behaviorChecker) {
-			behaviorChecker = new BehaviorChecker(checker, clazz);
-			behaviorChecker.check();
-		}
-		return behaviorChecker.registerInstance(name);
 	}
 
 }

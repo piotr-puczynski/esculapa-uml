@@ -327,7 +327,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 					Operation operation = (Operation) bf;
 					// trigger function on general class default executor
 					InstanceExecutor executor = getDefaultExecutorForOperation(operation);
-					if (!checker.hasErrors()) {
+					if (!checker.hasErrors() && null != executor) {
 						// simple no arguments call
 						EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
 						executor.callOperation(this, operation, arguments, true, ftr.getCheckedObject());
