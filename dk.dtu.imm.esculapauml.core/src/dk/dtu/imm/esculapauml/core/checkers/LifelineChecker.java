@@ -103,8 +103,6 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 							+ "' is abstract and cannot be instantiated.", checkee, type);
 				} else {
 					Behavior behavior = ((BehavioredClassifier) type).getClassifierBehavior();
-					// TODO: remove below; this is redundant and this check
-					// exists in BehaviorChecker
 					if (null == behavior) {
 						addOtherProblem(Diagnostic.ERROR, "The Lifeline \"" + checkee.getLabel() + "\" representant \"" + type.getLabel()
 								+ "\" has no behavior defined.", checkee, type);

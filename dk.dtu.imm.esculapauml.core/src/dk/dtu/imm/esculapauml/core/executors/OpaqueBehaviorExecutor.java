@@ -11,39 +11,21 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import static ch.lambdaj.Lambda.filter;
-import static ch.lambdaj.Lambda.having;
-import static ch.lambdaj.Lambda.on;
 import static ch.lambdaj.Lambda.join;
-import static org.hamcrest.Matchers.equalTo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.ElementImport;
-import org.eclipse.uml2.uml.LiteralBoolean;
-import org.eclipse.uml2.uml.LiteralInteger;
-import org.eclipse.uml2.uml.LiteralString;
-import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.PackageableElement;
-import org.eclipse.uml2.uml.PrimitiveType;
-import org.eclipse.uml2.uml.UMLFactory;
-import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.ValueSpecification;
-import org.eclipse.uml2.uml.VisibilityKind;
-import org.eclipse.uml2.uml.resource.UMLResource;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
+import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
 import dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper;
 import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAssignment;
@@ -61,6 +43,7 @@ import dk.dtu.imm.esculapauml.core.sal.parser.SALRoot;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALStringConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SimpleNode;
 import dk.dtu.imm.esculapauml.core.sal.parser.TokenMgrError;
+import dk.dtu.imm.esculapauml.core.utils.UMLTypesUtil;
 
 /**
  * Executor to execute SAL statements as OpaqueBehavior in Effects of
@@ -166,57 +149,6 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		}
 	}
 
-	/**
-	 * Imports UML primitive type. If no import is found already existing, the
-	 * new import is automatically created.
-	 * 
-	 * @param name
-	 * @return
-	 */
-	protected PrimitiveType importPrimitiveType(String name) {
-		// try to find if model already import an element on package or on model
-		List<ElementImport> imports = filter(having(on(ElementImport.class).getName(), equalTo(name)), checker.getCheckedObject().getNearestPackage()
-				.getElementImports());
-		imports.addAll(filter(having(on(ElementImport.class).getName(), equalTo(name)), checker.getCheckedObject().getModel().getElementImports()));
-		int i = 0;
-		while (!imports.isEmpty()) {
-			ElementImport ei = imports.get(i);
-			PackageableElement pe = ei.getImportedElement();
-			if (pe instanceof PrimitiveType) {
-				if (pe.getQualifiedName().equals("UMLPrimitiveTypes::" + name)) {
-					return (PrimitiveType) pe;
-				}
-			}
-			imports.remove(i++);
-		}
-		// if we are here, no good import was found, we need to import ourself
-		PrimitiveType primitiveType = null;
-
-		Model umlLibrary = (Model) loadLibrary(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI));
-
-		primitiveType = (PrimitiveType) umlLibrary.getOwnedType(name);
-
-		checker.getSystemState().addGeneratedElement(
-				checker.getCheckedObject().getNearestPackage().createElementImport(primitiveType, VisibilityKind.PUBLIC_LITERAL));
-
-		return primitiveType;
-	}
-
-	/**
-	 * Loads library in the same resource set as for checked object.
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	protected org.eclipse.uml2.uml.Package loadLibrary(URI uri) {
-		org.eclipse.uml2.uml.Package package_ = null;
-		Resource eResource = checker.getCheckedObject().getNearestPackage().eResource();
-		ResourceSet resourceSet = eResource == null ? null : eResource.getResourceSet();
-		Resource resource = resourceSet.getResource(uri, true);
-		package_ = (org.eclipse.uml2.uml.Package) EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE);
-		return package_;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -309,11 +241,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALIntegerConstant node, SALEvaluationHelper data) {
-		LiteralInteger intResult = UMLFactory.eINSTANCE.createLiteralInteger();
-		PrimitiveType intPrimitiveType = importPrimitiveType("Integer");
-		intResult.setType(intPrimitiveType);
-		intResult.setValue((Integer) node.jjtGetValue());
-		return intResult;
+		return UMLTypesUtil.getValue((Integer) node.jjtGetValue(), checker, checker.getCheckedObject());
 	}
 
 	/*
@@ -326,11 +254,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALLogicConstant node, SALEvaluationHelper data) {
-		LiteralBoolean boolResult = UMLFactory.eINSTANCE.createLiteralBoolean();
-		PrimitiveType booleanPrimitiveType = importPrimitiveType("Boolean");
-		boolResult.setType(booleanPrimitiveType);
-		boolResult.setValue((Boolean) node.jjtGetValue());
-		return boolResult;
+		return UMLTypesUtil.getValue((Boolean) node.jjtGetValue(), checker, checker.getCheckedObject());
 	}
 
 	/*
@@ -343,11 +267,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALStringConstant node, SALEvaluationHelper data) {
-		LiteralString strResult = UMLFactory.eINSTANCE.createLiteralString();
-		PrimitiveType strPrimitiveType = importPrimitiveType("String");
-		strResult.setType(strPrimitiveType);
-		strResult.setValue((String) node.jjtGetValue());
-		return strResult;
+		return UMLTypesUtil.getValue((String) node.jjtGetValue(), checker, checker.getCheckedObject());
 	}
 
 	/*
@@ -361,14 +281,22 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	@Override
 	public ValueSpecification visit(SALIdentifier node, SALEvaluationHelper data) {
 		String name = (String) node.jjtGetValue();
-		ValueSpecification result = null;
-		InstanceExecutor executor = parent;
-		//while (data.hasEvaluationContext() && null != executor) {
-			// we need to find the proper executor to evaluate expression
-			// TODO do it
-			
-		//}
-		return result;
+		data.pushEvaluationContext(name);
+		String oclExpression = data.getEvaluationContextExpression();
+		data.popEvaluationContext();
+		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
+		ocl.setDebug(true);
+		Object result = ocl.evaluate(oclExpression);
+		if (ocl.hasErrors() || null == result) {
+			return null;
+		}
+		if (result instanceof ValueSpecification) {
+			return (ValueSpecification) result;
+		}
+		if(UMLTypesUtil.canBeConverted(result)) {
+			return UMLTypesUtil.getObjectValue(result, checker, checker.getCheckedObject());
+		}
+		return null;
 	}
 
 	/*
@@ -397,6 +325,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	public ValueSpecification visit(SALMemeberOp node, SALEvaluationHelper data) {
 		data.pushEvaluationContext((String) node.jjtGetValue());
 		ValueSpecification result = node.getChild(0).jjtAccept(this, data);
+		data.popEvaluationContext();
 		return result;
 	}
 

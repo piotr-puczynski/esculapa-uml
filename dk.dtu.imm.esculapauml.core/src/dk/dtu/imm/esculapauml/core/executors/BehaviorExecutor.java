@@ -83,6 +83,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	public BehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification) {
 		super(checker, instanceSpecification, (Class) checker.getCheckedObject().getContext());
+		this.checker = checker;
+		checkee = checker.getCheckedObject();
+		logger = Logger.getLogger(BehaviorExecutor.class);
+		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
 	}
 
 	/*

@@ -64,7 +64,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		createInstanceSpecification();
 		checker.getSystemState().registerInstanceExecutor(this);
 	}
-	
+
 	/**
 	 * @param checker
 	 * @param instanceSpecification2
@@ -75,6 +75,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		this.instanceSpecification = instanceSpecification;
 		this.instanceName = instanceSpecification.getName();
 		this.originalClass = originalClass;
+		evaluateDefaultValues();
 		checker.getSystemState().registerInstanceExecutor(this);
 	}
 
@@ -114,10 +115,13 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		EList<Property> properties = originalClass.getAllAttributes();
 		for (Property property : properties) {
 			if (null != property.getDefaultValue()) {
-				if (!setVariable(property.getName(), property.getDefaultValue(), null)) {
-					checker.addProblem(Diagnostic.ERROR, "Default value for property '" + property.getLabel() + "' of class '" + originalClass.getLabel()
-							+ "' is of the a wrong type.");
-					break;
+				if (null == getVariable(property.getName())) {
+					// variable is not set already
+					if (!setVariable(property.getName(), property.getDefaultValue(), null)) {
+						checker.addProblem(Diagnostic.ERROR, "Default value for property '" + property.getLabel() + "' of class '" + originalClass.getLabel()
+								+ "' is of the a wrong type.");
+						break;
+					}
 				}
 			}
 		}

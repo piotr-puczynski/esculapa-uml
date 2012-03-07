@@ -60,7 +60,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	 */
 	private void checkBehavior() {
 		if (!(checkee instanceof StateMachine)) {
-			addOtherProblem(Diagnostic.ERROR, "Classifier '" + type.getLabel() + "' has behavior defined not as StateMachine.", type);
+			addOtherProblem(Diagnostic.ERROR, "Classifier '" + type.getLabel() + "' no State Machine behavior defined.", type);
 		}
 	}
 

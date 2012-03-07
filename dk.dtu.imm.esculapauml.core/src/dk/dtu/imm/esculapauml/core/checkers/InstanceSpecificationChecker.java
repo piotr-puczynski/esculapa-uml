@@ -11,7 +11,12 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioredClassifier;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.StateMachine;
 
 /**
  * Checks existing instance specifications.
@@ -36,7 +41,47 @@ public class InstanceSpecificationChecker extends AbstractChecker<InstanceSpecif
 	 */
 	@Override
 	public void check() {
-		// TODO Auto-generated method stub
+		structuralCheck();
+		if (!hasErrors()) {
+			generateExecutor();
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void generateExecutor() {
+		if (!checkee.getClassifiers().isEmpty()) {
+			Classifier classifier = checkee.getClassifiers().get(0);
+			if (classifier instanceof BehavioredClassifier) {
+				if(classifier.isAbstract()) {
+					addProblem(Diagnostic.ERROR, "Instance specification '" + checkee.getLabel() + "' is of an abstract type.");
+				} else {
+					Behavior behavior = ((BehavioredClassifier) classifier).getClassifierBehavior();
+					if(behavior instanceof StateMachine) {
+						BehaviorChecker bc = systemState.getBehaviorChecker((BehavioredClassifier) classifier);
+						if (null == bc) {
+							bc = new BehaviorChecker(this, (BehavioredClassifier) classifier);
+							bc.check();
+						}
+						if (!bc.hasErrors()) {
+							bc.registerInstance(checkee);
+						}
+					} else {
+						addProblem(Diagnostic.WARNING, "Instance specification '" + checkee.getLabel() + "' has a classifier with no behavior as State Machine. Cannot create executor for this behavior.");
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 */
+	private void structuralCheck() {
+		if (checkee.getClassifiers().isEmpty()) {
+			addProblem(Diagnostic.ERROR, "Instance specification '" + checkee.getLabel() + "' does not have any classifier type set.");
+		}
 
 	}
 

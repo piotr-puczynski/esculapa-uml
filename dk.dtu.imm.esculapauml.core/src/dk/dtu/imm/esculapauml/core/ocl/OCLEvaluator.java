@@ -74,6 +74,11 @@ public class OCLEvaluator {
 		}
 		@SuppressWarnings("unchecked")
 		Object result = myOCL.evaluate(context, (OCLExpression<Classifier>) oclConstraint);
+		if (myOCL.isInvalid(result)) {
+			checker.addOtherProblem(Diagnostic.ERROR, "OCL evaluation of '" + expression + "' returned OCL Invalid value.", errorContext);
+			hasErrors = true;
+			return null;
+		}
 		return result;
 	}
 
