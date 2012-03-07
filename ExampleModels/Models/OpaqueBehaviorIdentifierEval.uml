@@ -39,7 +39,7 @@
           <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
         </ownedConnector>
         <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_QhyUwFjAEeGgKOhb7eec-A _SOTS8DJKEeGjS-_RcLljMA"/>
-        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_QhyUwVjAEeGgKOhb7eec-A _0ZLLYDJLEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="myC" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_QhyUwVjAEeGgKOhb7eec-A _0ZLLYDJLEeGjS-_RcLljMA"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_QhyUwFjAEeGgKOhb7eec-A" name="MessageOccurrenceSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_QhyUwljAEeGgKOhb7eec-A" message="_QhyUw1jAEeGgKOhb7eec-A"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_QhyUwVjAEeGgKOhb7eec-A" name="MessageOccurrenceSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" event="_QhyUwljAEeGgKOhb7eec-A" message="_QhyUw1jAEeGgKOhb7eec-A"/>
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_SOTS8DJKEeGjS-_RcLljMA" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_QhyUwFjAEeGgKOhb7eec-A" finish="_QhyUwFjAEeGgKOhb7eec-A"/>
@@ -76,6 +76,16 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Q1KbZWd0EeG53OI2xvtSKg" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Q1KbZmd0EeG53OI2xvtSKg" value="1"/>
       </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_zI2EYGffEeGKGfskui1SgQ" name="myC" classifier="_Hokf0DJJEeGjS-_RcLljMA"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_601fsGffEeGKGfskui1SgQ" name="myRepo" classifier="_NCsPUGd0EeG53OI2xvtSKg"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_GORdIGfgEeGKGfskui1SgQ" name="InstanceSpecification1" classifier="_Q1KbYGd0EeG53OI2xvtSKg">
+      <slot xmi:id="_GORdIWfgEeGKGfskui1SgQ" definingFeature="_Q1KbYWd0EeG53OI2xvtSKg">
+        <value xmi:type="uml:InstanceValue" xmi:id="_GORdImfgEeGKGfskui1SgQ" type="_Hokf0DJJEeGjS-_RcLljMA" instance="_zI2EYGffEeGKGfskui1SgQ"/>
+      </slot>
+      <slot xmi:id="_GORdI2fgEeGKGfskui1SgQ" definingFeature="_Q1KbZGd0EeG53OI2xvtSKg">
+        <value xmi:type="uml:InstanceValue" xmi:id="_GORdJGfgEeGKGfskui1SgQ" type="_NCsPUGd0EeG53OI2xvtSKg" instance="_601fsGffEeGKGfskui1SgQ"/>
+      </slot>
     </packagedElement>
   </packagedElement>
 </uml:Model>

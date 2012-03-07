@@ -64,6 +64,7 @@ public class SystemState {
 	public void prepare(String name, Element toCheck) {
 		generatedElements.clear();
 		existingInstances.clear();
+		behaviorCheckers.clear();
 		// search for existing instances
 		searchForExistingInstanceSpecifications(toCheck.getNearestPackage());
 		instancePackage = toCheck.getModel().createNestedPackage(name + " Instance(" + ++stateId + ")");
@@ -80,7 +81,7 @@ public class SystemState {
 		TreeIterator<EObject> it = package_.eAllContents();
 		while (it.hasNext()) {
 			EObject o = it.next();
-			if(o.eClass() == Literals.INSTANCE_SPECIFICATION) {
+			if (o.eClass() == Literals.INSTANCE_SPECIFICATION) {
 				existingInstances.add((InstanceSpecification) o);
 			}
 		}
