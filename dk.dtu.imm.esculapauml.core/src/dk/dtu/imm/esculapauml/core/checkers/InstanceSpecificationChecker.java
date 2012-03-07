@@ -11,36 +11,33 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.uml2.uml.Region;
-import org.eclipse.uml2.uml.StateMachine;
+import org.eclipse.uml2.uml.InstanceSpecification;
 
 /**
- * Base class for StateMachine checkers
+ * Checks existing instance specifications.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public abstract class AbstractStateMachineChecker extends AbstractChecker<StateMachine> {
+public class InstanceSpecificationChecker extends AbstractChecker<InstanceSpecification> {
 
 	/**
-	 * @param existingDiagnostics
+	 * @param checker
 	 * @param objectToCheck
 	 */
-	AbstractStateMachineChecker(Checker checker, StateMachine objectToCheck) {
+	InstanceSpecificationChecker(Checker checker, InstanceSpecification objectToCheck) {
 		super(checker, objectToCheck);
 	}
 
-	/**
-	 * Checks whatever any region element exists and then checks regions
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see dk.dtu.imm.esculapauml.core.checkers.Checker#check()
 	 */
-	protected void checkRegions() {
-		if (checkee.getRegions().size() == 0) {
-			addProblem(Diagnostic.ERROR, "The StateMachine \"" + checkee.getLabel() + "\" has no regions.");
-		}
-		CollectionChecker<?> cc = new CollectionChecker<Region>(this, checkee.getRegions());
-		cc.check();
+	@Override
+	public void check() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

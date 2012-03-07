@@ -13,13 +13,11 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import java.util.Collection;
 
-import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.Region;
-
-import dk.dtu.imm.esculapauml.core.states.SystemState;
 
 /**
  * Checker for collections of objects
@@ -28,12 +26,6 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  */
 public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 
-	/**
-	 * @param objectToCheck
-	 */
-	public CollectionChecker(SystemState systemState, Collection<T> objectToCheck) {
-		super(systemState, objectToCheck);
-	}
 	
 	/**
 	 * @param checker
@@ -41,14 +33,6 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 	 */
 	public CollectionChecker(Checker checker, Collection<T> objectToCheck) {
 		super(checker, objectToCheck);
-	}
-
-	/**
-	 * @param existingDiagnostics
-	 * @param objectToCheck
-	 */
-	CollectionChecker(SystemState systemState, BasicDiagnostic existingDiagnostics, Collection<T> objectToCheck) {
-		super(systemState, existingDiagnostics, objectToCheck);
 	}
 
 	/* (non-Javadoc)
@@ -66,6 +50,8 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 				checker = new RegionChecker(this, (Region) elem);
 			} else if(elem instanceof InteractionFragment) {
 				checker = new InteractionFragmentChecker(this, (InteractionFragment) elem);
+			} else if(elem instanceof InstanceSpecification) {
+				checker = new InstanceSpecificationChecker(this, (InstanceSpecification) elem);
 			}
 			
 			// add more classes here if needed

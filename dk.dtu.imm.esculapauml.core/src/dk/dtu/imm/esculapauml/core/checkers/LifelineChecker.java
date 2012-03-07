@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.ConnectableElement;
+import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.StateMachine;
@@ -126,12 +127,20 @@ public class LifelineChecker extends AbstractChecker<Lifeline> {
 	 */
 	protected void prepareBehaviorCheckerForLifeline(BehavioredClassifier type) {
 		BehaviorChecker bc = systemState.getBehaviorChecker(type);
-		if(null == bc) {
+		if (null == bc) {
 			bc = new BehaviorChecker(this, type);
 			bc.check();
 		}
-		// register instance for lifeline
-		bc.registerInstance(checkee.getName());
+		if (!bc.hasErrors()) {
+			// check if instance was specified by the user
+			InstanceSpecification is = systemState.getExistingInstanceSpecification(checkee.getName(), type);
+			if (null == is) {
+				addProblem(Diagnostic.OK, "The Lifeline '" + checkee.getLabel()
+						+ "' has no provided instance specification. The default instance will be generated.");
+				// register new instance for lifeline
+				bc.registerInstance(checkee.getName());
+			}
+		}
 	}
 
 }

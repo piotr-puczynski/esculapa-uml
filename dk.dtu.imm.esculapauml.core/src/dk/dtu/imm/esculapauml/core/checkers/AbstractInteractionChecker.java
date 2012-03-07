@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -26,7 +27,6 @@ import dk.dtu.imm.esculapauml.core.states.SystemState;
  * 
  */
 public abstract class AbstractInteractionChecker extends AbstractChecker<Interaction> {
-	
 
 	AbstractInteractionChecker(SystemState systemState, Interaction interaction) {
 		super(systemState, interaction);
@@ -36,7 +36,7 @@ public abstract class AbstractInteractionChecker extends AbstractChecker<Interac
 	 * Check all lifelines
 	 */
 	protected void checkLifelines() {
-		CollectionChecker<?> cc = new CollectionChecker<Lifeline>(systemState, diagnostics, checkee.getLifelines());
+		CollectionChecker<?> cc = new CollectionChecker<Lifeline>(this, checkee.getLifelines());
 		cc.check();
 	}
 
@@ -46,7 +46,16 @@ public abstract class AbstractInteractionChecker extends AbstractChecker<Interac
 	 * @param message
 	 */
 	protected void checkMessages() {
-		CollectionChecker<?> cc = new CollectionChecker<Message>(systemState, diagnostics, checkee.getMessages());
+		CollectionChecker<?> cc = new CollectionChecker<Message>(this, checkee.getMessages());
+		cc.check();
+	}
+
+	/**
+	 * Checks all existing instance specifications.
+	 * 
+	 */
+	protected void checkExistingInstances() {
+		CollectionChecker<?> cc = new CollectionChecker<InstanceSpecification>(this, systemState.getExistingInstances());
 		cc.check();
 	}
 

@@ -26,6 +26,7 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
@@ -46,7 +47,6 @@ public class SystemState {
 	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
 	private org.eclipse.uml2.uml.Package instancePackage = null;
 	private Set<Element> generatedElements = new HashSet<Element>();
-	private int stateId = -1;
 	private ExecutionCoordinator coordinator;
 
 	/**
@@ -54,6 +54,13 @@ public class SystemState {
 	 */
 	public SystemState() {
 		super();
+	}
+
+	/**
+	 * @return the existingInstances
+	 */
+	public List<InstanceSpecification> getExistingInstances() {
+		return existingInstances;
 	}
 
 	/**
@@ -66,9 +73,8 @@ public class SystemState {
 		existingInstances.clear();
 		behaviorCheckers.clear();
 		// search for existing instances
-		searchForExistingInstanceSpecifications(toCheck.getNearestPackage());
-		instancePackage = toCheck.getModel().createNestedPackage(name + " Instance(" + ++stateId + ")");
-		addGeneratedElement(instancePackage);
+		instancePackage = toCheck.getNearestPackage();
+		searchForExistingInstanceSpecifications(instancePackage);
 		coordinator = new ExecutionCoordinator();
 	}
 
@@ -85,6 +91,24 @@ public class SystemState {
 				existingInstances.add((InstanceSpecification) o);
 			}
 		}
+	}
+
+	/**
+	 * Checks whatever the instance existed before a run and returns it.
+	 * 
+	 * @param name
+	 * @param type
+	 * @return
+	 */
+	public InstanceSpecification getExistingInstanceSpecification(String name, Type type) {
+		for (InstanceSpecification instanceSpecification : existingInstances) {
+			if (!instanceSpecification.getClassifiers().isEmpty()) {
+				if (instanceSpecification.getClassifiers().get(0) == type && name.equals(instanceSpecification.getName())) {
+					return instanceSpecification;
+				}
+			}
+		}
+		return null;
 	}
 
 	public InstanceExecutor getInstanceExecutor(InstanceSpecification instanceSpecification) {

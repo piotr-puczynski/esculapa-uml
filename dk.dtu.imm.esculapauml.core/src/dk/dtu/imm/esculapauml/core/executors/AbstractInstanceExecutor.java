@@ -64,6 +64,19 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		createInstanceSpecification();
 		checker.getSystemState().registerInstanceExecutor(this);
 	}
+	
+	/**
+	 * @param checker
+	 * @param instanceSpecification2
+	 * @param context
+	 */
+	public AbstractInstanceExecutor(Checker checker, InstanceSpecification instanceSpecification, Class originalClass) {
+		super(checker);
+		this.instanceSpecification = instanceSpecification;
+		this.instanceName = instanceSpecification.getName();
+		this.originalClass = originalClass;
+		checker.getSystemState().registerInstanceExecutor(this);
+	}
 
 	/**
 	 * Copy constructor.

@@ -26,6 +26,7 @@ import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.FunctionBehavior;
+import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
@@ -74,6 +75,14 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		checkee = checker.getCheckedObject();
 		logger = Logger.getLogger(BehaviorExecutor.class);
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
+	}
+
+	/**
+	 * @param checker2
+	 * @param instanceSpecification
+	 */
+	public BehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification) {
+		super(checker, instanceSpecification, (Class) checker.getCheckedObject().getContext());
 	}
 
 	/*
