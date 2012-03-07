@@ -279,6 +279,22 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getOperationByName
+	 * (java.lang.String)
+	 */
+	public Operation getOperationByName(String name) {
+		for (Operation operation : originalClass.getAllOperations()) {
+			if (operation.getName().equals(name)) {
+				return operation;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Creates a deep copy of instance values.
 	 * 

@@ -15,11 +15,14 @@ import static ch.lambdaj.Lambda.join;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import org.apache.log4j.Level;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
@@ -36,7 +39,6 @@ import dk.dtu.imm.esculapauml.core.sal.parser.SALIntegerConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALLogicConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALMemeberOp;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALNode;
-import dk.dtu.imm.esculapauml.core.sal.parser.SALParameters;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParser;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALReplyStatement;
@@ -162,6 +164,21 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	public ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
 		// redirect calls to parent
 		return parent.callOperation(source, operation, arguments, isSynchronous, errorContext);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#callOperation(
+	 * java.lang.Object, java.lang.String, org.eclipse.emf.common.util.EList,
+	 * boolean, org.eclipse.uml2.uml.Element)
+	 */
+	@Override
+	public ValueSpecification callOperation(Object source, String operationName, EList<ValueSpecification> arguments, boolean isSynchronous,
+			Element errorContext) {
+		// redirect calls to parent
+		return parent.callOperation(source, operationName, arguments, isSynchronous, errorContext);
 	}
 
 	/*
@@ -294,7 +311,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		if (result instanceof ValueSpecification) {
 			return (ValueSpecification) result;
 		}
-		if(UMLTypesUtil.canBeConverted(result)) {
+		if (UMLTypesUtil.canBeConverted(result)) {
 			return UMLTypesUtil.getObjectValue(result, checker, checker.getCheckedObject());
 		}
 		return null;
@@ -310,7 +327,38 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALCall node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		// evaluate arguments
+		EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
+		Stack<String> oldContext = data.swapEvaluationContext(new Stack<String>());
+		for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
+			arguments.add(node.getChild(i).jjtAccept(this, data));
+		}
+		data.swapEvaluationContext(oldContext);
+		if (checker.hasErrors()) {
+			return null;
+		}
+		Object instance = getInstanceSpecification();
+		String name = (String) node.jjtGetValue();
+		if (data.hasEvaluationContext()) {
+			String oclExpression = data.getEvaluationContextExpression();
+			OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
+			ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
+			instance = ocl.evaluate(oclExpression);
+			if (ocl.hasErrors()) {
+				return null;
+			}
+		}
+		if (instance instanceof InstanceSpecification) {
+			InstanceExecutor executor = checker.getSystemState().getInstanceExecutor((InstanceSpecification) instance);
+			if (null == executor) {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot obtain executor for operation: '" + name + "'.");
+			} else {
+				return executor.callOperation(parent, name, arguments, true, trc.getCheckedObject());
+			}
+
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Operation: '" + name + "' must be called in the context of existing instance specification.");
+		}
 		return null;
 	}
 
@@ -328,20 +376,6 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		ValueSpecification result = node.getChild(0).jjtAccept(this, data);
 		data.popEvaluationContext();
 		return result;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALParameters,
-	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
-	 */
-	@Override
-	public ValueSpecification visit(SALParameters node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

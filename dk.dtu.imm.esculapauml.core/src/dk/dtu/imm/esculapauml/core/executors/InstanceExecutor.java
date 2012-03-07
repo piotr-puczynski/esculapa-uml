@@ -59,16 +59,41 @@ public interface InstanceExecutor extends Executor {
 	ValueSpecification getVariable(String name);
 
 	/**
-	 * Operation used to call operation on instance.
+	 * Returns the operation based on name or null if operation is not declared.
+	 * 
+	 * @param name
+	 *            of an operation
+	 * @return UML operation or null
+	 */
+	Operation getOperationByName(String name);
+
+	/**
+	 * Operation used to call operation on an instance.
 	 * 
 	 * @param source
+	 *            any source object
 	 * @param operation
+	 *            object
 	 * @param arguments
+	 *            as list of ValueSpecifications
 	 * @param isSynchronous
 	 * @param errorContext
 	 * @return
 	 */
 	ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext);
+
+	/**
+	 * Operation used to call operation on an instance. Uses operation name to
+	 * identify operation.
+	 * 
+	 * @param source
+	 * @param operationName
+	 * @param arguments
+	 * @param isSynchronous
+	 * @param errorContext
+	 * @return
+	 */
+	ValueSpecification callOperation(Object source, String operationName, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext);
 
 	/**
 	 * Gets local variable. ValueName is null for single multiplicity variables.
@@ -92,5 +117,5 @@ public interface InstanceExecutor extends Executor {
 	 * @return
 	 */
 	Class getLocalClass();
-	
+
 }

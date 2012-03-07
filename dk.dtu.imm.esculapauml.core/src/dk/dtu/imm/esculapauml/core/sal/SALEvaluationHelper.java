@@ -26,7 +26,7 @@ public class SALEvaluationHelper {
 	private Stack<String> evaluationContext = new Stack<String>();
 
 	/**
-	 * Adds new evaluation context to existing context.
+	 * Adds new evaluation context entry to existing context.
 	 * 
 	 * @param id
 	 */
@@ -35,7 +35,7 @@ public class SALEvaluationHelper {
 	}
 
 	/**
-	 * Removes last evaluation context.
+	 * Removes last entry in evaluation context.
 	 * 
 	 * @param id
 	 */
@@ -47,7 +47,7 @@ public class SALEvaluationHelper {
 	}
 
 	/**
-	 * Checks if any evaluation context was set.
+	 * Checks if any evaluation context entry was set.
 	 * 
 	 * @return
 	 */
@@ -62,6 +62,18 @@ public class SALEvaluationHelper {
 	 */
 	public String getEvaluationContextExpression() {
 		return join(evaluationContext, ".");
+	}
+	
+	/**
+	 * Swaps the evaluation context with the new one, returns the old one.
+	 * 
+	 * @param newContext
+	 * @return
+	 */
+	public Stack<String> swapEvaluationContext(Stack<String> newContext) {
+		Stack<String> result = evaluationContext;
+		evaluationContext = newContext;
+		return result;
 	}
 
 }

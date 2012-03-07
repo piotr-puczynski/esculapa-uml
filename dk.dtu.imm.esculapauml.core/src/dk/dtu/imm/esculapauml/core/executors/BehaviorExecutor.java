@@ -163,6 +163,25 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#callOperation(
+	 * java.lang.Object, java.lang.String, org.eclipse.emf.common.util.EList,
+	 * boolean, org.eclipse.uml2.uml.Element)
+	 */
+	public ValueSpecification callOperation(Object source, String operationName, EList<ValueSpecification> arguments, boolean isSynchronous,
+			Element errorContext) {
+		Operation operation = getOperationByName(operationName);
+		if (null == operation) {
+			checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' has no operation with name '" + operationName + "'.",
+					errorContext);
+			return null;
+		}
+		return callOperation(source, operation, arguments, isSynchronous, errorContext);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#callOperation(
 	 * java.lang.Object, org.eclipse.uml2.uml.Operation,
 	 * org.eclipse.emf.common.util.EList, boolean, org.eclipse.uml2.uml.Element)
 	 */
@@ -231,6 +250,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			backupSlots = getDeepCopyOfMySlots();
 			// set the arguments as local values of state machine
 			preprocessOperationArguments(operation, arguments, errorContext);
+			if (checker.hasErrors()) {
+				restoreCopyOfMySlots(backupSlots);
+				return null;
+			}
 		}
 		// for each state in active configuration check if we can fire
 		// transition
@@ -291,6 +314,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 					break;
 				}
 			}
+		}
+		if (a.hasNext() || p.hasNext()) {
+			checker.addOtherProblem(Diagnostic.WARNING, "Wrong number of arguments for operation '" + operation.getLabel() + "'", errorContext);
 		}
 
 	}

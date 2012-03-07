@@ -107,12 +107,10 @@ public class SalTests {
 		
 		assertEquals(SALParserTreeConstants.JJTCALL, member2.getId());
 		assertEquals("member2", member2.jjtGetValue());
-		SALNode params = member2.getChild(0);
-		assertEquals(SALParserTreeConstants.JJTPARAMETERS, params.getId());
 		
-		assertEquals(2, params.jjtGetNumChildren());
-		SALNode num = params.getChild(0);
-		SALNode str = params.getChild(1);
+		assertEquals(2, member2.jjtGetNumChildren());
+		SALNode num = member2.getChild(0);
+		SALNode str = member2.getChild(1);
 		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, num.getId());
 		assertEquals(SALParserTreeConstants.JJTSTRINGCONSTANT, str.getId());
 		assertEquals(123, num.jjtGetValue());
