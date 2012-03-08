@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_Tak5gU59EeGfWN6qfI76hw" activeDiagram="_Ql7lQ2kkEeGc4LsIdjtnZg">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_Tak5gU59EeGfWN6qfI76hw" activeDiagram="_uwCOwU59EeGfWN6qfI76hw">
   <model href="TwoSALCallsInEffect.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_Tak5gk59EeGfWN6qfI76hw" position="0,0" size="100,100" name="TwoSALCallsInEffect" viewport="0,0">
     <property xmi:id="_Ta30cE59EeGfWN6qfI76hw" key="pageFormatName" value="A4"/>
@@ -218,9 +218,9 @@
   <subdiagrams xmi:id="_uwCOwE59EeGfWN6qfI76hw">
     <model href="TwoSALCallsInEffect.uml#_uwBnsE59EeGfWN6qfI76hw"/>
     <diagrams xmi:id="_uwCOwU59EeGfWN6qfI76hw" position="0,0" size="100,100" name="UseCase1" viewport="0,0">
-      <property xmi:id="_uxJCAE59EeGfWN6qfI76hw" key="pageFormatName" value="A4"/>
-      <property xmi:id="_uxJCAU59EeGfWN6qfI76hw" key="diagramWidth" value="840"/>
-      <property xmi:id="_uxJCAk59EeGfWN6qfI76hw" key="diagramHeight" value="1188"/>
+      <property xmi:id="_uxJCAE59EeGfWN6qfI76hw" key="pageFormatName" value=""/>
+      <property xmi:id="_uxJCAU59EeGfWN6qfI76hw" key="diagramWidth" value="808"/>
+      <property xmi:id="_uxJCAk59EeGfWN6qfI76hw" key="diagramHeight" value="490"/>
       <property xmi:id="_uxJCA059EeGfWN6qfI76hw" key="pageMarginName" value="Small Margin"/>
       <property xmi:id="_uxJCBE59EeGfWN6qfI76hw" key="diagramTopMargin" value="20"/>
       <property xmi:id="_uxJCBU59EeGfWN6qfI76hw" key="diagramBottomMargin" value="20"/>
@@ -230,25 +230,37 @@
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uwCOwk59EeGfWN6qfI76hw" presentation="org.topcased.modeler.uml.sequencediagram">
         <element href="TwoSALCallsInEffect.uml#_uwBnsE59EeGfWN6qfI76hw"/>
       </semanticModel>
-      <contained xsi:type="di:GraphNode" xmi:id="_4u_LME59EeGfWN6qfI76hw" position="52,40" size="157,300">
+      <contained xsi:type="di:GraphNode" xmi:id="_4u_LME59EeGfWN6qfI76hw" position="52,40" size="157,297">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_4u_LMU59EeGfWN6qfI76hw" presentation="default">
           <element href="TwoSALCallsInEffect.uml#_4vZa4E59EeGfWN6qfI76hw"/>
         </semanticModel>
-        <contained xsi:type="di:GraphNode" xmi:id="_Dpi0QE5-EeGfWN6qfI76hw" position="68,57" size="20,50">
+        <contained xsi:type="di:GraphNode" xmi:id="_Dpi0QE5-EeGfWN6qfI76hw" position="68,57" size="20,170">
           <anchorage xmi:id="_E4decE5-EeGfWN6qfI76hw" position="16,20" graphEdge="_E4nPcU5-EeGfWN6qfI76hw"/>
+          <anchorage xmi:id="_oAecwGknEeG7tPd3eBO-HQ" position="16,170" graphEdge="_oAecwWknEeG7tPd3eBO-HQ"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Dpi0QU5-EeGfWN6qfI76hw" presentation="default">
             <element href="TwoSALCallsInEffect.uml#_Dpo64E5-EeGfWN6qfI76hw"/>
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_AdmcsE5-EeGfWN6qfI76hw" position="298,40" size="100,300">
+      <contained xsi:type="di:GraphNode" xmi:id="_AdmcsE5-EeGfWN6qfI76hw" position="298,40" size="100,297">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_AdmcsU5-EeGfWN6qfI76hw" presentation="default">
           <element href="TwoSALCallsInEffect.uml#_AdvmoE5-EeGfWN6qfI76hw"/>
         </semanticModel>
-        <contained xsi:type="di:GraphNode" xmi:id="_ECCMwE5-EeGfWN6qfI76hw" position="40,64" size="20,50">
+        <contained xsi:type="di:GraphNode" xmi:id="_ECCMwE5-EeGfWN6qfI76hw" position="40,64" size="20,73">
           <anchorage xmi:id="_E4nPcE5-EeGfWN6qfI76hw" position="17,13" graphEdge="_E4nPcU5-EeGfWN6qfI76hw"/>
+          <anchorage xmi:id="_oAWg8WknEeG7tPd3eBO-HQ" position="17,43" graphEdge="_oAYWIGknEeG7tPd3eBO-HQ"/>
+          <anchorage xmi:id="_oAZkQGknEeG7tPd3eBO-HQ" position="17,73" graphEdge="_oAaLUGknEeG7tPd3eBO-HQ"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ECCMwU5-EeGfWN6qfI76hw" presentation="default">
             <element href="TwoSALCallsInEffect.uml#_ECDa4E5-EeGfWN6qfI76hw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_oAVS0GknEeG7tPd3eBO-HQ" position="0,167" size="20,60">
+          <property xmi:id="_oAVS0WknEeG7tPd3eBO-HQ" key="backgroundColor" value="192,192,192"/>
+          <anchorage xmi:id="_oAaLVWknEeG7tPd3eBO-HQ" position="0,0" graphEdge="_oAcAgGknEeG7tPd3eBO-HQ"/>
+          <anchorage xmi:id="_oAcnkGknEeG7tPd3eBO-HQ" position="0,30" graphEdge="_oAdOoGknEeG7tPd3eBO-HQ"/>
+          <anchorage xmi:id="_oAdOpWknEeG7tPd3eBO-HQ" position="0,60" graphEdge="_oAecwWknEeG7tPd3eBO-HQ"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAVS0mknEeG7tPd3eBO-HQ" presentation="default">
+            <element href="TwoSALCallsInEffect.uml#_n-pQxWknEeG7tPd3eBO-HQ"/>
           </semanticModel>
         </contained>
       </contained>
@@ -257,6 +269,69 @@
           <element href="TwoSALCallsInEffect.uml#_E46KYE5-EeGfWN6qfI76hw"/>
         </semanticModel>
         <contained xsi:type="di:EdgeObjectOffset" xmi:id="_E4nPc05-EeGfWN6qfI76hw" id="nameEdgeObject" offset="0,-10"/>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_oARocGknEeG7tPd3eBO-HQ" position="428,40" size="100,297">
+        <property xmi:id="_oARocWknEeG7tPd3eBO-HQ" key="backgroundColor" value="128,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oARocmknEeG7tPd3eBO-HQ" presentation="default">
+          <element href="TwoSALCallsInEffect.uml#_n-dqlWknEeG7tPd3eBO-HQ"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_oAS2kmknEeG7tPd3eBO-HQ" position="0,107" size="20,30">
+          <property xmi:id="_oAS2k2knEeG7tPd3eBO-HQ" key="backgroundColor" value="192,192,192"/>
+          <anchorage xmi:id="_oAXvEGknEeG7tPd3eBO-HQ" position="0,0" graphEdge="_oAYWIGknEeG7tPd3eBO-HQ"/>
+          <anchorage xmi:id="_oAY9MmknEeG7tPd3eBO-HQ" position="0,30" graphEdge="_oAaLUGknEeG7tPd3eBO-HQ"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAS2lGknEeG7tPd3eBO-HQ" presentation="default">
+            <element href="TwoSALCallsInEffect.uml#_n-jKIGknEeG7tPd3eBO-HQ"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphNode" xmi:id="_oAUEsGknEeG7tPd3eBO-HQ" position="560,40" size="100,297">
+        <property xmi:id="_oAUEsWknEeG7tPd3eBO-HQ" key="backgroundColor" value="128,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAUEsmknEeG7tPd3eBO-HQ" presentation="default">
+          <element href="TwoSALCallsInEffect.uml#_n-optWknEeG7tPd3eBO-HQ"/>
+        </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_oAUrwmknEeG7tPd3eBO-HQ" position="0,167" size="20,30">
+          <property xmi:id="_oAUrw2knEeG7tPd3eBO-HQ" key="backgroundColor" value="192,192,192"/>
+          <anchorage xmi:id="_oAbZcGknEeG7tPd3eBO-HQ" position="0,0" graphEdge="_oAcAgGknEeG7tPd3eBO-HQ"/>
+          <anchorage xmi:id="_oAcAhWknEeG7tPd3eBO-HQ" position="0,30" graphEdge="_oAdOoGknEeG7tPd3eBO-HQ"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAUrxGknEeG7tPd3eBO-HQ" presentation="default">
+            <element href="TwoSALCallsInEffect.uml#_n-p30mknEeG7tPd3eBO-HQ"/>
+          </semanticModel>
+        </contained>
+      </contained>
+      <contained xsi:type="di:GraphEdge" xmi:id="_oAYWIGknEeG7tPd3eBO-HQ" anchor="_oAWg8WknEeG7tPd3eBO-HQ _oAXvEGknEeG7tPd3eBO-HQ">
+        <property xmi:id="_oAYWIWknEeG7tPd3eBO-HQ" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAYWImknEeG7tPd3eBO-HQ" presentation="default">
+          <element href="TwoSALCallsInEffect.uml#_n-h8AmknEeG7tPd3eBO-HQ"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_oAY9MGknEeG7tPd3eBO-HQ" id="nameEdgeObject" offset="0,-10"/>
+      </contained>
+      <contained xsi:type="di:GraphEdge" xmi:id="_oAaLUGknEeG7tPd3eBO-HQ" anchor="_oAY9MmknEeG7tPd3eBO-HQ _oAZkQGknEeG7tPd3eBO-HQ">
+        <property xmi:id="_oAaLUWknEeG7tPd3eBO-HQ" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAaLUmknEeG7tPd3eBO-HQ" presentation="default">
+          <element href="TwoSALCallsInEffect.uml#_n-lmYmknEeG7tPd3eBO-HQ"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_oAaLU2knEeG7tPd3eBO-HQ" id="nameEdgeObject" offset="0,-10"/>
+      </contained>
+      <contained xsi:type="di:GraphEdge" xmi:id="_oAcAgGknEeG7tPd3eBO-HQ" anchor="_oAaLVWknEeG7tPd3eBO-HQ _oAbZcGknEeG7tPd3eBO-HQ">
+        <property xmi:id="_oAcAgWknEeG7tPd3eBO-HQ" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAcAgmknEeG7tPd3eBO-HQ" presentation="default">
+          <element href="TwoSALCallsInEffect.uml#_n-pQwWknEeG7tPd3eBO-HQ"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_oAcAg2knEeG7tPd3eBO-HQ" id="nameEdgeObject" offset="0,-10"/>
+      </contained>
+      <contained xsi:type="di:GraphEdge" xmi:id="_oAdOoGknEeG7tPd3eBO-HQ" anchor="_oAcAhWknEeG7tPd3eBO-HQ _oAcnkGknEeG7tPd3eBO-HQ">
+        <property xmi:id="_oAdOoWknEeG7tPd3eBO-HQ" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAdOomknEeG7tPd3eBO-HQ" presentation="default">
+          <element href="TwoSALCallsInEffect.uml#_n-rF82knEeG7tPd3eBO-HQ"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_oAdOo2knEeG7tPd3eBO-HQ" id="nameEdgeObject" offset="0,-10"/>
+      </contained>
+      <contained xsi:type="di:GraphEdge" xmi:id="_oAecwWknEeG7tPd3eBO-HQ" anchor="_oAdOpWknEeG7tPd3eBO-HQ _oAecwGknEeG7tPd3eBO-HQ">
+        <property xmi:id="_oAecwmknEeG7tPd3eBO-HQ" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oAecw2knEeG7tPd3eBO-HQ" presentation="default">
+          <element href="TwoSALCallsInEffect.uml#_n-sUE2knEeG7tPd3eBO-HQ"/>
+        </semanticModel>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_oAecxGknEeG7tPd3eBO-HQ" id="nameEdgeObject" offset="0,-10"/>
       </contained>
     </diagrams>
   </subdiagrams>
@@ -317,7 +392,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_Ql7lQmkkEeGc4LsIdjtnZg">
     <model href="TwoSALCallsInEffect.uml#_Ql7lQGkkEeGc4LsIdjtnZg"/>
-    <diagrams xmi:id="_Ql7lQ2kkEeGc4LsIdjtnZg" position="0,0" size="100,100" name="E" viewport="0,84">
+    <diagrams xmi:id="_Ql7lQ2kkEeGc4LsIdjtnZg" position="0,0" size="100,100" name="E" viewport="0,80">
       <property xmi:id="_QmEvMmkkEeGc4LsIdjtnZg" key="pageFormatName" value="A4"/>
       <property xmi:id="_QmEvM2kkEeGc4LsIdjtnZg" key="diagramWidth" value="840"/>
       <property xmi:id="_QmEvNGkkEeGc4LsIdjtnZg" key="diagramHeight" value="1188"/>
