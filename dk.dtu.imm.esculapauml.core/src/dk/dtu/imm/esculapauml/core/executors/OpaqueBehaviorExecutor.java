@@ -39,6 +39,7 @@ import dk.dtu.imm.esculapauml.core.sal.parser.SALIntegerConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALLogicConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALMemeberOp;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALNode;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALOCLExpression;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParser;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALReplyStatement;
@@ -376,6 +377,15 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		ValueSpecification result = node.getChild(0).jjtAccept(this, data);
 		data.popEvaluationContext();
 		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALOCLExpression, dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValueSpecification visit(SALOCLExpression node, SALEvaluationHelper data) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
