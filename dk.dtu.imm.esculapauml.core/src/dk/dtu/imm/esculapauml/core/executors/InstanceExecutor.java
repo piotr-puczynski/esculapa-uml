@@ -111,11 +111,4 @@ public interface InstanceExecutor extends Executor {
 	 */
 	Class getOriginalClass();
 
-	/**
-	 * Gets the local variables class that inherits from original class.
-	 * 
-	 * @return
-	 */
-	Class getLocalClass();
-
 }

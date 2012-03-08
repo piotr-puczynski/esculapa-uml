@@ -33,6 +33,7 @@ import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
+import org.eclipse.uml2.uml.VisibilityKind;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 
@@ -49,7 +50,6 @@ import dk.dtu.imm.esculapauml.core.checkers.Checker;
 public abstract class AbstractInstanceExecutor extends AbstractExecutor implements InstanceExecutor {
 
 	protected InstanceSpecification instanceSpecification;
-	protected Class localClass = null;
 	protected Class originalClass;
 	protected String instanceName;
 
@@ -88,7 +88,6 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		this.instanceSpecification = executor.getInstanceSpecification();
 		this.instanceName = executor.getInstanceName();
 		this.originalClass = executor.getOriginalClass();
-		this.localClass = executor.getLocalClass();
 		// do not register itself in the state registry, it's enough that our
 		// parent is registered
 	}
@@ -125,42 +124,6 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			}
 		}
 
-	}
-
-	/**
-	 * Lazily creates class to hold local variables
-	 */
-	protected void swapInstanceSpecificationToLocal() {
-		localClass = checker.getSystemState().getInstancePackage().createOwnedClass(instanceName + "Local", false);
-		localClass.getSuperClasses().add(originalClass);
-		checker.getSystemState().addGeneratedElement(localClass);
-		instanceSpecification.getClassifiers().set(0, localClass);
-	}
-
-	/**
-	 * This method is used to check if other executor didn't update our instance
-	 * specification with swapInstanceSpecificationToLocal() function. In case
-	 * it did, we also need an update to know about a local class.
-	 * 
-	 */
-	protected void checkLocalClassUpdates() {
-		if (null == localClass) {
-			if (instanceSpecification.getClassifiers().get(0) != originalClass) {
-				localClass = (Class) instanceSpecification.getClassifiers().get(0);
-			}
-		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getLocalClass()
-	 */
-	public Class getLocalClass() {
-		checkLocalClassUpdates();
-		return localClass;
 	}
 
 	/*
@@ -205,11 +168,10 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		ValueSpecification valueToSet = EcoreUtil.copy(value);
 		Property prop = findPropertyFor(name);
 		if (null == prop) {
-			if (null == localClass) {
-				swapInstanceSpecificationToLocal();
-			}
 			// create local variable
-			prop = localClass.createOwnedAttribute(name, valueToSet.getType());
+			prop = originalClass.createOwnedAttribute(name, valueToSet.getType());
+			prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
+			checker.getSystemState().addGeneratedElement(prop);
 		}
 		// type check
 		if (!prop.getType().conformsTo(valueToSet.getType())) {
@@ -301,7 +263,6 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * @return
 	 */
 	protected Collection<Slot> getDeepCopyOfMySlots() {
-		checkLocalClassUpdates();
 		return EcoreUtil.copyAll(instanceSpecification.getSlots());
 	}
 
@@ -322,12 +283,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * @return
 	 */
 	protected Property findPropertyFor(String name) {
-		checkLocalClassUpdates();
 		List<Property> properties = new ArrayList<Property>();
-		if (null != localClass) {
-			// include private attributes of the original class
-			properties = filter(having(on(Property.class).getName(), equalTo(name)), localClass.getAttributes());
-		}
 
 		if (properties.isEmpty()) {
 			// class variable or new local variable
@@ -356,17 +312,6 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		} else {
 			return properties.get(0);
 		}
-	}
-
-	/**
-	 * Finds or creates default executor for operation.
-	 * 
-	 * @param operation
-	 * @return
-	 */
-	protected InstanceExecutor getDefaultExecutorForOperation(Operation operation) {
-		InstanceExecutor result = checker.getSystemState().getInstanceExecutor(operation.getClass_());
-		return result;
 	}
 
 }

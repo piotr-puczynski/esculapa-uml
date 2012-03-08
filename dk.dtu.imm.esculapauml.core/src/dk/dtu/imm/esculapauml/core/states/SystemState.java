@@ -17,6 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.common.util.BasicEList;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
@@ -109,6 +111,18 @@ public class SystemState {
 			}
 		}
 		return null;
+	}
+	
+	public EList<InstanceSpecification> getExistingInstanceSpecifications(Type type) {
+		EList<InstanceSpecification> result = new BasicEList<InstanceSpecification>();
+		for (InstanceSpecification instanceSpecification : existingInstances) {
+			if (!instanceSpecification.getClassifiers().isEmpty()) {
+				if (instanceSpecification.getClassifiers().get(0) == type) {
+					result.add(instanceSpecification);
+				}
+			}
+		}
+		return result;
 	}
 
 	public InstanceExecutor getInstanceExecutor(InstanceSpecification instanceSpecification) {

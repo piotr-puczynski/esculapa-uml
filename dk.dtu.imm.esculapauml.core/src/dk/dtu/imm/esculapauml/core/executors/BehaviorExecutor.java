@@ -21,11 +21,9 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.uml2.uml.Behavior;
-import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.FunctionBehavior;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
@@ -347,26 +345,12 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	protected void runEffect(TransitionReplyChecker ftr) {
 		Behavior effect = ftr.getCheckedObject().getEffect();
 		if (null != effect) {
-			if (effect instanceof FunctionBehavior) {
-				BehavioralFeature bf = effect.getSpecification();
-				if (bf instanceof Operation) {
-					Operation operation = (Operation) bf;
-					// trigger function on general class default executor
-					InstanceExecutor executor = getDefaultExecutorForOperation(operation);
-					if (!checker.hasErrors() && null != executor) {
-						// simple no arguments call
-						EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
-						executor.callOperation(this, operation, arguments, true, ftr.getCheckedObject());
-					}
-				} else {
-					// this shouldn't happen as function behavior should be an
-					// operation
-					ftr.addProblem(Diagnostic.ERROR, "Using FunctionBehavior effect on transition without defining correct specification.");
-				}
-			} else if (effect instanceof OpaqueBehavior) {
+			if (effect instanceof OpaqueBehavior) {
 				OpaqueBehaviorExecutor obe = new OpaqueBehaviorExecutor(this, ftr);
 				obe.prepare();
 				obe.execute();
+			} else {
+				ftr.addProblem(Diagnostic.WARNING, "Unsupported effect type specified on transition '" + ftr.getCheckedObject().getLabel() + "'.");
 			}
 		}
 
