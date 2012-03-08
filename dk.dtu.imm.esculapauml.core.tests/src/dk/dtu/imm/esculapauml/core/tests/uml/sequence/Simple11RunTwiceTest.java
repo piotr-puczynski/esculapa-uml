@@ -17,7 +17,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Interaction;
 import org.junit.Test;
 
@@ -44,8 +43,6 @@ public class Simple11RunTwiceTest extends LoggingTest {
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is no error
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
-		//remove the instance package (that otherwise would be duplicated)
-		EcoreUtil.delete(checker.getSystemState().getInstancePackage());
 		//second run
 		checker = new UseCaseChecker(interaction);
 		checker.check();

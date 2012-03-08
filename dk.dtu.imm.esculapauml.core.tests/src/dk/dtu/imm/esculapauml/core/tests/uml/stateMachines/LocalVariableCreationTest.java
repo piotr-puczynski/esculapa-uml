@@ -40,7 +40,7 @@ public class LocalVariableCreationTest extends LoggingTest {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is no error
-		TestUtils.printDiagnostic(diagnostics);
+		// TestUtils.printDiagnostic(diagnostics);
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		
 		// models have no differences
