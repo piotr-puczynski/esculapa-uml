@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.uml;
+package dk.dtu.imm.esculapauml.core.tests.uml.stateMachines;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -22,6 +22,7 @@ import org.eclipse.uml2.uml.Transition;
 import org.junit.Test;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
+import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
