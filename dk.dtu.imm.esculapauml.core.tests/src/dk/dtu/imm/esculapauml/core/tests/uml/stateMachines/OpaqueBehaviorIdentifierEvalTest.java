@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.tests.uml.stateMachines;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -31,9 +32,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  */
 public class OpaqueBehaviorIdentifierEvalTest extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("OpaqueBehaviorIdentifierEval.uml");
-
-	// private Resource referenceModel =
-	// TestUtils.getUMLResource("results/OpaqueBehaviorIdentifierEval.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/OpaqueBehaviorIdentifierEval.uml");
 
 	@Test
 	public void opaqueBehaviorIdentifierEval() throws InterruptedException {
@@ -45,6 +44,6 @@ public class OpaqueBehaviorIdentifierEvalTest extends LoggingTest {
 		// there is no error
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		// models have no differences
-		// assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }
