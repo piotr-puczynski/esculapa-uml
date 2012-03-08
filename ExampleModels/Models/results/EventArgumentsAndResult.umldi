@@ -58,19 +58,19 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_wskSUGPFEeGI1tpOP3qeGg" position="40,83" size="20,52">
           <anchorage xmi:id="_XAJxsGR5EeGUtfjYGRN0kQ" position="12,22" graphEdge="_XAJxsmR5EeGUtfjYGRN0kQ"/>
-          <anchorage xmi:id="_dBbWoWSEEeG8JbkrMLTPtQ" position="12,52" graphEdge="_dBbWomSEEeG8JbkrMLTPtQ"/>
+          <anchorage xmi:id="_FbJJ0GkOEeG_kpD1r83itA" position="12,52" graphEdge="_FbJJ0WkOEeG_kpD1r83itA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_wskSUWPFEeGI1tpOP3qeGg" presentation="default">
             <element href="EventArgumentsAndResult.uml#_wstcQGPFEeGI1tpOP3qeGg"/>
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="316,40" size="100,205">
+      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="314,40" size="100,205">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_o9rDUTJJEeGjS-_RcLljMA" presentation="default">
           <element href="EventArgumentsAndResult.uml#_o900UDJJEeGjS-_RcLljMA"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_xBPh0GPFEeGI1tpOP3qeGg" position="40,79" size="20,56">
           <anchorage xmi:id="_XAJxsWR5EeGUtfjYGRN0kQ" position="14,26" graphEdge="_XAJxsmR5EeGUtfjYGRN0kQ"/>
-          <anchorage xmi:id="_dBbWoGSEEeG8JbkrMLTPtQ" position="14,56" graphEdge="_dBbWomSEEeG8JbkrMLTPtQ"/>
+          <anchorage xmi:id="_Fa_Y0GkOEeG_kpD1r83itA" position="14,56" graphEdge="_FbJJ0WkOEeG_kpD1r83itA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_xBPh0WPFEeGI1tpOP3qeGg" presentation="default">
             <element href="EventArgumentsAndResult.uml#_xBPh0mPFEeGI1tpOP3qeGg"/>
           </semanticModel>
@@ -82,12 +82,12 @@
         </semanticModel>
         <contained xsi:type="di:EdgeObjectOffset" xmi:id="_XAJxtGR5EeGUtfjYGRN0kQ" id="nameEdgeObject" offset="0,-10"/>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_dBbWomSEEeG8JbkrMLTPtQ" anchor="_dBbWoGSEEeG8JbkrMLTPtQ _dBbWoWSEEeG8JbkrMLTPtQ">
-        <property xmi:id="_dBbWo2SEEeG8JbkrMLTPtQ" key="foregroundColor" value="0,128,255"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_dBbWpGSEEeG8JbkrMLTPtQ" presentation="default">
-          <element href="EventArgumentsAndResult.uml#_c_7h4GSEEeG8JbkrMLTPtQ"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_FbJJ0WkOEeG_kpD1r83itA" anchor="_Fa_Y0GkOEeG_kpD1r83itA _FbJJ0GkOEeG_kpD1r83itA">
+        <property xmi:id="_FbJJ0mkOEeG_kpD1r83itA" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_FbJJ02kOEeG_kpD1r83itA" presentation="default">
+          <element href="EventArgumentsAndResult.uml#_FaPx82kOEeG_kpD1r83itA"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_dBbWpWSEEeG8JbkrMLTPtQ" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_FbJJ1GkOEeG_kpD1r83itA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
     </diagrams>
   </subdiagrams>

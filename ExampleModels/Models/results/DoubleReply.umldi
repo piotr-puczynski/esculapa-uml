@@ -58,19 +58,19 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_SOFQgDJKEeGjS-_RcLljMA" position="40,70" size="20,40">
           <anchorage xmi:id="_QhfZ0FjAEeGgKOhb7eec-A" position="11,10" graphEdge="_QhfZ0ljAEeGgKOhb7eec-A"/>
-          <anchorage xmi:id="_DVcOQFjLEeGKitQa4dzwKw" position="11,40" graphEdge="_DVcOQVjLEeGKitQa4dzwKw"/>
+          <anchorage xmi:id="_BtVJYWkQEeG_kpD1r83itA" position="11,40" graphEdge="_BtVJYmkQEeG_kpD1r83itA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_SOFQgTJKEeGjS-_RcLljMA" presentation="default">
             <element href="DoubleReply.uml#_SOTS8DJKEeGjS-_RcLljMA"/>
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="322,40" size="100,180">
+      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="319,40" size="100,180">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_o9rDUTJJEeGjS-_RcLljMA" presentation="default">
           <element href="DoubleReply.uml#_o900UDJJEeGjS-_RcLljMA"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_0ZJ9QDJLEeGjS-_RcLljMA" position="40,66" size="20,44">
           <anchorage xmi:id="_QhfZ0VjAEeGgKOhb7eec-A" position="15,14" graphEdge="_QhfZ0ljAEeGgKOhb7eec-A"/>
-          <anchorage xmi:id="_DVSdQFjLEeGKitQa4dzwKw" position="15,44" graphEdge="_DVcOQVjLEeGKitQa4dzwKw"/>
+          <anchorage xmi:id="_BtVJYGkQEeG_kpD1r83itA" position="15,44" graphEdge="_BtVJYmkQEeG_kpD1r83itA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_0ZJ9QTJLEeGjS-_RcLljMA" presentation="default">
             <element href="DoubleReply.uml#_0ZLLYDJLEeGjS-_RcLljMA"/>
           </semanticModel>
@@ -82,12 +82,12 @@
         </semanticModel>
         <contained xsi:type="di:EdgeObjectOffset" xmi:id="_QhfZ1FjAEeGgKOhb7eec-A" id="nameEdgeObject" offset="0,-10"/>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_DVcOQVjLEeGKitQa4dzwKw" anchor="_DVSdQFjLEeGKitQa4dzwKw _DVcOQFjLEeGKitQa4dzwKw">
-        <property xmi:id="_DVcOQljLEeGKitQa4dzwKw" key="foregroundColor" value="0,128,255"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_DVcOQ1jLEeGKitQa4dzwKw" presentation="default">
-          <element href="DoubleReply.uml#_DPVmQ1jLEeGKitQa4dzwKw"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_BtVJYmkQEeG_kpD1r83itA" anchor="_BtVJYGkQEeG_kpD1r83itA _BtVJYWkQEeG_kpD1r83itA">
+        <property xmi:id="_BtVJY2kQEeG_kpD1r83itA" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_BtVJZGkQEeG_kpD1r83itA" presentation="default">
+          <element href="DoubleReply.uml#_BsvTg2kQEeG_kpD1r83itA"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_DVcORFjLEeGKitQa4dzwKw" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_BtVJZWkQEeG_kpD1r83itA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
     </diagrams>
   </subdiagrams>

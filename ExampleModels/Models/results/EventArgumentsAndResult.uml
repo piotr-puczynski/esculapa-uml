@@ -11,6 +11,18 @@
   </elementImport>
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Simple2">
     <packagedElement xmi:type="uml:Class" xmi:id="_Hokf0DJJEeGjS-_RcLljMA" name="C" classifierBehavior="_iSpjsEOKEeG4EdriM4MjZA">
+      <ownedAttribute xmi:id="_FZgLEGkOEeG_kpD1r83itA" name="cowNumber" visibility="private">
+        <eAnnotations xmi:id="_FZgLEWkOEeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+          <details xmi:id="_FZgLEmkOEeG_kpD1r83itA" key="generated" value="true"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_FZ83AWkOEeG_kpD1r83itA" name="hasMilk" visibility="private">
+        <eAnnotations xmi:id="_FZ83AmkOEeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+          <details xmi:id="_FZ83A2kOEeG_kpD1r83itA" key="generated" value="true"/>
+        </eAnnotations>
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_iSpjsEOKEeG4EdriM4MjZA" name="StateMachine">
         <region xmi:id="_iSpjsUOKEeG4EdriM4MjZA" name="Region">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_i03f8EOKEeG4EdriM4MjZA" name="Pseudostate1"/>
@@ -47,20 +59,20 @@
           <end xmi:id="_o4c6MDJLEeGjS-_RcLljMA"/>
           <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
         </ownedConnector>
-        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_XATisGR5EeGUtfjYGRN0kQ _c_7h5mSEEeG8JbkrMLTPtQ _wstcQGPFEeGI1tpOP3qeGg"/>
-        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_XATisWR5EeGUtfjYGRN0kQ _c_7h42SEEeG8JbkrMLTPtQ _xBPh0mPFEeGI1tpOP3qeGg"/>
+        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_XATisGR5EeGUtfjYGRN0kQ _FaPx-WkOEeG_kpD1r83itA _wstcQGPFEeGI1tpOP3qeGg"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_XATisWR5EeGUtfjYGRN0kQ _FaPx9mkOEeG_kpD1r83itA _xBPh0mPFEeGI1tpOP3qeGg"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_XATisGR5EeGUtfjYGRN0kQ" name="MessageOccurrenceSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_XATismR5EeGUtfjYGRN0kQ" message="_XATis2R5EeGUtfjYGRN0kQ"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_XATisWR5EeGUtfjYGRN0kQ" name="MessageOccurrenceSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" event="_XATismR5EeGUtfjYGRN0kQ" message="_XATis2R5EeGUtfjYGRN0kQ"/>
-        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_xBPh0mPFEeGI1tpOP3qeGg" name="BehaviorExecutionSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" start="_XATisWR5EeGUtfjYGRN0kQ" finish="_c_7h42SEEeG8JbkrMLTPtQ"/>
-        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_wstcQGPFEeGI1tpOP3qeGg" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_XATisGR5EeGUtfjYGRN0kQ" finish="_c_7h5mSEEeG8JbkrMLTPtQ"/>
-        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_c_7h42SEEeG8JbkrMLTPtQ" name="SendMessageOccurrenceSpecificationOfReplyOfm" covered="_o900UDJJEeGjS-_RcLljMA" event="_c_7h3WSEEeG8JbkrMLTPtQ" message="_c_7h4GSEEeG8JbkrMLTPtQ">
-          <eAnnotations xmi:id="_c_7h5GSEEeG8JbkrMLTPtQ" source="dk.dtu.imm.esculapauml">
-            <details xmi:id="_c_7h5WSEEeG8JbkrMLTPtQ" key="generated" value="true"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_xBPh0mPFEeGI1tpOP3qeGg" name="BehaviorExecutionSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" start="_XATisWR5EeGUtfjYGRN0kQ" finish="_FaPx9mkOEeG_kpD1r83itA"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_wstcQGPFEeGI1tpOP3qeGg" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_XATisGR5EeGUtfjYGRN0kQ" finish="_FaPx-WkOEeG_kpD1r83itA"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_FaPx9mkOEeG_kpD1r83itA" name="SendMessageOccurrenceSpecificationOfReplyOfm" covered="_o900UDJJEeGjS-_RcLljMA" event="_FaPx8GkOEeG_kpD1r83itA" message="_FaPx82kOEeG_kpD1r83itA">
+          <eAnnotations xmi:id="_FaPx92kOEeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+            <details xmi:id="_FaPx-GkOEeG_kpD1r83itA" key="generated" value="true"/>
           </eAnnotations>
         </fragment>
-        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_c_7h5mSEEeG8JbkrMLTPtQ" name="ReceiveMessageOccurrenceSpecificationOfReplyOfm" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_c_7h3WSEEeG8JbkrMLTPtQ" message="_c_7h4GSEEeG8JbkrMLTPtQ">
-          <eAnnotations xmi:id="_c_7h52SEEeG8JbkrMLTPtQ" source="dk.dtu.imm.esculapauml">
-            <details xmi:id="_c_7h6GSEEeG8JbkrMLTPtQ" key="generated" value="true"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_FaPx-WkOEeG_kpD1r83itA" name="ReceiveMessageOccurrenceSpecificationOfReplyOfm" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_FaPx8GkOEeG_kpD1r83itA" message="_FaPx82kOEeG_kpD1r83itA">
+          <eAnnotations xmi:id="_FaPx-mkOEeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+            <details xmi:id="_FaPx-2kOEeG_kpD1r83itA" key="generated" value="true"/>
           </eAnnotations>
         </fragment>
         <message xmi:id="_XATis2R5EeGUtfjYGRN0kQ" name="m" receiveEvent="_XATisWR5EeGUtfjYGRN0kQ" sendEvent="_XATisGR5EeGUtfjYGRN0kQ">
@@ -74,11 +86,11 @@
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
           </argument>
         </message>
-        <message xmi:id="_c_7h4GSEEeG8JbkrMLTPtQ" name="ReplyOfm" messageSort="reply" receiveEvent="_c_7h5mSEEeG8JbkrMLTPtQ" sendEvent="_c_7h42SEEeG8JbkrMLTPtQ">
-          <eAnnotations xmi:id="_c_7h4WSEEeG8JbkrMLTPtQ" source="dk.dtu.imm.esculapauml">
-            <details xmi:id="_c_7h4mSEEeG8JbkrMLTPtQ" key="generated" value="true"/>
+        <message xmi:id="_FaPx82kOEeG_kpD1r83itA" name="ReplyOfm" messageSort="reply" receiveEvent="_FaPx-WkOEeG_kpD1r83itA" sendEvent="_FaPx9mkOEeG_kpD1r83itA">
+          <eAnnotations xmi:id="_FaPx9GkOEeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+            <details xmi:id="_FaPx9WkOEeG_kpD1r83itA" key="generated" value="true"/>
           </eAnnotations>
-          <argument xmi:type="uml:LiteralString" xmi:id="_c_7h6WSEEeG8JbkrMLTPtQ" name="return" value="muuuu">
+          <argument xmi:type="uml:LiteralString" xmi:id="_FaPx_GkOEeG_kpD1r83itA" name="return" value="muuuu">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </argument>
         </message>
@@ -87,42 +99,25 @@
     <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_zcD-cmPFEeGI1tpOP3qeGg" name="m(cowNumber, hasMilk) : String" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_XATismR5EeGUtfjYGRN0kQ" name="CallEvent1" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_c_7h3WSEEeG8JbkrMLTPtQ" name="EventOfReplyOfm" operation="_IeJc8DJJEeGjS-_RcLljMA">
-      <eAnnotations xmi:id="_c_7h3mSEEeG8JbkrMLTPtQ" source="dk.dtu.imm.esculapauml">
-        <details xmi:id="_c_7h32SEEeG8JbkrMLTPtQ" key="generated" value="true"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_FY6VMGkOEeG_kpD1r83itA" name="Lifeline2" classifier="_Hokf0DJJEeGjS-_RcLljMA">
+      <eAnnotations xmi:id="_FY6VMWkOEeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+        <details xmi:id="_FY6VMmkOEeG_kpD1r83itA" key="generated" value="true"/>
       </eAnnotations>
-    </packagedElement>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_c_66wGSEEeG8JbkrMLTPtQ" name="UseCase1Detail Instance(0)">
-    <eAnnotations xmi:id="_c_66wWSEEeG8JbkrMLTPtQ" source="dk.dtu.imm.esculapauml">
-      <details xmi:id="_c_66wmSEEeG8JbkrMLTPtQ" key="generated" value="true"/>
-    </eAnnotations>
-    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_c_7h0GSEEeG8JbkrMLTPtQ" name="Lifeline2" classifier="_c_7h02SEEeG8JbkrMLTPtQ">
-      <eAnnotations xmi:id="_c_7h0WSEEeG8JbkrMLTPtQ" source="dk.dtu.imm.esculapauml">
-        <details xmi:id="_c_7h0mSEEeG8JbkrMLTPtQ" key="generated" value="true"/>
-      </eAnnotations>
-      <slot xmi:id="_c_7h2GSEEeG8JbkrMLTPtQ" definingFeature="_c_7h12SEEeG8JbkrMLTPtQ">
-        <value xmi:type="uml:LiteralInteger" xmi:id="_c_7h2WSEEeG8JbkrMLTPtQ" name="cowNumber">
+      <slot xmi:id="_FZzGAGkOEeG_kpD1r83itA" definingFeature="_FZgLEGkOEeG_kpD1r83itA">
+        <value xmi:type="uml:LiteralInteger" xmi:id="_FZ83AGkOEeG_kpD1r83itA" name="cowNumber">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </value>
       </slot>
-      <slot xmi:id="_c_7h22SEEeG8JbkrMLTPtQ" definingFeature="_c_7h2mSEEeG8JbkrMLTPtQ">
-        <value xmi:type="uml:LiteralBoolean" xmi:id="_c_7h3GSEEeG8JbkrMLTPtQ" name="hasMilk">
+      <slot xmi:id="_FZ83BGkOEeG_kpD1r83itA" definingFeature="_FZ83AWkOEeG_kpD1r83itA">
+        <value xmi:type="uml:LiteralBoolean" xmi:id="_FZ83BWkOEeG_kpD1r83itA" name="hasMilk">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
         </value>
       </slot>
     </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_c_7h02SEEeG8JbkrMLTPtQ" name="Lifeline2Local">
-      <eAnnotations xmi:id="_c_7h1WSEEeG8JbkrMLTPtQ" source="dk.dtu.imm.esculapauml">
-        <details xmi:id="_c_7h1mSEEeG8JbkrMLTPtQ" key="generated" value="true"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_FaPx8GkOEeG_kpD1r83itA" name="EventOfReplyOfm" operation="_IeJc8DJJEeGjS-_RcLljMA">
+      <eAnnotations xmi:id="_FaPx8WkOEeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+        <details xmi:id="_FaPx8mkOEeG_kpD1r83itA" key="generated" value="true"/>
       </eAnnotations>
-      <generalization xmi:id="_c_7h1GSEEeG8JbkrMLTPtQ" general="_Hokf0DJJEeGjS-_RcLljMA"/>
-      <ownedAttribute xmi:id="_c_7h12SEEeG8JbkrMLTPtQ" name="cowNumber">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-      </ownedAttribute>
-      <ownedAttribute xmi:id="_c_7h2mSEEeG8JbkrMLTPtQ" name="hasMilk">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-      </ownedAttribute>
     </packagedElement>
   </packagedElement>
 </uml:Model>

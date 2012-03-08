@@ -58,19 +58,19 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_SOFQgDJKEeGjS-_RcLljMA" position="40,70" size="20,43">
           <anchorage xmi:id="_FirqADJMEeGjS-_RcLljMA" position="16,13" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_H9A7UFsFEeGz6ZhzdjqvPg" position="16,43" graphEdge="_H9CJcFsFEeGz6ZhzdjqvPg"/>
+          <anchorage xmi:id="_P1q9EWkQEeG_kpD1r83itA" position="16,43" graphEdge="_P1q9EmkQEeG_kpD1r83itA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_SOFQgTJKEeGjS-_RcLljMA" presentation="default">
             <element href="Junction.uml#_SOTS8DJKEeGjS-_RcLljMA"/>
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="313,40" size="100,183">
+      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="314,40" size="100,183">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_o9rDUTJJEeGjS-_RcLljMA" presentation="default">
           <element href="Junction.uml#_o900UDJJEeGjS-_RcLljMA"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_0ZJ9QDJLEeGjS-_RcLljMA" position="40,66" size="20,47">
           <anchorage xmi:id="_Fis4IDJMEeGjS-_RcLljMA" position="13,17" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_H8_tMFsFEeGz6ZhzdjqvPg" position="13,47" graphEdge="_H9CJcFsFEeGz6ZhzdjqvPg"/>
+          <anchorage xmi:id="_P1q9EGkQEeG_kpD1r83itA" position="13,47" graphEdge="_P1q9EmkQEeG_kpD1r83itA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_0ZJ9QTJLEeGjS-_RcLljMA" presentation="default">
             <element href="Junction.uml#_0ZLLYDJLEeGjS-_RcLljMA"/>
           </semanticModel>
@@ -82,18 +82,18 @@
         </semanticModel>
         <contained xsi:type="di:EdgeObjectOffset" xmi:id="_FitfMjJMEeGjS-_RcLljMA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_H9CJcFsFEeGz6ZhzdjqvPg" anchor="_H8_tMFsFEeGz6ZhzdjqvPg _H9A7UFsFEeGz6ZhzdjqvPg">
-        <property xmi:id="_H9CJcVsFEeGz6ZhzdjqvPg" key="foregroundColor" value="0,128,255"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_H9CJclsFEeGz6ZhzdjqvPg" presentation="default">
-          <element href="Junction.uml#_H2ZV81sFEeGz6ZhzdjqvPg"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_P1q9EmkQEeG_kpD1r83itA" anchor="_P1q9EGkQEeG_kpD1r83itA _P1q9EWkQEeG_kpD1r83itA">
+        <property xmi:id="_P1q9E2kQEeG_kpD1r83itA" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_P1q9FGkQEeG_kpD1r83itA" presentation="default">
+          <element href="Junction.uml#_P1ORI2kQEeG_kpD1r83itA"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_H9CJc1sFEeGz6ZhzdjqvPg" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_P1q9FWkQEeG_kpD1r83itA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
     </diagrams>
   </subdiagrams>
   <subdiagrams xmi:id="_iSpjskOKEeG4EdriM4MjZA">
     <model href="Junction.uml#_iSpjsEOKEeG4EdriM4MjZA"/>
-    <diagrams xmi:id="_iSpjs0OKEeG4EdriM4MjZA" position="0,0" size="100,100" name="C" viewport="0,170">
+    <diagrams xmi:id="_iSpjs0OKEeG4EdriM4MjZA" position="0,0" size="100,100" name="C" viewport="0,80">
       <property xmi:id="_iSytokOKEeG4EdriM4MjZA" key="pageFormatName" value="A4"/>
       <property xmi:id="_iSyto0OKEeG4EdriM4MjZA" key="diagramWidth" value="840"/>
       <property xmi:id="_iSytpEOKEeG4EdriM4MjZA" key="diagramHeight" value="1188"/>

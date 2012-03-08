@@ -58,19 +58,19 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_wskSUGPFEeGI1tpOP3qeGg" position="40,83" size="20,45">
           <anchorage xmi:id="_zb6NcGPFEeGI1tpOP3qeGg" position="13,15" graphEdge="_zb6NcmPFEeGI1tpOP3qeGg"/>
-          <anchorage xmi:id="_OYNTMWRzEeG2A9fsY2oldg" position="13,45" graphEdge="_OYNTMmRzEeG2A9fsY2oldg"/>
+          <anchorage xmi:id="_uGC2MWkOEeG_kpD1r83itA" position="13,45" graphEdge="_uGC2MmkOEeG_kpD1r83itA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_wskSUWPFEeGI1tpOP3qeGg" presentation="default">
             <element href="RedefinitionOfLocalVariable.uml#_wstcQGPFEeGI1tpOP3qeGg"/>
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="312,40" size="100,198">
+      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="321,40" size="100,198">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_o9rDUTJJEeGjS-_RcLljMA" presentation="default">
           <element href="RedefinitionOfLocalVariable.uml#_o900UDJJEeGjS-_RcLljMA"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_xBPh0GPFEeGI1tpOP3qeGg" position="40,79" size="20,49">
           <anchorage xmi:id="_zb6NcWPFEeGI1tpOP3qeGg" position="17,19" graphEdge="_zb6NcmPFEeGI1tpOP3qeGg"/>
-          <anchorage xmi:id="_OYNTMGRzEeG2A9fsY2oldg" position="17,49" graphEdge="_OYNTMmRzEeG2A9fsY2oldg"/>
+          <anchorage xmi:id="_uGC2MGkOEeG_kpD1r83itA" position="17,49" graphEdge="_uGC2MmkOEeG_kpD1r83itA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_xBPh0WPFEeGI1tpOP3qeGg" presentation="default">
             <element href="RedefinitionOfLocalVariable.uml#_xBPh0mPFEeGI1tpOP3qeGg"/>
           </semanticModel>
@@ -82,12 +82,12 @@
         </semanticModel>
         <contained xsi:type="di:EdgeObjectOffset" xmi:id="_zb6NdGPFEeGI1tpOP3qeGg" id="nameEdgeObject" offset="0,-10"/>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_OYNTMmRzEeG2A9fsY2oldg" anchor="_OYNTMGRzEeG2A9fsY2oldg _OYNTMWRzEeG2A9fsY2oldg">
-        <property xmi:id="_OYNTM2RzEeG2A9fsY2oldg" key="foregroundColor" value="0,128,255"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_OYNTNGRzEeG2A9fsY2oldg" presentation="default">
-          <element href="RedefinitionOfLocalVariable.uml#_OXndVGRzEeG2A9fsY2oldg"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_uGC2MmkOEeG_kpD1r83itA" anchor="_uGC2MGkOEeG_kpD1r83itA _uGC2MWkOEeG_kpD1r83itA">
+        <property xmi:id="_uGC2M2kOEeG_kpD1r83itA" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_uGC2NGkOEeG_kpD1r83itA" presentation="default">
+          <element href="RedefinitionOfLocalVariable.uml#_uFmKQ2kOEeG_kpD1r83itA"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_OYNTNWRzEeG2A9fsY2oldg" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_uGC2NWkOEeG_kpD1r83itA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
     </diagrams>
   </subdiagrams>

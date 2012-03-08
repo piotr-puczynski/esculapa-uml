@@ -38,20 +38,20 @@
           <end xmi:id="_o4c6MDJLEeGjS-_RcLljMA"/>
           <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
         </ownedConnector>
-        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_9VMAMFjDEeGTg_g65VGqfg _S51NYljEEeGx6OGQK9kDyQ _SOTS8DJKEeGjS-_RcLljMA"/>
-        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_9VMAMVjDEeGTg_g65VGqfg _S50mXFjEEeGx6OGQK9kDyQ _0ZLLYDJLEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_9VMAMFjDEeGTg_g65VGqfg _Y9H0WWkREeG_kpD1r83itA _SOTS8DJKEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_9VMAMVjDEeGTg_g65VGqfg _Y9H0VmkREeG_kpD1r83itA _0ZLLYDJLEeGjS-_RcLljMA"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_9VMAMFjDEeGTg_g65VGqfg" name="MessageOccurrenceSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_9VMAMljDEeGTg_g65VGqfg" message="_9VMAM1jDEeGTg_g65VGqfg"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_9VMAMVjDEeGTg_g65VGqfg" name="MessageOccurrenceSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" event="_9VMAMljDEeGTg_g65VGqfg" message="_9VMAM1jDEeGTg_g65VGqfg"/>
-        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_SOTS8DJKEeGjS-_RcLljMA" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_9VMAMFjDEeGTg_g65VGqfg" finish="_S51NYljEEeGx6OGQK9kDyQ"/>
-        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_0ZLLYDJLEeGjS-_RcLljMA" name="BehaviorExecutionSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" start="_9VMAMVjDEeGTg_g65VGqfg" finish="_S50mXFjEEeGx6OGQK9kDyQ"/>
-        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_S50mXFjEEeGx6OGQK9kDyQ" name="SendMessageOccurrenceSpecificationOfReplyOfm" covered="_o900UDJJEeGjS-_RcLljMA" event="_S50mVljEEeGx6OGQK9kDyQ" message="_S50mWVjEEeGx6OGQK9kDyQ">
-          <eAnnotations xmi:id="_S51NYFjEEeGx6OGQK9kDyQ" source="dk.dtu.imm.esculapauml">
-            <details xmi:id="_S51NYVjEEeGx6OGQK9kDyQ" key="generated" value="true"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_SOTS8DJKEeGjS-_RcLljMA" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_9VMAMFjDEeGTg_g65VGqfg" finish="_Y9H0WWkREeG_kpD1r83itA"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_0ZLLYDJLEeGjS-_RcLljMA" name="BehaviorExecutionSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" start="_9VMAMVjDEeGTg_g65VGqfg" finish="_Y9H0VmkREeG_kpD1r83itA"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Y9H0VmkREeG_kpD1r83itA" name="SendMessageOccurrenceSpecificationOfReplyOfm" covered="_o900UDJJEeGjS-_RcLljMA" event="_Y9H0UGkREeG_kpD1r83itA" message="_Y9H0U2kREeG_kpD1r83itA">
+          <eAnnotations xmi:id="_Y9H0V2kREeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+            <details xmi:id="_Y9H0WGkREeG_kpD1r83itA" key="generated" value="true"/>
           </eAnnotations>
         </fragment>
-        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_S51NYljEEeGx6OGQK9kDyQ" name="ReceiveMessageOccurrenceSpecificationOfReplyOfm" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_S50mVljEEeGx6OGQK9kDyQ" message="_S50mWVjEEeGx6OGQK9kDyQ">
-          <eAnnotations xmi:id="_S51NY1jEEeGx6OGQK9kDyQ" source="dk.dtu.imm.esculapauml">
-            <details xmi:id="_S51NZFjEEeGx6OGQK9kDyQ" key="generated" value="true"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Y9H0WWkREeG_kpD1r83itA" name="ReceiveMessageOccurrenceSpecificationOfReplyOfm" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_Y9H0UGkREeG_kpD1r83itA" message="_Y9H0U2kREeG_kpD1r83itA">
+          <eAnnotations xmi:id="_Y9H0WmkREeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+            <details xmi:id="_Y9H0W2kREeG_kpD1r83itA" key="generated" value="true"/>
           </eAnnotations>
         </fragment>
         <message xmi:id="_9VMAM1jDEeGTg_g65VGqfg" name="m" receiveEvent="_9VMAMVjDEeGTg_g65VGqfg" sendEvent="_9VMAMFjDEeGTg_g65VGqfg">
@@ -59,11 +59,11 @@
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </argument>
         </message>
-        <message xmi:id="_S50mWVjEEeGx6OGQK9kDyQ" name="ReplyOfm" messageSort="reply" receiveEvent="_S51NYljEEeGx6OGQK9kDyQ" sendEvent="_S50mXFjEEeGx6OGQK9kDyQ">
-          <eAnnotations xmi:id="_S50mWljEEeGx6OGQK9kDyQ" source="dk.dtu.imm.esculapauml">
-            <details xmi:id="_S50mW1jEEeGx6OGQK9kDyQ" key="generated" value="true"/>
+        <message xmi:id="_Y9H0U2kREeG_kpD1r83itA" name="ReplyOfm" messageSort="reply" receiveEvent="_Y9H0WWkREeG_kpD1r83itA" sendEvent="_Y9H0VmkREeG_kpD1r83itA">
+          <eAnnotations xmi:id="_Y9H0VGkREeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+            <details xmi:id="_Y9H0VWkREeG_kpD1r83itA" key="generated" value="true"/>
           </eAnnotations>
-          <argument xmi:type="uml:LiteralString" xmi:id="_S51NZVjEEeGx6OGQK9kDyQ" name="return" value="test of string">
+          <argument xmi:type="uml:LiteralString" xmi:id="_Y9H0XGkREeG_kpD1r83itA" name="return" value="test of string">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </argument>
         </message>
@@ -72,19 +72,14 @@
     <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_HzgXQVgWEeGNWfnyZ1uO5w" name="mEvent" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_9VMAMljDEeGTg_g65VGqfg" name="CallEvent1" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_S50mVljEEeGx6OGQK9kDyQ" name="EventOfReplyOfm" operation="_IeJc8DJJEeGjS-_RcLljMA">
-      <eAnnotations xmi:id="_S50mV1jEEeGx6OGQK9kDyQ" source="dk.dtu.imm.esculapauml">
-        <details xmi:id="_S50mWFjEEeGx6OGQK9kDyQ" key="generated" value="true"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_Y9HNQGkREeG_kpD1r83itA" name="Lifeline2" classifier="_Hokf0DJJEeGjS-_RcLljMA">
+      <eAnnotations xmi:id="_Y9HNQWkREeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+        <details xmi:id="_Y9HNQmkREeG_kpD1r83itA" key="generated" value="true"/>
       </eAnnotations>
     </packagedElement>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_S50mUFjEEeGx6OGQK9kDyQ" name="UseCase1Detail Instance(0)">
-    <eAnnotations xmi:id="_S50mUVjEEeGx6OGQK9kDyQ" source="dk.dtu.imm.esculapauml">
-      <details xmi:id="_S50mUljEEeGx6OGQK9kDyQ" key="generated" value="true"/>
-    </eAnnotations>
-    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_S50mU1jEEeGx6OGQK9kDyQ" name="Lifeline2" classifier="_Hokf0DJJEeGjS-_RcLljMA">
-      <eAnnotations xmi:id="_S50mVFjEEeGx6OGQK9kDyQ" source="dk.dtu.imm.esculapauml">
-        <details xmi:id="_S50mVVjEEeGx6OGQK9kDyQ" key="generated" value="true"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_Y9H0UGkREeG_kpD1r83itA" name="EventOfReplyOfm" operation="_IeJc8DJJEeGjS-_RcLljMA">
+      <eAnnotations xmi:id="_Y9H0UWkREeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+        <details xmi:id="_Y9H0UmkREeG_kpD1r83itA" key="generated" value="true"/>
       </eAnnotations>
     </packagedElement>
   </packagedElement>

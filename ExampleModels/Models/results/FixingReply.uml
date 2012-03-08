@@ -46,7 +46,7 @@
           </argument>
         </message>
         <message xmi:id="_lUfZwFjjEeGYkuRbqaVVgg" name="Message1" messageSort="reply" receiveEvent="_lUeysFjjEeGYkuRbqaVVgg" sendEvent="_lUdkkFjjEeGYkuRbqaVVgg">
-          <argument xmi:type="uml:LiteralBoolean" xmi:id="_reSpkFjjEeGYkuRbqaVVgg" name="return" value="true">
+          <argument xmi:type="uml:LiteralBoolean" xmi:id="_ipJ0w2kREeG_kpD1r83itA" name="return" value="true">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
           </argument>
         </message>
@@ -55,14 +55,9 @@
     <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_HzgXQVgWEeGNWfnyZ1uO5w" name="mEvent" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_lUeysVjjEeGYkuRbqaVVgg" name="CallEvent1" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
-  </packagedElement>
-  <packagedElement xmi:type="uml:Package" xmi:id="_rbWDQFjjEeGYkuRbqaVVgg" name="UseCase1Detail Instance(0)">
-    <eAnnotations xmi:id="_rbWqUFjjEeGYkuRbqaVVgg" source="dk.dtu.imm.esculapauml">
-      <details xmi:id="_rbWqUVjjEeGYkuRbqaVVgg" key="generated" value="true"/>
-    </eAnnotations>
-    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_rcWI0FjjEeGYkuRbqaVVgg" name="Lifeline2" classifier="_Hokf0DJJEeGjS-_RcLljMA">
-      <eAnnotations xmi:id="_rcWI0VjjEeGYkuRbqaVVgg" source="dk.dtu.imm.esculapauml">
-        <details xmi:id="_rcWI0ljjEeGYkuRbqaVVgg" key="generated" value="true"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_ipJ0wGkREeG_kpD1r83itA" name="Lifeline2" classifier="_Hokf0DJJEeGjS-_RcLljMA">
+      <eAnnotations xmi:id="_ipJ0wWkREeG_kpD1r83itA" source="dk.dtu.imm.esculapauml">
+        <details xmi:id="_ipJ0wmkREeG_kpD1r83itA" key="generated" value="true"/>
       </eAnnotations>
     </packagedElement>
   </packagedElement>

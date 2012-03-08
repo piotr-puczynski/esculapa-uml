@@ -58,19 +58,19 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_SOFQgDJKEeGjS-_RcLljMA" position="40,70" size="20,43">
           <anchorage xmi:id="_FirqADJMEeGjS-_RcLljMA" position="16,13" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_ulAJUFv4EeGOsr1ei5s0Dg" position="16,43" graphEdge="_ulBXcFv4EeGOsr1ei5s0Dg"/>
+          <anchorage xmi:id="_B65sUWkFEeGsqbu8LnGTJw" position="16,43" graphEdge="_B65sUmkFEeGsqbu8LnGTJw"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_SOFQgTJKEeGjS-_RcLljMA" presentation="default">
             <element href="JunctionWithBooleanGuards.uml#_SOTS8DJKEeGjS-_RcLljMA"/>
           </semanticModel>
         </contained>
       </contained>
-      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="314,40" size="100,183">
+      <contained xsi:type="di:GraphNode" xmi:id="_o9rDUDJJEeGjS-_RcLljMA" position="325,40" size="100,183">
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_o9rDUTJJEeGjS-_RcLljMA" presentation="default">
           <element href="JunctionWithBooleanGuards.uml#_o900UDJJEeGjS-_RcLljMA"/>
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_0ZJ9QDJLEeGjS-_RcLljMA" position="40,66" size="20,47">
           <anchorage xmi:id="_Fis4IDJMEeGjS-_RcLljMA" position="13,17" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_uk-7MFv4EeGOsr1ei5s0Dg" position="13,47" graphEdge="_ulBXcFv4EeGOsr1ei5s0Dg"/>
+          <anchorage xmi:id="_B65sUGkFEeGsqbu8LnGTJw" position="13,47" graphEdge="_B65sUmkFEeGsqbu8LnGTJw"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_0ZJ9QTJLEeGjS-_RcLljMA" presentation="default">
             <element href="JunctionWithBooleanGuards.uml#_0ZLLYDJLEeGjS-_RcLljMA"/>
           </semanticModel>
@@ -82,18 +82,18 @@
         </semanticModel>
         <contained xsi:type="di:EdgeObjectOffset" xmi:id="_FitfMjJMEeGjS-_RcLljMA" id="nameEdgeObject" offset="0,-10"/>
       </contained>
-      <contained xsi:type="di:GraphEdge" xmi:id="_ulBXcFv4EeGOsr1ei5s0Dg" anchor="_uk-7MFv4EeGOsr1ei5s0Dg _ulAJUFv4EeGOsr1ei5s0Dg">
-        <property xmi:id="_ulBXcVv4EeGOsr1ei5s0Dg" key="foregroundColor" value="0,128,255"/>
-        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ulBXclv4EeGOsr1ei5s0Dg" presentation="default">
-          <element href="JunctionWithBooleanGuards.uml#_ujH6A1v4EeGOsr1ei5s0Dg"/>
+      <contained xsi:type="di:GraphEdge" xmi:id="_B65sUmkFEeGsqbu8LnGTJw" anchor="_B65sUGkFEeGsqbu8LnGTJw _B65sUWkFEeGsqbu8LnGTJw">
+        <property xmi:id="_B65sU2kFEeGsqbu8LnGTJw" key="foregroundColor" value="0,128,255"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_B65sVGkFEeGsqbu8LnGTJw" presentation="default">
+          <element href="JunctionWithBooleanGuards.uml#_B6ljQ2kFEeGsqbu8LnGTJw"/>
         </semanticModel>
-        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_ulBXc1v4EeGOsr1ei5s0Dg" id="nameEdgeObject" offset="0,-10"/>
+        <contained xsi:type="di:EdgeObjectOffset" xmi:id="_B65sVWkFEeGsqbu8LnGTJw" id="nameEdgeObject" offset="0,-10"/>
       </contained>
     </diagrams>
   </subdiagrams>
   <subdiagrams xmi:id="_iSpjskOKEeG4EdriM4MjZA">
     <model href="JunctionWithBooleanGuards.uml#_iSpjsEOKEeG4EdriM4MjZA"/>
-    <diagrams xmi:id="_iSpjs0OKEeG4EdriM4MjZA" position="0,0" size="100,100" name="C" viewport="0,0">
+    <diagrams xmi:id="_iSpjs0OKEeG4EdriM4MjZA" position="0,0" size="100,100" name="C" viewport="0,80">
       <property xmi:id="_iSytokOKEeG4EdriM4MjZA" key="pageFormatName" value="A4"/>
       <property xmi:id="_iSyto0OKEeG4EdriM4MjZA" key="diagramWidth" value="840"/>
       <property xmi:id="_iSytpEOKEeG4EdriM4MjZA" key="diagramHeight" value="1188"/>
