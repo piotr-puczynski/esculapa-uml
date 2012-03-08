@@ -18,6 +18,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.InteractionFragment;
@@ -27,6 +29,7 @@ import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLFactory;
+import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
@@ -44,6 +47,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	private Operation operation = null;
 	private boolean extendBehavorExecutionSpecificationsIfNecessary = true;
 	private String customName = null;
+	private EList<ValueSpecification> arguments = null;
 
 	/**
 	 * @param systemState
@@ -114,6 +118,13 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 			insertSpecificationAfter(targetLifeline, eventReceive, receiveGenerateAfter);
 		}
 		eventReceive.getCovereds().add(targetLifeline);
+
+		// add arguments if needed
+		if (null != arguments) {
+			for(ValueSpecification argument : arguments) {
+				generated.getArguments().add(EcoreUtil.copy(argument));
+			}
+		}
 		systemState.addGeneratedElement(eventReceive);
 		logger.info("Generated new element: " + generated.getLabel());
 		return generated;
@@ -224,6 +235,21 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	 */
 	public void setReceiveAfterSent(boolean b) {
 		setReciveAfterSent = b;
+	}
+
+	/**
+	 * @return the arguments
+	 */
+	public EList<ValueSpecification> getArguments() {
+		return arguments;
+	}
+
+	/**
+	 * @param arguments
+	 *            the arguments to set
+	 */
+	public void setArguments(EList<ValueSpecification> arguments) {
+		this.arguments = arguments;
 	}
 
 }

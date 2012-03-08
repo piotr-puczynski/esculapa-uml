@@ -308,6 +308,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			ValueSpecification arg = a.next();
 			Parameter param = p.next();
 			if (param.getDirection() == ParameterDirectionKind.IN_LITERAL) {
+				arg.setName(param.getName());
 				if (!setVariable(arg.getName(), arg, errorContext)) {
 					break;
 				}

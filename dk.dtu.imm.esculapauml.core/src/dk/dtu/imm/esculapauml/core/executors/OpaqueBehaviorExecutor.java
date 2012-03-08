@@ -327,16 +327,6 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALCall node, SALEvaluationHelper data) {
-		// evaluate arguments
-		EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
-		Stack<String> oldContext = data.swapEvaluationContext(new Stack<String>());
-		for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
-			arguments.add(node.getChild(i).jjtAccept(this, data));
-		}
-		data.swapEvaluationContext(oldContext);
-		if (checker.hasErrors()) {
-			return null;
-		}
 		Object instance = getInstanceSpecification();
 		String name = (String) node.jjtGetValue();
 		if (data.hasEvaluationContext()) {
@@ -353,6 +343,16 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			if (null == executor) {
 				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot obtain executor for operation: '" + name + "'.");
 			} else {
+				// evaluate arguments
+				EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
+				Stack<String> oldContext = data.swapEvaluationContext(new Stack<String>());
+				for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
+					arguments.add(node.getChild(i).jjtAccept(this, data));
+				}
+				data.swapEvaluationContext(oldContext);
+				if (checker.hasErrors()) {
+					return null;
+				}
 				return executor.callOperation(parent, name, arguments, true, trc.getCheckedObject());
 			}
 
