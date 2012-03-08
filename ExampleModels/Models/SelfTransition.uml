@@ -23,8 +23,8 @@
           <end xmi:id="_6BGTUk59EeGfWN6qfI76hw" role="_6BGTUE59EeGfWN6qfI76hw"/>
           <end xmi:id="_B8Pk8E5-EeGfWN6qfI76hw" role="_B8O94E5-EeGfWN6qfI76hw"/>
         </ownedConnector>
-        <lifeline xmi:id="_4vZa4E59EeGfWN6qfI76hw" name="Henry1" represents="_6BGTUE59EeGfWN6qfI76hw" coveredBy="_E4xAcE5-EeGfWN6qfI76hw _Nuy_wFb_EeGkgovSIzcEeg _LtgdcFb_EeGkgovSIzcEeg _Dpo64E5-EeGfWN6qfI76hw _I8K-QFb_EeGkgovSIzcEeg _KgAIglb_EeGkgovSIzcEeg"/>
-        <lifeline xmi:id="_AdvmoE5-EeGfWN6qfI76hw" name="C1" represents="_B8O94E5-EeGfWN6qfI76hw" coveredBy="_E4xAcU5-EeGfWN6qfI76hw _Nuy_wVb_EeGkgovSIzcEeg _LtgdcVb_EeGkgovSIzcEeg _ECDa4E5-EeGfWN6qfI76hw _JnnH8Fb_EeGkgovSIzcEeg _K54oIlb_EeGkgovSIzcEeg"/>
+        <lifeline xmi:id="_4vZa4E59EeGfWN6qfI76hw" name="Henry1" represents="_6BGTUE59EeGfWN6qfI76hw" coveredBy="_E4xAcE5-EeGfWN6qfI76hw _LtgdcFb_EeGkgovSIzcEeg _Nuy_wFb_EeGkgovSIzcEeg _Dpo64E5-EeGfWN6qfI76hw _I8K-QFb_EeGkgovSIzcEeg _KgAIglb_EeGkgovSIzcEeg"/>
+        <lifeline xmi:id="_AdvmoE5-EeGfWN6qfI76hw" name="C1" represents="_B8O94E5-EeGfWN6qfI76hw" coveredBy="_LtgdcVb_EeGkgovSIzcEeg _E4xAcU5-EeGfWN6qfI76hw _Nuy_wVb_EeGkgovSIzcEeg _ECDa4E5-EeGfWN6qfI76hw _JnnH8Fb_EeGkgovSIzcEeg _K54oIlb_EeGkgovSIzcEeg"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Nuy_wFb_EeGkgovSIzcEeg" name="MessageOccurrenceSpecification5" covered="_4vZa4E59EeGfWN6qfI76hw" event="_Nuy_wlb_EeGkgovSIzcEeg" message="_Nuy_w1b_EeGkgovSIzcEeg"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_Nuy_wVb_EeGkgovSIzcEeg" name="MessageOccurrenceSpecification6" covered="_AdvmoE5-EeGfWN6qfI76hw" event="_Nuy_wlb_EeGkgovSIzcEeg" message="_Nuy_w1b_EeGkgovSIzcEeg"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_LtgdcFb_EeGkgovSIzcEeg" name="MessageOccurrenceSpecification3" covered="_4vZa4E59EeGfWN6qfI76hw" event="_Ltgdclb_EeGkgovSIzcEeg" message="_Ltgdc1b_EeGkgovSIzcEeg"/>
