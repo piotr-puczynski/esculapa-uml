@@ -25,6 +25,10 @@ ARGV.each do|arg|
 		if system("git checkout -- \"#{filename}.uml\"")
 			warn "Git checkout #{filename}.uml sucessful"
 		end
+		#add new file to git
+		if system("git add \"#{RESULTPATH}#{filename}.uml\"")
+			warn "Git added #{RESULTPATH}#{filename}.uml sucessfuly"
+		end
 	end
 	if File.exist? "#{filename}.umldi"
 		FileUtils.cp "#{filename}.umldi", "#{RESULTPATH}#{filename}.umldi"
@@ -32,6 +36,10 @@ ARGV.each do|arg|
 		#revert changes in original file
 		if system("git checkout -- \"#{filename}.umldi\"")
 			warn "Git checkout #{filename}.umldi sucessful"
+		end
+		#add new file to git
+		if system("git add \"#{RESULTPATH}#{filename}.umldi\"")
+			warn "Git added #{RESULTPATH}#{filename}.umldi sucessfuly"
 		end
 	end
 end
