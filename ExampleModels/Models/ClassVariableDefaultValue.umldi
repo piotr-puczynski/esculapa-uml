@@ -15,6 +15,7 @@
       <element href="ClassVariableDefaultValue.uml#_w8IxIM37EdqwVrslYOdUDA"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_V6f4kE59EeGfWN6qfI76hw" position="188,61" size="135,-1">
+      <anchorage xmi:id="_JChqwGkPEeG_kpD1r83itA" graphEdge="_JC0lsGkPEeG_kpD1r83itA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_V6gfoE59EeGfWN6qfI76hw" presentation="default">
         <element href="ClassVariableDefaultValue.uml#_V6l_ME59EeGfWN6qfI76hw"/>
       </semanticModel>
@@ -42,6 +43,7 @@
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_WmmJkE59EeGfWN6qfI76hw" position="393,61" size="100,-1">
+      <anchorage xmi:id="_JChqwWkPEeG_kpD1r83itA" graphEdge="_JC0lsGkPEeG_kpD1r83itA"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WmmJkU59EeGfWN6qfI76hw" presentation="default">
         <element href="ClassVariableDefaultValue.uml#_Wmol0E59EeGfWN6qfI76hw"/>
       </semanticModel>
@@ -62,6 +64,50 @@
           </semanticModel>
         </contained>
       </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_JC0lsGkPEeG_kpD1r83itA" anchor="_JChqwGkPEeG_kpD1r83itA _JChqwWkPEeG_kpD1r83itA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_JC0lsWkPEeG_kpD1r83itA" presentation="default">
+        <element href="ClassVariableDefaultValue.uml#_JC-WsGkPEeG_kpD1r83itA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_JC0lsmkPEeG_kpD1r83itA" id="srcNameEdgeObject" uDistance="10" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_JC0ls2kPEeG_kpD1r83itA" id="srcPropertiesEdgeObject" uDistance="25" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_JC0ltGkPEeG_kpD1r83itA" id="srcCountEdgeObject" uDistance="10" vDistance="-10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_JC0ltWkPEeG_kpD1r83itA" id="targetNameEdgeObject" uDistance="10" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_JC0ltmkPEeG_kpD1r83itA" id="targetPropertiesEdgeObject" uDistance="25" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_JC0lt2kPEeG_kpD1r83itA" id="targetCountEdgeObject" uDistance="10" vDistance="-10"/>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_JC0luGkPEeG_kpD1r83itA" visible="false" id="middleNameEdgeObject" offset="0,10"/>
+      <contained xsi:type="di:EdgeObjectOffset" xmi:id="_JC0luWkPEeG_kpD1r83itA" id="stereotypeEdgeObject" offset="0,-10"/>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_ShbOIGkPEeG_kpD1r83itA" position="198,181" size="100,-1">
+      <anchorage xmi:id="_WoETYGkPEeG_kpD1r83itA" graphEdge="_WoETYmkPEeG_kpD1r83itA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ShbOIWkPEeG_kpD1r83itA" presentation="default">
+        <element href="ClassVariableDefaultValue.uml#_ShuJEGkPEeG_kpD1r83itA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_ShbOImkPEeG_kpD1r83itA">
+        <property xmi:id="_ShbOI2kPEeG_kpD1r83itA" key="eStructuralFeatureID" value="15"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_ShbOJGkPEeG_kpD1r83itA" presentation="default">
+          <element href="ClassVariableDefaultValue.uml#_ShuJEGkPEeG_kpD1r83itA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphNode" xmi:id="_StU8IGkPEeG_kpD1r83itA" position="394,182" size="100,-1">
+      <anchorage xmi:id="_WoETYWkPEeG_kpD1r83itA" graphEdge="_WoETYmkPEeG_kpD1r83itA"/>
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_StU8IWkPEeG_kpD1r83itA" presentation="default">
+        <element href="ClassVariableDefaultValue.uml#_Stn3EGkPEeG_kpD1r83itA"/>
+      </semanticModel>
+      <contained xsi:type="di:GraphNode" xmi:id="_StU8ImkPEeG_kpD1r83itA">
+        <property xmi:id="_StU8I2kPEeG_kpD1r83itA" key="eStructuralFeatureID" value="15"/>
+        <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_StU8JGkPEeG_kpD1r83itA" presentation="default">
+          <element href="ClassVariableDefaultValue.uml#_Stn3EGkPEeG_kpD1r83itA"/>
+        </semanticModel>
+      </contained>
+    </contained>
+    <contained xsi:type="di:GraphEdge" xmi:id="_WoETYmkPEeG_kpD1r83itA" anchor="_WoETYGkPEeG_kpD1r83itA _WoETYWkPEeG_kpD1r83itA">
+      <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_WoETY2kPEeG_kpD1r83itA" presentation="link">
+        <element href="ClassVariableDefaultValue.uml#_WoX1YGkPEeG_kpD1r83itA"/>
+      </semanticModel>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_WoETZGkPEeG_kpD1r83itA" id="srcNameEdgeObject" uDistance="10" vDistance="10"/>
+      <contained xsi:type="di:EdgeObjectUV" xmi:id="_WoETZWkPEeG_kpD1r83itA" id="targetNameEdgeObject" uDistance="10" vDistance="10"/>
     </contained>
   </diagrams>
   <subdiagrams xmi:id="_gegp4E59EeGfWN6qfI76hw">

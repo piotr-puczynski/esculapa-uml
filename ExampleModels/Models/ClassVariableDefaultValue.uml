@@ -36,7 +36,7 @@
                 <body>c = 3</body>
               </specification>
             </ownedRule>
-            <effect xmi:type="uml:FunctionBehavior" xmi:id="_BnUhAE6CEeGfWN6qfI76hw" name="D.s()" specification="_d2k-UE59EeGfWN6qfI76hw"/>
+            <effect xmi:type="uml:FunctionBehavior" xmi:id="_BnUhAE6CEeGfWN6qfI76hw" name="d.s()" specification="_d2k-UE59EeGfWN6qfI76hw"/>
           </transition>
         </region>
       </ownedBehavior>
@@ -66,7 +66,7 @@
           <end xmi:id="_B8Pk8E5-EeGfWN6qfI76hw" role="_B8O94E5-EeGfWN6qfI76hw"/>
         </ownedConnector>
         <lifeline xmi:id="_4vZa4E59EeGfWN6qfI76hw" name="Henry1" represents="_6BGTUE59EeGfWN6qfI76hw" coveredBy="_E4xAcE5-EeGfWN6qfI76hw _Dpo64E5-EeGfWN6qfI76hw"/>
-        <lifeline xmi:id="_AdvmoE5-EeGfWN6qfI76hw" name="C1" represents="_B8O94E5-EeGfWN6qfI76hw" coveredBy="_E4xAcU5-EeGfWN6qfI76hw _ECDa4E5-EeGfWN6qfI76hw"/>
+        <lifeline xmi:id="_AdvmoE5-EeGfWN6qfI76hw" name="c" represents="_B8O94E5-EeGfWN6qfI76hw" coveredBy="_E4xAcU5-EeGfWN6qfI76hw _ECDa4E5-EeGfWN6qfI76hw"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_E4xAcE5-EeGfWN6qfI76hw" name="MessageOccurrenceSpecification1" covered="_4vZa4E59EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw" message="_E46KYE5-EeGfWN6qfI76hw"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_E4xAcU5-EeGfWN6qfI76hw" name="MessageOccurrenceSpecification2" covered="_AdvmoE5-EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw" message="_E46KYE5-EeGfWN6qfI76hw"/>
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_Dpo64E5-EeGfWN6qfI76hw" name="BehaviorExecutionSpecification1" covered="_4vZa4E59EeGfWN6qfI76hw" start="_E4xAcE5-EeGfWN6qfI76hw" finish="_E4xAcE5-EeGfWN6qfI76hw"/>
@@ -76,5 +76,25 @@
     </packagedElement>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_E4xAck5-EeGfWN6qfI76hw" name="mEvent" operation="_dJbkcE59EeGfWN6qfI76hw"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_NehqcE6AEeGfWN6qfI76hw" name="sEvent" operation="_d2k-UE59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_JC-WsGkPEeG_kpD1r83itA" name="A_&lt;c>_&lt;d>" memberEnd="_JC-WsWkPEeG_kpD1r83itA _JC-WtGkPEeG_kpD1r83itA">
+      <ownedEnd xmi:id="_JC-WsWkPEeG_kpD1r83itA" name="c" type="_V6l_ME59EeGfWN6qfI76hw" association="_JC-WsGkPEeG_kpD1r83itA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JC-WsmkPEeG_kpD1r83itA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JC-Ws2kPEeG_kpD1r83itA" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_JC-WtGkPEeG_kpD1r83itA" name="d" type="_Wmol0E59EeGfWN6qfI76hw" association="_JC-WsGkPEeG_kpD1r83itA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JC-WtWkPEeG_kpD1r83itA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JC-WtmkPEeG_kpD1r83itA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_ShuJEGkPEeG_kpD1r83itA" name="c" classifier="_V6l_ME59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_Stn3EGkPEeG_kpD1r83itA" name="d" classifier="_Wmol0E59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_WoX1YGkPEeG_kpD1r83itA" name="InstanceSpecification1" classifier="_JC-WsGkPEeG_kpD1r83itA">
+      <slot xmi:id="_WoX1YWkPEeG_kpD1r83itA" definingFeature="_JC-WsWkPEeG_kpD1r83itA">
+        <value xmi:type="uml:InstanceValue" xmi:id="_WoX1YmkPEeG_kpD1r83itA" type="_V6l_ME59EeGfWN6qfI76hw" instance="_ShuJEGkPEeG_kpD1r83itA"/>
+      </slot>
+      <slot xmi:id="_WoX1Y2kPEeG_kpD1r83itA" definingFeature="_JC-WtGkPEeG_kpD1r83itA">
+        <value xmi:type="uml:InstanceValue" xmi:id="_WoX1ZGkPEeG_kpD1r83itA" type="_Wmol0E59EeGfWN6qfI76hw" instance="_Stn3EGkPEeG_kpD1r83itA"/>
+      </slot>
+    </packagedElement>
   </packagedElement>
 </uml:Model>
