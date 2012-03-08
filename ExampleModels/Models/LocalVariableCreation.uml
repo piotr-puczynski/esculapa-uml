@@ -29,7 +29,7 @@
                 <body>c = 3</body>
               </specification>
             </ownedRule>
-            <effect xmi:type="uml:FunctionBehavior" xmi:id="_BnUhAE6CEeGfWN6qfI76hw" name="D.s()" specification="_d2k-UE59EeGfWN6qfI76hw"/>
+            <effect xmi:type="uml:FunctionBehavior" xmi:id="_BnUhAE6CEeGfWN6qfI76hw" name="d.s()" specification="_d2k-UE59EeGfWN6qfI76hw"/>
           </transition>
         </region>
       </ownedBehavior>
@@ -69,5 +69,25 @@
     </packagedElement>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_E4xAck5-EeGfWN6qfI76hw" name="mEvent" operation="_dJbkcE59EeGfWN6qfI76hw"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_NehqcE6AEeGfWN6qfI76hw" name="sEvent" operation="_d2k-UE59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_KsSXjGkHEeGsqbu8LnGTJw" name="A_&lt;c>_&lt;d>" memberEnd="_KsSXjWkHEeGsqbu8LnGTJw _KsSXkGkHEeGsqbu8LnGTJw">
+      <ownedEnd xmi:id="_KsSXjWkHEeGsqbu8LnGTJw" name="c" type="_V6l_ME59EeGfWN6qfI76hw" association="_KsSXjGkHEeGsqbu8LnGTJw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KsSXjmkHEeGsqbu8LnGTJw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KsSXj2kHEeGsqbu8LnGTJw" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_KsSXkGkHEeGsqbu8LnGTJw" name="d" type="_Wmol0E59EeGfWN6qfI76hw" association="_KsSXjGkHEeGsqbu8LnGTJw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_KsSXkWkHEeGsqbu8LnGTJw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_KsSXkmkHEeGsqbu8LnGTJw" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_LlIEBWkHEeGsqbu8LnGTJw" name="c" classifier="_V6l_ME59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_L_mZhWkHEeGsqbu8LnGTJw" name="d" classifier="_Wmol0E59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_PG9MAGkHEeGsqbu8LnGTJw" name="InstanceSpecification1" classifier="_KsSXjGkHEeGsqbu8LnGTJw">
+      <slot xmi:id="_PG9MAWkHEeGsqbu8LnGTJw" definingFeature="_KsSXjWkHEeGsqbu8LnGTJw">
+        <value xmi:type="uml:InstanceValue" xmi:id="_PG9MAmkHEeGsqbu8LnGTJw" type="_V6l_ME59EeGfWN6qfI76hw" instance="_LlIEBWkHEeGsqbu8LnGTJw"/>
+      </slot>
+      <slot xmi:id="_PG9MA2kHEeGsqbu8LnGTJw" definingFeature="_KsSXkGkHEeGsqbu8LnGTJw">
+        <value xmi:type="uml:InstanceValue" xmi:id="_PG9MBGkHEeGsqbu8LnGTJw" type="_Wmol0E59EeGfWN6qfI76hw" instance="_L_mZhWkHEeGsqbu8LnGTJw"/>
+      </slot>
+    </packagedElement>
   </packagedElement>
 </uml:Model>
