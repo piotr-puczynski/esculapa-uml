@@ -30,14 +30,23 @@ public class EsculapaReplyEvent extends EsculapaEvent {
 	private static final long serialVersionUID = 1L;
 	private Operation operation;
 	private ValueSpecification result;
+	private long initiatingCallSequenceNumber;
+
+	/**
+	 * @return the initiatingCallSequenceNumber
+	 */
+	public long getInitiatingCallSequenceNumber() {
+		return initiatingCallSequenceNumber;
+	}
 
 	/**
 	 * @param source
 	 */
-	public EsculapaReplyEvent(InstanceExecutor source, Operation operation, ValueSpecification result) {
+	public EsculapaReplyEvent(InstanceExecutor source, Operation operation, ValueSpecification result, long initiatingCallSequenceNumber) {
 		super(source);
 		this.operation = operation;
 		this.result = result;
+		this.initiatingCallSequenceNumber = initiatingCallSequenceNumber;
 	}
 
 	public InstanceExecutor getSource() {

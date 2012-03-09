@@ -19,8 +19,10 @@ import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import org.apache.log4j.Logger;
@@ -65,6 +67,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	protected SystemState systemState;
 	protected UseCaseChecker checker;
 	protected Stack<Message> callStack = new Stack<Message>();
+	protected InteractionSequencer sequencer = new InteractionSequencer();
 
 	/**
 	 * @param checker

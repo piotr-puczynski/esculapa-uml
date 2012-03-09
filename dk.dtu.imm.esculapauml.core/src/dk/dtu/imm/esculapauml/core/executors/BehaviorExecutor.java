@@ -48,7 +48,6 @@ import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
-import dk.dtu.imm.esculapauml.core.executors.behaviors.TransitionChooser;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
@@ -226,7 +225,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 
 			if (isSynchronous) {
 				// dispatch new reply event
-				EsculapaReplyEvent ere = new EsculapaReplyEvent(this, operation, result);
+				EsculapaReplyEvent ere = new EsculapaReplyEvent(this, operation, result, ece.getSequenceId());
 				checker.getSystemState().getCoordinator().fireEvent(ere);
 				// synchronous control flow returned here
 				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, operation);

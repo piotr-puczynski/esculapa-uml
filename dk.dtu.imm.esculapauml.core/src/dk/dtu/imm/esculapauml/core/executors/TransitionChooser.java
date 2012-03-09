@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.executors.behaviors;
+package dk.dtu.imm.esculapauml.core.executors;
 
 import static ch.lambdaj.Lambda.joinFrom;
 
@@ -19,7 +19,6 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Transition;
 
-import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
  * The class used for deciding what transition to take also in case of
