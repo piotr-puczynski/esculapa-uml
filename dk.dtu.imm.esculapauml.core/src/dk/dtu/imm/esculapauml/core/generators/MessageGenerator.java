@@ -104,7 +104,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		eventSend.setMessage(generated);
 		eventSend.setName("SendMessageOccurrenceSpecificationOf" + generated.getName());
 		eventSend.setEnclosingInteraction(targetLifeline.getInteraction());
-		insertSpecificationAfter(sourceLifeline, eventSend, sentGenerateAfter);
+		insertSpecificationAfter(sourceLifeline, eventSend, sentGenerateAfter, generateNewBESForSent);
 		eventSend.getCovereds().add(sourceLifeline);
 		systemState.addGeneratedElement(eventSend);
 
@@ -115,9 +115,9 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		eventReceive.setName("ReceiveMessageOccurrenceSpecificationOf" + generated.getName());
 		eventReceive.setEnclosingInteraction(targetLifeline.getInteraction());
 		if (setReciveAfterSent) {
-			insertSpecificationAfter(targetLifeline, eventReceive, eventSend);
+			insertSpecificationAfter(targetLifeline, eventReceive, eventSend, generateNewBESForReceive);
 		} else {
-			insertSpecificationAfter(targetLifeline, eventReceive, receiveGenerateAfter);
+			insertSpecificationAfter(targetLifeline, eventReceive, receiveGenerateAfter, generateNewBESForReceive);
 		}
 		eventReceive.getCovereds().add(targetLifeline);
 
@@ -132,19 +132,28 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		return generated;
 	}
 
-	protected void insertSpecificationAfter(Lifeline lifeline, MessageOccurrenceSpecification toInsert, MessageOccurrenceSpecification after) {
+	protected void insertSpecificationAfter(Lifeline lifeline, MessageOccurrenceSpecification toInsert, MessageOccurrenceSpecification after,
+			boolean generateNewBES) {
 		List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
 		if (null == after) {
 			// generate at the end but always before BES
 			if (allBes.isEmpty()) {
-				lifeline.getCoveredBys().add(toInsert);
-				// somebody else will generate BES in this case
+				if (generateNewBES) {
+					// insert new and only bes
+					BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, diagnostic, lifeline);
+					besGenerator.setPosition(BehaviorExecutionSpecificationGenerator.POSITION_END);
+					besGenerator.setStartAndFinish(toInsert);
+					besGenerator.generate();
+				} else {
+					// somebody else will generate BES in this case
+					lifeline.getCoveredBys().add(toInsert);
+				}
 			} else {
 				if (extendBehavorExecutionSpecificationsIfNecessary) {
 					// get the last available bes
 					BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ((BehaviorExecutionSpecification) allBes.get(allBes.size() - 1));
 					after = (MessageOccurrenceSpecification) bes.getFinish();
-					if (generated.getMessageSort() != MessageSort.REPLY_LITERAL && after.getMessage().getMessageSort() == MessageSort.REPLY_LITERAL) {
+					if (generateNewBES) {
 						BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, diagnostic, lifeline);
 						// insert after previous spec
 						besGenerator.setPosition(lifeline.getCoveredBys().indexOf(bes) + 1);
@@ -174,7 +183,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 							// if we do not generate reply and "after" is a
 							// reply we need to generate new execution for this
 							// message on existing lifeline
-							if (generated.getMessageSort() != MessageSort.REPLY_LITERAL && after.getMessage().getMessageSort() == MessageSort.REPLY_LITERAL) {
+							if (generateNewBES) {
 								BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, diagnostic,
 										lifeline);
 								// insert after previous spec

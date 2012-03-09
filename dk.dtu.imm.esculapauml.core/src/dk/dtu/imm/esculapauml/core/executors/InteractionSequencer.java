@@ -15,14 +15,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
+import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
+import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
 
 /**
  * Tracks the interaction execution as a sequence of messages. Knows about the
- * mapping between calls and replies.
+ * mapping between calls and replies. Tracks the execution progress on separate
+ * lifelines. This information is used in case of more complex interactions
+ * where we need to know what is the last event on each lifeline that was
+ * already generated or executed.
  * 
  * @author Piotr J. Puczynski
  * 
@@ -32,13 +38,36 @@ public class InteractionSequencer {
 	protected Map<Long, Message> sequencer = new HashMap<Long, Message>();
 	// key is reply, call is value
 	protected Map<Message, Message> replies = new HashMap<Message, Message>();
+	protected Map<Lifeline, MessageOccurrenceSpecification> progress = new HashMap<Lifeline, MessageOccurrenceSpecification>();
+	
+	/**
+	 * @param message
+	 */
+	private void trackProgress(Message message) {
+		progress.put(InteractionUtils.getMessageSourceLifeline(message), (MessageOccurrenceSpecification) message.getSendEvent());
+		progress.put(InteractionUtils.getMessageTargetLifeline(message), (MessageOccurrenceSpecification) message.getReceiveEvent());
+	}
+	
+	MessageOccurrenceSpecification getLastOccurrenceOnLifeline(Lifeline lifeline) {
+		return progress.get(lifeline);
+	}
+	
+	Message getLastMessageOnLifeline(Lifeline lifeline) {
+		MessageOccurrenceSpecification mos = progress.get(lifeline);
+		if(null != mos) {
+			mos.getMessage();
+		}
+		return null;
+	}
 
 	public void addEvent(EsculapaCallEvent event, Message message) {
 		sequencer.put(event.getSequenceId(), message);
+		trackProgress(message);
 	}
 
 	public void addEvent(EsculapaReplyEvent event, Message message) {
 		sequencer.put(event.getSequenceId(), message);
+		trackProgress(message);
 		Message call = sequencer.get(event.getInitiatingCallSequenceNumber());
 		if (null != call) {
 			replies.put(message, call);

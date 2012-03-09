@@ -37,7 +37,6 @@ import org.eclipse.uml2.uml.MessageEnd;
 import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.NamedElement;
-import org.eclipse.uml2.uml.OccurrenceSpecification;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 import org.eclipse.uml2.uml.ValueSpecification;
@@ -47,7 +46,6 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
-import dk.dtu.imm.esculapauml.core.generators.BehaviorExecutionSpecificationGenerator;
 import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
 import dk.dtu.imm.esculapauml.core.generators.MessageGenerator;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
@@ -138,20 +136,16 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// a message (with call event)
 			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
 			messageGenerator.setOperation(operation);
-			messageGenerator.setSentGenerateAfter(InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline));
+			MessageOccurrenceSpecification mos = InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline);
+			messageGenerator.setSentGenerateAfter(mos);
 			// generate new bes only when the last reply message was for the
 			// call initiating current bes
-			BehaviorExecutionSpecification currentBES = InteractionUtils.getMessageExecutionSpecificationOnLifeline(currentMessage, sourceLifeline);
-			Message firstMessageOnBES = ((MessageOccurrenceSpecification) currentBES.getStart()).getMessage();
-			messageGenerator.setGenerateNewBESForSent(currentMessage.getMessageSort() == MessageSort.REPLY_LITERAL
-					&& sequencer.getCallFor(currentMessage) == firstMessageOnBES);
+			messageGenerator.setGenerateNewBESForSent(hasToGenerateNewBES(currentMessage, sourceLifeline));
+			// always generate new bes for target
+			messageGenerator.setGenerateNewBESForReceive(true);
 			messageGenerator.setArguments(event.getArguments());
 			message = messageGenerator.generate();
-			// always generate new bes for target
-			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
-					(BasicDiagnostic) checker.getDiagnostics(), targetLifeline);
-			besGenerator.setStartAndFinish((OccurrenceSpecification) message.getReceiveEvent());
-			besGenerator.generate();
+
 		} else {
 			// we need to check if the next message conforms to the event
 			// check if operation and lifelines are the same
@@ -163,19 +157,36 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				// we need to generate a new message
 				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
 				messageGenerator.setOperation(operation);
+				messageGenerator.setGenerateNewBESForSent(hasToGenerateNewBES(currentMessage, sourceLifeline));
 				messageGenerator.setSentGenerateAfter(InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline));
 				if (sourceLifeline == targetLifeline) {
 					// for a self message
 					messageGenerator.setReceiveAfterSent(true);
 				}
 				messageGenerator.setArguments(event.getArguments());
-				// TODO: add setting receive event in correct place
+				messageGenerator.setReceiveGenerateAfter(sequencer.getLastOccurrenceOnLifeline(targetLifeline));
+				messageGenerator.setGenerateNewBESForReceive(hasToGenerateNewBES(sequencer.getLastMessageOnLifeline(targetLifeline), targetLifeline));
 				message = messageGenerator.generate();
 			}
 		}
 		currentMessage = message;
 		callStack.add(message);
 		sequencer.addEvent(event, message);
+	}
+
+	/**
+	 * @param mos
+	 * @param currentMessage2
+	 * @param sourceLifeline
+	 * @return
+	 */
+	private boolean hasToGenerateNewBES(Message previousMessage, Lifeline lifeline) {
+		if (null == previousMessage) {
+			return true;
+		}
+		BehaviorExecutionSpecification currentBES = InteractionUtils.getMessageExecutionSpecificationOnLifeline(previousMessage, lifeline);
+		Message firstMessageOnBES = ((MessageOccurrenceSpecification) currentBES.getStart()).getMessage();
+		return previousMessage.getMessageSort() == MessageSort.REPLY_LITERAL && sequencer.getCallFor(previousMessage) == firstMessageOnBES;
 	}
 
 	/**
@@ -411,6 +422,8 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getSendEvent());
 		}
 		messageGenerator.setReceiveGenerateAfter((MessageOccurrenceSpecification) message.getSendEvent());
+		messageGenerator.setGenerateNewBESForReceive(false);
+		messageGenerator.setGenerateNewBESForSent(false);
 		return messageGenerator.generate();
 	}
 
