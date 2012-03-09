@@ -46,6 +46,8 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	private MessageSort messageSort = MessageSort.SYNCH_CALL_LITERAL;
 	private Operation operation = null;
 	private boolean extendBehavorExecutionSpecificationsIfNecessary = true;
+	private boolean generateNewBESForSent = true;
+	private boolean generateNewBESForReceive = true;
 	private String customName = null;
 	private EList<ValueSpecification> arguments = null;
 
@@ -136,9 +138,10 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 			// generate at the end but always before BES
 			if (allBes.isEmpty()) {
 				lifeline.getCoveredBys().add(toInsert);
+				// somebody else will generate BES in this case
 			} else {
 				if (extendBehavorExecutionSpecificationsIfNecessary) {
-					// get the last available after
+					// get the last available bes
 					BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ((BehaviorExecutionSpecification) allBes.get(allBes.size() - 1));
 					after = (MessageOccurrenceSpecification) bes.getFinish();
 					if (generated.getMessageSort() != MessageSort.REPLY_LITERAL && after.getMessage().getMessageSort() == MessageSort.REPLY_LITERAL) {
@@ -266,6 +269,36 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	 */
 	public void setArguments(EList<ValueSpecification> arguments) {
 		this.arguments = arguments;
+	}
+
+	/**
+	 * @return the generateNewBESForSent
+	 */
+	public boolean isGenerateNewBESForSent() {
+		return generateNewBESForSent;
+	}
+
+	/**
+	 * @param generateNewBESForSent
+	 *            the generateNewBESForSent to set
+	 */
+	public void setGenerateNewBESForSent(boolean generateNewBESForSent) {
+		this.generateNewBESForSent = generateNewBESForSent;
+	}
+
+	/**
+	 * @return the generateNewBESForReceive
+	 */
+	public boolean isGenerateNewBESForReceive() {
+		return generateNewBESForReceive;
+	}
+
+	/**
+	 * @param generateNewBESForReceive
+	 *            the generateNewBESForReceive to set
+	 */
+	public void setGenerateNewBESForReceive(boolean generateNewBESForReceive) {
+		this.generateNewBESForReceive = generateNewBESForReceive;
 	}
 
 }

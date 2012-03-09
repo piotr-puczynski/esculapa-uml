@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
@@ -137,9 +138,16 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// a message (with call event)
 			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
 			messageGenerator.setOperation(operation);
-			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getReceiveEvent());
+			messageGenerator.setSentGenerateAfter(InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline));
+			// generate new bes only when the last reply message was for the
+			// call initiating current bes
+			BehaviorExecutionSpecification currentBES = InteractionUtils.getMessageExecutionSpecificationOnLifeline(currentMessage, sourceLifeline);
+			Message firstMessageOnBES = ((MessageOccurrenceSpecification) currentBES.getStart()).getMessage();
+			messageGenerator.setGenerateNewBESForSent(currentMessage.getMessageSort() == MessageSort.REPLY_LITERAL
+					&& sequencer.getCallFor(currentMessage) == firstMessageOnBES);
 			messageGenerator.setArguments(event.getArguments());
 			message = messageGenerator.generate();
+			// always generate new bes for target
 			BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState,
 					(BasicDiagnostic) checker.getDiagnostics(), targetLifeline);
 			besGenerator.setStartAndFinish((OccurrenceSpecification) message.getReceiveEvent());

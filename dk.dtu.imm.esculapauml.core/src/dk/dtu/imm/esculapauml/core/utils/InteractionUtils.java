@@ -149,6 +149,39 @@ public final class InteractionUtils {
 		return null;
 	}
 
+	public static BehaviorExecutionSpecification getMessageExecutionSpecificationOnLifeline(Message message, Lifeline lifeline) {
+		MessageOccurrenceSpecification moc;
+		if(lifeline.getCoveredBys().contains(message.getSendEvent())) {
+			moc = (MessageOccurrenceSpecification) message.getSendEvent();
+		} else if (lifeline.getCoveredBys().contains(message.getReceiveEvent())) {
+			moc = (MessageOccurrenceSpecification) message.getReceiveEvent();
+		} else {
+			return null;
+		}
+		int mocIndex = lifeline.getCoveredBys().indexOf(moc);
+		// we find all behavior execution specifications
+		List<InteractionFragment> allBes = filter(is(BehaviorExecutionSpecification.class), lifeline.getCoveredBys());
+		for (InteractionFragment ifbes : allBes) {
+			BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ifbes;
+			OccurrenceSpecification start = bes.getStart();
+			OccurrenceSpecification finish = bes.getFinish();
+			// check borders
+			if (moc == start || moc == finish) {
+				return bes;
+			}
+			// otherwise check range
+			if (null != start && null != finish) {
+				int startIndex = lifeline.getCoveredBys().indexOf(start);
+				int finishIndex = lifeline.getCoveredBys().indexOf(finish);
+				if (mocIndex > startIndex && mocIndex < finishIndex) {
+					return bes;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	public static Lifeline findRepresentingLifeline(Interaction interaction, org.eclipse.uml2.uml.Class representant) {
 		List<Lifeline> lifelines = filter(having(on(Lifeline.class).getRepresents().getType(), equalTo(representant)), interaction.getLifelines());
 		if (lifelines.size() > 0) {
