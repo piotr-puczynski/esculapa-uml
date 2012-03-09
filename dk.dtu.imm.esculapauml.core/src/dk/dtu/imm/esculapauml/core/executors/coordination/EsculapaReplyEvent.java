@@ -11,8 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
-import java.util.EventObject;
-
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
 
@@ -24,7 +22,7 @@ import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
  * @author Piotr J. Puczynski
  * 
  */
-public class EsculapaReplyEvent extends EventObject {
+public class EsculapaReplyEvent extends EsculapaEvent {
 
 	/**
 	 * 

@@ -21,7 +21,15 @@ import javax.swing.event.EventListenerList;
  * 
  */
 public class ExecutionCoordinator {
+	private long currentSequenceId = 0;
 	private EventListenerList listenerList = new EventListenerList();
+
+	/**
+	 * @param callEvent
+	 */
+	private void assignSequenceNumber(EsculapaEvent event) {
+		event.setSequenceId(currentSequenceId++);
+	}
 
 	/**
 	 * Adds new execution listener as observer of the execution.
@@ -38,28 +46,31 @@ public class ExecutionCoordinator {
 	 * @param callEvent
 	 */
 	public void fireEvent(EsculapaCallEvent callEvent) {
+		assignSequenceNumber(callEvent);
 		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
 			listener.callEventOccurred(callEvent);
 		}
 	}
-	
+
 	/**
 	 * Notify observers of new reply event that occurred.
 	 * 
 	 * @param replyEvent
 	 */
 	public void fireEvent(EsculapaReplyEvent replyEvent) {
+		assignSequenceNumber(replyEvent);
 		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
 			listener.replyEventOccurred(replyEvent);
 		}
 	}
-	
+
 	/**
 	 * Notify observers of control flow event that occurred.
 	 * 
 	 * @param replyEvent
 	 */
 	public void fireEvent(EsculapaCallReturnControlEvent controlEvent) {
+		assignSequenceNumber(controlEvent);
 		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
 			listener.callReturnControlEventOccurred(controlEvent);
 		}

@@ -11,40 +11,42 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
-import org.eclipse.uml2.uml.Operation;
-
-import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
+import java.util.EventObject;
 
 /**
- * Class models return of a flow from any call.
+ * Base class for all sequenced events.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class EsculapaCallReturnControlEvent extends EsculapaEvent {
+public abstract class EsculapaEvent extends EventObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Operation operation;
+	private long sequenceId;
 
 	/**
 	 * @param source
 	 */
-	public EsculapaCallReturnControlEvent(InstanceExecutor source, Operation operation) {
+	public EsculapaEvent(Object source) {
 		super(source);
-		this.operation = operation;
-	}
-
-	public InstanceExecutor getSource() {
-		return (InstanceExecutor) source;
 	}
 
 	/**
-	 * @return the operation
+	 * @return the sequenceId
 	 */
-	public Operation getOperation() {
-		return operation;
+	public long getSequenceId() {
+		return sequenceId;
 	}
+
+	/**
+	 * @param sequenceId
+	 *            the sequenceId to set
+	 */
+	public void setSequenceId(long sequenceId) {
+		this.sequenceId = sequenceId;
+	}
+
 }
