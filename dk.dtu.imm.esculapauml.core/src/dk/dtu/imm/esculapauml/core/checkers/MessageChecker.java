@@ -115,23 +115,18 @@ public class MessageChecker extends AbstractChecker<Message> {
 				if (!arguments.isEmpty()) {
 					EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>(((Operation) signature).getOwnedParameters());
 
-					if (arguments.size() != parameters.size()) {
-						addProblem(Diagnostic.ERROR, "The message '" + checkee.getLabel() + "' has wrong number of arguments (expected: " + parameters.size()
-								+ ").");
-					} else {
-						Iterator<ValueSpecification> a = arguments.iterator();
-						Iterator<Parameter> p = parameters.iterator();
+					Iterator<ValueSpecification> a = arguments.iterator();
+					Iterator<Parameter> p = parameters.iterator();
 
-						while (a.hasNext() && p.hasNext()) {
-							ValueSpecification arg = a.next();
-							Type argumentType = arg.getType();
-							Type parameterType = p.next().getType();
+					while (a.hasNext() && p.hasNext()) {
+						ValueSpecification arg = a.next();
+						Type argumentType = arg.getType();
+						Type parameterType = p.next().getType();
 
-							if (argumentType == null ? parameterType != null : !argumentType.conformsTo(parameterType)) {
-								addProblem(Diagnostic.ERROR, "The argument '" + arg.getLabel() + "' of the message '" + checkee.getLabel()
-										+ "' has wrong type (expected: " + parameterType.getName() + ").");
-								break;
-							}
+						if (argumentType == null ? parameterType != null : !argumentType.conformsTo(parameterType)) {
+							addProblem(Diagnostic.ERROR, "The argument '" + arg.getLabel() + "' of the message '" + checkee.getLabel()
+									+ "' has wrong type (expected: " + parameterType.getName() + ").");
+							break;
 						}
 					}
 				}

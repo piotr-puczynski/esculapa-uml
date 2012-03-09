@@ -11,6 +11,12 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import static ch.lambdaj.Lambda.filter;
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -300,7 +306,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param errorContext
 	 */
 	private void preprocessOperationArguments(Operation operation, EList<ValueSpecification> arguments, Element errorContext) {
-		EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>((operation).getOwnedParameters());
+		EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>(filter(
+				having(on(Parameter.class).getDirection(), not(equalTo(ParameterDirectionKind.RETURN_LITERAL))), operation.getOwnedParameters()));
+
 		Iterator<ValueSpecification> a = arguments.iterator();
 		Iterator<Parameter> p = parameters.iterator();
 
