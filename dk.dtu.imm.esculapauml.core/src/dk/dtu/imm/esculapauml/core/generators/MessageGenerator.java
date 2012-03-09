@@ -121,7 +121,7 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 
 		// add arguments if needed
 		if (null != arguments) {
-			for(ValueSpecification argument : arguments) {
+			for (ValueSpecification argument : arguments) {
 				generated.getArguments().add(EcoreUtil.copy(argument));
 			}
 		}
@@ -137,7 +137,23 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 			if (allBes.isEmpty()) {
 				lifeline.getCoveredBys().add(toInsert);
 			} else {
-				lifeline.getCoveredBys().add(lifeline.getCoveredBys().indexOf(allBes.get(0)), toInsert);
+				if (extendBehavorExecutionSpecificationsIfNecessary) {
+					// get the last available after
+					BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ((BehaviorExecutionSpecification) allBes.get(allBes.size() - 1));
+					after = (MessageOccurrenceSpecification) bes.getFinish();
+					if (generated.getMessageSort() != MessageSort.REPLY_LITERAL && after.getMessage().getMessageSort() == MessageSort.REPLY_LITERAL) {
+						BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, diagnostic, lifeline);
+						// insert after previous spec
+						besGenerator.setPosition(lifeline.getCoveredBys().indexOf(bes) + 1);
+						besGenerator.setStartAndFinish(toInsert);
+						besGenerator.generate();
+					} else {
+						// extend existing bes
+						bes.setFinish(toInsert);
+					}
+				} else {
+					lifeline.getCoveredBys().add(lifeline.getCoveredBys().indexOf(allBes.get(0)), toInsert);
+				}
 			}
 		} else {
 			int insertIndex = lifeline.getCoveredBys().indexOf(after);
