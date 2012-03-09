@@ -384,8 +384,22 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALOCLExpression node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		String oclExpression = (String) node.jjtGetValue();
+		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
+		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
+		Object result = ocl.evaluate(oclExpression);
+		if (ocl.hasErrors()) {
+			return null;
+		}
+		
+		if (result instanceof ValueSpecification) {
+			return (ValueSpecification) result;
+		}
+		if (UMLTypesUtil.canBeConverted(result)) {
+			return UMLTypesUtil.getObjectValue(result, checker, checker.getCheckedObject());
+		}
 		return null;
+		
 	}
 
 }

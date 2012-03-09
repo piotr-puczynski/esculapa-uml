@@ -20,6 +20,7 @@ import static org.hamcrest.Matchers.not;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicEList;
@@ -308,8 +309,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	private void preprocessOperationArguments(Operation operation, EList<ValueSpecification> arguments, Element errorContext) {
 		EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>(filter(
 				having(on(Parameter.class).getDirection(), not(equalTo(ParameterDirectionKind.RETURN_LITERAL))), operation.getOwnedParameters()));
-
-		Iterator<ValueSpecification> a = arguments.iterator();
+		List<ValueSpecification> argumentsIn = filter(having(on(ValueSpecification.class).getName(), not(equalTo("return"))), arguments);
+		Iterator<ValueSpecification> a = argumentsIn.iterator();
 		Iterator<Parameter> p = parameters.iterator();
 
 		while (a.hasNext() && p.hasNext()) {

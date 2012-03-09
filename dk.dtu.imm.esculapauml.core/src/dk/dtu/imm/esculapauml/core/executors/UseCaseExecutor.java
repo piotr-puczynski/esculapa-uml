@@ -11,9 +11,16 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import static ch.lambdaj.Lambda.filter;
+import static ch.lambdaj.Lambda.having;
+import static ch.lambdaj.Lambda.on;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 
 import org.apache.log4j.Logger;
@@ -140,7 +147,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
 				messageGenerator.setOperation(operation);
 				messageGenerator.setSentGenerateAfter(InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline));
-				if(sourceLifeline == targetLifeline) {
+				if (sourceLifeline == targetLifeline) {
 					// for a self message
 					messageGenerator.setReceiveAfterSent(true);
 				}
@@ -162,18 +169,20 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	 * @return
 	 */
 	private boolean areArgumentsEqual(EList<ValueSpecification> arguments, EList<ValueSpecification> arguments2) {
-		// TODO: add test case testing this code
-		Iterator<ValueSpecification> it = arguments.iterator();
-		Iterator<ValueSpecification> it2 = arguments2.iterator();
+		List<ValueSpecification> argumentsIn = filter(having(on(ValueSpecification.class).getName(), not(equalTo("return"))), arguments);
+		List<ValueSpecification> arguments2In = filter(having(on(ValueSpecification.class).getName(), not(equalTo("return"))), arguments2);
+		Iterator<ValueSpecification> it = argumentsIn.iterator();
+		Iterator<ValueSpecification> it2 = arguments2In.iterator();
 		while (it.hasNext() && it2.hasNext()) {
 			ValueSpecification val = it.next();
 			ValueSpecification val2 = it2.next();
-			if (!val.equals(val2)) {
+			// string value
+			if (!val.getType().conformsTo(val2.getType()) || !val.stringValue().equals(val2.stringValue())) {
 				return false;
 			}
 		}
 
-		return !it.hasNext() && !it2.hasNext();
+		return (!it.hasNext() && !it2.hasNext());
 	}
 
 	/**

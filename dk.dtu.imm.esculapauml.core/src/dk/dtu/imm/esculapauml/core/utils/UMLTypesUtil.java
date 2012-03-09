@@ -24,6 +24,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.ElementImport;
+import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.LiteralString;
@@ -59,6 +61,8 @@ public class UMLTypesUtil {
 			return getValue((Integer) value, checker, context);
 		} else if (value instanceof Boolean) {
 			return getValue((Boolean) value, checker, context);
+		} else if (value instanceof InstanceSpecification) {
+			return getValue((InstanceSpecification) value, checker, context);
 		}
 		return null;
 	}
@@ -112,13 +116,28 @@ public class UMLTypesUtil {
 	}
 
 	/**
+	 * Creates instance value.
+	 * 
+	 * @param value
+	 * @param checker
+	 * @param context
+	 * @return
+	 */
+	static public ValueSpecification getValue(InstanceSpecification value, Checker checker, Element context) {
+		InstanceValue instanceResult = UMLFactory.eINSTANCE.createInstanceValue();
+		instanceResult.setType(value.getClassifiers().get(0));
+		instanceResult.setInstance(value);
+		return instanceResult;
+	}
+
+	/**
 	 * Checks whether Java value can be converted to UML primitive type.
 	 * 
 	 * @param value
 	 * @return
 	 */
 	static public boolean canBeConverted(Object value) {
-		if (value instanceof String || value instanceof Integer || value instanceof Boolean) {
+		if (value instanceof String || value instanceof Integer || value instanceof Boolean || value instanceof InstanceSpecification) {
 			return true;
 		} else {
 			return false;

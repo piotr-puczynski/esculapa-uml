@@ -201,6 +201,9 @@ public class InteractionExtender implements ExtenderInterface {
 
 		BehaviorExecutionSpecification sourceSpec = InteractionUtils.getMessageSourceExecutionSpecification(message);
 		BehaviorExecutionSpecification targetSpec = InteractionUtils.getMessageTargetExecutionSpecification(message);
+//		if(null == targetSpec || null == sourceSpec) {
+//			return;
+//		}
 		GraphElement source = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), sourceSpec, true);
 		GraphElement target = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), targetSpec, true);
 		GraphConnector srcConnector = SequenceUtils.createGraphConnector(new Point(0, 0), source, edge);
