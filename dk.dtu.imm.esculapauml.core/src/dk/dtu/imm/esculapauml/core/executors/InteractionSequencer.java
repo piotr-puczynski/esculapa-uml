@@ -16,6 +16,9 @@ import java.util.Map;
 
 import org.eclipse.uml2.uml.Message;
 
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
+
 /**
  * Tracks the interaction execution as a sequence of messages.
  * 
@@ -23,7 +26,37 @@ import org.eclipse.uml2.uml.Message;
  * 
  */
 public class InteractionSequencer {
+
+	protected Map<Long, Message> sequencer = new HashMap<Long, Message>();
+	protected Map<Message, Message> replies = new HashMap<Message, Message>();
+
+	public void addEvent(EsculapaCallEvent event, Message message) {
+		sequencer.put(event.getSequenceId(), message);
+	}
+
+	public void addEvent(EsculapaReplyEvent event, Message message) {
+		sequencer.put(event.getSequenceId(), message);
+		Message call = sequencer.get(event.getInitiatingCallSequenceNumber());
+		if (null != call) {
+			replies.put(call, message);
+		}
+	}
+
+	public Message getReplyFor(Message call) {
+		return replies.get(call);
+	}
 	
-	protected Map<Message, Long> sequencer = new HashMap<Message, Long>();
+	public Message getMessageWithSequence(Long number) {
+		return sequencer.get(number);
+	}
+
+	public void printSequence() {
+		System.out.println("Sequence of events: ");
+		long i = 1;
+		for (Message message : sequencer.values()) {
+			System.out.println(i++ + ": " + message.toString());
+		}
+		System.out.println("Simulation finished.");
+	}
 
 }

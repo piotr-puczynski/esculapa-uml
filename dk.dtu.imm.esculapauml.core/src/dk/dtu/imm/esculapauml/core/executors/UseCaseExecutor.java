@@ -19,10 +19,8 @@ import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import org.apache.log4j.Logger;
@@ -70,6 +68,13 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	protected InteractionSequencer sequencer = new InteractionSequencer();
 
 	/**
+	 * @return the sequencer
+	 */
+	public InteractionSequencer getSequencer() {
+		return sequencer;
+	}
+
+	/**
 	 * @param checker
 	 */
 	public UseCaseExecutor(UseCaseChecker checker) {
@@ -113,6 +118,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		if (!callStack.isEmpty() && callStack.peek() == event.getSource()) {
 			// we should skip this message generation since its us who called it
 			// (so we already have it)
+			sequencer.addEvent(event, callStack.peek());
 			return;
 		}
 		Operation operation = event.getOperation();
@@ -161,7 +167,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		}
 		currentMessage = message;
 		callStack.add(message);
-
+		sequencer.addEvent(event, message);
 	}
 
 	/**
@@ -242,7 +248,9 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		// in case there are other replies on stack to generate
 		if (!callStack.isEmpty()) {
 			Message callMessage = callStack.peek();
-			if (callMessage.getSignature() == event.getOperation()) {
+			// wa assume we retrieved the reply for last call on stack, if not
+			// its an error
+			if (callMessage == sequencer.getMessageWithSequence(event.getInitiatingCallSequenceNumber())) {
 				Message reply = getNextMessage(currentMessage);
 				if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
 					reply = generateReplyMessage(callMessage);
@@ -255,6 +263,10 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				// check and set result of a message
 				setMessageReturn(callMessage, reply, event.getResult());
 				currentMessage = reply;
+				sequencer.addEvent(event, reply);
+			} else {
+				checker.addOtherProblem(Diagnostic.ERROR, "Reply for message " + callMessage.getLabel()
+						+ " did not arrive before a different reply for operation '" + event.getOperation().getLabel() + "' arrived.", callMessage);
 			}
 		}
 
@@ -271,7 +283,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	 */
 	@Override
 	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
-		if (!callStack.isEmpty() && callStack.peek().getSignature() == event.getOperation()) {
+		if (!callStack.isEmpty()) {
 			callStack.pop();
 		}
 
