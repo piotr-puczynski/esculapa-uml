@@ -556,6 +556,7 @@ public class InteractionExtender implements ExtenderInterface {
 					if (pos.getTranslated(diNode.getSize()).y > fromY) {
 						diNode.getSize().expand(0, deltaY);
 					}
+					//TODO: add shifting on messages that are on the same BES but lower than fromY
 				}
 			}
 		}
