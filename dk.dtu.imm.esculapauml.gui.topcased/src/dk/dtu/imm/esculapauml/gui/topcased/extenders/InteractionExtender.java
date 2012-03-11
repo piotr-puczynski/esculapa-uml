@@ -274,9 +274,9 @@ public class InteractionExtender implements ExtenderInterface {
 					Point srcPoint = PosUtils.getAbsolutePosition(srcConnector);
 					Point targetPoint = PosUtils.getAbsolutePosition(targetConnector);
 					Point deltaPoint = srcPoint.getCopy().translate(targetPoint.getNegated());
-					// if target is higher than source
-					if (deltaPoint.y > 0) {
-						// we reduce a size of spec and shift it down
+					// if target is higher or lower than source
+					if (deltaPoint.y != 0) {
+						// we reduce a size of spec and shift it
 						((GraphNode) targetConnector.getGraphElement()).getSize().expand(0, -deltaPoint.y);
 						((GraphNode) targetConnector.getGraphElement()).getPosition().translate(0, deltaPoint.y);
 					}
