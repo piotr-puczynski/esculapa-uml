@@ -115,7 +115,11 @@
           <value xmi:type="uml:InstanceValue" xmi:id="_rH4INGu8EeGSeaoga4MVvQ" type="_dRMFMGu8EeGSeaoga4MVvQ" instance="_lnFZIGu8EeGSeaoga4MVvQ"/>
         </slot>
       </packagedElement>
-      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_fvOjAGu-EeGSeaoga4MVvQ" name="barrier" classifier="_sPlhsGu9EeGSeaoga4MVvQ"/>
+      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_fvOjAGu-EeGSeaoga4MVvQ" name="barrier" classifier="_sPlhsGu9EeGSeaoga4MVvQ">
+        <slot xmi:id="_FM-LUGvJEeGSeaoga4MVvQ" definingFeature="_f8htQmvAEeGSeaoga4MVvQ">
+          <value xmi:type="uml:LiteralBoolean" xmi:id="_GoWkMGvJEeGSeaoga4MVvQ"/>
+        </slot>
+      </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_lG2H8Gu-EeGSeaoga4MVvQ" name="InstanceSpecification7" classifier="_vk5QoGu9EeGSeaoga4MVvQ">
         <slot xmi:id="_lG2H8Wu-EeGSeaoga4MVvQ" definingFeature="_vk5QoWu9EeGSeaoga4MVvQ">
           <value xmi:type="uml:InstanceValue" xmi:id="_lG2H8mu-EeGSeaoga4MVvQ" type="_BbH34Gk4EeGnAqvLCl25Lw" instance="_fLfJUGk4EeGnAqvLCl25Lw"/>
@@ -178,7 +182,7 @@
       </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_BbH34Gk4EeGnAqvLCl25Lw" name="ExpressLaneCheckIn" classifierBehavior="_H1aBcGk9EeGnAqvLCl25Lw">
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_H1aBcGk9EeGnAqvLCl25Lw" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_H1aBcGk9EeGnAqvLCl25Lw" name="ExpressLaneCheckIn Behavior">
         <region xmi:id="_H1aBcWk9EeGnAqvLCl25Lw" name="Region">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_IdR5wWk9EeGnAqvLCl25Lw" name="Pseudostate1"/>
           <subvertex xmi:type="uml:State" xmi:id="_JDgzUmk9EeGnAqvLCl25Lw" name="Idle"/>
