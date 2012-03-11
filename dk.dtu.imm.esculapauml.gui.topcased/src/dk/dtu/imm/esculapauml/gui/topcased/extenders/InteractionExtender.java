@@ -134,10 +134,16 @@ public class InteractionExtender implements ExtenderInterface {
 	 */
 	private void autoResizeDiagram(Diagram di) {
 		// reuse an existing functions
-		Dimension dim = Utils.getDiagramOptimizedDimension(modeler);
-		DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_FORMAT_NAME, "");
-		DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_WIDTH, String.valueOf(dim.width + 100));
-		DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_HEIGHT, String.valueOf(dim.height + 100));
+		// Dimension dim = Utils.getDiagramOptimizedDimension(modeler);
+		// Set Very big size
+		// DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_FORMAT_NAME,
+		// "");
+		// DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_WIDTH,
+		// String.valueOf(dim.width + 100));
+		// DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_HEIGHT,
+		// String.valueOf(dim.height + 100));
+		DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_WIDTH, String.valueOf(10000));
+		DIUtils.setProperty(di, ModelerPropertyConstants.PAGE_HEIGHT, String.valueOf(10000));
 	}
 
 	/**
@@ -201,9 +207,9 @@ public class InteractionExtender implements ExtenderInterface {
 
 		BehaviorExecutionSpecification sourceSpec = InteractionUtils.getMessageSourceExecutionSpecification(message);
 		BehaviorExecutionSpecification targetSpec = InteractionUtils.getMessageTargetExecutionSpecification(message);
-//		if(null == targetSpec || null == sourceSpec) {
-//			return;
-//		}
+		// if(null == targetSpec || null == sourceSpec) {
+		// return;
+		// }
 		GraphElement source = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), sourceSpec, true);
 		GraphElement target = Utils.getGraphElement(di.getSemanticModel().getGraphElement(), targetSpec, true);
 		GraphConnector srcConnector = SequenceUtils.createGraphConnector(new Point(0, 0), source, edge);
