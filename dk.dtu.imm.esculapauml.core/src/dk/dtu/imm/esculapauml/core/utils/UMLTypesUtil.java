@@ -28,6 +28,7 @@ import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.LiteralBoolean;
 import org.eclipse.uml2.uml.LiteralInteger;
+import org.eclipse.uml2.uml.LiteralNull;
 import org.eclipse.uml2.uml.LiteralString;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.PackageableElement;
@@ -113,6 +114,16 @@ public class UMLTypesUtil {
 		intResult.setType(intPrimitiveType);
 		intResult.setValue(value);
 		return intResult;
+	}
+
+	/**
+	 * Creates null value.
+	 * 
+	 * @return
+	 */
+	public static ValueSpecification getNullValue() {
+		LiteralNull nullResult = UMLFactory.eINSTANCE.createLiteralNull();
+		return nullResult;
 	}
 
 	/**

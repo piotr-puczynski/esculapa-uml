@@ -210,6 +210,29 @@ public class SalTests {
 		
 	}
 	
+	@Test
+	public void nullTest() throws ParseException {
+		SALParser parser = new SALParser("myVar := null");
+		
+
+		SALNode root = parser.parse();
+		//root.dump("");
+		
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+		
+		SALNode assign = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTASSIGNMENT, assign.getId());
+		assertEquals("myVar", assign.jjtGetValue());
+		assertEquals(1, assign.jjtGetNumChildren());
+		
+		SALNode val = assign.getChild(0);
+		
+		
+		assertEquals(SALParserTreeConstants.JJTNULLCONSTANT, val.getId());
+		
+	}
+	
 	
 
 }

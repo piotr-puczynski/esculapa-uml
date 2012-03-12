@@ -39,6 +39,7 @@ import dk.dtu.imm.esculapauml.core.sal.parser.SALIntegerConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALLogicConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALMemeberOp;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALNode;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALNullConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALOCLExpression;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParser;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor;
@@ -294,6 +295,19 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALNullConstant,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValueSpecification visit(SALNullConstant node, SALEvaluationHelper data) {
+		return UMLTypesUtil.getNullValue();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
 	 * imm.esculapauml.core.sal.parser.SALIdentifier,
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
@@ -379,8 +393,13 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.imm.esculapauml.core.sal.parser.SALOCLExpression, dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALOCLExpression,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
 	public ValueSpecification visit(SALOCLExpression node, SALEvaluationHelper data) {
@@ -391,7 +410,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		if (ocl.hasErrors()) {
 			return null;
 		}
-		
+
 		if (result instanceof ValueSpecification) {
 			return (ValueSpecification) result;
 		}
@@ -399,7 +418,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			return UMLTypesUtil.getObjectValue(result, checker, checker.getCheckedObject());
 		}
 		return null;
-		
+
 	}
 
 }
