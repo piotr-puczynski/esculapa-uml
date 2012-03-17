@@ -27,7 +27,7 @@ import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 /**
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public final class StateMachineUtils {
 	public static Pseudostate getInitial(Region region) {

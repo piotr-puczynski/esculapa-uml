@@ -19,8 +19,10 @@ import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicEList;
@@ -32,12 +34,14 @@ import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
@@ -47,6 +51,7 @@ import org.eclipse.uml2.uml.Vertex;
 import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
+import dk.dtu.imm.esculapauml.core.checkers.RegionChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
@@ -61,7 +66,7 @@ import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
  */
 public class BehaviorExecutor extends AbstractInstanceExecutor {
 
-	protected ArrayList<Vertex> activeConfiguration = new ArrayList<Vertex>();
+	protected Set<Vertex> activeConfiguration = new HashSet<Vertex>();
 	protected StateMachine checkee;
 	protected BehaviorChecker checker;
 	protected static Predicate<Transition> isCompletionTransition = new Predicate<Transition>() {
@@ -335,15 +340,77 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	protected void fireTransition(TransitionReplyChecker trc) {
 		logger.info(checkee.getLabel() + "[" + instanceName + "]: firing transition: " + trc.getCheckedObject().getLabel());
-		// remove the source vertex from active configuration
 		Vertex source = trc.getCheckedObject().getSource();
+		Vertex target = trc.getCheckedObject().getTarget();
+		if (target instanceof State) {
+			State targetState = (State) target;
+			// composite states
+			if (!targetState.getRegions().isEmpty()) {
+				enterCompositeState(targetState);
+			}
+		}
+		if (source.getContainer() != target.getContainer() && source instanceof State && target instanceof State) {
+			// we crossed border of composite state
+			// check if the source contains target
+			// calculate LCA
+			State compositeSource = (State) source;
+			State compositeTarget = (State) target;
+			Namespace lca = checkee.LCA(compositeSource, compositeTarget);
+			// TODO: add removal of nested composite states, then lca will not be null
+			if (null == lca) {
+				if (checkee.ancestor(compositeSource, compositeTarget)) {
+					// we enter composite state
+					if (null != compositeTarget.getContainer().getState()) {
+						enterCompositeState(compositeTarget.getContainer().getState());
+					}
+				} else {
+					// we leave composite state
+					if (null != compositeTarget.getContainer().getState()) {
+						exitCompositeState(compositeSource.getContainer().getState());
+					}
+				}
+			}
+
+		}
+
+		// remove the source vertex from active configuration
 		activeConfiguration.remove(source);
 		// add target vertex to active configuration
-		Vertex target = trc.getCheckedObject().getTarget();
 		activeConfiguration.add(target);
 
 		// run effect of transition
 		runEffect(trc);
+	}
+
+	/**
+	 * @param state
+	 */
+	private void exitCompositeState(State compositeState) {
+		activeConfiguration.remove(compositeState);
+		Iterator<Vertex> it = activeConfiguration.iterator();
+		while (it.hasNext()) {
+			Vertex vertex = it.next();
+			if (vertex.getContainer().getState() != null && checkee.ancestor(compositeState, vertex.getContainer().getState())) {
+				it.remove();
+			}
+		}
+
+	}
+
+	/**
+	 * @param targetState
+	 */
+	private void enterCompositeState(State compositeState) {
+		activeConfiguration.add(compositeState);
+		for (Region r : compositeState.getRegions()) {
+			// check region
+			RegionChecker rc = new RegionChecker(checker, r);
+			rc.check();
+			if (!rc.hasErrors()) {
+				activeConfiguration.add(StateMachineUtils.getInitial(r));
+			}
+		}
+
 	}
 
 	/**
