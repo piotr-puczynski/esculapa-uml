@@ -30,6 +30,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -339,9 +340,14 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			NamedElement signature = message.getSignature();
 
 			if (signature instanceof Operation) {
+				InstanceSpecification caller = null;
+				InstanceExecutor sourceExecutor = findInstanceExecutorForLifeline(InteractionUtils.getMessageSourceLifeline(message));
+				if(null != sourceExecutor) {
+					caller = sourceExecutor.getInstanceSpecification();
+				}
 				Operation operation = (Operation) signature;
 				callStack.add(message);
-				targetExecutor.callOperation(message, operation, message.getArguments(), message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL, message);
+				targetExecutor.callOperation(message, caller, operation, message.getArguments(), message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL, message);
 			}
 		}
 	}

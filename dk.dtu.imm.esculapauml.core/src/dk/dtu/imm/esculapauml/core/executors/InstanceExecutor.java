@@ -80,7 +80,8 @@ public interface InstanceExecutor extends Executor {
 	 * @param errorContext
 	 * @return
 	 */
-	ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext);
+	ValueSpecification callOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
+			boolean isSynchronous, Element errorContext);
 
 	/**
 	 * Operation used to call operation on an instance. Uses operation name to
@@ -93,7 +94,8 @@ public interface InstanceExecutor extends Executor {
 	 * @param errorContext
 	 * @return
 	 */
-	ValueSpecification callOperation(Object source, String operationName, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext);
+	ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments,
+			boolean isSynchronous, Element errorContext);
 
 	/**
 	 * Gets local variable. ValueName is null for single multiplicity variables.

@@ -47,6 +47,7 @@ import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Vertex;
+import org.eclipse.uml2.uml.VisibilityKind;
 
 import ch.lambdaj.function.matcher.Predicate;
 
@@ -175,15 +176,15 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * java.lang.Object, java.lang.String, org.eclipse.emf.common.util.EList,
 	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
-	public ValueSpecification callOperation(Object source, String operationName, EList<ValueSpecification> arguments, boolean isSynchronous,
-			Element errorContext) {
+	public ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments,
+			boolean isSynchronous, Element errorContext) {
 		Operation operation = getOperationByName(operationName);
 		if (null == operation) {
 			checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' has no operation with name '" + operationName + "'.",
 					errorContext);
 			return null;
 		}
-		return callOperation(source, operation, arguments, isSynchronous, errorContext);
+		return callOperation(source, caller, operation, arguments, isSynchronous, errorContext);
 	}
 
 	/*
@@ -194,8 +195,13 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * java.lang.Object, org.eclipse.uml2.uml.Operation,
 	 * org.eclipse.emf.common.util.EList, boolean, org.eclipse.uml2.uml.Element)
 	 */
-	public ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
+	public ValueSpecification callOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
+			boolean isSynchronous, Element errorContext) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
+		checkOperationConformance(caller, operation, errorContext);
+		if (checker.hasErrors()) {
+			return null;
+		}
 		Transition goodTransition = getEnabledTransitionForOperation(operation, arguments, errorContext);
 		if (null == goodTransition) {
 			if (isSynchronous) {
@@ -239,6 +245,36 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Checks if the operation is in fact ours and if it is called correctly
+	 * according to visibility of it.
+	 * 
+	 * @param caller
+	 * @param operation
+	 * @param errorContext
+	 */
+	private void checkOperationConformance(InstanceSpecification caller, Operation operation, Element errorContext) {
+		if (!originalClass.getAllOperations().contains(operation)) {
+			checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is called with operation '" + operation.getLabel()
+					+ "' that is not declared for the instance type.", errorContext);
+		} else {
+			if (operation.getVisibility() == VisibilityKind.PRIVATE_LITERAL || operation.getVisibility() == VisibilityKind.PROTECTED_LITERAL) {
+				// allow only private class access
+				if (null != caller) {
+					if (!caller.getClassifiers().equals(instanceSpecification.getClassifiers())) {
+						checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName()
+								+ "' reported external access to private operation '" + operation.getLabel() + "' from '" + caller.getLabel() + "'.",
+								errorContext);
+					}
+				} else {
+					checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName()
+							+ "' reported external access to private operation '" + operation.getLabel() + "'.", errorContext);
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -356,7 +392,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			State compositeSource = (State) source;
 			State compositeTarget = (State) target;
 			Namespace lca = checkee.LCA(compositeSource, compositeTarget);
-			// TODO: add removal of nested composite states, then lca will not be null
+			// TODO: add removal of nested composite states, then lca will not
+			// be null
 			if (null == lca) {
 				if (checkee.ancestor(compositeSource, compositeTarget)) {
 					// we enter composite state

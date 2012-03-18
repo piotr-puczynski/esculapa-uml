@@ -25,17 +25,17 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test of an error in case of transition from state to the same state that has
- * no guard.
+ * Test of detection of access to private / protected operation from instance of
+ * other class.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class IllFormedSelfDummyTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("IllFormedSelfDummy.uml");
+public class PrivateOperationAccessTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("PrivateOperationAccess.uml");
 
 	@Test
-	public void illFormedSelfDummyTest() throws InterruptedException {
+	public void privateOperationAccess() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
@@ -46,6 +46,7 @@ public class IllFormedSelfDummyTest extends LoggingTest {
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Transition is ill-formed. Loop has been detected during firing of completion transitions."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
+				"Instance 'myD' reported external access to private operation 's' from 'myC'."));
 	}
 }

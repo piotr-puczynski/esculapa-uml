@@ -163,9 +163,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
 	@Override
-	public ValueSpecification callOperation(Object source, Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
+	public ValueSpecification callOperation(Object source, InstanceSpecification caller,  Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
 		// redirect calls to parent
-		return parent.callOperation(source, operation, arguments, isSynchronous, errorContext);
+		return parent.callOperation(source, caller, operation, arguments, isSynchronous, errorContext);
 	}
 
 	/*
@@ -177,10 +177,10 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
 	@Override
-	public ValueSpecification callOperation(Object source, String operationName, EList<ValueSpecification> arguments, boolean isSynchronous,
+	public ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments, boolean isSynchronous,
 			Element errorContext) {
 		// redirect calls to parent
-		return parent.callOperation(source, operationName, arguments, isSynchronous, errorContext);
+		return parent.callOperation(source, caller, operationName, arguments, isSynchronous, errorContext);
 	}
 
 	/*
@@ -368,7 +368,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 				if (checker.hasErrors()) {
 					return null;
 				}
-				return executor.callOperation(parent, name, arguments, true, trc.getCheckedObject());
+				return executor.callOperation(parent, getInstanceSpecification(), name, arguments, true, trc.getCheckedObject());
 			}
 
 		} else {
