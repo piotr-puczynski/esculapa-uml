@@ -19,7 +19,7 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Vertex;
 
 /**
- * Checks all kinds of sub machine's states.
+ * Checks all kinds of state machine's states.
  * 
  * @author Piotr J. Puczynski
  * 
