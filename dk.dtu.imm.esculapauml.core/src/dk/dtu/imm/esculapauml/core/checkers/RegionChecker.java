@@ -23,6 +23,7 @@ import org.eclipse.uml2.uml.PseudostateKind;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
+import org.eclipse.uml2.uml.Vertex;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 import static ch.lambdaj.Lambda.*;
@@ -67,14 +68,23 @@ public class RegionChecker extends AbstractChecker<Region> {
 	 */
 	@Override
 	public void check() {
-		logger.debug(checkee.getLabel() +": start check");
+		logger.debug(checkee.getLabel() + ": start check");
 		checkInitial();
-
+		checkVertices();
+	}
+	
+	/**
+	 * Checks vertices in region.
+	 * 
+	 */
+	private void checkVertices() {
+		CollectionChecker<?> cc = new CollectionChecker<Vertex>(this, checkee.getSubvertices());
+		cc.check();
 	}
 
 	/**
-	 * Checks if region has only one initial pseudostate.
-	 * Checks if initial is correct.
+	 * Checks if region has only one initial pseudostate. Checks if initial is
+	 * correct.
 	 */
 	protected void checkInitial() {
 		Collection<Pseudostate> pseudostates = EcoreUtil.getObjectsByType(checkee.getSubvertices(), Literals.PSEUDOSTATE);
@@ -82,24 +92,26 @@ public class RegionChecker extends AbstractChecker<Region> {
 		if (initials.size() != 1) {
 			addProblem(Diagnostic.ERROR, "The Region \"" + checkee.getLabel() + "\" has no initial pseudostate o has more than one initial pseudostates.");
 		} else {
-			//An initial vertex can have at most one outgoing transition.
+			// An initial vertex can have at most one outgoing transition.
 			Pseudostate initial = initials.get(0);
-			if(initial.getOutgoings().size() > 1) {
+			if (initial.getOutgoings().size() > 1) {
 				addOtherProblem(Diagnostic.ERROR, "More than one outgoing transitions from initial state in region \"" + checkee.getLabel() + "\".", initial);
 			} else {
-				if(initial.getOutgoings().size() == 1) {
-					//The outgoing transition from an initial vertex may have a behavior, but not a trigger or guard.
+				if (initial.getOutgoings().size() == 1) {
+					// The outgoing transition from an initial vertex may have a
+					// behavior, but not a trigger or guard.
 					Transition out = initial.getOutgoings().get(0);
-					if(out.getTriggers().size() > 0) {
-						addOtherProblem(Diagnostic.ERROR, "Triggers declared on outgoing transition from initial state in region \"" + checkee.getLabel() + "\".", out);
+					if (out.getTriggers().size() > 0) {
+						addOtherProblem(Diagnostic.ERROR, "Triggers declared on outgoing transition from initial state in region \"" + checkee.getLabel()
+								+ "\".", out);
 					}
-					if(out.getGuard() != null) {
-						addOtherProblem(Diagnostic.ERROR, "Guard declared on outgoing transition from initial state in region \"" + checkee.getLabel() + "\".", out);
+					if (out.getGuard() != null) {
+						addOtherProblem(Diagnostic.ERROR, "Guard declared on outgoing transition from initial state in region \"" + checkee.getLabel() + "\".",
+								out);
 					}
 				}
 			}
-			
-			
+
 		}
 	}
 

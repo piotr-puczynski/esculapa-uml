@@ -52,7 +52,6 @@ import org.eclipse.uml2.uml.VisibilityKind;
 import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
-import dk.dtu.imm.esculapauml.core.checkers.RegionChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
@@ -440,14 +439,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	private void enterCompositeState(State compositeState) {
 		activeConfiguration.add(compositeState);
 		for (Region r : compositeState.getRegions()) {
-			// check region
-			RegionChecker rc = new RegionChecker(checker, r);
-			rc.check();
-			if (!rc.hasErrors()) {
-				activeConfiguration.add(StateMachineUtils.getInitial(r));
-			}
+			activeConfiguration.add(StateMachineUtils.getInitial(r));
 		}
-
 	}
 
 	/**

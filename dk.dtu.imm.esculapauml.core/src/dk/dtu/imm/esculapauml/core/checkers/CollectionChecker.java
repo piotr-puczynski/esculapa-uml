@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
 import org.eclipse.uml2.uml.Region;
+import org.eclipse.uml2.uml.Vertex;
 
 /**
  * Checker for collections of objects
@@ -52,6 +53,8 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 				checker = new InteractionFragmentChecker(this, (InteractionFragment) elem);
 			} else if(elem instanceof InstanceSpecification) {
 				checker = new InstanceSpecificationChecker(this, (InstanceSpecification) elem);
+			} else if(elem instanceof Vertex) {
+				checker = new VertexChecker(this, (Vertex) elem);
 			}
 			
 			// add more classes here if needed
