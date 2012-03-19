@@ -32,7 +32,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  */
 public class InstancesMultiplicityManyTest extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("InstancesMultiplicityMany.uml");
-	//private Resource referenceModel = TestUtils.getUMLResource("results/OpaqueBehaviorIdentifierEval.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/InstancesMultiplicityMany.uml");
 
 	@Test
 	public void instancesMultiplicityMany() throws InterruptedException {
@@ -42,8 +42,8 @@ public class InstancesMultiplicityManyTest extends LoggingTest {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is no error
-		//assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		// models have no differences
-		//assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
 	}
 }

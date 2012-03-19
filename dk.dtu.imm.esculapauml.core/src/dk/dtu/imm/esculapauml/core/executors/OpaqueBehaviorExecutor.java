@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.core.executors;
 import static ch.lambdaj.Lambda.join;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Stack;
 
@@ -163,7 +164,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
 	@Override
-	public ValueSpecification callOperation(Object source, InstanceSpecification caller,  Operation operation, EList<ValueSpecification> arguments, boolean isSynchronous, Element errorContext) {
+	public ValueSpecification callOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
+			boolean isSynchronous, Element errorContext) {
 		// redirect calls to parent
 		return parent.callOperation(source, caller, operation, arguments, isSynchronous, errorContext);
 	}
@@ -177,8 +179,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
 	@Override
-	public ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments, boolean isSynchronous,
-			Element errorContext) {
+	public ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments,
+			boolean isSynchronous, Element errorContext) {
 		// redirect calls to parent
 		return parent.callOperation(source, caller, operationName, arguments, isSynchronous, errorContext);
 	}
@@ -340,6 +342,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * imm.esculapauml.core.sal.parser.SALCall,
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public ValueSpecification visit(SALCall node, SALEvaluationHelper data) {
 		Object instance = getInstanceSpecification();
@@ -353,28 +356,38 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 				return null;
 			}
 		}
-		if (instance instanceof InstanceSpecification) {
-			InstanceExecutor executor = checker.getSystemState().getInstanceExecutor((InstanceSpecification) instance);
-			if (null == executor) {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot obtain executor for operation: '" + name + "'.");
-			} else {
-				// evaluate arguments
-				EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
-				Stack<String> oldContext = data.swapEvaluationContext(new Stack<String>());
-				for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
-					arguments.add(node.getChild(i).jjtAccept(this, data));
-				}
-				data.swapEvaluationContext(oldContext);
-				if (checker.hasErrors()) {
-					return null;
-				}
-				return executor.callOperation(parent, getInstanceSpecification(), name, arguments, true, trc.getCheckedObject());
-			}
-
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Operation: '" + name + "' must be called in the context of existing instance specification.");
+		if (!(instance instanceof Collection)) {
+			// create collection
+			ArrayList<Object> array = new ArrayList<Object>();
+			array.add(instance);
+			instance = array;
 		}
-		return null;
+		ValueSpecification result = null;
+		for (Object instanceObject : (Collection) instance) {
+			if (instanceObject instanceof InstanceSpecification) {
+				InstanceExecutor executor = checker.getSystemState().getInstanceExecutor((InstanceSpecification) instanceObject);
+				if (null == executor) {
+					trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot obtain executor for operation: '" + name + "'.");
+				} else {
+					// evaluate arguments
+					EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
+					Stack<String> oldContext = data.swapEvaluationContext(new Stack<String>());
+					for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
+						arguments.add(node.getChild(i).jjtAccept(this, data));
+					}
+					data.swapEvaluationContext(oldContext);
+					if (checker.hasErrors()) {
+						return null;
+					}
+					result = executor.callOperation(parent, getInstanceSpecification(), name, arguments, true, trc.getCheckedObject());
+				}
+
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Operation: '" + name + "' must be called in the context of existing instance specification.");
+				break;
+			}
+		}
+		return result;
 	}
 
 	/*
