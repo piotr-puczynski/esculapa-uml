@@ -21,7 +21,6 @@ import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
-import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.StateMachine;
@@ -131,15 +130,17 @@ public class InstanceSpecificationChecker extends AbstractChecker<InstanceSpecif
 						max = prop.getUpper();
 					}
 				}
-				if (links.size() < min) {
-					addProblem(Diagnostic.ERROR,
-							"Instance specification '" + checkee.getLabel() + "' does not satisfy lower bound of links (" + String.valueOf(min)
-									+ ") according to multiplicity of association '" + association.getLabel() + "'.");
-				} else if (max >= 0) { // -1 represents infinity
-					if (links.size() > max) {
+				if (min > -2 && max > -2) {
+					if (links.size() < min) {
 						addProblem(Diagnostic.ERROR,
-								"Instance specification '" + checkee.getLabel() + "' does not satisfy upper bound of links (" + String.valueOf(max)
+								"Instance specification '" + checkee.getLabel() + "' does not satisfy lower bound of links (" + String.valueOf(min)
 										+ ") according to multiplicity of association '" + association.getLabel() + "'.");
+					} else if (max >= 0) { // -1 represents infinity
+						if (links.size() > max) {
+							addProblem(Diagnostic.ERROR,
+									"Instance specification '" + checkee.getLabel() + "' does not satisfy upper bound of links (" + String.valueOf(max)
+											+ ") according to multiplicity of association '" + association.getLabel() + "'.");
+						}
 					}
 				}
 
