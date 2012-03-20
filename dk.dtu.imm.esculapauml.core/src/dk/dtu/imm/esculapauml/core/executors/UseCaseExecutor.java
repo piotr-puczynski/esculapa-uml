@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.Actor;
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.InstanceSpecification;
@@ -342,12 +343,13 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			if (signature instanceof Operation) {
 				InstanceSpecification caller = null;
 				InstanceExecutor sourceExecutor = findInstanceExecutorForLifeline(InteractionUtils.getMessageSourceLifeline(message));
-				if(null != sourceExecutor) {
+				if (null != sourceExecutor) {
 					caller = sourceExecutor.getInstanceSpecification();
 				}
 				Operation operation = (Operation) signature;
 				callStack.add(message);
-				targetExecutor.callOperation(message, caller, operation, message.getArguments(), message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL, message);
+				targetExecutor.callOperation(message, caller, operation, message.getArguments(), message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL,
+						message);
 			}
 		}
 	}
@@ -396,15 +398,48 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	 * @param result
 	 */
 	private void setMessageReturn(Message message, Message reply, ValueSpecification result) {
-		// clean old values
-		reply.getArguments().clear();
-		// set return
-		if (null != result) {
-			ValueSpecification ret = EcoreUtil.copy(result);
-			ret.setName("return");
-			reply.getArguments().add(ret);
+		if (replyShouldBeChecked(reply)) {
+			// check reply
+			ValueSpecification expectedResult = reply.getArgument("return", null);
+			if (null != expectedResult) {
+				if (expectedResult.getType() != result.getType() || !expectedResult.stringValue().equals(result.stringValue())) {
+					checker.addOtherProblem(Diagnostic.ERROR, "Reply " + reply.getLabel() + " result is not equal to expected result.", reply);
+				}
+			}
+		} else {
+			// clean old values
+			reply.getArguments().clear();
+			// set return
+			if (null != result) {
+				ValueSpecification ret = EcoreUtil.copy(result);
+				ret.setName("return");
+				reply.getArguments().add(ret);
+			}
 		}
 
+	}
+
+	/**
+	 * Decides when the reply result should conform to specified by the user.
+	 * 
+	 * @param reply
+	 * @return
+	 */
+	private boolean replyShouldBeChecked(Message reply) {
+		// it must not be generated
+		if (!systemState.wasGenerated(reply)) {
+			// it must be pointing to the actor
+			Lifeline lifeline = InteractionUtils.getMessageTargetLifeline(reply);
+			if (null != lifeline) {
+				if (lifeline.getRepresents().getType() instanceof Actor) {
+					// it must have some return specified
+					if (null != reply.getArgument("return", null)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**

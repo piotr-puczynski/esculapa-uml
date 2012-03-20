@@ -112,7 +112,7 @@ public class SystemState {
 		}
 		return null;
 	}
-	
+
 	public EList<InstanceSpecification> getExistingInstanceSpecifications(Type type) {
 		EList<InstanceSpecification> result = new BasicEList<InstanceSpecification>();
 		for (InstanceSpecification instanceSpecification : existingInstances) {
@@ -193,6 +193,22 @@ public class SystemState {
 	protected void annotateAsGenerated(Element element) {
 		EAnnotation annotation = UML2Util.getEAnnotation(element, AbstractChecker.ESCULAPA_NAMESPACE, true);
 		annotation.getDetails().put("generated", "true");
+	}
+
+	/**
+	 * Checks based on annotations if element was generated.
+	 * 
+	 * @param element
+	 * @return
+	 */
+	public boolean wasGenerated(Element element) {
+		EAnnotation annotation = UML2Util.getEAnnotation(element, AbstractChecker.ESCULAPA_NAMESPACE, false);
+		if (null != annotation) {
+			if (annotation.getDetails().get("generated").equals("true")) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
