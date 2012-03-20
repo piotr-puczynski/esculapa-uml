@@ -403,7 +403,8 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			ValueSpecification expectedResult = reply.getArgument("return", null);
 			if (null != expectedResult) {
 				if (expectedResult.getType() != result.getType() || !expectedResult.stringValue().equals(result.stringValue())) {
-					checker.addOtherProblem(Diagnostic.ERROR, "Reply " + reply.getLabel() + " result is not equal to expected result.", reply);
+					checker.addOtherProblem(Diagnostic.ERROR, "Reply " + reply.getLabel() + " result ('" + result.stringValue()
+							+ "') is not equal to expected result ('" + expectedResult.stringValue() + "').", reply);
 				}
 			}
 		} else {
