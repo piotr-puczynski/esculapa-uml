@@ -68,9 +68,14 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_SOFQgDJKEeGjS-_RcLljMA" position="40,70" size="20,50">
           <anchorage xmi:id="_FirqADJMEeGjS-_RcLljMA" position="16,13" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_hDHToEN4EeG4EdriM4MjZA" position="11,37" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_SOFQgTJKEeGjS-_RcLljMA" presentation="default">
             <element href="Simple06.uml#_SOTS8DJKEeGjS-_RcLljMA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_OW9v8HK_EeGBePa94PQ8Vg" position="40,145" size="20,50">
+          <anchorage xmi:id="_hDHToEN4EeG4EdriM4MjZA" position="13,7" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_OW9v8XK_EeGBePa94PQ8Vg" presentation="default">
+            <element href="Simple06.uml#_OW9v8nK_EeGBePa94PQ8Vg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -80,9 +85,14 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_0ZJ9QDJLEeGjS-_RcLljMA" position="40,66" size="20,50">
           <anchorage xmi:id="_Fis4IDJMEeGjS-_RcLljMA" position="13,17" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_hDHToUN4EeG4EdriM4MjZA" position="17,41" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_0ZJ9QTJLEeGjS-_RcLljMA" presentation="default">
             <element href="Simple06.uml#_0ZLLYDJLEeGjS-_RcLljMA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_Oy76QHK_EeGBePa94PQ8Vg" position="40,144" size="20,50">
+          <anchorage xmi:id="_hDHToUN4EeG4EdriM4MjZA" position="3,8" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Oy76QXK_EeGBePa94PQ8Vg" presentation="default">
+            <element href="Simple06.uml#_Oy76QnK_EeGBePa94PQ8Vg"/>
           </semanticModel>
         </contained>
       </contained>

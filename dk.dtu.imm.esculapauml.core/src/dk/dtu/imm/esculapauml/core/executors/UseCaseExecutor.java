@@ -273,8 +273,19 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// its an error
 			if (callMessage == sequencer.getMessageWithSequence(event.getInitiatingCallSequenceNumber())) {
 				Message reply = getNextMessage(currentMessage);
-				if (reply == null || reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
+				if (reply == null) {
 					reply = generateReplyMessage(callMessage);
+				} else if (reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
+					// if there is a call message on the same BES that was not
+					// called, it is an error
+					Lifeline myLifeline = InteractionUtils.getMessageTargetLifeline(callMessage);
+					if (InteractionUtils.getMessageExecutionSpecificationOnLifeline(callMessage, myLifeline) == InteractionUtils
+							.getMessageExecutionSpecificationOnLifeline(reply, myLifeline)) {
+						checker.addOtherProblem(Diagnostic.ERROR, "The message was never realized in SM before reply of '" + callMessage.getLabel()
+								+ "' for operation '" + event.getOperation().getLabel() + "' arrived.", reply);
+					} else {
+						reply = generateReplyMessage(callMessage);
+					}
 				} else {
 					fixReplyMessage(reply, callMessage);
 				}

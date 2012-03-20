@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="__HQmEDJIEeGjS-_RcLljMA" activeDiagram="_ptmXg0N4EeG4EdriM4MjZA">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="__HQmEDJIEeGjS-_RcLljMA" activeDiagram="_d14PgjJJEeGjS-_RcLljMA">
   <model href="Simple04.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="__HQmETJIEeGjS-_RcLljMA" position="0,0" size="100,100" name="Simple04" viewport="0,0">
     <property xmi:id="__Hhr0DJIEeGjS-_RcLljMA" key="pageFormatName" value="A4"/>
@@ -63,9 +63,14 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_SOFQgDJKEeGjS-_RcLljMA" position="40,70" size="20,50">
           <anchorage xmi:id="_FirqADJMEeGjS-_RcLljMA" position="16,13" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_hDHToEN4EeG4EdriM4MjZA" position="11,37" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_SOFQgTJKEeGjS-_RcLljMA" presentation="default">
             <element href="Simple04.uml#_SOTS8DJKEeGjS-_RcLljMA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_xO5YIHK_EeGBePa94PQ8Vg" position="40,149" size="20,50">
+          <anchorage xmi:id="_hDHToEN4EeG4EdriM4MjZA" position="13,9" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_xO5YIXK_EeGBePa94PQ8Vg" presentation="default">
+            <element href="Simple04.uml#_xPCiEHK_EeGBePa94PQ8Vg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -75,9 +80,14 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_0ZJ9QDJLEeGjS-_RcLljMA" position="40,66" size="20,50">
           <anchorage xmi:id="_Fis4IDJMEeGjS-_RcLljMA" position="13,17" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_hDHToUN4EeG4EdriM4MjZA" position="17,41" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_0ZJ9QTJLEeGjS-_RcLljMA" presentation="default">
             <element href="Simple04.uml#_0ZLLYDJLEeGjS-_RcLljMA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_xrnJUHK_EeGBePa94PQ8Vg" position="40,150" size="20,50">
+          <anchorage xmi:id="_hDHToUN4EeG4EdriM4MjZA" position="10,8" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_xrnJUXK_EeGBePa94PQ8Vg" presentation="default">
+            <element href="Simple04.uml#_xrnJUnK_EeGBePa94PQ8Vg"/>
           </semanticModel>
         </contained>
       </contained>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="__HQmEDJIEeGjS-_RcLljMA" activeDiagram="_ptmXg0N4EeG4EdriM4MjZA">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="__HQmEDJIEeGjS-_RcLljMA" activeDiagram="_d14PgjJJEeGjS-_RcLljMA">
   <model href="Simple07.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="__HQmETJIEeGjS-_RcLljMA" position="0,0" size="100,100" name="Simple07" viewport="0,0">
     <property xmi:id="__Hhr0DJIEeGjS-_RcLljMA" key="pageFormatName" value="A4"/>
@@ -68,9 +68,14 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_SOFQgDJKEeGjS-_RcLljMA" position="40,70" size="20,50">
           <anchorage xmi:id="_FirqADJMEeGjS-_RcLljMA" position="16,13" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_hDHToEN4EeG4EdriM4MjZA" position="11,37" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_SOFQgTJKEeGjS-_RcLljMA" presentation="default">
             <element href="Simple07.uml#_SOTS8DJKEeGjS-_RcLljMA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_HKMKwHLAEeGBePa94PQ8Vg" position="40,147" size="20,50">
+          <anchorage xmi:id="_hDHToEN4EeG4EdriM4MjZA" position="12,10" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_HKMKwXLAEeGBePa94PQ8Vg" presentation="default">
+            <element href="Simple07.uml#_HKMKwnLAEeGBePa94PQ8Vg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -80,9 +85,14 @@
         </semanticModel>
         <contained xsi:type="di:GraphNode" xmi:id="_0ZJ9QDJLEeGjS-_RcLljMA" position="40,66" size="20,50">
           <anchorage xmi:id="_Fis4IDJMEeGjS-_RcLljMA" position="13,17" graphEdge="_FitfMDJMEeGjS-_RcLljMA"/>
-          <anchorage xmi:id="_hDHToUN4EeG4EdriM4MjZA" position="17,41" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_0ZJ9QTJLEeGjS-_RcLljMA" presentation="default">
             <element href="Simple07.uml#_0ZLLYDJLEeGjS-_RcLljMA"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_Ho-_kHLAEeGBePa94PQ8Vg" position="40,148" size="20,50">
+          <anchorage xmi:id="_hDHToUN4EeG4EdriM4MjZA" position="6,9" graphEdge="_hDHTokN4EeG4EdriM4MjZA"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Ho-_kXLAEeGBePa94PQ8Vg" presentation="default">
+            <element href="Simple07.uml#_Ho-_knLAEeGBePa94PQ8Vg"/>
           </semanticModel>
         </contained>
       </contained>
@@ -102,7 +112,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_ptmXgkN4EeG4EdriM4MjZA">
     <model href="Simple07.uml#_ptmXgEN4EeG4EdriM4MjZA"/>
-    <diagrams xmi:id="_ptmXg0N4EeG4EdriM4MjZA" position="0,0" size="100,100" name="C" viewport="0,233">
+    <diagrams xmi:id="_ptmXg0N4EeG4EdriM4MjZA" position="0,0" size="100,100" name="C" viewport="0,80">
       <property xmi:id="_ptwIgkN4EeG4EdriM4MjZA" key="pageFormatName" value="A4"/>
       <property xmi:id="_ptwIg0N4EeG4EdriM4MjZA" key="diagramWidth" value="840"/>
       <property xmi:id="_ptwIhEN4EeG4EdriM4MjZA" key="diagramHeight" value="1188"/>
