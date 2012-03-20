@@ -55,6 +55,7 @@ public class InteractionOrderFixer {
 
 	private Modeler modeler;
 	private Interaction interaction;
+	private boolean hadFixedErrors = false;
 
 	public InteractionOrderFixer(Modeler modeler, Interaction interaction) {
 		super();
@@ -163,11 +164,20 @@ public class InteractionOrderFixer {
 		Collections.sort(lifelinePositions);
 		// fill empty gaps in case the orders are different
 		if (!realOrder.equals(modelOrder)) {
+			hadFixedErrors = true;
 			lifeline.getCoveredBys().removeAll(realOrder);
 			for (int i = 0; i < realOrder.size(); ++i) {
 				lifeline.getCoveredBys().add(lifelinePositions.get(i), realOrder.get(i));
 			}
 		}
 	}
+
+	/**
+	 * @return the hadFixedErrors
+	 */
+	public boolean hadFixedErrors() {
+		return hadFixedErrors;
+	}
+
 
 }

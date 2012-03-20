@@ -166,5 +166,20 @@ public final class GuiUtils {
 			}
 		});
 	}
+	
+	/**
+	 * Displays info.
+	 * 
+	 * @param string
+	 * @param event
+	 */
+	public static void showInfo(final String msg, ExecutionEvent event) {
+		final Modeler modeler = getModeler(event);
+		modeler.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+			public void run() {
+				MessageDialog.openInformation(modeler.getSite().getShell(), "EsculapaUML info", msg);
+			}
+		});
+	}
 
 }

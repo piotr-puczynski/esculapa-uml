@@ -40,7 +40,7 @@ public class CheckUseCaseHandler extends AbstractHandler {
 		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
 		Modeler modeler = GuiUtils.getModeler(event);
 		EList<Interaction> interactions = GuiUtils.getUMLInteractionArgument(elements);
-		if(interactions.isEmpty()) {
+		if (interactions.isEmpty()) {
 			GuiUtils.showError("Selection does not contain any UML2 Interaction elements.", event);
 			return null;
 		}
@@ -49,6 +49,10 @@ public class CheckUseCaseHandler extends AbstractHandler {
 		for (Interaction interaction : interactions) {
 			InteractionOrderFixer fixer = new InteractionOrderFixer(modeler, interaction);
 			fixer.fix();
+			if (fixer.hadFixedErrors()) {
+				GuiUtils.showInfo("Interaction '" + interaction.getLabel()
+						+ "' had order of messages in diagram inconsistent with the order in the model. The model was fixed before checking.", event);
+			}
 			UseCaseChecker checker = new UseCaseChecker(interaction);
 			checker.check();
 			InteractionExtender ie = new InteractionExtender(modeler, checker.getCheckedObject());
