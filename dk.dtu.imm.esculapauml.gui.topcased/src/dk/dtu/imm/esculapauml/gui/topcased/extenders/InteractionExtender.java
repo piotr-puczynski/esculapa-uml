@@ -221,6 +221,11 @@ public class InteractionExtender implements ExtenderInterface {
 
 		if (sourcePrev != null) {
 			GraphEdge prevMessageEdge = (GraphEdge) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), sourcePrev.getMessage(), true);
+			// if we are not finishing an execution
+			// shift down the interaction before we add message to diagram
+			if (targetSpec.getFinish() != message.getReceiveEvent()) {
+				shiftInteractionVerticallyFromY(di, PosUtils.getAbsolutePosition(prevMessageEdge.getAnchor().get(0)).y, distanceBetweenMessages);
+			}
 			if (prevMessageEdge != null) {
 				if (!prevMessageEdge.getAnchor().isEmpty()) {
 					// we have two cases. one when both occurrences are on
@@ -300,11 +305,6 @@ public class InteractionExtender implements ExtenderInterface {
 			targetConnector.getPosition().translate(0, deltaPoint.y);
 		}
 
-		// if we are not finishing an execution
-		// shift down the interaction before we add message to diagram
-		if (targetSpec.getFinish() != message.getReceiveEvent()) {
-			shiftInteractionVerticallyFromY(di, PosUtils.getAbsolutePosition(targetConnector).y, distanceBetweenMessages);
-		}
 		di.getContained().add(edge);
 		setAsPlotted(message);
 	}
@@ -556,7 +556,13 @@ public class InteractionExtender implements ExtenderInterface {
 					if (pos.getTranslated(diNode.getSize()).y > fromY) {
 						diNode.getSize().expand(0, deltaY);
 					}
-					//TODO: add shifting on messages that are on the same BES but lower than fromY
+					for (GraphConnector gc : diNode.getAnchorage()) {
+						Point gcPos = PosUtils.getAbsolutePosition(gc);
+						if (gcPos.y > fromY) {
+							// move a connector down
+							gc.getPosition().translate(0, deltaY);
+						}
+					}
 				}
 			}
 		}
