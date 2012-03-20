@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Simple08">
+    <packagedElement xmi:type="uml:Class" xmi:id="_V6l_ME59EeGfWN6qfI76hw" name="C" classifierBehavior="_gee0sE59EeGfWN6qfI76hw">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_gee0sE59EeGfWN6qfI76hw" name="C Behavior">
+        <region xmi:id="_gee0sU59EeGfWN6qfI76hw" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_hEC_4E59EeGfWN6qfI76hw" name=""/>
+          <subvertex xmi:type="uml:State" xmi:id="_iELnME59EeGfWN6qfI76hw" name="State1"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_i_lfgE59EeGfWN6qfI76hw" name="FinalState1"/>
+          <transition xmi:id="_kIYTkk59EeGfWN6qfI76hw" name="" source="_hEC_4E59EeGfWN6qfI76hw" target="_iELnME59EeGfWN6qfI76hw"/>
+          <transition xmi:id="_kxp6FE59EeGfWN6qfI76hw" name="Transition2" source="_iELnME59EeGfWN6qfI76hw" target="_i_lfgE59EeGfWN6qfI76hw">
+            <trigger xmi:id="_Lx0i8E5-EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_dJbkcE59EeGfWN6qfI76hw" name="m"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Wmol0E59EeGfWN6qfI76hw" name="D" classifierBehavior="_AqJZAE6AEeGfWN6qfI76hw">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_AqJZAE6AEeGfWN6qfI76hw" name="StateMachine">
+        <region xmi:id="_AqJZAU6AEeGfWN6qfI76hw" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_BBuLgE6AEeGfWN6qfI76hw" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_C-0KUE6AEeGfWN6qfI76hw" name="State1"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_F9vZkk6AEeGfWN6qfI76hw" name="FinalState1"/>
+          <transition xmi:id="_J2zV1E6AEeGfWN6qfI76hw" name="Transition1" source="_BBuLgE6AEeGfWN6qfI76hw" target="_C-0KUE6AEeGfWN6qfI76hw"/>
+          <transition xmi:id="_KUIyFU6AEeGfWN6qfI76hw" name="Transition2" source="_C-0KUE6AEeGfWN6qfI76hw" target="_F9vZkk6AEeGfWN6qfI76hw">
+            <trigger xmi:id="_LO2t4E6AEeGfWN6qfI76hw" name="" event="_NehqcE6AEeGfWN6qfI76hw"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_d2k-UE59EeGfWN6qfI76hw" name="s"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_qUDLoE59EeGfWN6qfI76hw" name="Actor"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_t4VxwE59EeGfWN6qfI76hw" name="UseCase1" classifierBehavior="_uwBnsE59EeGfWN6qfI76hw">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_uwBnsE59EeGfWN6qfI76hw" name="UseCase1Detail">
+        <ownedAttribute xmi:id="_6BGTUE59EeGfWN6qfI76hw" name="Property1" type="_qUDLoE59EeGfWN6qfI76hw"/>
+        <ownedAttribute xmi:id="_B8O94E5-EeGfWN6qfI76hw" name="Property2" type="_V6l_ME59EeGfWN6qfI76hw"/>
+        <ownedAttribute xmi:id="_3qm7gHK4EeGmYoIZsFdYXw" name="Property3" type="_Wmol0E59EeGfWN6qfI76hw"/>
+        <ownedConnector xmi:id="_6BGTUU59EeGfWN6qfI76hw" name="Connector1">
+          <end xmi:id="_6BGTUk59EeGfWN6qfI76hw" role="_6BGTUE59EeGfWN6qfI76hw"/>
+          <end xmi:id="_B8Pk8E5-EeGfWN6qfI76hw" role="_B8O94E5-EeGfWN6qfI76hw"/>
+          <end xmi:id="_3qwFcHK4EeGmYoIZsFdYXw" role="_3qm7gHK4EeGmYoIZsFdYXw"/>
+        </ownedConnector>
+        <lifeline xmi:id="_4vZa4E59EeGfWN6qfI76hw" name="Piotr" represents="_6BGTUE59EeGfWN6qfI76hw" coveredBy="_E4xAcE5-EeGfWN6qfI76hw _Dpo64E5-EeGfWN6qfI76hw"/>
+        <lifeline xmi:id="_AdvmoE5-EeGfWN6qfI76hw" name="c" represents="_B8O94E5-EeGfWN6qfI76hw" coveredBy="_E4xAcU5-EeGfWN6qfI76hw _S6sBgHK5EeGmYoIZsFdYXw _ECDa4E5-EeGfWN6qfI76hw"/>
+        <lifeline xmi:id="_1rGh4nK4EeGmYoIZsFdYXw" name="d" represents="_3qm7gHK4EeGmYoIZsFdYXw" coveredBy="_S6sBgXK5EeGmYoIZsFdYXw _RDOwoHK5EeGmYoIZsFdYXw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_S6sBgHK5EeGmYoIZsFdYXw" name="MessageOccurrenceSpecification3" covered="_AdvmoE5-EeGfWN6qfI76hw" event="_S6sBgnK5EeGmYoIZsFdYXw" message="_S61ygHK5EeGmYoIZsFdYXw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_S6sBgXK5EeGmYoIZsFdYXw" name="MessageOccurrenceSpecification4" covered="_1rGh4nK4EeGmYoIZsFdYXw" event="_S6sBgnK5EeGmYoIZsFdYXw" message="_S61ygHK5EeGmYoIZsFdYXw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_E4xAcE5-EeGfWN6qfI76hw" name="MessageOccurrenceSpecification1" covered="_4vZa4E59EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw" message="_E46KYE5-EeGfWN6qfI76hw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_E4xAcU5-EeGfWN6qfI76hw" name="MessageOccurrenceSpecification2" covered="_AdvmoE5-EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw" message="_E46KYE5-EeGfWN6qfI76hw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_Dpo64E5-EeGfWN6qfI76hw" name="BehaviorExecutionSpecification1" covered="_4vZa4E59EeGfWN6qfI76hw" start="_E4xAcE5-EeGfWN6qfI76hw" finish="_E4xAcE5-EeGfWN6qfI76hw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_ECDa4E5-EeGfWN6qfI76hw" name="BehaviorExecutionSpecification2" covered="_AdvmoE5-EeGfWN6qfI76hw" start="_E4xAcU5-EeGfWN6qfI76hw" finish="_S6sBgHK5EeGmYoIZsFdYXw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_RDOwoHK5EeGmYoIZsFdYXw" name="BehaviorExecutionSpecification3" covered="_1rGh4nK4EeGmYoIZsFdYXw" start="_S6sBgXK5EeGmYoIZsFdYXw" finish="_S6sBgXK5EeGmYoIZsFdYXw"/>
+        <message xmi:id="_E46KYE5-EeGfWN6qfI76hw" name="m" receiveEvent="_E4xAcU5-EeGfWN6qfI76hw" sendEvent="_E4xAcE5-EeGfWN6qfI76hw"/>
+        <message xmi:id="_S61ygHK5EeGmYoIZsFdYXw" name="s" receiveEvent="_S6sBgXK5EeGmYoIZsFdYXw" sendEvent="_S6sBgHK5EeGmYoIZsFdYXw"/>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_E4xAck5-EeGfWN6qfI76hw" name="m()" operation="_dJbkcE59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_NehqcE6AEeGfWN6qfI76hw" name="s()" operation="_d2k-UE59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_6GSn4GkBEeGsqbu8LnGTJw" name="c" classifier="_V6l_ME59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_6QjXIGkBEeGsqbu8LnGTJw" name="d" classifier="_Wmol0E59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_S6sBgnK5EeGmYoIZsFdYXw" name="CallEvent1" operation="_d2k-UE59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_j2ghGnLHEeGBePa94PQ8Vg" name="A_&lt;c>_&lt;d>" memberEnd="_j2ghG3LHEeGBePa94PQ8Vg _j2ghHnLHEeGBePa94PQ8Vg">
+      <ownedEnd xmi:id="_j2ghG3LHEeGBePa94PQ8Vg" name="c" type="_V6l_ME59EeGfWN6qfI76hw" association="_j2ghGnLHEeGBePa94PQ8Vg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_j2ghHHLHEeGBePa94PQ8Vg" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_j2ghHXLHEeGBePa94PQ8Vg" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_j2ghHnLHEeGBePa94PQ8Vg" name="d" type="_Wmol0E59EeGfWN6qfI76hw" association="_j2ghGnLHEeGBePa94PQ8Vg">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_j2ghH3LHEeGBePa94PQ8Vg" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_j2ghIHLHEeGBePa94PQ8Vg" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_k-NwBHLHEeGBePa94PQ8Vg" name="InstanceSpecification1" classifier="_j2ghGnLHEeGBePa94PQ8Vg">
+      <slot xmi:id="_k-NwBXLHEeGBePa94PQ8Vg" definingFeature="_j2ghG3LHEeGBePa94PQ8Vg">
+        <value xmi:type="uml:InstanceValue" xmi:id="_k-NwBnLHEeGBePa94PQ8Vg" type="_V6l_ME59EeGfWN6qfI76hw" instance="_6GSn4GkBEeGsqbu8LnGTJw"/>
+      </slot>
+      <slot xmi:id="_k-NwB3LHEeGBePa94PQ8Vg" definingFeature="_j2ghHnLHEeGBePa94PQ8Vg">
+        <value xmi:type="uml:InstanceValue" xmi:id="_k-NwCHLHEeGBePa94PQ8Vg" type="_Wmol0E59EeGfWN6qfI76hw" instance="_6QjXIGkBEeGsqbu8LnGTJw"/>
+      </slot>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>
