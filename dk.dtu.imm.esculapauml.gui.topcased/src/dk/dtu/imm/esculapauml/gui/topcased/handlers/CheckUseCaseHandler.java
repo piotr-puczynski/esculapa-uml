@@ -23,6 +23,7 @@ import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.uml2.uml.Interaction;
 import org.topcased.modeler.editor.Modeler;
@@ -38,16 +39,20 @@ public class CheckUseCaseHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		List<?> elements = GuiUtils.getSelectionModelSubtreeContents(event);
 		Modeler modeler = GuiUtils.getModeler(event);
-		Interaction interaction = GuiUtils.getUMLInteractionArgument(elements);
-		if (null != interaction) {
+		EList<Interaction> interactions = GuiUtils.getUMLInteractionArgument(elements);
+		if(interactions.isEmpty()) {
+			GuiUtils.showError("Selection does not contain any UML2 Interaction elements.", event);
+			return null;
+		}
+		Resource res = GuiUtils.getSelectedResource(event);
+		TopcasedMarkerHelper.deleteMarkers(res);
+		for (Interaction interaction : interactions) {
 			InteractionOrderFixer fixer = new InteractionOrderFixer(modeler, interaction);
 			fixer.fix();
 			UseCaseChecker checker = new UseCaseChecker(interaction);
 			checker.check();
 			InteractionExtender ie = new InteractionExtender(modeler, checker.getCheckedObject());
 			ie.extend();
-			Resource res = GuiUtils.getSelectedResource(event);
-			TopcasedMarkerHelper.deleteMarkers(res);
 			TopcasedMarkerHelper.createMarkers(checker.getDiagnostics(), res);
 			modeler.refreshOutline();
 			modeler.refreshActiveDiagram();
