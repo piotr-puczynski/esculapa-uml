@@ -26,7 +26,8 @@ import org.eclipse.uml2.uml.StateMachine;
 import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
 
 /**
- * Checker for behaviors
+ * Checker for behaviors. It takes care of creating instance executors for given
+ * behavior and also of creating protocol state machines executors if necessary.
  * 
  * @author Piotr J. Puczynski
  * 
@@ -66,16 +67,19 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 
 	/**
 	 * For behavioral type, check the interface realizations and if type
-	 * conforms to the interface.
+	 * conforms to the interface. Prepare cached map of operations to methods
+	 * for protocol state machines executors.
 	 * 
 	 */
 	private void checkInterfaceRealizations() {
 		interfaces = type.getAllImplementedInterfaces();
-		for(Interface interface_: interfaces) {
-			InterfaceRealizationChecker ic = new InterfaceRealizationChecker(this, type, interface_);
-			ic.check();
-			if(!ic.hasErrors()) {
-				interfaceOperationsToMethods.put(interface_, ic.getOperationsToMethods());
+		for (Interface interface_ : interfaces) {
+			InterfaceRealizationChecker irc = new InterfaceRealizationChecker(this, type, interface_);
+			irc.check();
+			if (!irc.hasErrors()) {
+				if (irc.hasValidProtocol()) {
+					interfaceOperationsToMethods.put(interface_, irc.getOperationsToMethods());
+				}
 			}
 		}
 
@@ -98,6 +102,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 	 */
 	public BehaviorExecutor registerInstance(String name) {
 		BehaviorExecutor be = new BehaviorExecutor(this, name);
+		createProtocolStateMachinesExecutors(be.getInstanceSpecification());
 		if (!hasErrors()) {
 			be.prepare();
 		}
@@ -119,5 +124,14 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 
 		return be;
 	}
+	
+	/**
+	 * @param instanceSpecification
+	 */
+	public void createProtocolStateMachinesExecutors(InstanceSpecification instanceSpecification) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

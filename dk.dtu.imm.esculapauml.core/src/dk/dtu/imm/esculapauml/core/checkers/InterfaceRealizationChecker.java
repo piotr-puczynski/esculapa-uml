@@ -64,18 +64,24 @@ public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClass
 	@Override
 	public void check() {
 		checkMethods();
-		checkProtocol();
+		if (!hasErrors()) {
+			checkProtocol();
+		}
 	}
 
 	/**
-	 * 
+	 * Checks the protocol of the interface.
 	 */
 	private void checkProtocol() {
 		ProtocolStateMachine psm = interface_.getProtocol();
-		if(null != psm) {
-			
+		if (null != psm) {
+			ProtocolStateMachineChecker psmc = new ProtocolStateMachineChecker(this, psm);
+			psmc.check();
+			if (!psmc.hasErrors()) {
+				hasValidProtocol = true;
+			}
 		}
-		
+
 	}
 
 	/**
