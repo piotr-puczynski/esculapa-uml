@@ -16,7 +16,9 @@ import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static org.hamcrest.Matchers.equalTo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
@@ -24,6 +26,7 @@ import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.ProtocolStateMachine;
 import org.eclipse.uml2.uml.Type;
 
 /**
@@ -41,6 +44,8 @@ import org.eclipse.uml2.uml.Type;
 public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClassifier> {
 
 	private Interface interface_;
+	private Map<Operation, Operation> operationsToMethods = new HashMap<Operation, Operation>();
+	private boolean hasValidProtocol = false;
 
 	/**
 	 * @param checker
@@ -59,7 +64,18 @@ public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClass
 	@Override
 	public void check() {
 		checkMethods();
+		checkProtocol();
+	}
 
+	/**
+	 * 
+	 */
+	private void checkProtocol() {
+		ProtocolStateMachine psm = interface_.getProtocol();
+		if(null != psm) {
+			
+		}
+		
 	}
 
 	/**
@@ -73,6 +89,7 @@ public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClass
 			boolean hasMethod = false;
 			for (Operation method : methodsWithTheSameName) {
 				if (isIdenticalWith(op, method)) {
+					operationsToMethods.put(op, method);
 					hasMethod = true;
 					break;
 				}
@@ -107,11 +124,11 @@ public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClass
 			for (int i = 0; i < ownedParametersSize; i++) {
 				Type opOwnedParameterType = opOwnedParameters.get(i).getType();
 				Type ownedParameterType = ownedParameters.get(i).getType();
-				
+
 				String opOwnedParameterName = opOwnedParameters.get(i).getName();
-				String ownedParameterName= ownedParameters.get(i).getName();
-				
-				if(!opOwnedParameterName.equals(ownedParameterName)) {
+				String ownedParameterName = ownedParameters.get(i).getName();
+
+				if (!opOwnedParameterName.equals(ownedParameterName)) {
 					return false;
 				}
 
@@ -135,6 +152,23 @@ public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClass
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns map of operations to methods implementing the operations in
+	 * checked classifier.
+	 * 
+	 * @return the operationsToMethods
+	 */
+	public Map<Operation, Operation> getOperationsToMethods() {
+		return operationsToMethods;
+	}
+
+	/**
+	 * @return the hasProtocol
+	 */
+	public boolean hasValidProtocol() {
+		return hasValidProtocol;
 	}
 
 }

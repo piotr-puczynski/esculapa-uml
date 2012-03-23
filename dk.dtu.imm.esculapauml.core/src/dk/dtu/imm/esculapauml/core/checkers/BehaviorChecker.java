@@ -11,12 +11,16 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
 
 import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
@@ -27,10 +31,11 @@ import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
  * @author Piotr J. Puczynski
  * 
  */
-public class BehaviorChecker extends AbstractStateMachineChecker {
+public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 
 	private BehavioredClassifier type;
 	private EList<Interface> interfaces = null;
+	private Map<Interface, Map<Operation, Operation>> interfaceOperationsToMethods = new HashMap<Interface, Map<Operation, Operation>>();
 
 	/**
 	 * @param existingDiagnostics
@@ -69,6 +74,9 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 		for(Interface interface_: interfaces) {
 			InterfaceRealizationChecker ic = new InterfaceRealizationChecker(this, type, interface_);
 			ic.check();
+			if(!ic.hasErrors()) {
+				interfaceOperationsToMethods.put(interface_, ic.getOperationsToMethods());
+			}
 		}
 
 	}

@@ -11,36 +11,37 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
-import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.uml2.uml.Region;
-import org.eclipse.uml2.uml.StateMachine;
+import org.apache.log4j.Logger;
+import org.eclipse.uml2.uml.ProtocolStateMachine;
 
 /**
- * Base class for StateMachine checkers
+ * Checks the protocol state machines. This class is a little relaxed from
+ * syntactical UML notation. We do not require only protocol transitions in
+ * protocol. The reason is some tools do not support them.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public abstract class AbstractStateMachineChecker<T extends StateMachine> extends AbstractChecker<T> {
+public class ProtocolStateMachineChecker extends AbstractStateMachineChecker<ProtocolStateMachine> {
 
 	/**
-	 * @param existingDiagnostics
+	 * @param checker
 	 * @param objectToCheck
 	 */
-	AbstractStateMachineChecker(Checker checker, T objectToCheck) {
+	ProtocolStateMachineChecker(Checker checker, ProtocolStateMachine objectToCheck) {
 		super(checker, objectToCheck);
+		logger = Logger.getLogger(ProtocolStateMachineChecker.class);
 	}
 
-	/**
-	 * Checks whatever any region element exists and then checks regions
+	/*
+	 * (non-Javadoc)
 	 * 
+	 * @see dk.dtu.imm.esculapauml.core.checkers.Checker#check()
 	 */
-	protected void checkRegions() {
-		if (checkee.getRegions().size() == 0) {
-			addProblem(Diagnostic.ERROR, "The StateMachine \"" + checkee.getLabel() + "\" has no regions.");
-		}
-		CollectionChecker<?> cc = new CollectionChecker<Region>(this, checkee.getRegions());
-		cc.check();
+	@Override
+	public void check() {
+		logger.debug(checkee.getLabel() + ": start check");
+		checkRegions();
 	}
 
 }
