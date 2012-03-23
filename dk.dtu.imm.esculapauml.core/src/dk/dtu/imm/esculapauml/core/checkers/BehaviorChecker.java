@@ -13,8 +13,10 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.StateMachine;
 
 import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
@@ -28,6 +30,7 @@ import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
 public class BehaviorChecker extends AbstractStateMachineChecker {
 
 	private BehavioredClassifier type;
+	private EList<Interface> interfaces = null;
 
 	/**
 	 * @param existingDiagnostics
@@ -48,9 +51,24 @@ public class BehaviorChecker extends AbstractStateMachineChecker {
 	@Override
 	public void check() {
 		logger.debug(checkee.getLabel() + ": start check");
+		checkInterfaceRealizations();
 		checkBehavior();
 		if (!hasErrors()) {
 			checkRegions();
+		}
+
+	}
+
+	/**
+	 * For behavioral type, check the interface realizations and if type
+	 * conforms to the interface.
+	 * 
+	 */
+	private void checkInterfaceRealizations() {
+		interfaces = type.getAllImplementedInterfaces();
+		for(Interface interface_: interfaces) {
+			InterfaceRealizationChecker ic = new InterfaceRealizationChecker(this, type, interface_);
+			ic.check();
 		}
 
 	}
