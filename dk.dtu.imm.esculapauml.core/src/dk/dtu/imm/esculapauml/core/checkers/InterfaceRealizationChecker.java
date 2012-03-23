@@ -107,6 +107,13 @@ public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClass
 			for (int i = 0; i < ownedParametersSize; i++) {
 				Type opOwnedParameterType = opOwnedParameters.get(i).getType();
 				Type ownedParameterType = ownedParameters.get(i).getType();
+				
+				String opOwnedParameterName = opOwnedParameters.get(i).getName();
+				String ownedParameterName= ownedParameters.get(i).getName();
+				
+				if(!opOwnedParameterName.equals(ownedParameterName)) {
+					return false;
+				}
 
 				if (opOwnedParameterType == null ? ownedParameterType != null : !opOwnedParameterType.equals(ownedParameterType)) {
 

@@ -22,7 +22,7 @@
       <interfaceRealization xmi:id="_U9hfw3TZEeG5rPbdyfQUYw" name="InterfaceRealization1" supplier="_F1bfQHTZEeG5rPbdyfQUYw" client="_Hokf0DJJEeGjS-_RcLljMA" contract="_F1bfQHTZEeG5rPbdyfQUYw"/>
       <ownedOperation xmi:id="_IeJc8DJJEeGjS-_RcLljMA" name="m"/>
       <ownedOperation xmi:id="_oej2cHTZEeG5rPbdyfQUYw" name="push">
-        <ownedParameter xmi:id="_xuwAsHTfEeG5rPbdyfQUYw" name="obj">
+        <ownedParameter xmi:id="_xuwAsHTfEeG5rPbdyfQUYw" name="object">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
       </ownedOperation>
