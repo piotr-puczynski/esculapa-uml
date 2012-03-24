@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -24,6 +25,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.StateMachine;
 
 import dk.dtu.imm.esculapauml.core.executors.BehaviorExecutor;
+import dk.dtu.imm.esculapauml.core.executors.ProtocolVerifier;
 
 /**
  * Checker for behaviors. It takes care of creating instance executors for given
@@ -36,7 +38,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 
 	private BehavioredClassifier type;
 	private EList<Interface> interfaces = null;
-	private Map<Interface, Map<Operation, Operation>> interfaceOperationsToMethods = new HashMap<Interface, Map<Operation, Operation>>();
+	private Map<Interface, Map<Operation, Operation>> interfacMethodsToOperations = new HashMap<Interface, Map<Operation, Operation>>();
 
 	/**
 	 * @param existingDiagnostics
@@ -78,7 +80,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 			irc.check();
 			if (!irc.hasErrors()) {
 				if (irc.hasValidProtocol()) {
-					interfaceOperationsToMethods.put(interface_, irc.getOperationsToMethods());
+					interfacMethodsToOperations.put(interface_, irc.getMethodsToOperations());
 				}
 			}
 		}
@@ -102,7 +104,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 	 */
 	public BehaviorExecutor registerInstance(String name) {
 		BehaviorExecutor be = new BehaviorExecutor(this, name);
-		createProtocolStateMachinesExecutors(be.getInstanceSpecification());
+		createProtocolVerifiers(be.getInstanceSpecification());
 		if (!hasErrors()) {
 			be.prepare();
 		}
@@ -118,20 +120,26 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 	 */
 	public BehaviorExecutor registerInstance(InstanceSpecification instanceSpecification) {
 		BehaviorExecutor be = new BehaviorExecutor(this, instanceSpecification);
+		createProtocolVerifiers(be.getInstanceSpecification());
 		if (!hasErrors()) {
 			be.prepare();
 		}
 
 		return be;
 	}
-	
+
 	/**
+	 * Creates all protocol state machines verifiers for given instance specification of
+	 * the class of checkee.
+	 * 
 	 * @param instanceSpecification
 	 */
-	public void createProtocolStateMachinesExecutors(InstanceSpecification instanceSpecification) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void createProtocolVerifiers(InstanceSpecification instanceSpecification) {
+		for (Entry<Interface, Map<Operation, Operation>> entry : interfacMethodsToOperations.entrySet()) {
+			ProtocolVerifier pv = new ProtocolVerifier(this, entry.getKey(), instanceSpecification, entry.getValue());
+			pv.prepare();
+		}
 
+	}
 
 }

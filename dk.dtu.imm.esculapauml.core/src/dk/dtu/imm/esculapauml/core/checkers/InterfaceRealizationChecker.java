@@ -44,7 +44,7 @@ import org.eclipse.uml2.uml.Type;
 public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClassifier> {
 
 	private Interface interface_;
-	private Map<Operation, Operation> operationsToMethods = new HashMap<Operation, Operation>();
+	private Map<Operation, Operation> methodsToOperations = new HashMap<Operation, Operation>();
 	private boolean hasValidProtocol = false;
 
 	/**
@@ -95,7 +95,7 @@ public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClass
 			boolean hasMethod = false;
 			for (Operation method : methodsWithTheSameName) {
 				if (isIdenticalWith(op, method)) {
-					operationsToMethods.put(op, method);
+					methodsToOperations.put(method, op);
 					hasMethod = true;
 					break;
 				}
@@ -161,13 +161,12 @@ public class InterfaceRealizationChecker extends AbstractChecker<BehavioredClass
 	}
 
 	/**
-	 * Returns map of operations to methods implementing the operations in
-	 * checked classifier.
+	 * Returns map of implementing methods to operations in checked classifier.
 	 * 
-	 * @return the operationsToMethods
+	 * @return the methodsToOperations
 	 */
-	public Map<Operation, Operation> getOperationsToMethods() {
-		return operationsToMethods;
+	public Map<Operation, Operation> getMethodsToOperations() {
+		return methodsToOperations;
 	}
 
 	/**
