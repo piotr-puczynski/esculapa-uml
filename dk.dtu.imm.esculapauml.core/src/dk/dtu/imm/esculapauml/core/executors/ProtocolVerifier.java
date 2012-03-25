@@ -11,7 +11,9 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -23,13 +25,19 @@ import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ProtocolStateMachine;
+import org.eclipse.uml2.uml.Region;
+import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
+import org.eclipse.uml2.uml.Vertex;
+
+import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
+import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
  * Verifies protocol state machines by observing the system execution and
@@ -44,6 +52,8 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	private Map<Operation, Operation> methodsToOperations;
 	private EList<Operation> unreferredOperations;
 	private ProtocolStateMachine protocol;
+	private Set<Vertex> activeConfiguration = new HashSet<Vertex>();
+	private OperationVerifier currentOperation = null;
 
 	/**
 	 * @param checker
@@ -65,6 +75,12 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	public void prepare() {
 		calculateUnrefferedOperations();
 		checker.getSystemState().getCoordinator().addExecutionListener(this);
+
+		activeConfiguration.clear();
+		// enable initials
+		for (Region r : protocol.getRegions()) {
+			activeConfiguration.add(StateMachineUtils.getInitial(r));
+		}
 	}
 
 	/**
@@ -126,7 +142,22 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	 */
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
-		// TODO Auto-generated method stub
+		// check if this is event targeted for our instance
+		if (event.getTarget().getInstanceSpecification() == instanceSpecification) {
+			// get the operation of the interface based on called method
+			Operation operation = methodsToOperations.get(event.getOperation());
+			if (null != operation) {
+				// this is one of interface operations
+				if (!unreferredOperations.contains(operation)) {
+					// this is operation that is relevant for PSM
+					if(null == currentOperation) {
+						currentOperation = new OperationVerifier(this, event.getTarget());
+					}
+					currentOperation.preCall(operation);
+				}
+			}
+
+		}
 
 	}
 
@@ -140,7 +171,7 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	 */
 	@Override
 	public void replyEventOccurred(EsculapaReplyEvent event) {
-		// TODO Auto-generated method stub
+		// ignore
 
 	}
 
@@ -157,6 +188,20 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * @return the protocol
+	 */
+	public ProtocolStateMachine getProtocol() {
+		return protocol;
+	}
+
+	/**
+	 * @return the activeConfiguration
+	 */
+	public Set<Vertex> getActiveConfiguration() {
+		return activeConfiguration;
 	}
 
 }

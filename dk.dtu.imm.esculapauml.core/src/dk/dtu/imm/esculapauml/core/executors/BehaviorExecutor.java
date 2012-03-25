@@ -114,7 +114,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		// dispatch completion event
 		TransitionReplyChecker trc = new TransitionReplyChecker(checker, null, null);
 		trc.setAllowedToHaveReply(false);
-		calculateEnabledTransitions(trc);
+		recalculateActiveState(trc);
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * step.
 	 * 
 	 */
-	protected void calculateEnabledTransitions(TransitionReplyChecker trc) {
+	protected void recalculateActiveState(TransitionReplyChecker trc) {
 		// check for empty transitions and fire them
 		boolean hasCompletionTransitions;
 		// for loops detection
@@ -230,7 +230,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			trc.setAcceptReplies(isSynchronous);
 			fireTransition(trc);
 			// dispatch completion event
-			calculateEnabledTransitions(trc);
+			recalculateActiveState(trc);
 			ValueSpecification result = trc.getReply();
 
 			if (isSynchronous) {
