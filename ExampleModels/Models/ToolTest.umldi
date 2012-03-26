@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_nABO4GkzEeGnAqvLCl25Lw" activeDiagram="_ZbPB8Wk4EeGnAqvLCl25Lw">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_nABO4GkzEeGnAqvLCl25Lw" activeDiagram="_Ep6gY2k-EeGnAqvLCl25Lw">
   <model href="ToolTest.uml#_w8IxIM37EdqwVrslYOdUDA"/>
-  <diagrams xmi:id="_nABO4WkzEeGnAqvLCl25Lw" position="0,0" size="100,100" name="ToolTest" viewport="0,0">
+  <diagrams xmi:id="_nABO4WkzEeGnAqvLCl25Lw" position="0,0" size="100,100" name="ToolTest" viewport="20,0">
     <property xmi:id="_nAUJ0GkzEeGnAqvLCl25Lw" key="pageFormatName" value="A0"/>
     <property xmi:id="_nAUJ0WkzEeGnAqvLCl25Lw" key="diagramWidth" value="3364"/>
     <property xmi:id="_nAUJ0mkzEeGnAqvLCl25Lw" key="diagramHeight" value="4756"/>
@@ -792,7 +792,7 @@
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_GzxesWnUEeGWfINm-Iyg7w" presentation="default">
             <element href="ToolTest.uml#_GzxetGnUEeGWfINm-Iyg7w"/>
           </semanticModel>
-          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_GzxesmnUEeGWfINm-Iyg7w" id="nameEdgeObject" offset="161,-25"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_GzxesmnUEeGWfINm-Iyg7w" id="nameEdgeObject" offset="26,-18"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_Gzxes2nUEeGWfINm-Iyg7w" visible="false" id="TransitionStereotypeEdgeObject"/>
           <waypoints>[71, -82, 71, -82]</waypoints>
           <waypoints>[132, -72, 132, -72]</waypoints>

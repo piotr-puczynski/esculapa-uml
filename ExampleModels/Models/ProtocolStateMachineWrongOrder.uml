@@ -49,7 +49,7 @@
           <end xmi:id="_o4c6MDJLEeGjS-_RcLljMA"/>
           <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
         </ownedConnector>
-        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_Fi0z8DJMEeGjS-_RcLljMA _ir7CEHdNEeG2FILbUowqCQ _nJy7kHdNEeG2FILbUowqCQ _SOTS8DJKEeGjS-_RcLljMA _fbhBQHdNEeG2FILbUowqCQ _gYPIMHdNEeG2FILbUowqCQ"/>
+        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Piotr" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_Fi0z8DJMEeGjS-_RcLljMA _ir7CEHdNEeG2FILbUowqCQ _nJy7kHdNEeG2FILbUowqCQ _SOTS8DJKEeGjS-_RcLljMA _fbhBQHdNEeG2FILbUowqCQ _gYPIMHdNEeG2FILbUowqCQ"/>
         <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="c" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_Fi1bADJMEeGjS-_RcLljMA _ir7pIHdNEeG2FILbUowqCQ _nJy7kXdNEeG2FILbUowqCQ _0ZLLYDJLEeGjS-_RcLljMA _f8oKQHdNEeG2FILbUowqCQ _gqn4sHdNEeG2FILbUowqCQ"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_nJy7kHdNEeG2FILbUowqCQ" name="MessageOccurrenceSpecification5" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_nJzioHdNEeG2FILbUowqCQ" message="_nJzioXdNEeG2FILbUowqCQ"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_nJy7kXdNEeG2FILbUowqCQ" name="MessageOccurrenceSpecification6" covered="_o900UDJJEeGjS-_RcLljMA" event="_nJzioHdNEeG2FILbUowqCQ" message="_nJzioXdNEeG2FILbUowqCQ"/>
