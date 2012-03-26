@@ -65,8 +65,9 @@ public class PathsChecker {
 		if (states.isEmpty()) {
 			executor.getChecker().addOtherProblem(
 					Diagnostic.ERROR,
-					"Operation '" + operation.getLabel() + "' cannot be executed according to PSM '" + protocolVerifier.getProtocol().getLabel()
-							+ "' (pre-state) specified in context of interface '" + protocolVerifier.getInterface().getLabel() + "'.", errorContext);
+					"Operation '" + operation.getLabel() + "' cannot be executed by instance '" + executor.getInstanceName() + "' according to PSM '"
+							+ protocolVerifier.getProtocol().getLabel() + "' (pre-state) specified in context of interface '"
+							+ protocolVerifier.getInterface().getLabel() + "'.", errorContext);
 		}
 	}
 
