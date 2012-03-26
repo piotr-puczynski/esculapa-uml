@@ -106,13 +106,6 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 
 	}
 
-	/**
-	 * @return the interface_
-	 */
-	public Interface getInterface() {
-		return interface_;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -164,7 +157,7 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	 */
 	@Override
 	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
-		// TODO Auto-generated method stub
+		// TODO implement post calls
 
 	}
 
@@ -173,6 +166,13 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	 */
 	public ProtocolStateMachine getProtocol() {
 		return protocol;
+	}
+	
+	/**
+	 * @return the interface_
+	 */
+	public Interface getInterface() {
+		return interface_;
 	}
 
 }
