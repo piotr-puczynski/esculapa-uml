@@ -291,7 +291,7 @@
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_AO8iMGlEEeGnAqvLCl25Lw" name="reply false;"/>
           </transition>
           <transition xmi:id="_GzxetGnUEeGWfINm-Iyg7w" name="Transition6" source="_FiJv8Gk-EeGnAqvLCl25Lw" target="_FiJv8Gk-EeGnAqvLCl25Lw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_TN0kkGnUEeGWfINm-Iyg7w" name="reply `registredTags->select(tag | tag.id=tagId)->asSequence()->first()`"/>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_TN0kkGnUEeGWfINm-Iyg7w" name="reply ocl(`registredTags->select(tag | tag.id=tagId)->asSequence()->first()`)"/>
             <trigger xmi:id="_K23gsGnUEeGWfINm-Iyg7w" name="" event="_NLAtkGnUEeGWfINm-Iyg7w"/>
           </transition>
         </region>
