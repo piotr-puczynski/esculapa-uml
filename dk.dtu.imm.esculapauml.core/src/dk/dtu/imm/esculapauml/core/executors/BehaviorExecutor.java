@@ -212,16 +212,19 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
 						+ operation.getLabel() + "\". Event is lost.", errorContext);
 				// asynchronous call returns immediately
-				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, operation);
+				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
 				checker.getSystemState().getCoordinator().fireEvent(ecrce);
 			}
 		} else {
 			// dispatch new execution event
-			EsculapaCallEvent ece = new EsculapaCallEvent(source, this, operation, arguments, isSynchronous);
+			EsculapaCallEvent ece = new EsculapaCallEvent(source, errorContext, this, operation, arguments, isSynchronous);
 			checker.getSystemState().getCoordinator().fireEvent(ece);
+			if (checker.hasErrors()) {
+				return null;
+			}
 			if (!isSynchronous) {
 				// asynchronous call returns immediately
-				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, operation);
+				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
 				checker.getSystemState().getCoordinator().fireEvent(ecrce);
 			}
 
@@ -235,10 +238,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 
 			if (isSynchronous) {
 				// dispatch new reply event
-				EsculapaReplyEvent ere = new EsculapaReplyEvent(this, operation, result, ece.getSequenceId());
+				EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, result, ece.getSequenceId());
 				checker.getSystemState().getCoordinator().fireEvent(ere);
 				// synchronous control flow returned here
-				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, operation);
+				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
 				checker.getSystemState().getCoordinator().fireEvent(ecrce);
 				return result;
 			}

@@ -13,6 +13,8 @@ package dk.dtu.imm.esculapauml.core.executors.coordination;
 
 import java.util.EventObject;
 
+import org.eclipse.uml2.uml.Element;
+
 /**
  * Base class for all sequenced events.
  * 
@@ -26,12 +28,14 @@ public abstract class EsculapaEvent extends EventObject {
 	 */
 	private static final long serialVersionUID = 1L;
 	private long sequenceId;
+	private Element errorContext;
 
 	/**
 	 * @param source
 	 */
-	public EsculapaEvent(Object source) {
+	public EsculapaEvent(Object source, Element errorContext) {
 		super(source);
+		this.errorContext = errorContext;
 	}
 
 	/**
@@ -47,6 +51,13 @@ public abstract class EsculapaEvent extends EventObject {
 	 */
 	public void setSequenceId(long sequenceId) {
 		this.sequenceId = sequenceId;
+	}
+
+	/**
+	 * @return the errorContext
+	 */
+	public Element getErrorContext() {
+		return errorContext;
 	}
 
 }

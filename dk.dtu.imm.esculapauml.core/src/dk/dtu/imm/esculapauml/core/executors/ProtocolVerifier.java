@@ -11,9 +11,8 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import java.util.HashSet;
+
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -21,23 +20,17 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.CallEvent;
-import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ProtocolStateMachine;
-import org.eclipse.uml2.uml.Region;
-import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
-import org.eclipse.uml2.uml.Vertex;
-
-import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
-import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
+import dk.dtu.imm.esculapauml.core.executors.protocols.PathsChecker;
 
 /**
  * Verifies protocol state machines by observing the system execution and
@@ -47,21 +40,20 @@ import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
  * 
  */
 public class ProtocolVerifier extends AbstractExecutor implements ExecutionListener {
-	private InstanceSpecification instanceSpecification;
+	private InstanceExecutor instanceExecutor;
 	private Interface interface_;
 	private Map<Operation, Operation> methodsToOperations;
 	private EList<Operation> unreferredOperations;
 	private ProtocolStateMachine protocol;
-	private Set<Vertex> activeConfiguration = new HashSet<Vertex>();
-	private OperationVerifier currentOperation = null;
+	private PathsChecker pathsChecker = null;
 
 	/**
 	 * @param checker
 	 */
-	public ProtocolVerifier(Checker checker, Interface interface_, InstanceSpecification instanceSpecification, Map<Operation, Operation> methodsToOperations) {
+	public ProtocolVerifier(Checker checker, Interface interface_, InstanceExecutor instanceExecutor, Map<Operation, Operation> methodsToOperations) {
 		super(checker);
 		this.interface_ = interface_;
-		this.instanceSpecification = instanceSpecification;
+		this.instanceExecutor = instanceExecutor;
 		this.methodsToOperations = methodsToOperations;
 		protocol = interface_.getProtocol();
 	}
@@ -75,12 +67,8 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	public void prepare() {
 		calculateUnrefferedOperations();
 		checker.getSystemState().getCoordinator().addExecutionListener(this);
-
-		activeConfiguration.clear();
-		// enable initials
-		for (Region r : protocol.getRegions()) {
-			activeConfiguration.add(StateMachineUtils.getInitial(r));
-		}
+		pathsChecker = new PathsChecker(this, instanceExecutor);
+		pathsChecker.initiate();
 	}
 
 	/**
@@ -119,13 +107,6 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	}
 
 	/**
-	 * @return the instanceSpecification
-	 */
-	public InstanceSpecification getInstanceSpecification() {
-		return instanceSpecification;
-	}
-
-	/**
 	 * @return the interface_
 	 */
 	public Interface getInterface() {
@@ -143,17 +124,14 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
 		// check if this is event targeted for our instance
-		if (event.getTarget().getInstanceSpecification() == instanceSpecification) {
+		if (event.getTarget().getInstanceSpecification() == instanceExecutor.getInstanceSpecification()) {
 			// get the operation of the interface based on called method
 			Operation operation = methodsToOperations.get(event.getOperation());
 			if (null != operation) {
 				// this is one of interface operations
 				if (!unreferredOperations.contains(operation)) {
 					// this is operation that is relevant for PSM
-					if(null == currentOperation) {
-						currentOperation = new OperationVerifier(this, event.getTarget());
-					}
-					currentOperation.preCall(operation);
+					pathsChecker.preCall(operation, event.getErrorContext());
 				}
 			}
 
@@ -195,13 +173,6 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	 */
 	public ProtocolStateMachine getProtocol() {
 		return protocol;
-	}
-
-	/**
-	 * @return the activeConfiguration
-	 */
-	public Set<Vertex> getActiveConfiguration() {
-		return activeConfiguration;
 	}
 
 }

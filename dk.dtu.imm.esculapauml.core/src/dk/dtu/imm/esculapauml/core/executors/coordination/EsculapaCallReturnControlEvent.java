@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
@@ -32,8 +33,8 @@ public class EsculapaCallReturnControlEvent extends EsculapaEvent {
 	/**
 	 * @param source
 	 */
-	public EsculapaCallReturnControlEvent(InstanceExecutor source, Operation operation) {
-		super(source);
+	public EsculapaCallReturnControlEvent(InstanceExecutor source, Element errorContext, Operation operation) {
+		super(source, errorContext);
 		this.operation = operation;
 	}
 

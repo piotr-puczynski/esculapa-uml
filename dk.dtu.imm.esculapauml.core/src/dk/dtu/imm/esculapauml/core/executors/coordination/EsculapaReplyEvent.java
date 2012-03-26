@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
+import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
 
@@ -42,8 +43,8 @@ public class EsculapaReplyEvent extends EsculapaEvent {
 	/**
 	 * @param source
 	 */
-	public EsculapaReplyEvent(InstanceExecutor source, Operation operation, ValueSpecification result, long initiatingCallSequenceNumber) {
-		super(source);
+	public EsculapaReplyEvent(InstanceExecutor source, Element errorContext, Operation operation, ValueSpecification result, long initiatingCallSequenceNumber) {
+		super(source, errorContext);
 		this.operation = operation;
 		this.result = result;
 		this.initiatingCallSequenceNumber = initiatingCallSequenceNumber;

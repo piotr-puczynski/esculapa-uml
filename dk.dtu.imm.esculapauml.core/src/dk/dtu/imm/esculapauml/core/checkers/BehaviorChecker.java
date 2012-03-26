@@ -104,7 +104,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 	 */
 	public BehaviorExecutor registerInstance(String name) {
 		BehaviorExecutor be = new BehaviorExecutor(this, name);
-		createProtocolVerifiers(be.getInstanceSpecification());
+		createProtocolVerifiers(be);
 		if (!hasErrors()) {
 			be.prepare();
 		}
@@ -120,7 +120,7 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 	 */
 	public BehaviorExecutor registerInstance(InstanceSpecification instanceSpecification) {
 		BehaviorExecutor be = new BehaviorExecutor(this, instanceSpecification);
-		createProtocolVerifiers(be.getInstanceSpecification());
+		createProtocolVerifiers(be);
 		if (!hasErrors()) {
 			be.prepare();
 		}
@@ -132,11 +132,11 @@ public class BehaviorChecker extends AbstractStateMachineChecker<StateMachine> {
 	 * Creates all protocol state machines verifiers for given instance specification of
 	 * the class of checkee.
 	 * 
-	 * @param instanceSpecification
+	 * @param be
 	 */
-	public void createProtocolVerifiers(InstanceSpecification instanceSpecification) {
+	public void createProtocolVerifiers(BehaviorExecutor be) {
 		for (Entry<Interface, Map<Operation, Operation>> entry : interfacMethodsToOperations.entrySet()) {
-			ProtocolVerifier pv = new ProtocolVerifier(this, entry.getKey(), instanceSpecification, entry.getValue());
+			ProtocolVerifier pv = new ProtocolVerifier(this, entry.getKey(), be, entry.getValue());
 			pv.prepare();
 		}
 
