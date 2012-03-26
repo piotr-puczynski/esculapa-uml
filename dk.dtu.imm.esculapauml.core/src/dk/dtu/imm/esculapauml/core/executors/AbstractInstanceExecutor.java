@@ -165,6 +165,18 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * org.eclipse.uml2.uml.Element)
 	 */
 	public boolean setVariable(String name, ValueSpecification value, Element errorContext) {
+		return setVariable(name, 0, value, errorContext);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#setVariable(java
+	 * .lang.String, int, org.eclipse.uml2.uml.ValueSpecification,
+	 * org.eclipse.uml2.uml.Element)
+	 */
+	public boolean setVariable(String name, int index, ValueSpecification value, Element errorContext) {
 		ValueSpecification valueToSet = EcoreUtil.copy(value);
 		Property prop = findPropertyFor(name);
 		if (null == prop) {
@@ -193,13 +205,18 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			slot.setDefiningFeature(prop);
 		} else {
 			slot = slots.get(0);
-			// check for value name (for multiplicity many values)
-			List<ValueSpecification> values = filter(having(on(ValueSpecification.class).getName(), equalTo(value.getName())), slot.getValues());
-			if (!values.isEmpty()) {
-				slot.getValues().removeAll(values);
-			}
 		}
-		slot.getValues().add(valueToSet);
+		if (index < slot.getValues().size()) {
+			// remove old value
+			slot.getValues().remove(index);
+		}
+		if (index < 0 || index > slot.getValues().size()) {
+			checker.addOtherProblem(Diagnostic.ERROR, "Array out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
+					errorContext);
+			return false;
+		} else {
+			slot.getValues().add(index, valueToSet);
+		}
 		return true;
 	}
 
@@ -211,7 +228,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * .lang.String)
 	 */
 	public ValueSpecification getVariable(String name) {
-		return getVariable(name, null);
+		return getVariable(name, 0);
 	}
 
 	/*
@@ -219,28 +236,20 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getVariable(java
-	 * .lang.String, java.lang.String)
+	 * .lang.String, int)
 	 */
-	public ValueSpecification getVariable(String name, String valueName) {
+	public ValueSpecification getVariable(String name, int index) {
 		List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature().getName(), equalTo(name)), instanceSpecification.getSlots());
 		if (slots.isEmpty()) {
 			return null;
 		} else {
-			if (null == valueName) {
-				// single multiplicity value
-				if (slots.get(0).getValues().isEmpty()) {
-					return null;
-				} else {
-					return slots.get(0).getValues().get(0);
-				}
+			if (index >= slots.get(0).getValues().size()) {
+				// checker.addOtherProblem(Diagnostic.ERROR,
+				// "Read of variable '" + name + "' out of bounds (" +
+				// String.valueOf(index) + ").", errorContext);
+				return null;
 			} else {
-				// multi multiplicity value
-				List<ValueSpecification> values = filter(having(on(ValueSpecification.class).getName(), equalTo(valueName)), slots.get(0).getValues());
-				if (values.isEmpty()) {
-					return null;
-				} else {
-					return values.get(0);
-				}
+				return slots.get(0).getValues().get(index);
 			}
 		}
 	}

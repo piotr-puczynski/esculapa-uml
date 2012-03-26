@@ -49,6 +49,19 @@ public interface InstanceExecutor extends Executor {
 	 *         variable was not set.
 	 */
 	boolean setVariable(String name, ValueSpecification value, Element errorContext);
+	
+	/**
+	 * Sets local variable (for arrays).
+	 * 
+	 * @param name
+	 * @param value
+	 * @param errorContext
+	 *            context of the possible type error to display.
+	 * 
+	 * @return true if set successfully or false if type check failed and
+	 *         variable was not set.
+	 */
+	boolean setVariable(String name, int index, ValueSpecification value, Element errorContext);
 
 	/**
 	 * Gets local variable.
@@ -57,6 +70,15 @@ public interface InstanceExecutor extends Executor {
 	 * @return value if variable was found or null if it was not.
 	 */
 	ValueSpecification getVariable(String name);
+	
+	/**
+	 * Gets local variable with index (for arrays).
+	 * 
+	 * @param name
+	 * @param index
+	 * @return
+	 */
+	ValueSpecification getVariable(String name, int index);
 
 	/**
 	 * Returns the operation based on name or null if operation is not declared.
@@ -96,15 +118,6 @@ public interface InstanceExecutor extends Executor {
 	 */
 	ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments,
 			boolean isSynchronous, Element errorContext);
-
-	/**
-	 * Gets local variable. ValueName is null for single multiplicity variables.
-	 * 
-	 * @param name
-	 * @param valueName
-	 * @return
-	 */
-	ValueSpecification getVariable(String name, String valueName);
 
 	/**
 	 * Gets the original class of the instance type.
