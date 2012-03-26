@@ -30,7 +30,7 @@ import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
  * Helper class that helps to evaluate protocol transitions during protocol
- * verification. Uses model checking technique to find the valid paths.
+ * verification. Keeps all valid paths in PSM and eliminates invalid ones.
  * 
  * @author Piotr J. Puczynski
  * 
@@ -119,7 +119,7 @@ public class PathsChecker {
 	public ProtocolVerifier getProtocolVerifier() {
 		return protocolVerifier;
 	}
-	
+
 	/**
 	 * Creates new state of PSM based on given state and going to transition.
 	 * 
@@ -131,7 +131,9 @@ public class PathsChecker {
 	}
 
 	/**
-	 * Creates new state of PSM based on given configuration and going to transition.
+	 * Creates new state of PSM based on given configuration and going to
+	 * transition.
+	 * 
 	 * @param value
 	 * @param key
 	 */
