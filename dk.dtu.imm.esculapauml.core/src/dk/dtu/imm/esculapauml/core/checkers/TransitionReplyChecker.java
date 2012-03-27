@@ -132,7 +132,14 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 	 */
 	@Override
 	public void check() {
-		// nothing to check
+		if (isAllowedToHaveReply()) {
+			if (isAcceptingReplies()) {
+				if (null != returnType && null == reply) {
+					addProblem(Diagnostic.ERROR, "Missing reply statement for operation '" + operation.getName()
+							+ "'. The operation must return value of type '" + returnType.getName() + "'.");
+				}
+			}
+		}
 	}
 
 	/**

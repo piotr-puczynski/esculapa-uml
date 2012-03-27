@@ -235,8 +235,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			// dispatch completion event
 			recalculateActiveState(trc);
 			ValueSpecification result = trc.getReply();
+			trc.check();
 
-			if (isSynchronous) {
+			if (isSynchronous && !trc.hasErrors()) {
 				// dispatch new reply event
 				EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, result, ece.getSequenceId());
 				checker.getSystemState().getCoordinator().fireEvent(ere);

@@ -79,6 +79,8 @@ public class PathsAnalyzer {
 	 * @param event
 	 */
 	public void postCall(Operation operation, EsculapaReplyEvent event) {
+		// add result of operation so that it could be evaluated by potential result in post-conditions
+		
 		for (PSMState psmState : states) {
 			psmState.postCall(event);
 		}
