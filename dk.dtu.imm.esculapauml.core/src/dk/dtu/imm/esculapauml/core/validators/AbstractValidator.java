@@ -12,17 +12,20 @@
 package dk.dtu.imm.esculapauml.core.validators;
 
 import org.eclipse.uml2.uml.Constraint;
+import org.eclipse.uml2.uml.Element;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public abstract class AbstractValidator implements Validator {
 
 	protected InstanceExecutor executor;
 	protected Constraint constraint;
+	protected Element errorContext;
+
 	/**
 	 * @param executor
 	 * @param constraint
@@ -31,16 +34,28 @@ public abstract class AbstractValidator implements Validator {
 		super();
 		this.executor = executor;
 		this.constraint = constraint;
+		// default error context
+		errorContext = constraint.getOwner();
 	}
-	
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dk.dtu.imm.esculapauml.core.validators.Validator#getConstraint()
 	 */
 	public Constraint getConstraint() {
 		return constraint;
 	}
-	
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.validators.Validator#setErrorContext(org.
+	 * eclipse.uml2.uml.Element)
+	 */
+	public void setErrorContext(Element errorContext) {
+		this.errorContext = errorContext;
+	}
 
 }

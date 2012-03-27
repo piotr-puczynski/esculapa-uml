@@ -358,6 +358,9 @@ public class PSMState {
 				c.setSpecification(getOCLFromEffect((OpaqueBehavior) transition.getEffect()));
 			}
 			validator = ValidatorsFactory.getInstance().getValidatorFor(pathsAnalyzer.getExecutor(), c);
+			// necessary to set error context as evaluation is on element in the
+			// model
+			validator.setErrorContext(transition);
 		}
 		if (null != validator) {
 			if (!validator.validateConstraint()) {

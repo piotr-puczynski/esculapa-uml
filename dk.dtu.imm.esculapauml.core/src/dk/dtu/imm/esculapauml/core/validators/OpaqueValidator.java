@@ -53,18 +53,19 @@ public class OpaqueValidator extends AbstractValidator implements Validator {
 	@Override
 	public boolean validateConstraint() {
 		if (specification.getBodies().isEmpty()) {
-			executor.getChecker().addOtherProblem(Diagnostic.WARNING, "OpaqueExpression specified as a constraint has no bodies.", constraint.getOwner());
+			executor.getChecker().addOtherProblem(Diagnostic.WARNING, "OpaqueExpression specified as a constraint has no bodies.", errorContext);
 			return true;
 		}
 		if (specification.getBodies().size() != specification.getLanguages().size()) {
-			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OpaqueExpression specified as a constraint has different number of bodies than languages.", constraint.getOwner());
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OpaqueExpression specified as a constraint has different number of bodies than languages.", errorContext);
 			return false;
 		}
 		if(!filter(not(equalToIgnoringCase("ocl")), specification.getLanguages()).isEmpty()) {
-			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OpaqueExpression specified as a constraint has unrecognized languages.", constraint.getOwner());
+			executor.getChecker().addOtherProblem(Diagnostic.ERROR, "OpaqueExpression specified as a constraint has unrecognized languages.", errorContext);
 			return false;
 		}
 		OCLValidator ocl = new OCLValidator(executor, constraint);
+		ocl.setErrorContext(errorContext);
 		return ocl.validateConstraint();
 	}
 
