@@ -49,7 +49,7 @@ public interface InstanceExecutor extends Executor {
 	 *         variable was not set.
 	 */
 	boolean setVariable(String name, ValueSpecification value, Element errorContext);
-	
+
 	/**
 	 * Sets local variable (for arrays).
 	 * 
@@ -70,7 +70,7 @@ public interface InstanceExecutor extends Executor {
 	 * @return value if variable was found or null if it was not.
 	 */
 	ValueSpecification getVariable(String name);
-	
+
 	/**
 	 * Gets local variable with index (for arrays).
 	 * 
@@ -79,6 +79,17 @@ public interface InstanceExecutor extends Executor {
 	 * @return
 	 */
 	ValueSpecification getVariable(String name, int index);
+
+	/**
+	 * Removes local variable.
+	 * 
+	 * @param name
+	 * @param removeDeclaringModelElement
+	 *            if true will also remove declaration of corresponding property
+	 *            from the class
+	 * @return true if the variable was removed successfully
+	 */
+	boolean removeVariable(String name, boolean removeDeclaringModelElement);
 
 	/**
 	 * Returns the operation based on name or null if operation is not declared.

@@ -79,12 +79,21 @@ public class PathsAnalyzer {
 	 * @param event
 	 */
 	public void postCall(Operation operation, EsculapaReplyEvent event) {
-		// add result of operation so that it could be evaluated by potential result in post-conditions
-		
+		// add result of operation so that it could be evaluated by potential
+		// result in post-conditions
+		if (null != event.getResult()) {
+			executor.setVariable("result", event.getResult(), event.getErrorContext());
+		}
+
 		for (PSMState psmState : states) {
 			psmState.postCall(event);
 		}
 		eliminateDuplicatedAndTerminatedStates();
+
+		// delete result if necessary
+		if (null != event.getResult()) {
+			executor.removeVariable("result", true);
+		}
 
 		if (states.isEmpty()) {
 			executor.getChecker().addOtherProblem(

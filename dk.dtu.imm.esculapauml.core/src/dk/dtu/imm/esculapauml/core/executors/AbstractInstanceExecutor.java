@@ -258,6 +258,30 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * (non-Javadoc)
 	 * 
 	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#removeVariable
+	 * (java.lang.String, boolean)
+	 */
+	public boolean removeVariable(String name, boolean removeDeclaringModelElement) {
+		List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature().getName(), equalTo(name)), instanceSpecification.getSlots());
+		if (slots.isEmpty()) {
+			return false;
+		} else {
+			Slot slot = slots.get(0);
+			EcoreUtil.delete(slot, true);
+			if(removeDeclaringModelElement) {
+				Property prop = findPropertyFor(name);
+				if (null != prop) {
+					EcoreUtil.delete(prop, true);
+				}
+			}
+			return true;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
 	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getOperationByName
 	 * (java.lang.String)
 	 */
@@ -297,11 +321,9 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 */
 	protected Property findPropertyFor(String name) {
 		List<Property> properties = new ArrayList<Property>();
-
-		if (properties.isEmpty()) {
-			// class variable or new local variable
-			properties = filter(having(on(Property.class).getName(), equalTo(name)), originalClass.getAllAttributes());
-		}
+		// class variable or new local variable
+		properties = filter(having(on(Property.class).getName(), equalTo(name)), originalClass.getAllAttributes());
+		
 		if (properties.isEmpty()) {
 			// class association
 			for (Association assoc : originalClass.getAssociations()) {
@@ -320,6 +342,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				}
 			}
 		}
+		
 		if (properties.isEmpty()) {
 			return null;
 		} else {
