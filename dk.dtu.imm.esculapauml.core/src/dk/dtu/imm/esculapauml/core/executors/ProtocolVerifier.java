@@ -11,7 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -30,7 +29,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
-import dk.dtu.imm.esculapauml.core.executors.protocols.PathsChecker;
+import dk.dtu.imm.esculapauml.core.executors.protocols.PathsAnalyzer;
 
 /**
  * Verifies protocol state machines by observing the system execution and
@@ -45,7 +44,7 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	private Map<Operation, Operation> methodsToOperations;
 	private EList<Operation> unreferredOperations;
 	private ProtocolStateMachine protocol;
-	private PathsChecker pathsChecker = null;
+	private PathsAnalyzer pathsAnalyzer = null;
 
 	/**
 	 * @param checker
@@ -67,8 +66,8 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	public void prepare() {
 		calculateUnrefferedOperations();
 		checker.getSystemState().getCoordinator().addExecutionListener(this);
-		pathsChecker = new PathsChecker(this, instanceExecutor);
-		pathsChecker.initiate();
+		pathsAnalyzer = new PathsAnalyzer(this, instanceExecutor);
+		pathsAnalyzer.initiate();
 	}
 
 	/**
@@ -124,7 +123,7 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 				// this is one of interface operations
 				if (!unreferredOperations.contains(operation)) {
 					// this is operation that is relevant for PSM
-					pathsChecker.preCall(operation, event.getErrorContext());
+					pathsAnalyzer.preCall(operation, event);
 				}
 			}
 
@@ -142,8 +141,19 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	 */
 	@Override
 	public void replyEventOccurred(EsculapaReplyEvent event) {
-		// ignore
+		// check if this is event that comes from our instance
+		if (event.getSource().getInstanceSpecification() == instanceExecutor.getInstanceSpecification()) {
+			// get the operation of the interface based on called method
+			Operation operation = methodsToOperations.get(event.getOperation());
+			if (null != operation) {
+				// this is one of interface operations
+				if (!unreferredOperations.contains(operation)) {
+					// this is operation that is relevant for PSM
+					pathsAnalyzer.postCall(operation, event);
+				}
+			}
 
+		}
 	}
 
 	/*
@@ -157,8 +167,7 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	 */
 	@Override
 	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
-		// TODO implement post calls
-
+		// ignore
 	}
 
 	/**
@@ -167,7 +176,7 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 	public ProtocolStateMachine getProtocol() {
 		return protocol;
 	}
-	
+
 	/**
 	 * @return the interface_
 	 */

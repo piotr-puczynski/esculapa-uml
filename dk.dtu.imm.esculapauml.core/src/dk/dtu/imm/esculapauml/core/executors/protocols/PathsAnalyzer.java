@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.Transition;
@@ -26,6 +25,8 @@ import org.eclipse.uml2.uml.Vertex;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 import dk.dtu.imm.esculapauml.core.executors.ProtocolVerifier;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
@@ -35,7 +36,7 @@ import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
  * @author Piotr J. Puczynski
  * 
  */
-public class PathsChecker {
+public class PathsAnalyzer {
 
 	private ProtocolVerifier protocolVerifier;
 	private List<PSMState> states = new ArrayList<PSMState>();
@@ -44,7 +45,7 @@ public class PathsChecker {
 	/**
 	 * 
 	 */
-	public PathsChecker(ProtocolVerifier protocolVerifier, InstanceExecutor executor) {
+	public PathsAnalyzer(ProtocolVerifier protocolVerifier, InstanceExecutor executor) {
 		super();
 		this.protocolVerifier = protocolVerifier;
 		this.executor = executor;
@@ -54,11 +55,11 @@ public class PathsChecker {
 	 * Finds the valid paths with valid preconditions for operation.
 	 * 
 	 * @param operation
-	 * @param errorContext
+	 * @param event
 	 */
-	public void preCall(Operation operation, Element errorContext) {
+	public void preCall(Operation operation, EsculapaCallEvent event) {
 		for (PSMState psmState : states) {
-			psmState.preCall(operation);
+			psmState.preCall(operation, event);
 		}
 		eliminateDuplicatedAndTerminatedStates();
 
@@ -67,7 +68,28 @@ public class PathsChecker {
 					Diagnostic.ERROR,
 					"Operation '" + operation.getLabel() + "' cannot be executed by instance '" + executor.getInstanceName() + "' according to PSM '"
 							+ protocolVerifier.getProtocol().getLabel() + "' (pre-state) specified in context of interface '"
-							+ protocolVerifier.getInterface().getLabel() + "'.", errorContext);
+							+ protocolVerifier.getInterface().getLabel() + "'.", event.getErrorContext());
+		}
+	}
+
+	/**
+	 * Finds the valid paths with valid postconditions for operation.
+	 * 
+	 * @param operation
+	 * @param event
+	 */
+	public void postCall(Operation operation, EsculapaReplyEvent event) {
+		for (PSMState psmState : states) {
+			psmState.postCall(event);
+		}
+		eliminateDuplicatedAndTerminatedStates();
+
+		if (states.isEmpty()) {
+			executor.getChecker().addOtherProblem(
+					Diagnostic.ERROR,
+					"Operation '" + operation.getLabel() + "' cannot be executed by instance '" + executor.getInstanceName() + "' according to PSM '"
+							+ protocolVerifier.getProtocol().getLabel() + "' (post-condition failed) specified in context of interface '"
+							+ protocolVerifier.getInterface().getLabel() + "'.", event.getErrorContext());
 		}
 	}
 
@@ -127,18 +149,20 @@ public class PathsChecker {
 	 * @param psmState
 	 * @param transition
 	 */
-	public void createNewState(PSMState psmState, Transition transitionToTake) {
-		createNewState(psmState.getActiveConfiguration(), transitionToTake);
+	public void createNewState(PSMState psmState, Transition transition) {
+		states.add(new PSMState(psmState, transition));
 	}
 
 	/**
 	 * Creates new state of PSM based on given configuration and going to
-	 * transition.
+	 * transition with event.
 	 * 
-	 * @param value
-	 * @param key
+	 * @param psmState
+	 * @param event
+	 * @param transition
 	 */
-	public void createNewState(Set<Vertex> configuration, Transition transitionToTake) {
-		states.add(new PSMState(this, configuration, transitionToTake));
+	public void createNewState(PSMState psmState, EsculapaCallEvent event, Transition transition) {
+		states.add(new PSMState(psmState, event, transition));
 	}
+
 }

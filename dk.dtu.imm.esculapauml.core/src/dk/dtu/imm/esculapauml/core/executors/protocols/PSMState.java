@@ -22,10 +22,15 @@ import java.util.Set;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.CallEvent;
+import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ProtocolStateMachine;
+import org.eclipse.uml2.uml.ProtocolTransition;
 import org.eclipse.uml2.uml.Region;
 import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.Transition;
@@ -35,10 +40,13 @@ import org.eclipse.uml2.uml.Vertex;
 import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
-import dk.dtu.imm.esculapauml.core.executors.TransitionChooser;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
+import dk.dtu.imm.esculapauml.core.validators.Validator;
+import dk.dtu.imm.esculapauml.core.validators.ValidatorsFactory;
 
 /**
  * Represents one possible state in PSM. Used for executing all possible states
@@ -50,10 +58,13 @@ import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 public class PSMState {
 
 	private Set<Vertex> activeConfiguration;
-	private PathsChecker pathsChecker;
+	private PathsAnalyzer pathsAnalyzer;
 	private Checker checker;
 	private ProtocolStateMachine protocol;
 	private boolean terminated = false;
+	// holds id and taken transitions for synchronous events to evaluate
+	// post-conditions
+	private Map<Long, Transition> synchronousEvents = new HashMap<Long, Transition>();
 	protected static Predicate<Transition> isCompletionTransition = new Predicate<Transition>() {
 		public boolean apply(Transition item) {
 			return item.getTriggers().isEmpty();
@@ -61,29 +72,61 @@ public class PSMState {
 	};
 
 	/**
-	 * @param pathsChecker
+	 * Constructor used during initialization.
+	 * 
+	 * @param pathsAnalyzer
 	 * @param activeConfiguration
 	 */
-	public PSMState(PathsChecker pathsChecker, Set<Vertex> activeConfiguration) {
+	public PSMState(PathsAnalyzer pathsAnalyzer, Set<Vertex> activeConfiguration) {
 		this.activeConfiguration = new HashSet<Vertex>(activeConfiguration);
-		this.pathsChecker = pathsChecker;
-		checker = pathsChecker.getExecutor().getChecker();
-		protocol = pathsChecker.getProtocolVerifier().getProtocol();
+		this.pathsAnalyzer = pathsAnalyzer;
+		checker = pathsAnalyzer.getExecutor().getChecker();
+		protocol = pathsAnalyzer.getProtocolVerifier().getProtocol();
 		recalculateActiveState();
 	}
 
 	/**
-	 * @param pathsChecker
-	 * @param activeConfiguration
+	 * Copy constructor.
+	 */
+	public PSMState(PSMState parent) {
+		copyFields(parent);
+	}
+
+	/**
+	 * Internal copy constructor method.
+	 * 
+	 * @param parent
+	 */
+	private void copyFields(PSMState parent) {
+		activeConfiguration = new HashSet<Vertex>(parent.getActiveConfiguration());
+		synchronousEvents.putAll(parent.synchronousEvents);
+		pathsAnalyzer = parent.pathsAnalyzer;
+		checker = parent.checker;
+		protocol = parent.protocol;
+	}
+
+	/**
+	 * Constructor used during creating path for completion transition.
+	 * 
+	 * @param parent
 	 * @param transition
 	 */
-	public PSMState(PathsChecker pathsChecker, Set<Vertex> activeConfiguration, Transition transition) {
-		this.activeConfiguration = new HashSet<Vertex>(activeConfiguration);
-		this.pathsChecker = pathsChecker;
-		checker = pathsChecker.getExecutor().getChecker();
-		protocol = pathsChecker.getProtocolVerifier().getProtocol();
+	public PSMState(PSMState parent, Transition transition) {
+		copyFields(parent);
 		fireTransition(transition);
 		recalculateActiveState();
+	}
+
+	/**
+	 * Constructor used during creating path for event transition.
+	 * 
+	 * @param parent
+	 * @param event
+	 * @param transition
+	 */
+	public PSMState(PSMState parent, EsculapaCallEvent event, Transition transition) {
+		copyFields(parent);
+		fireEvent(transition, event);
 	}
 
 	/**
@@ -99,19 +142,20 @@ public class PSMState {
 		ArrayList<Transition> completionTransitionTaken = new ArrayList<Transition>();
 		// this is to avoid looping of two self completion transition on PSM
 		// state
-		Map<Transition, Set<Vertex>> completionTransitionNotTaken = new HashMap<Transition, Set<Vertex>>();
+		Map<Transition, PSMState> completionTransitionNotTaken = new HashMap<Transition, PSMState>();
 
 		do {
 			hasCompletionTransitions = false;
 			for (Vertex vertex : activeConfiguration) {
-				GuardEvaluator ge = GuardEvaluatorsFactory.getGuardEvaluator(pathsChecker.getExecutor(), vertex);
+				GuardEvaluator ge = GuardEvaluatorsFactory.getGuardEvaluator(pathsAnalyzer.getExecutor(), vertex);
 				ge.setPreconditions(isCompletionTransition);
 				EList<Transition> satisfiedCompletionTransitions = ge.getTransitionsWithEnabledGuards();
-				Transition transitionToTake = TransitionChooser.choose(pathsChecker.getExecutor(), satisfiedCompletionTransitions);
+
+				Transition transitionToTake = satisfiedCompletionTransitions.isEmpty() ? null : satisfiedCompletionTransitions.get(0);
 				if (satisfiedCompletionTransitions.size() > 1) {
 					for (Transition transition : satisfiedCompletionTransitions) {
 						if (transition != transitionToTake) {
-							completionTransitionNotTaken.put(transition, new HashSet<Vertex>(activeConfiguration));
+							completionTransitionNotTaken.put(transition, new PSMState(this));
 						}
 					}
 				}
@@ -136,9 +180,9 @@ public class PSMState {
 				return;
 			}
 		} while (hasCompletionTransitions);
-		
-		for (Entry<Transition, Set<Vertex>> entry : completionTransitionNotTaken.entrySet()) {
-			pathsChecker.createNewState(entry.getValue(), entry.getKey());
+
+		for (Entry<Transition, PSMState> entry : completionTransitionNotTaken.entrySet()) {
+			pathsAnalyzer.createNewState(entry.getValue(), entry.getKey());
 		}
 
 	}
@@ -213,13 +257,14 @@ public class PSMState {
 			activeConfiguration.add(StateMachineUtils.getInitial(r));
 		}
 	}
-	
+
 	/**
 	 * Executes operation call and calculates precondition for operation.
 	 * 
 	 * @param operation
+	 * @param event
 	 */
-	public void preCall(final Operation operation) {
+	public void preCall(final Operation operation, EsculapaCallEvent event) {
 		Predicate<Transition> hasTriggerForOperation = new Predicate<Transition>() {
 			public boolean apply(Transition item) {
 				for (Trigger t : item.getTriggers()) {
@@ -234,17 +279,17 @@ public class PSMState {
 		};
 		EList<Transition> transitions = new BasicEList<Transition>();
 		for (Vertex vertex : activeConfiguration) {
-			GuardEvaluator ge = GuardEvaluatorsFactory.getGuardEvaluator(pathsChecker.getExecutor(), vertex);
+			GuardEvaluator ge = GuardEvaluatorsFactory.getGuardEvaluator(pathsAnalyzer.getExecutor(), vertex);
 			ge.setPreconditions(hasTriggerForOperation);
 			transitions.addAll(ge.getTransitionsWithEnabledGuards());
 		}
 
-		Transition transitionToTake = TransitionChooser.choose(pathsChecker.getExecutor(), transitions);
+		Transition transitionToTake = transitions.isEmpty() ? null : transitions.get(0);
 
 		if (transitions.size() > 1) {
 			for (Transition transition : transitions) {
 				if (transition != transitionToTake) {
-					pathsChecker.createNewState(this, transition);
+					pathsAnalyzer.createNewState(this, event, transition);
 				}
 			}
 		}
@@ -252,12 +297,96 @@ public class PSMState {
 		if (null == transitionToTake) {
 			setTerminated(true);
 		} else {
-			fireTransition(transitionToTake);
-			recalculateActiveState();
+			fireEvent(transitionToTake, event);
 		}
 
 	}
 
+	/**
+	 * Fires given event by firing the chosen transition.
+	 * 
+	 * @param transitionToTake
+	 * @param event
+	 */
+	private void fireEvent(Transition transitionToTake, EsculapaCallEvent event) {
+		fireTransition(transitionToTake);
+		if (event.isSynchronousCall()) {
+			synchronousEvents.put(event.getSequenceId(), transitionToTake);
+		} else {
+			validatePostCondition(transitionToTake);
+			if (!isTerminated()) {
+				recalculateActiveState();
+			}
+		}
+	}
+
+	/**
+	 * Finishes execution of operation call and validates postcondition for
+	 * operation.
+	 * 
+	 * @param event
+	 */
+	public void postCall(EsculapaReplyEvent event) {
+		Transition transition = synchronousEvents.get(event.getInitiatingCallSequenceNumber());
+		if (null == transition) {
+			// should never happen
+			setTerminated(true);
+		} else {
+			synchronousEvents.remove(event.getInitiatingCallSequenceNumber());
+			validatePostCondition(transition);
+			if (!isTerminated()) {
+				recalculateActiveState();
+			}
+		}
+	}
+
+	/**
+	 * Validates post-condition (if any) on given transition. In case
+	 * post-condition is not fulfilled the state is terminated.
+	 * 
+	 * @param transition
+	 */
+	private void validatePostCondition(Transition transition) {
+		Validator validator = null;
+		if (transition instanceof ProtocolTransition) {
+			validator = ValidatorsFactory.getInstance().getValidatorFor(pathsAnalyzer.getExecutor(), ((ProtocolTransition) transition).getPostCondition());
+		} else {
+			// for Topcased that does not support ProtocolTransition in diagrams
+			// we will treat effect as postcondition
+			Constraint c = UMLFactory.eINSTANCE.createConstraint();
+			if (transition.getEffect() instanceof OpaqueBehavior) {
+				c.setSpecification(getOCLFromEffect((OpaqueBehavior) transition.getEffect()));
+			}
+			validator = ValidatorsFactory.getInstance().getValidatorFor(pathsAnalyzer.getExecutor(), c);
+		}
+		if (null != validator) {
+			if (!validator.validateConstraint()) {
+				setTerminated(true);
+			}
+		}
+	}
+
+	/**
+	 * Internal method to get OCL post-condition from effect on the transition.
+	 * It is used to support tools (Topcased) that are not able to handle
+	 * postconditions in diagrams.
+	 * 
+	 * @param ob
+	 * @return
+	 */
+	private OpaqueExpression getOCLFromEffect(OpaqueBehavior ob) {
+		String ocl = ob.getName().trim();
+		if (ocl.startsWith("[") && ocl.endsWith("]")) {
+			ocl = ocl.substring(1, ocl.length() - 1).trim();
+			if (!ocl.isEmpty()) {
+				OpaqueExpression oe = UMLFactory.eINSTANCE.createOpaqueExpression();
+				oe.getBodies().add(ocl);
+				oe.getLanguages().add("ocl");
+				return oe;
+			}
+		}
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -300,7 +429,7 @@ public class PSMState {
 	public boolean isTerminated() {
 		return terminated;
 	}
-	
+
 	/**
 	 * @return the activeConfiguration
 	 */
@@ -316,5 +445,4 @@ public class PSMState {
 		this.terminated = terminated;
 	}
 
-	
 }
