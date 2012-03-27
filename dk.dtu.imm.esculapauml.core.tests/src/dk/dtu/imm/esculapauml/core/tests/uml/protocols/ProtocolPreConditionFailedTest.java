@@ -26,13 +26,14 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
  * 
- * Tests unsuccessful scenario when the protocol order is invalid.
+ * Tests unsuccessful scenario when the protocol order is invalid because
+ * pre-condition failed.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class ProtocolStateMachineWrongOrderTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("ProtocolStateMachineWrongOrder.uml");
+public class ProtocolPreConditionFailedTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("ProtocolPreConditionFailed.uml");
 
 	@Test
 	public void protocolStateMachineWrongOrder() {

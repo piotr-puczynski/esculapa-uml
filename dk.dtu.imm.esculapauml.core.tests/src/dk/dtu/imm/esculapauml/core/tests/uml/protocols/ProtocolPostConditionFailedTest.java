@@ -26,13 +26,14 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
  * 
- * Tests unsuccessful scenario when the protocol order is invalid.
+ * Tests unsuccessful scenario when the protocol order is invalid because
+ * post-condition failed.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class ProtocolStateMachineWrongOrderTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("ProtocolStateMachineWrongOrder.uml");
+public class ProtocolPostConditionFailedTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("ProtocolPostConditionFailed.uml");
 
 	@Test
 	public void protocolStateMachineWrongOrder() {
@@ -49,6 +50,6 @@ public class ProtocolStateMachineWrongOrderTest extends LoggingTest {
 		// error is
 		assertTrue(TestUtils
 				.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-						"Operation 'push' cannot be executed by instance 'c' according to PSM 'ProtocolStateMachine1' (pre-state) specified in context of interface 'IC'."));
+						"Operation 'push' cannot be executed by instance 'c' according to PSM 'ProtocolStateMachine1' (post-condition failed) specified in context of interface 'IC'."));
 	}
 }
