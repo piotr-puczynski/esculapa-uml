@@ -36,6 +36,7 @@ import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.VisibilityKind;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
+import dk.dtu.imm.esculapauml.core.utils.Pair;
 
 /**
  * Executes instances.
@@ -178,7 +179,28 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 */
 	public boolean setVariable(String name, int index, ValueSpecification value, Element errorContext) {
 		ValueSpecification valueToSet = EcoreUtil.copy(value);
-		Property prop = findPropertyFor(name);
+		Property prop = null;
+		Slot slot = null;
+		InstanceSpecification variableContext = instanceSpecification;
+		Pair<Association, Property> assoc = findPropertyInAssociationFor(name);
+		if (null != assoc) {
+			// this is association
+			// check if a link is already existing
+			EList<InstanceSpecification> instances = checker.getSystemState().getExistingLinksForInstance(assoc.getLeft(), instanceSpecification);
+			if (!instances.isEmpty() && index <= instances.size()) {
+				// we have a link
+				variableContext = instances.get(index);
+				prop = assoc.getRight();
+				// reset index (always zero inside links)
+				index = 0;
+			} else {
+				// TODO add creation of new link
+			}
+
+		} else {
+			// this is attribute
+			prop = findAttributeFor(name);
+		}
 		if (null == prop) {
 			// create local variable
 			prop = originalClass.createOwnedAttribute(name, valueToSet.getType());
@@ -197,14 +219,15 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			}
 			return false;
 		}
-		Slot slot = null;
 		// do we have a slot that is needed?
-		List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), instanceSpecification.getSlots());
-		if (slots.isEmpty()) {
-			slot = instanceSpecification.createSlot();
-			slot.setDefiningFeature(prop);
-		} else {
-			slot = slots.get(0);
+		if (null == slot) {
+			List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), variableContext.getSlots());
+			if (slots.isEmpty()) {
+				slot = variableContext.createSlot();
+				slot.setDefiningFeature(prop);
+			} else {
+				slot = slots.get(0);
+			}
 		}
 		if (index < slot.getValues().size()) {
 			// remove old value
@@ -268,8 +291,8 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		} else {
 			Slot slot = slots.get(0);
 			EcoreUtil.delete(slot, true);
-			if(removeDeclaringModelElement) {
-				Property prop = findPropertyFor(name);
+			if (removeDeclaringModelElement) {
+				Property prop = findAttributeFor(name);
 				if (null != prop) {
 					EcoreUtil.delete(prop, true);
 				}
@@ -314,40 +337,54 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	}
 
 	/**
-	 * Looks in associations and attributes for given property.
+	 * Looks in attributes for given property.
 	 * 
 	 * @param name
 	 * @return
 	 */
-	protected Property findPropertyFor(String name) {
+	protected Property findAttributeFor(String name) {
 		List<Property> properties = new ArrayList<Property>();
 		// class variable or new local variable
 		properties = filter(having(on(Property.class).getName(), equalTo(name)), originalClass.getAllAttributes());
-		
-		if (properties.isEmpty()) {
-			// class association
-			for (Association assoc : originalClass.getAssociations()) {
-				// there are always two ends
-				List<Property> assocProp = assoc.getMemberEnds();
-				if (assocProp.size() == 2) {
-					if (assocProp.get(0).getType() == assocProp.get(1).getType()) {
-						// self association
-						properties.addAll(filter(having(on(Property.class).getName(), equalTo(name)), assoc.getNavigableOwnedEnds()));
-					} else {
-						// exclude end that point to us
-						List<Property> filtered = filter(having(on(Property.class).getName(), equalTo(name)), assoc.getNavigableOwnedEnds());
-						filtered = filter(having(on(Property.class).getType(), not(equalTo(originalClass))), filtered);
-						properties.addAll(filtered);
-					}
-				}
-			}
-		}
-		
+
 		if (properties.isEmpty()) {
 			return null;
 		} else {
 			return properties.get(0);
 		}
+	}
+
+	/**
+	 * Looks in associations for given property.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	protected Pair<Association, Property> findPropertyInAssociationFor(String name) {
+		// class association
+		for (Association assoc : originalClass.getAssociations()) {
+			// there are always two ends
+			List<Property> assocProp = assoc.getMemberEnds();
+			if (assocProp.size() == 2) {
+				if (assocProp.get(0).getType() == assocProp.get(1).getType()) {
+					// self association
+					List<Property> filtered = filter(having(on(Property.class).getName(), equalTo(name)), assoc.getOwnedEnds());
+					if (!filtered.isEmpty()) {
+						return new Pair<Association, Property>(assoc, filtered.get(0));
+					}
+				} else {
+					// exclude end that point to us
+					List<Property> filtered = filter(having(on(Property.class).getName(), equalTo(name)), assoc.getOwnedEnds());
+					filtered = filter(having(on(Property.class).getType(), not(equalTo(originalClass))), filtered);
+					if (!filtered.isEmpty()) {
+						return new Pair<Association, Property>(assoc, filtered.get(0));
+					}
+				}
+			}
+		}
+
+		return null;
+
 	}
 
 }

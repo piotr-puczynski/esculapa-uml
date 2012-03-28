@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.states;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -22,13 +23,18 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.common.util.UML2Util;
+import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
@@ -123,6 +129,82 @@ public class SystemState {
 			}
 		}
 		return result;
+	}
+
+	public EList<InstanceSpecification> getExistingLinksForInstance(Association type, InstanceSpecification instance) {
+		EList<InstanceSpecification> result = getExistingInstanceSpecifications(type);
+		// filter links that are not connected to instance
+		Iterator<InstanceSpecification> it = result.iterator();
+		while (it.hasNext()) {
+			InstanceSpecification link = it.next();
+			boolean found = false;
+			for (Slot slot : link.getSlots()) {
+				if (!slot.getValues().isEmpty()) {
+					ValueSpecification slotValue = slot.getValues().get(0);
+					if (slotValue instanceof InstanceValue) {
+						if (((InstanceValue) slotValue).getInstance() == instance) {
+							found = true;
+							break;
+						}
+					}
+				}
+			}
+			if (!found) {
+				it.remove();
+			}
+		}
+		return result;
+	}
+
+	public EList<InstanceSpecification> getExistingLinksForInstance(InstanceSpecification instance) {
+		EList<InstanceSpecification> result = new BasicEList<InstanceSpecification>();
+		for (InstanceSpecification instanceSpecification : existingInstances) {
+			if (!instanceSpecification.getClassifiers().isEmpty()) {
+				if (instanceSpecification.getClassifiers().get(0) instanceof Association) {
+					result.add(instanceSpecification);
+				}
+			}
+		}
+		// filter links that are not connected to instance
+		Iterator<InstanceSpecification> it = result.iterator();
+		while (it.hasNext()) {
+			InstanceSpecification link = it.next();
+			boolean found = false;
+			for (Slot slot : link.getSlots()) {
+				if (!slot.getValues().isEmpty()) {
+					ValueSpecification slotValue = slot.getValues().get(0);
+					if (slotValue instanceof InstanceValue) {
+						if (((InstanceValue) slotValue).getInstance() == instance) {
+							found = true;
+							break;
+						}
+					}
+				}
+			}
+			if (!found) {
+				it.remove();
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Removes instance specification from the list and from the model.
+	 * 
+	 * @param instanceToRemove
+	 */
+	public void removeInstanceSpecification(InstanceSpecification instanceToRemove) {
+		InstanceExecutor executor = getInstanceExecutor(instanceToRemove);
+		if (null != executor) {
+			instanceExecutors.remove(executor);
+		}
+		// remove links
+		EList<InstanceSpecification> links = getExistingLinksForInstance(instanceToRemove);
+		for (InstanceSpecification link : links) {
+			removeInstanceSpecification(link);
+		}
+		existingInstances.remove(instanceToRemove);
+		EcoreUtil.delete(instanceToRemove, true);
 	}
 
 	public InstanceExecutor getInstanceExecutor(InstanceSpecification instanceSpecification) {

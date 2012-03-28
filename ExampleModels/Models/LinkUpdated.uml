@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Simple08">
+    <packagedElement xmi:type="uml:Class" xmi:id="_V6l_ME59EeGfWN6qfI76hw" name="C" classifierBehavior="_gee0sE59EeGfWN6qfI76hw">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_gee0sE59EeGfWN6qfI76hw" name="StateMachine">
+        <region xmi:id="_gee0sU59EeGfWN6qfI76hw" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_hEC_4E59EeGfWN6qfI76hw" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_iELnME59EeGfWN6qfI76hw" name="State1"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_i_lfgE59EeGfWN6qfI76hw" name="FinalState1"/>
+          <transition xmi:id="_kIYTkk59EeGfWN6qfI76hw" name="Transition1" source="_hEC_4E59EeGfWN6qfI76hw" target="_iELnME59EeGfWN6qfI76hw"/>
+          <transition xmi:id="_kxp6FE59EeGfWN6qfI76hw" name="Transition2" source="_iELnME59EeGfWN6qfI76hw" target="_i_lfgE59EeGfWN6qfI76hw">
+            <effect xmi:type="uml:FunctionBehavior" xmi:id="_BnUhAE6CEeGfWN6qfI76hw" name="d := b.getD();" specification="_d2k-UE59EeGfWN6qfI76hw"/>
+            <trigger xmi:id="_Lx0i8E5-EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_dJbkcE59EeGfWN6qfI76hw" name="m"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Wmol0E59EeGfWN6qfI76hw" name="D" classifierBehavior="_AqJZAE6AEeGfWN6qfI76hw">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_AqJZAE6AEeGfWN6qfI76hw" name="StateMachine">
+        <region xmi:id="_AqJZAU6AEeGfWN6qfI76hw" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_BBuLgE6AEeGfWN6qfI76hw" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_C-0KUE6AEeGfWN6qfI76hw" name="State1"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_F9vZkk6AEeGfWN6qfI76hw" name="FinalState1"/>
+          <transition xmi:id="_J2zV1E6AEeGfWN6qfI76hw" name="Transition1" source="_BBuLgE6AEeGfWN6qfI76hw" target="_C-0KUE6AEeGfWN6qfI76hw"/>
+          <transition xmi:id="_KUIyFU6AEeGfWN6qfI76hw" name="Transition2" source="_C-0KUE6AEeGfWN6qfI76hw" target="_F9vZkk6AEeGfWN6qfI76hw">
+            <trigger xmi:id="_LO2t4E6AEeGfWN6qfI76hw" name="" event="_NehqcE6AEeGfWN6qfI76hw"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_d2k-UE59EeGfWN6qfI76hw" name="s" method="_BnUhAE6CEeGfWN6qfI76hw"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Actor" xmi:id="_qUDLoE59EeGfWN6qfI76hw" name="Henry"/>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_t4VxwE59EeGfWN6qfI76hw" name="UseCase1" classifierBehavior="_uwBnsE59EeGfWN6qfI76hw">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_uwBnsE59EeGfWN6qfI76hw" name="UseCase1Detail">
+        <ownedAttribute xmi:id="_6BGTUE59EeGfWN6qfI76hw" name="Property1" type="_qUDLoE59EeGfWN6qfI76hw"/>
+        <ownedAttribute xmi:id="_B8O94E5-EeGfWN6qfI76hw" name="Property2" type="_V6l_ME59EeGfWN6qfI76hw"/>
+        <ownedConnector xmi:id="_6BGTUU59EeGfWN6qfI76hw" name="Connector1">
+          <end xmi:id="_6BGTUk59EeGfWN6qfI76hw" role="_6BGTUE59EeGfWN6qfI76hw"/>
+          <end xmi:id="_B8Pk8E5-EeGfWN6qfI76hw" role="_B8O94E5-EeGfWN6qfI76hw"/>
+        </ownedConnector>
+        <lifeline xmi:id="_4vZa4E59EeGfWN6qfI76hw" name="Henry1" represents="_6BGTUE59EeGfWN6qfI76hw" coveredBy="_E4xAcE5-EeGfWN6qfI76hw _Dpo64E5-EeGfWN6qfI76hw"/>
+        <lifeline xmi:id="_AdvmoE5-EeGfWN6qfI76hw" name="c" represents="_B8O94E5-EeGfWN6qfI76hw" coveredBy="_E4xAcU5-EeGfWN6qfI76hw _ECDa4E5-EeGfWN6qfI76hw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_E4xAcE5-EeGfWN6qfI76hw" name="MessageOccurrenceSpecification1" covered="_4vZa4E59EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw" message="_E46KYE5-EeGfWN6qfI76hw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_E4xAcU5-EeGfWN6qfI76hw" name="MessageOccurrenceSpecification2" covered="_AdvmoE5-EeGfWN6qfI76hw" event="_E4xAck5-EeGfWN6qfI76hw" message="_E46KYE5-EeGfWN6qfI76hw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_Dpo64E5-EeGfWN6qfI76hw" name="BehaviorExecutionSpecification1" covered="_4vZa4E59EeGfWN6qfI76hw" start="_E4xAcE5-EeGfWN6qfI76hw" finish="_E4xAcE5-EeGfWN6qfI76hw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_ECDa4E5-EeGfWN6qfI76hw" name="BehaviorExecutionSpecification2" covered="_AdvmoE5-EeGfWN6qfI76hw" start="_E4xAcU5-EeGfWN6qfI76hw" finish="_E4xAcU5-EeGfWN6qfI76hw"/>
+        <message xmi:id="_E46KYE5-EeGfWN6qfI76hw" name="m" receiveEvent="_E4xAcU5-EeGfWN6qfI76hw" sendEvent="_E4xAcE5-EeGfWN6qfI76hw"/>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_E4xAck5-EeGfWN6qfI76hw" name="mEvent" operation="_dJbkcE59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_NehqcE6AEeGfWN6qfI76hw" name="sEvent" operation="_d2k-UE59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_5TaZcGkBEeGsqbu8LnGTJw" name="A_&lt;c>_&lt;d>" memberEnd="_5TaZcWkBEeGsqbu8LnGTJw _5TaZdGkBEeGsqbu8LnGTJw">
+      <ownedEnd xmi:id="_5TaZcWkBEeGsqbu8LnGTJw" name="c" type="_V6l_ME59EeGfWN6qfI76hw" association="_5TaZcGkBEeGsqbu8LnGTJw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5TaZcmkBEeGsqbu8LnGTJw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5TaZc2kBEeGsqbu8LnGTJw"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_5TaZdGkBEeGsqbu8LnGTJw" name="d" type="_Wmol0E59EeGfWN6qfI76hw" association="_5TaZcGkBEeGsqbu8LnGTJw">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5TaZdWkBEeGsqbu8LnGTJw" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5TaZdmkBEeGsqbu8LnGTJw" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_6GSn4GkBEeGsqbu8LnGTJw" name="c" classifier="_V6l_ME59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_6QjXIGkBEeGsqbu8LnGTJw" name="d" classifier="_Wmol0E59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_-oGmNmkBEeGsqbu8LnGTJw" name="InstanceSpecification1" classifier="_5TaZcGkBEeGsqbu8LnGTJw">
+      <slot xmi:id="_-oGmN2kBEeGsqbu8LnGTJw" definingFeature="_5TaZcWkBEeGsqbu8LnGTJw">
+        <value xmi:type="uml:InstanceValue" xmi:id="_-oGmOGkBEeGsqbu8LnGTJw" type="_V6l_ME59EeGfWN6qfI76hw" instance="_6GSn4GkBEeGsqbu8LnGTJw"/>
+      </slot>
+      <slot xmi:id="_-oGmOWkBEeGsqbu8LnGTJw" definingFeature="_5TaZdGkBEeGsqbu8LnGTJw">
+        <value xmi:type="uml:InstanceValue" xmi:id="_-oGmOmkBEeGsqbu8LnGTJw" type="_Wmol0E59EeGfWN6qfI76hw" instance="_6QjXIGkBEeGsqbu8LnGTJw"/>
+      </slot>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_ij4aEHjyEeG3F9SvZNYo0A" name="B" classifierBehavior="_PJWpIHj0EeGlQum40m6djw">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_PJWpIHj0EeGlQum40m6djw" name="StateMachine">
+        <region xmi:id="_PJWpIXj0EeGlQum40m6djw" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_PqPIoXj0EeGlQum40m6djw" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:State" xmi:id="_QfMasHj0EeGlQum40m6djw" name="State1"/>
+          <subvertex xmi:type="uml:FinalState" xmi:id="_TWCsAnj0EeGlQum40m6djw" name="FinalState1"/>
+          <transition xmi:id="_U5uFRnj0EeGlQum40m6djw" name="Transition1" source="_PqPIoXj0EeGlQum40m6djw" target="_QfMasHj0EeGlQum40m6djw"/>
+          <transition xmi:id="_VXBsVHj0EeGlQum40m6djw" name="Transition2" source="_QfMasHj0EeGlQum40m6djw" target="_TWCsAnj0EeGlQum40m6djw">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_a5jgwHj0EeGlQum40m6djw" name="reply d;"/>
+            <trigger xmi:id="_V9Hb8Hj0EeGlQum40m6djw" event="_XYAsoHj0EeGlQum40m6djw"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_KMUucnj0EeGlQum40m6djw" name="getD">
+        <ownedParameter xmi:id="_L4CCUHj0EeGlQum40m6djw" name="return" type="_Wmol0E59EeGfWN6qfI76hw" direction="return"/>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_mpIYMHjyEeG3F9SvZNYo0A" name="A_&lt;c>_&lt;b>" memberEnd="_mpIYMXjyEeG3F9SvZNYo0A _mpIYNHjyEeG3F9SvZNYo0A">
+      <ownedEnd xmi:id="_mpIYMXjyEeG3F9SvZNYo0A" name="c" type="_V6l_ME59EeGfWN6qfI76hw" association="_mpIYMHjyEeG3F9SvZNYo0A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mpIYMnjyEeG3F9SvZNYo0A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mpIYM3jyEeG3F9SvZNYo0A" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_mpIYNHjyEeG3F9SvZNYo0A" name="b" type="_ij4aEHjyEeG3F9SvZNYo0A" association="_mpIYMHjyEeG3F9SvZNYo0A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mpIYNXjyEeG3F9SvZNYo0A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mpIYNnjyEeG3F9SvZNYo0A" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_qwwU4HjyEeG3F9SvZNYo0A" name="b" classifier="_ij4aEHjyEeG3F9SvZNYo0A"/>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_swZ4cHjyEeG3F9SvZNYo0A" name="InstanceSpecification2" classifier="_mpIYMHjyEeG3F9SvZNYo0A">
+      <slot xmi:id="_swZ4cXjyEeG3F9SvZNYo0A" definingFeature="_mpIYMXjyEeG3F9SvZNYo0A">
+        <value xmi:type="uml:InstanceValue" xmi:id="_swZ4cnjyEeG3F9SvZNYo0A" type="_V6l_ME59EeGfWN6qfI76hw" instance="_6GSn4GkBEeGsqbu8LnGTJw"/>
+      </slot>
+      <slot xmi:id="_swZ4c3jyEeG3F9SvZNYo0A" definingFeature="_mpIYNHjyEeG3F9SvZNYo0A">
+        <value xmi:type="uml:InstanceValue" xmi:id="_swZ4dHjyEeG3F9SvZNYo0A" type="_ij4aEHjyEeG3F9SvZNYo0A" instance="_qwwU4HjyEeG3F9SvZNYo0A"/>
+      </slot>
+    </packagedElement>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_wHYbUHjyEeG3F9SvZNYo0A" name="dd" classifier="_Wmol0E59EeGfWN6qfI76hw"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_ylYHwHjyEeG3F9SvZNYo0A" name="A_&lt;b>_&lt;d>" memberEnd="_ylYHwXjyEeG3F9SvZNYo0A _ylYHxHjyEeG3F9SvZNYo0A">
+      <ownedEnd xmi:id="_ylYHwXjyEeG3F9SvZNYo0A" name="b" type="_ij4aEHjyEeG3F9SvZNYo0A" association="_ylYHwHjyEeG3F9SvZNYo0A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ylYHwnjyEeG3F9SvZNYo0A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ylYHw3jyEeG3F9SvZNYo0A"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_ylYHxHjyEeG3F9SvZNYo0A" name="d" type="_Wmol0E59EeGfWN6qfI76hw" association="_ylYHwHjyEeG3F9SvZNYo0A">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_ylYHxXjyEeG3F9SvZNYo0A" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ylYHxnjyEeG3F9SvZNYo0A" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_1vtVwHjyEeG3F9SvZNYo0A" name="InstanceSpecification3" classifier="_ylYHwHjyEeG3F9SvZNYo0A">
+      <slot xmi:id="_1vtVwXjyEeG3F9SvZNYo0A" definingFeature="_ylYHwXjyEeG3F9SvZNYo0A">
+        <value xmi:type="uml:InstanceValue" xmi:id="_1vtVwnjyEeG3F9SvZNYo0A" type="_ij4aEHjyEeG3F9SvZNYo0A" instance="_qwwU4HjyEeG3F9SvZNYo0A"/>
+      </slot>
+      <slot xmi:id="_1vtVw3jyEeG3F9SvZNYo0A" definingFeature="_ylYHxHjyEeG3F9SvZNYo0A">
+        <value xmi:type="uml:InstanceValue" xmi:id="_1vtVxHjyEeG3F9SvZNYo0A" type="_Wmol0E59EeGfWN6qfI76hw" instance="_wHYbUHjyEeG3F9SvZNYo0A"/>
+      </slot>
+    </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_XYAsoHj0EeGlQum40m6djw" name="getD()" operation="_KMUucnj0EeGlQum40m6djw"/>
+  </packagedElement>
+</uml:Model>

@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2011, 2012 Piotr J. Puczynski (DTU Informatics).
+* Copyright (c) 2011, 2012 Piotr J. Puczynski (DTU Informatics).
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,8 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
-import java.util.Iterator;
-
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Association;
@@ -20,11 +18,8 @@ import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InstanceSpecification;
-import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.StateMachine;
-import org.eclipse.uml2.uml.ValueSpecification;
 
 /**
  * Checks existing instance specifications.
@@ -94,25 +89,7 @@ public class InstanceSpecificationChecker extends AbstractChecker<InstanceSpecif
 			// cardinality check
 			for (Association association : checkee.getClassifiers().get(0).getAssociations()) {
 				// get all instances for this association
-				EList<InstanceSpecification> links = systemState.getExistingInstanceSpecifications(association);
-				// filter only these that are connected to us
-				Iterator<InstanceSpecification> it = links.iterator();
-				while (it.hasNext()) {
-					InstanceSpecification is = it.next();
-					boolean found = false;
-					for (Slot slot : is.getSlots()) {
-						for (ValueSpecification val : slot.getValues()) {
-							if (val instanceof InstanceValue) {
-								if (((InstanceValue) val).getInstance() == checkee) {
-									found = true;
-								}
-							}
-						}
-					}
-					if (!found) {
-						it.remove();
-					}
-				}
+				EList<InstanceSpecification> links = systemState.getExistingLinksForInstance(association, checkee);
 
 				int min = -2;
 				int max = -2;
