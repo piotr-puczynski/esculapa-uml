@@ -30,6 +30,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  * 
  * 
  * Testing message flow and sequence of messages.
+ * 
  * @author Piotr J. Puczynski
  * 
  */
@@ -44,6 +45,7 @@ public class Simple10Test extends LoggingTest {
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
+		// TestUtils.printDiagnostic(diagnostics);
 		// there is no error
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 		// models have no differences

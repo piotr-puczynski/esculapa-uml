@@ -11,10 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.sal;
 
-import static ch.lambdaj.Lambda.join;
-
-import java.util.Stack;
-
 /**
  * Class utilized by visitors to pass extra information to nested SAL nodes.
  * 
@@ -23,56 +19,30 @@ import java.util.Stack;
  */
 public class SALEvaluationHelper {
 
-	private Stack<String> evaluationContext = new Stack<String>();
+	private Object functionEvaluationContext;
 
 	/**
-	 * Adds new evaluation context entry to existing context.
-	 * 
-	 * @param id
+	 * @param functionEvaluationContext
 	 */
-	public void pushEvaluationContext(String id) {
-		evaluationContext.push(id);
+	public SALEvaluationHelper(Object functionEvaluationContext) {
+		super();
+		this.setFunctionEvaluationContext(functionEvaluationContext);
 	}
 
 	/**
-	 * Removes last entry in evaluation context.
-	 * 
-	 * @param id
+	 * @return the functionEvaluationContext
 	 */
-	public String popEvaluationContext() {
-		if (hasEvaluationContext()) {
-			return evaluationContext.pop();
-		}
-		return null;
+	public Object getFunctionEvaluationContext() {
+		return functionEvaluationContext;
 	}
 
 	/**
-	 * Checks if any evaluation context entry was set.
-	 * 
-	 * @return
+	 * @param functionEvaluationContext
+	 * @return old function evaluation context
 	 */
-	public boolean hasEvaluationContext() {
-		return !evaluationContext.isEmpty();
-	}
-
-	/**
-	 * Calculates OCL expression of evaluation context.
-	 * 
-	 * @return the evaluationContext
-	 */
-	public String getEvaluationContextExpression() {
-		return join(evaluationContext, ".");
-	}
-	
-	/**
-	 * Swaps the evaluation context with the new one, returns the old one.
-	 * 
-	 * @param newContext
-	 * @return
-	 */
-	public Stack<String> swapEvaluationContext(Stack<String> newContext) {
-		Stack<String> result = evaluationContext;
-		evaluationContext = newContext;
+	public Object setFunctionEvaluationContext(Object functionEvaluationContext) {
+		Object result = this.functionEvaluationContext;
+		this.functionEvaluationContext = functionEvaluationContext;
 		return result;
 	}
 
