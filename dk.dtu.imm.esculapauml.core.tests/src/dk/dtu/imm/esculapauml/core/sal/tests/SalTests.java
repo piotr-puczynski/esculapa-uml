@@ -370,6 +370,31 @@ public class SalTests {
 	}
 
 	@Test
+	public void mod() throws ParseException {
+		SALParser parser = new SALParser("2%3");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTMOD, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val2.getId());
+
+		assertEquals(2, val1.jjtGetValue());
+		assertEquals(3, val2.jjtGetValue());
+
+	}
+
+	@Test
 	public void mulPrecedence() throws ParseException {
 		SALParser parser = new SALParser("2+3*9");
 

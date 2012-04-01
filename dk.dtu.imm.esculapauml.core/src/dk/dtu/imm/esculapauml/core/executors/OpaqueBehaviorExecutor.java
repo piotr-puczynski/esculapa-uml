@@ -24,6 +24,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.LiteralBoolean;
+import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
@@ -43,6 +45,7 @@ import dk.dtu.imm.esculapauml.core.sal.parser.SALIntegerConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALLogicConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALMember;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALMemberCall;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALMod;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALMult;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALNode;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALNot;
@@ -381,7 +384,17 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALOr node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
+		if (arg1 instanceof LiteralBoolean) {
+			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
+			if (arg2 instanceof LiteralBoolean) {
+				return UMLTypesUtil.getValue(((LiteralBoolean) arg1).isValue() || ((LiteralBoolean) arg2).isValue(), checker, checker.getCheckedObject());
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to Boolean.");
+			}
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to Boolean.");
+		}
 		return null;
 	}
 
@@ -395,7 +408,17 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALAnd node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
+		if (arg1 instanceof LiteralBoolean) {
+			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
+			if (arg2 instanceof LiteralBoolean) {
+				return UMLTypesUtil.getValue(((LiteralBoolean) arg1).isValue() && ((LiteralBoolean) arg2).isValue(), checker, checker.getCheckedObject());
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to Boolean.");
+			}
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to Boolean.");
+		}
 		return null;
 	}
 
@@ -409,7 +432,17 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALAdd node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
+		if (arg1 instanceof LiteralInteger) {
+			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
+			if (arg2 instanceof LiteralInteger) {
+				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() + ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+			}
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
+		}
 		return null;
 	}
 
@@ -423,7 +456,17 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALSubstract node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
+		if (arg1 instanceof LiteralInteger) {
+			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
+			if (arg2 instanceof LiteralInteger) {
+				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() - ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+			}
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
+		}
 		return null;
 	}
 
@@ -437,7 +480,17 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALMult node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
+		if (arg1 instanceof LiteralInteger) {
+			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
+			if (arg2 instanceof LiteralInteger) {
+				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() * ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+			}
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
+		}
 		return null;
 	}
 
@@ -451,7 +504,41 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALDiv node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
+		if (arg1 instanceof LiteralInteger) {
+			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
+			if (arg2 instanceof LiteralInteger) {
+				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() / ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+			}
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALMod,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValueSpecification visit(SALMod node, SALEvaluationHelper data) {
+		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
+		if (arg1 instanceof LiteralInteger) {
+			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
+			if (arg2 instanceof LiteralInteger) {
+				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() % ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+			}
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
+		}
 		return null;
 	}
 
@@ -465,7 +552,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValueSpecification visit(SALNot node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
+		if (arg1 instanceof LiteralBoolean) {
+			return UMLTypesUtil.getValue(!((LiteralBoolean) arg1).isValue(), checker, checker.getCheckedObject());
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to Boolean.");
+		}
 		return null;
 	}
 
@@ -569,5 +661,4 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		}
 		return null;
 	}
-
 }
