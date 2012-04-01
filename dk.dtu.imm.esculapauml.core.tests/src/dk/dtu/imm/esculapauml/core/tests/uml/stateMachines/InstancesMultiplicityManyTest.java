@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.tests.uml.stateMachines;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 //import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -25,14 +26,14 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test evaluation of SAL identifier with the context evaluated.
+ * Test evaluation of SAL identifier with the context evaluated. When trying
+ * pass through multiplicity many links it's an error.
  * 
  * @author Piotr J. Puczynski
  * 
  */
 public class InstancesMultiplicityManyTest extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("InstancesMultiplicityMany.uml");
-	//private Resource referenceModel = TestUtils.getUMLResource("results/InstancesMultiplicityMany.uml");
 
 	@Test
 	public void instancesMultiplicityMany() throws InterruptedException {
@@ -41,9 +42,11 @@ public class InstancesMultiplicityManyTest extends LoggingTest {
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		// there is no error
-		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+		TestUtils.printDiagnostic(diagnostics);
+		// there is an error
+		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// models have no differences
-		//assertTrue(TestUtils.modelsHaveNoDifferences(model, referenceModel));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "[SAL] Naigation through multiplicity many ('d') is not possible, use OCL expression instead."));
 	}
 }

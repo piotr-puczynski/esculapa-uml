@@ -318,44 +318,34 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * imm.esculapauml.core.sal.parser.SALCall,
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public ValueSpecification visit(SALCall node, SALEvaluationHelper data) {
 		Object instance = data.getFunctionEvaluationContext();
 		String name = (String) node.jjtGetValue();
-		if (!(instance instanceof Collection)) {
-			// create collection
-			ArrayList<Object> array = new ArrayList<Object>();
-			array.add(instance);
-			instance = array;
-		}
 		ValueSpecification result = null;
-		for (Object instanceObject : (Collection) instance) {
-			if (instanceObject instanceof InstanceValue) {
-				instanceObject = ((InstanceValue) instanceObject).getInstance();
-			}
-			if (instanceObject instanceof InstanceSpecification) {
-				InstanceExecutor executor = checker.getSystemState().getInstanceExecutor((InstanceSpecification) instanceObject);
-				if (null == executor) {
-					trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot obtain executor for operation: '" + name + "'.");
-				} else {
-					// evaluate arguments in fresh context
-					Object oldContext = data.setFunctionEvaluationContext(getInstanceSpecification());
-					EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
-					for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
-						arguments.add(node.getChild(i).jjtAccept(this, data));
-					}
-					data.setFunctionEvaluationContext(oldContext);
-					if (checker.hasErrors()) {
-						return null;
-					}
-					result = executor.callOperation(parent, getInstanceSpecification(), name, arguments, true, trc.getCheckedObject());
-				}
-
+		if (instance instanceof InstanceValue) {
+			instance = ((InstanceValue) instance).getInstance();
+		}
+		if (instance instanceof InstanceSpecification) {
+			InstanceExecutor executor = checker.getSystemState().getInstanceExecutor((InstanceSpecification) instance);
+			if (null == executor) {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot obtain executor for operation: '" + name + "'.");
 			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Operation: '" + name + "' must be called in the context of existing instance specification.");
-				break;
+				// evaluate arguments in fresh context
+				Object oldContext = data.setFunctionEvaluationContext(getInstanceSpecification());
+				EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
+				for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
+					arguments.add(node.getChild(i).jjtAccept(this, data));
+				}
+				data.setFunctionEvaluationContext(oldContext);
+				if (checker.hasErrors()) {
+					return null;
+				}
+				result = executor.callOperation(parent, getInstanceSpecification(), name, arguments, true, trc.getCheckedObject());
 			}
+
+		} else {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Operation: '" + name + "' must be called in the context of existing instance specification.");
 		}
 		return result;
 	}
@@ -378,14 +368,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			return null;
 		}
 
-		if (result instanceof ValueSpecification) {
-			return (ValueSpecification) result;
-		}
-		if (UMLTypesUtil.canBeConverted(result)) {
-			return UMLTypesUtil.getObjectValue(result, checker, checker.getCheckedObject());
-		}
-		return null;
-
+		return translateOCLResult(result, oclExpression);
 	}
 
 	/*
@@ -520,23 +503,18 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		// member second child will be always SALIdent that we will not evaluate
 		// but just grab its name
 		ValueSpecification contextSpec = node.getChild(0).jjtAccept(this, data);
+		String navigation = (String) node.getChild(1).jjtGetValue();
 		if (contextSpec instanceof InstanceValue) {
 			InstanceSpecification context = ((InstanceValue) contextSpec).getInstance();
-			String navigation = (String) node.getChild(1).jjtGetValue();
 			OCLEvaluator ocl = new OCLEvaluator(checker, context, trc.getCheckedObject());
 			ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
 			Object result = ocl.evaluate(navigation);
 			if (ocl.hasErrors() || null == result) {
 				return null;
 			}
-			if (result instanceof ValueSpecification) {
-				return (ValueSpecification) result;
-			}
-			if (UMLTypesUtil.canBeConverted(result)) {
-				return UMLTypesUtil.getObjectValue(result, checker, checker.getCheckedObject());
-			}
+			return translateOCLResult(result, navigation);
 		} else {
-			// TODO: error
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot navigate through '" + navigation + "' because it is not instance of complex class.");
 		}
 		return null;
 	}
@@ -559,11 +537,35 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		if (ocl.hasErrors() || null == result) {
 			return null;
 		}
-		if (result instanceof ValueSpecification) {
-			return (ValueSpecification) result;
+		return translateOCLResult(result, name);
+	}
+
+	/**
+	 * Changes OCL result into ValueSpecification for evaluation.
+	 * 
+	 * @param oclResult
+	 * @param name
+	 *            of navigation (for error only)
+	 * @return
+	 */
+	@SuppressWarnings("rawtypes")
+	private ValueSpecification translateOCLResult(Object oclResult, String name) {
+		if (oclResult instanceof ValueSpecification) {
+			return (ValueSpecification) oclResult;
 		}
-		if (UMLTypesUtil.canBeConverted(result)) {
-			return UMLTypesUtil.getObjectValue(result, checker, checker.getCheckedObject());
+		if (oclResult instanceof Collection) {
+			Collection collection = (Collection) oclResult;
+			if (collection.isEmpty()) {
+				return null;
+			} else if (collection.size() == 1) {
+				oclResult = collection.toArray()[0];
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through multiplicity many ('" + name + "') is not possible, use OCL expression instead.");
+				return null;
+			}
+		}
+		if (UMLTypesUtil.canBeConverted(oclResult)) {
+			return UMLTypesUtil.getObjectValue(oclResult, checker, checker.getCheckedObject());
 		}
 		return null;
 	}
