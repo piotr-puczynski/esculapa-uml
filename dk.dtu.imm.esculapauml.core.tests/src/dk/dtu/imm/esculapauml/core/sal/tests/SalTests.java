@@ -269,4 +269,244 @@ public class SalTests {
 
 	}
 
+	@Test
+	public void addition() throws ParseException {
+		SALParser parser = new SALParser("2+3");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTADD, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val2.getId());
+
+		assertEquals(2, val1.jjtGetValue());
+		assertEquals(3, val2.jjtGetValue());
+
+	}
+
+	@Test
+	public void substraction() throws ParseException {
+		SALParser parser = new SALParser("2-3");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTSUBSTRACT, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val2.getId());
+
+		assertEquals(2, val1.jjtGetValue());
+		assertEquals(3, val2.jjtGetValue());
+
+	}
+
+	@Test
+	public void mul() throws ParseException {
+		SALParser parser = new SALParser("2*3");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTMULT, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val2.getId());
+
+		assertEquals(2, val1.jjtGetValue());
+		assertEquals(3, val2.jjtGetValue());
+
+	}
+
+	@Test
+	public void div() throws ParseException {
+		SALParser parser = new SALParser("2/3");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTDIV, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val2.getId());
+
+		assertEquals(2, val1.jjtGetValue());
+		assertEquals(3, val2.jjtGetValue());
+
+	}
+
+	@Test
+	public void mulPrecedence() throws ParseException {
+		SALParser parser = new SALParser("2+3*9");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTADD, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTMULT, val2.getId());
+
+		assertEquals(2, val1.jjtGetValue());
+	}
+
+	@Test
+	public void parantheses() throws ParseException {
+		SALParser parser = new SALParser("(2+3)*-9");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTMULT, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTADD, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val2.getId());
+
+		assertEquals(-9, val2.jjtGetValue());
+	}
+
+	@Test
+	public void paranthesesExtra() throws ParseException {
+		SALParser parser = new SALParser("((((2+3)))*-9)");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTMULT, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTADD, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, val2.getId());
+
+		assertEquals(-9, val2.jjtGetValue());
+	}
+
+	@Test
+	public void and() throws ParseException {
+		SALParser parser = new SALParser("true and false");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTAND, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTLOGICCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTLOGICCONSTANT, val2.getId());
+
+		assertEquals(true, val1.jjtGetValue());
+		assertEquals(false, val2.jjtGetValue());
+	}
+
+	@Test
+	public void or() throws ParseException {
+		SALParser parser = new SALParser("true or false");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTOR, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTLOGICCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTLOGICCONSTANT, val2.getId());
+
+		assertEquals(true, val1.jjtGetValue());
+		assertEquals(false, val2.jjtGetValue());
+	}
+
+	@Test
+	public void not() throws ParseException {
+		SALParser parser = new SALParser("true or not false");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode add = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTOR, add.getId());
+		assertEquals(2, add.jjtGetNumChildren());
+
+		SALNode val1 = add.getChild(0);
+		SALNode val2 = add.getChild(1);
+
+		assertEquals(SALParserTreeConstants.JJTLOGICCONSTANT, val1.getId());
+		assertEquals(SALParserTreeConstants.JJTNOT, val2.getId());
+
+		assertEquals(true, val1.jjtGetValue());
+	}
+
 }
