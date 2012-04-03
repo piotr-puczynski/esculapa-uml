@@ -199,9 +199,15 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		}
 		if (null == prop) {
 			// create local variable
-			prop = originalClass.createOwnedAttribute(name, valueToSet.getType());
-			prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
-			checker.getSystemState().addGeneratedElement(prop);
+			if (null == valueToSet.getType()) {
+				checker.addOtherProblem(Diagnostic.ERROR,
+						"Type couldn't be coerced from given value to any significant type when tried to create local variable '" + name + "'.", errorContext);
+				return false;
+			} else {
+				prop = originalClass.createOwnedAttribute(name, valueToSet.getType());
+				prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
+				checker.getSystemState().addGeneratedElement(prop);
+			}
 		}
 		// type check
 		if (!prop.getType().conformsTo(valueToSet.getType())) {

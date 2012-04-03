@@ -601,7 +601,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			OCLEvaluator ocl = new OCLEvaluator(checker, context, trc.getCheckedObject());
 			ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
 			Object result = ocl.evaluate(navigation);
-			if (ocl.hasErrors() || null == result) {
+			if (ocl.hasErrors()) {
 				return null;
 			}
 			return translateOCLResult(result, navigation);
@@ -626,7 +626,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
 		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
 		Object result = ocl.evaluate(name);
-		if (ocl.hasErrors() || null == result) {
+		if (ocl.hasErrors()) {
 			return null;
 		}
 		return translateOCLResult(result, name);
@@ -648,9 +648,13 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		if (oclResult instanceof Collection) {
 			Collection collection = (Collection) oclResult;
 			if (collection.isEmpty()) {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through empty collection ('" + name + "') is not possible.");
 				return null;
 			} else if (collection.size() == 1) {
 				oclResult = collection.toArray()[0];
+				if (oclResult instanceof ValueSpecification) {
+					return (ValueSpecification) oclResult;
+				}
 			} else {
 				trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through multiplicity many ('" + name + "') is not possible, use OCL expression instead.");
 				return null;
@@ -658,6 +662,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		}
 		if (UMLTypesUtil.canBeConverted(oclResult)) {
 			return UMLTypesUtil.getObjectValue(oclResult, checker, checker.getCheckedObject());
+		}
+		if(null == oclResult) {
+			return UMLTypesUtil.getNullValue();
 		}
 		return null;
 	}
