@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import java.util.Collection;
 
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InteractionFragment;
 import org.eclipse.uml2.uml.Lifeline;
@@ -23,12 +24,12 @@ import org.eclipse.uml2.uml.Vertex;
 
 /**
  * Checker for collections of objects
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
 public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 
-	
 	/**
 	 * @param checker
 	 * @param objectToCheck
@@ -37,34 +38,38 @@ public class CollectionChecker<T> extends AbstractChecker<Collection<T>> {
 		super(checker, objectToCheck);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see dk.dtu.imm.esculapauml.core.checkers.CheckerInterface#check()
 	 */
 	@Override
 	public void check() {
-		for(T elem : checkee) {
+		for (T elem : checkee) {
 			Checker checker = null;
-			if(elem instanceof Lifeline) {
+			if (elem instanceof Lifeline) {
 				checker = new LifelineChecker(this, (Lifeline) elem);
-			} else if(elem instanceof Message) {
+			} else if (elem instanceof Message) {
 				checker = new MessageChecker(this, (Message) elem);
-			} else if(elem instanceof Region) {
+			} else if (elem instanceof Region) {
 				checker = new RegionChecker(this, (Region) elem);
-			} else if(elem instanceof InteractionFragment) {
+			} else if (elem instanceof InteractionFragment) {
 				checker = new InteractionFragmentChecker(this, (InteractionFragment) elem);
-			} else if(elem instanceof InstanceSpecification) {
+			} else if (elem instanceof InstanceSpecification) {
 				checker = new InstanceSpecificationChecker(this, (InstanceSpecification) elem);
-			} else if(elem instanceof Vertex) {
+			} else if (elem instanceof Vertex) {
 				checker = new VertexChecker(this, (Vertex) elem);
-			} else if(elem instanceof Slot) {
+			} else if (elem instanceof Slot) {
 				checker = new SlotChecker(this, (Slot) elem);
+			} else if (elem instanceof Component) {
+				checker = new ComponentChecker(this, (Component) elem);
 			}
-			
+
 			// add more classes here if needed
 			assert checker != null;
 			checker.check();
 		}
-		
+
 	}
 
 }

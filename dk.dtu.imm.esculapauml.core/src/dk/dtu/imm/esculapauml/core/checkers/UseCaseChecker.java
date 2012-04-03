@@ -39,6 +39,7 @@ public class UseCaseChecker extends AbstractInteractionChecker {
 	public void check() {
 		logger.info(checkee.getLabel() + ": starting use case check");
 		systemState.prepare(getCheckedObject().getName(), getCheckedObject());
+		checkComponents();
 		checkExistingInstances();
 		checkLifelines();
 		checkMessages();

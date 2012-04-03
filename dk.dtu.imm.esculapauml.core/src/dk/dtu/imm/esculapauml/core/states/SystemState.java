@@ -28,9 +28,11 @@ import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Type;
@@ -52,6 +54,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCoordinator;
 public class SystemState {
 	private List<InstanceExecutor> instanceExecutors = new LinkedList<InstanceExecutor>();
 	private List<InstanceSpecification> existingInstances = new LinkedList<InstanceSpecification>();
+	private List<Component> existingComponents = new LinkedList<Component>();
 	private HashMap<BehavioredClassifier, BehaviorChecker> behaviorCheckers = new HashMap<BehavioredClassifier, BehaviorChecker>();
 	private org.eclipse.uml2.uml.Package instancePackage = null;
 	private Set<Element> generatedElements = new HashSet<Element>();
@@ -79,11 +82,28 @@ public class SystemState {
 	public void prepare(String name, Element toCheck) {
 		generatedElements.clear();
 		existingInstances.clear();
+		existingComponents.clear();
 		behaviorCheckers.clear();
-		// search for existing instances
+		// search for existing instances and components
 		instancePackage = toCheck.getNearestPackage();
 		searchForExistingInstanceSpecifications(instancePackage);
+		searchForExistingComponents(instancePackage.getModel());
 		coordinator = new ExecutionCoordinator();
+	}
+
+	/**
+	 * Finds all components in the model.
+	 * 
+	 * @param model
+	 */
+	private void searchForExistingComponents(Model model) {
+		TreeIterator<EObject> it = model.eAllContents();
+		while (it.hasNext()) {
+			EObject o = it.next();
+			if (o.eClass() == Literals.COMPONENT) {
+				existingComponents.add((Component) o);
+			}
+		}
 	}
 
 	/**
@@ -298,5 +318,12 @@ public class SystemState {
 	 */
 	public ExecutionCoordinator getCoordinator() {
 		return coordinator;
+	}
+
+	/**
+	 * @return the existingComponents
+	 */
+	public List<Component> getExistingComponents() {
+		return existingComponents;
 	}
 }

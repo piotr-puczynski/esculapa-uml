@@ -13,6 +13,7 @@ package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Interaction;
 import org.eclipse.uml2.uml.Lifeline;
@@ -56,6 +57,14 @@ public abstract class AbstractInteractionChecker extends AbstractChecker<Interac
 	 */
 	protected void checkExistingInstances() {
 		CollectionChecker<?> cc = new CollectionChecker<InstanceSpecification>(this, systemState.getExistingInstances());
+		cc.check();
+	}
+
+	/**
+	 * Checks all components in the model.
+	 */
+	protected void checkComponents() {
+		CollectionChecker<?> cc = new CollectionChecker<Component>(this, systemState.getExistingComponents());
 		cc.check();
 	}
 
