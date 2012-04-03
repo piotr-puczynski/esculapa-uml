@@ -1,5 +1,5 @@
 /******************************************************************************
-* Copyright (c) 2011, 2012 Piotr J. Puczynski (DTU Informatics).
+ * Copyright (c) 2011, 2012 Piotr J. Puczynski (DTU Informatics).
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Property;
+import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.StateMachine;
 
 /**
@@ -45,9 +46,18 @@ public class InstanceSpecificationChecker extends AbstractChecker<InstanceSpecif
 	@Override
 	public void check() {
 		structuralCheck();
+		slotsCheck();
 		if (!hasErrors()) {
 			generateExecutor();
 		}
+	}
+
+	/**
+	 * Checks all of the slots in the instance.
+	 */
+	private void slotsCheck() {
+		CollectionChecker<?> cc = new CollectionChecker<Slot>(this, checkee.getSlots());
+		cc.check();
 	}
 
 	/**
