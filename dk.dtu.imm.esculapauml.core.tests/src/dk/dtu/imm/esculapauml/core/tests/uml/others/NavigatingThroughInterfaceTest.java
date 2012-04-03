@@ -23,15 +23,15 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Check evaluation of SAL (and OCL) that we can navigate through links defined by means of interfaces.
+ * Tests update of links by SAL assignment.
  * 
  * @author Piotr. J. Puczynski (piotr.puczynski)
  * 
  */
-public class LinkUpdatedTest extends LoggingTest {
+public class NavigatingThroughInterfaceTest extends LoggingTest {
 
-	private Resource model = TestUtils.getUMLResource("NavigatingThroughInterface.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/NavigatingThroughInterface.uml");
+	private Resource model = TestUtils.getUMLResource("LinkUpdated.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/LinkUpdated.uml");
 
 	@Test
 	public void protocolStateMachineOrder() throws InterruptedException {
