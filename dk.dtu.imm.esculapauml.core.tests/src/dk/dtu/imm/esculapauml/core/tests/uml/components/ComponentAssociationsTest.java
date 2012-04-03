@@ -41,15 +41,18 @@ public class ComponentAssociationsTest extends LoggingTest {
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		TestUtils.printDiagnostic(diagnostics);
+		// TestUtils.printDiagnostic(diagnostics);
 		// there is an error
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		assertEquals(2, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		assertEquals(3, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
 		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
 				"The component 'CompA' has type 'A' that has association to other type 'B' in other component 'CompB'."));
 
 		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
 				"The component 'CompB' has type 'B' that has association to other type 'A' in other component 'CompA'."));
+
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
+				"The component 'CompA' has class 'A' that has attribute of type 'B' that is located in other component 'CompB'."));
 	}
 }

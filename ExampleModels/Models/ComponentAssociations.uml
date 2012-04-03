@@ -3,7 +3,9 @@
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="ComponentAssociations">
     <packagedElement xmi:type="uml:Component" xmi:id="_0kg6UH2aEeGeLt1-g2-BqQ">
       <nestedClassifier xmi:type="uml:Component" xmi:id="_8WSNgH2aEeGeLt1-g2-BqQ" name="CompA">
-        <nestedClassifier xmi:type="uml:Class" xmi:id="_Da9KIH2bEeGeLt1-g2-BqQ" name="A"/>
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_Da9KIH2bEeGeLt1-g2-BqQ" name="A">
+          <ownedAttribute xmi:id="_Uc37kH2yEeGXwMAY5NrXZA" name="Property1" type="_EMPdIH2bEeGeLt1-g2-BqQ"/>
+        </nestedClassifier>
       </nestedClassifier>
       <nestedClassifier xmi:type="uml:Component" xmi:id="_9w5KUH2aEeGeLt1-g2-BqQ" name="CompB">
         <nestedClassifier xmi:type="uml:Class" xmi:id="_EMPdIH2bEeGeLt1-g2-BqQ" name="B"/>

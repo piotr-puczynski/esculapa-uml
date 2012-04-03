@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_wyokIH2aEeGeLt1-g2-BqQ" activeDiagram="_guvNQX2bEeGeLt1-g2-BqQ">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_wyokIH2aEeGeLt1-g2-BqQ" activeDiagram="_wyokIX2aEeGeLt1-g2-BqQ">
   <model href="ComponentAssociations.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_wyokIX2aEeGeLt1-g2-BqQ" position="0,0" size="100,100" name="ComponentAssociations" viewport="0,0">
     <property xmi:id="_wy6Q8H2aEeGeLt1-g2-BqQ" key="pageFormatName" value="A4"/>
@@ -24,6 +24,11 @@
         <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Da11ZH2bEeGeLt1-g2-BqQ" presentation="default">
           <element href="ComponentAssociations.uml#_Da9KIH2bEeGeLt1-g2-BqQ"/>
         </semanticModel>
+        <contained xsi:type="di:GraphNode" xmi:id="_UclAoX2yEeGXwMAY5NrXZA" position="0,0" size="-1,-1">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_UclAon2yEeGXwMAY5NrXZA" presentation="default">
+            <element href="ComponentAssociations.uml#_Uc37kH2yEeGXwMAY5NrXZA"/>
+          </semanticModel>
+        </contained>
       </contained>
       <contained xsi:type="di:GraphNode" xmi:id="_Da11ZX2bEeGeLt1-g2-BqQ">
         <property xmi:id="_Da11Zn2bEeGeLt1-g2-BqQ" key="eStructuralFeatureID" value="47 50 "/>

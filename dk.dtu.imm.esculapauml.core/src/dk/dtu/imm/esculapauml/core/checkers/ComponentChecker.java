@@ -17,6 +17,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
@@ -31,6 +32,8 @@ import dk.dtu.imm.esculapauml.core.utils.UMLStructureUtils;
  * 
  */
 public class ComponentChecker extends AbstractChecker<Component> {
+
+	private EList<EObject> elements;
 
 	/**
 	 * @param checker
@@ -47,17 +50,17 @@ public class ComponentChecker extends AbstractChecker<Component> {
 	 */
 	@Override
 	public void check() {
-		EList<EObject> elements = getElementsExcludingOtherComponents();
-		checkAssociationsBetweenComponents(elements);
+		elements = getElementsExcludingOtherComponents();
+		checkAssociationsBetweenComponents();
+		checkAttributesBetweenComponents();
 	}
 
 	/**
 	 * Check if no associations point outside of this component to another
 	 * component.
 	 * 
-	 * @param elements
 	 */
-	private void checkAssociationsBetweenComponents(EList<EObject> elements) {
+	private void checkAssociationsBetweenComponents() {
 		for (EObject element : elements) {
 			if (element instanceof Type) {
 				for (Association assoc : ((Type) element).getAssociations()) {
@@ -81,6 +84,32 @@ public class ComponentChecker extends AbstractChecker<Component> {
 	}
 
 	/**
+	 * Check if no attributes point outside of this component to another
+	 * component.
+	 * 
+	 */
+	private void checkAttributesBetweenComponents() {
+		for (EObject element : elements) {
+			if (element instanceof Class) {
+				for (Property prop : ((Class) element).getAttributes()) {
+					Type type = prop.getType();
+					if (type != element && null != type) {
+						if (!elements.contains(type)) {
+							Component comp = UMLStructureUtils.getOwningComponent(type);
+							if (null != comp && comp != checkee) {
+								addOtherProblem(Diagnostic.ERROR, "The component '" + checkee.getLabel() + "' has class '" + ((Type) element).getLabel()
+										+ "' that has attribute of type '" + type.getLabel() + "' that is located in other component '" + comp.getLabel()
+										+ "'.", prop);
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	/**
 	 * Finds contents of components excluding other components contents.
 	 * 
 	 * @return
@@ -92,6 +121,7 @@ public class ComponentChecker extends AbstractChecker<Component> {
 		while (it.hasNext()) {
 			EObject o = it.next();
 			if (o.eClass() == Literals.COMPONENT) {
+				result.add(o);
 				it.prune();
 			} else {
 				result.add(o);
