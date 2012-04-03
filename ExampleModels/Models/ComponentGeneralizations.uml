@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="ComponentAssociations">
+    <packagedElement xmi:type="uml:Component" xmi:id="_0kg6UH2aEeGeLt1-g2-BqQ">
+      <nestedClassifier xmi:type="uml:Component" xmi:id="_8WSNgH2aEeGeLt1-g2-BqQ" name="CompA">
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_Da9KIH2bEeGeLt1-g2-BqQ" name="A">
+          <generalization xmi:id="_eSbZg320EeGvK-24ORtZwg" general="_EMPdIH2bEeGeLt1-g2-BqQ"/>
+        </nestedClassifier>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Component" xmi:id="_9w5KUH2aEeGeLt1-g2-BqQ" name="CompB">
+        <nestedClassifier xmi:type="uml:Class" xmi:id="_EMPdIH2bEeGeLt1-g2-BqQ" name="B"/>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:UseCase" xmi:id="_fu4SwH2bEeGeLt1-g2-BqQ" name="UseCase1" classifierBehavior="_guumMH2bEeGeLt1-g2-BqQ">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_guumMH2bEeGeLt1-g2-BqQ" name="UseCase1Detail"/>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

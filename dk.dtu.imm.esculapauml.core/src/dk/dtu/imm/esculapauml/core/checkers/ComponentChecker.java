@@ -17,7 +17,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
@@ -52,7 +52,7 @@ public class ComponentChecker extends AbstractChecker<Component> {
 	public void check() {
 		elements = getElementsExcludingOtherComponents();
 		checkAssociationsBetweenComponents();
-		checkAttributesBetweenComponents();
+		checkClassifiersBetweenComponents();
 	}
 
 	/**
@@ -84,23 +84,36 @@ public class ComponentChecker extends AbstractChecker<Component> {
 	}
 
 	/**
-	 * Check if no attributes point outside of this component to another
-	 * component.
+	 * Check if no attributes or generalizations point outside of this component
+	 * to another component.
 	 * 
 	 */
-	private void checkAttributesBetweenComponents() {
+	private void checkClassifiersBetweenComponents() {
 		for (EObject element : elements) {
-			if (element instanceof Class) {
-				for (Property prop : ((Class) element).getAttributes()) {
+			if (element instanceof Classifier) {
+				for (Property prop : ((Classifier) element).getAttributes()) {
 					Type type = prop.getType();
 					if (type != element && null != type) {
 						if (!elements.contains(type)) {
 							Component comp = UMLStructureUtils.getOwningComponent(type);
 							if (null != comp && comp != checkee) {
-								addOtherProblem(Diagnostic.ERROR, "The component '" + checkee.getLabel() + "' has class '" + ((Type) element).getLabel()
-										+ "' that has attribute of type '" + type.getLabel() + "' that is located in other component '" + comp.getLabel()
-										+ "'.", prop);
+								addOtherProblem(
+										Diagnostic.ERROR,
+										"The component '" + checkee.getLabel() + "' has classifier '" + ((Classifier) element).getLabel()
+												+ "' that has attribute of type '" + type.getLabel() + "' that is located in other component '"
+												+ comp.getLabel() + "'.", prop);
 							}
+						}
+					}
+				}
+
+				for (Classifier general : ((Classifier) element).getGenerals()) {
+					if (!elements.contains(general)) {
+						Component comp = UMLStructureUtils.getOwningComponent(general);
+						if (null != comp && comp != checkee) {
+							addOtherProblem(Diagnostic.ERROR, "The component '" + checkee.getLabel() + "' has classifier '" + ((Classifier) element).getLabel()
+									+ "' that has general type '" + general.getLabel() + "' that is located in other component '" + comp.getLabel() + "'.",
+									element);
 						}
 					}
 				}

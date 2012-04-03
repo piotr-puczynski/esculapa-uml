@@ -25,14 +25,14 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test of an error in case classes in components have association to class in
- * other component.
+ * Test of an error in case classes in components have generalization to class
+ * in other component.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class ComponentAssociationsTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("ComponentAssociations.uml");
+public class ComponentGeneralizationsTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("ComponentGeneralizations.uml");
 
 	@Test
 	public void componentAssociations() throws InterruptedException {
@@ -44,15 +44,10 @@ public class ComponentAssociationsTest extends LoggingTest {
 		// TestUtils.printDiagnostic(diagnostics);
 		// there is an error
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		assertEquals(3, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
+		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
 		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-				"The component 'CompA' has type 'A' that has association to other type 'B' in other component 'CompB'."));
+				"The component 'CompA' has classifier 'A' that has general type 'B' that is located in other component 'CompB'."));
 
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-				"The component 'CompB' has type 'B' that has association to other type 'A' in other component 'CompA'."));
-
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-				"The component 'CompA' has classifier 'A' that has attribute of type 'B' that is located in other component 'CompB'."));
 	}
 }
