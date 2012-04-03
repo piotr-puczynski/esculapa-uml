@@ -5,17 +5,17 @@
   </elementImport>
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="Simple2">
     <packagedElement xmi:type="uml:Class" xmi:id="_Hokf0DJJEeGjS-_RcLljMA" name="C" classifierBehavior="_iSpjsEOKEeG4EdriM4MjZA">
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_iSpjsEOKEeG4EdriM4MjZA" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_iSpjsEOKEeG4EdriM4MjZA" name="BehaviorOfC">
         <region xmi:id="_iSpjsUOKEeG4EdriM4MjZA" name="Region">
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_i03f8EOKEeG4EdriM4MjZA" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_i03f8EOKEeG4EdriM4MjZA" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_kg3uwEOKEeG4EdriM4MjZA" name="State1"/>
           <subvertex xmi:type="uml:FinalState" xmi:id="_k8QDMkOKEeG4EdriM4MjZA" name="FinalState1"/>
           <subvertex xmi:type="uml:State" xmi:id="_GqvGQFpkEeGVjrC0gxMH4g" name="State2"/>
-          <transition xmi:id="_leLEhkOKEeG4EdriM4MjZA" name="Transition1" source="_i03f8EOKEeG4EdriM4MjZA" target="_kg3uwEOKEeG4EdriM4MjZA"/>
+          <transition xmi:id="_leLEhkOKEeG4EdriM4MjZA" name="" source="_i03f8EOKEeG4EdriM4MjZA" target="_kg3uwEOKEeG4EdriM4MjZA"/>
           <transition xmi:id="_l7n1hUOKEeG4EdriM4MjZA" name="testTransition" source="_kg3uwEOKEeG4EdriM4MjZA" target="_GqvGQFpkEeGVjrC0gxMH4g">
             <trigger xmi:id="_oopccEOKEeG4EdriM4MjZA" event="_HzgXQVgWEeGNWfnyZ1uO5w"/>
           </transition>
-          <transition xmi:id="_IwLv1FpkEeGVjrC0gxMH4g" name="Transition2" source="_GqvGQFpkEeGVjrC0gxMH4g" target="_k8QDMkOKEeG4EdriM4MjZA"/>
+          <transition xmi:id="_IwLv1FpkEeGVjrC0gxMH4g" name="" source="_GqvGQFpkEeGVjrC0gxMH4g" target="_k8QDMkOKEeG4EdriM4MjZA"/>
         </region>
       </ownedBehavior>
       <ownedOperation xmi:id="_IeJc8DJJEeGjS-_RcLljMA" name="m">
@@ -33,8 +33,8 @@
           <end xmi:id="_o4c6MDJLEeGjS-_RcLljMA"/>
           <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
         </ownedConnector>
-        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Lifeline1" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_HzfJIFgWEeGNWfnyZ1uO5w _SOTS8DJKEeGjS-_RcLljMA"/>
-        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="Lifeline2" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_HzgXQFgWEeGNWfnyZ1uO5w _0ZLLYDJLEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Piotr" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_HzfJIFgWEeGNWfnyZ1uO5w _SOTS8DJKEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="c" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_HzgXQFgWEeGNWfnyZ1uO5w _0ZLLYDJLEeGjS-_RcLljMA"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_HzfJIFgWEeGNWfnyZ1uO5w" name="MessageOccurrenceSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_HzgXQVgWEeGNWfnyZ1uO5w" message="_Hzg-UFgWEeGNWfnyZ1uO5w"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_HzgXQFgWEeGNWfnyZ1uO5w" name="MessageOccurrenceSpecification2" covered="_o900UDJJEeGjS-_RcLljMA" event="_HzgXQVgWEeGNWfnyZ1uO5w" message="_Hzg-UFgWEeGNWfnyZ1uO5w"/>
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_SOTS8DJKEeGjS-_RcLljMA" name="BehaviorExecutionSpecification1" covered="_fRnNsDJJEeGjS-_RcLljMA" start="_HzfJIFgWEeGNWfnyZ1uO5w" finish="_HzfJIFgWEeGNWfnyZ1uO5w"/>
@@ -47,6 +47,6 @@
       </ownedBehavior>
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_rbyEgDJJEeGjS-_RcLljMA" name="Actor1"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_HzgXQVgWEeGNWfnyZ1uO5w" name="mEvent" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_HzgXQVgWEeGNWfnyZ1uO5w" name="m()" operation="_IeJc8DJJEeGjS-_RcLljMA"/>
   </packagedElement>
 </uml:Model>
