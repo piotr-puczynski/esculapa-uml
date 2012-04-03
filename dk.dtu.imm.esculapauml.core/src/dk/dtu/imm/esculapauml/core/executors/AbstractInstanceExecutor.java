@@ -44,10 +44,6 @@ import dk.dtu.imm.esculapauml.core.utils.Pair;
  * @author Piotr J. Puczynski
  * 
  */
-/**
- * @author Piotr J. Puczynski
- * 
- */
 public abstract class AbstractInstanceExecutor extends AbstractExecutor implements InstanceExecutor {
 
 	protected InstanceSpecification instanceSpecification;
