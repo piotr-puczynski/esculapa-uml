@@ -67,7 +67,7 @@ public class ComponentChecker extends AbstractChecker<Component> {
 							if (!elements.contains(type)) {
 								Component comp = UMLStructureUtils.getOwningComponent(type);
 								if (null != comp && comp != checkee) {
-									addOtherProblem(Diagnostic.ERROR, "The component \"" + checkee.getLabel() + "\" has type '" + ((Type) element).getLabel()
+									addOtherProblem(Diagnostic.ERROR, "The component '" + checkee.getLabel() + "' has type '" + ((Type) element).getLabel()
 											+ "' that has association to other type '" + type.getLabel() + "' in other component '" + comp.getLabel() + "'.",
 											assoc);
 								}
