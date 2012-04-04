@@ -19,8 +19,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Component;
+import org.eclipse.uml2.uml.Dependency;
+import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 import dk.dtu.imm.esculapauml.core.utils.UMLStructureUtils;
@@ -52,7 +55,57 @@ public class ComponentChecker extends AbstractChecker<Component> {
 	public void check() {
 		elements = getElementsExcludingOtherComponents();
 		checkAssociationsBetweenComponents();
-		checkClassifiersBetweenComponents();
+		checkDependenciesBetweenComponents();
+		checkGeneralizationsBetweenComponents();
+		checkTypedElements();
+	}
+
+	/**
+	 * Check all typed elements if they refer not to other components.
+	 */
+	private void checkTypedElements() {
+		for (EObject element : elements) {
+			if (element instanceof TypedElement) {
+				Type type = ((TypedElement) element).getType();
+				if (null != type) {
+					if (!elements.contains(type)) {
+						Component comp = UMLStructureUtils.getOwningComponent(type);
+						if (null != comp && comp != checkee) {
+							addOtherProblem(Diagnostic.ERROR, "The component '" + checkee.getLabel() + "' has element '" + ((TypedElement) element).getLabel()
+									+ "' of type '" + type.getLabel() + "' that is located in other component '" + comp.getLabel() + "'.", element);
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Checks dependencies between components.
+	 */
+	private void checkDependenciesBetweenComponents() {
+		for (EObject element : elements) {
+			if (element instanceof NamedElement) {
+				for (Dependency dep : ((NamedElement) element).getClientDependencies()) {
+					for (NamedElement type : dep.getSuppliers()) {
+						if (type != element && null != type) {
+							if (!elements.contains(type)) {
+								Component comp = UMLStructureUtils.getOwningComponent(type);
+								if (null != comp && comp != checkee) {
+									addOtherProblem(
+											Diagnostic.ERROR,
+											"The component '" + checkee.getLabel() + "' has classifier '" + ((Classifier) element).getLabel()
+													+ "' that is dependend from type '" + type.getLabel() + "' that is located in other component '"
+													+ comp.getLabel() + "'.", dep);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -84,29 +137,13 @@ public class ComponentChecker extends AbstractChecker<Component> {
 	}
 
 	/**
-	 * Check if no attributes or generalizations point outside of this component
-	 * to another component.
+	 * Check if no generalizations point outside of this component to another
+	 * component.
 	 * 
 	 */
-	private void checkClassifiersBetweenComponents() {
+	private void checkGeneralizationsBetweenComponents() {
 		for (EObject element : elements) {
 			if (element instanceof Classifier) {
-				for (Property prop : ((Classifier) element).getAttributes()) {
-					Type type = prop.getType();
-					if (type != element && null != type) {
-						if (!elements.contains(type)) {
-							Component comp = UMLStructureUtils.getOwningComponent(type);
-							if (null != comp && comp != checkee) {
-								addOtherProblem(
-										Diagnostic.ERROR,
-										"The component '" + checkee.getLabel() + "' has classifier '" + ((Classifier) element).getLabel()
-												+ "' that has attribute of type '" + type.getLabel() + "' that is located in other component '"
-												+ comp.getLabel() + "'.", prop);
-							}
-						}
-					}
-				}
-
 				for (Classifier general : ((Classifier) element).getGenerals()) {
 					if (!elements.contains(general)) {
 						Component comp = UMLStructureUtils.getOwningComponent(general);

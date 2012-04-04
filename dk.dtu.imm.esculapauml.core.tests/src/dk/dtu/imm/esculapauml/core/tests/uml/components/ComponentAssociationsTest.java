@@ -53,6 +53,6 @@ public class ComponentAssociationsTest extends LoggingTest {
 				"The component 'CompB' has type 'B' that has association to other type 'A' in other component 'CompA'."));
 
 		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-				"The component 'CompA' has classifier 'A' that has attribute of type 'B' that is located in other component 'CompB'."));
+				"The component 'CompA' has element 'Property1' of type 'B' that is located in other component 'CompB'."));
 	}
 }
