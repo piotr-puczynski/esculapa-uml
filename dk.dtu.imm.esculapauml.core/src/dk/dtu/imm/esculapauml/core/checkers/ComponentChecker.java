@@ -11,6 +11,10 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
@@ -20,6 +24,8 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Dependency;
+import org.eclipse.uml2.uml.Interface;
+import org.eclipse.uml2.uml.InterfaceRealization;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Type;
@@ -58,6 +64,50 @@ public class ComponentChecker extends AbstractChecker<Component> {
 		checkDependenciesBetweenComponents();
 		checkGeneralizationsBetweenComponents();
 		checkTypedElements();
+		checkProvidedInterfacesRealizations();
+	}
+
+	/**
+	 * Finds provided interfaces of component and checks if they are realized by
+	 * classes.
+	 */
+	private void checkProvidedInterfacesRealizations() {
+		Map<Interface, EList<InterfaceRealization>> interfacesMap = new HashMap<Interface, EList<InterfaceRealization>>();
+		for (EObject element : elements) {
+			if (element instanceof InterfaceRealization) {
+				InterfaceRealization ir = (InterfaceRealization) element;
+				if (null != ir.getContract()) {
+					EList<InterfaceRealization> l = interfacesMap.get(ir.getContract());
+					if (null == l) {
+						interfacesMap.put(ir.getContract(), l = new BasicEList<InterfaceRealization>());
+					}
+					l.add(ir);
+				}
+			}
+		}
+
+		for (Entry<Interface, EList<InterfaceRealization>> entry : interfacesMap.entrySet()) {
+			boolean isProvided = false;
+			boolean isRealized = false;
+			for (InterfaceRealization ir : entry.getValue()) {
+				if (ir.getClients().contains(checkee)) {
+					isProvided = true;
+				}
+				if (!isRealized) {
+					for (NamedElement ne : ir.getClients()) {
+						if (ne != checkee && ne.eClass() == Literals.CLASS && elements.contains(ne)) {
+							isRealized = true;
+							break;
+						}
+					}
+				}
+			}
+			if (isProvided && !isRealized) {
+				addOtherProblem(Diagnostic.ERROR, "Provided interface '" + entry.getKey().getLabel() + "' is not realized by any class in component '"
+						+ checkee.getLabel() + "'.'", checkee, entry.getKey());
+			}
+		}
+
 	}
 
 	/**
