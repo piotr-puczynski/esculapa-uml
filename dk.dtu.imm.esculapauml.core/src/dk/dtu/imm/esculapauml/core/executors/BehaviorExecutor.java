@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -36,6 +37,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Namespace;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.OpaqueExpression;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
@@ -58,6 +60,11 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnCont
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
+import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
+import dk.dtu.imm.esculapauml.core.ocl.convert.OCLConversionException;
+import dk.dtu.imm.esculapauml.core.ocl.convert.OCLEmptyCollectionException;
+import dk.dtu.imm.esculapauml.core.ocl.convert.OCLMultiplicityManyCollectionException;
+import dk.dtu.imm.esculapauml.core.ocl.convert.OclToUmlConverter;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
@@ -69,6 +76,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	protected Set<Vertex> activeConfiguration = new HashSet<Vertex>();
 	protected StateMachine checkee;
 	protected BehaviorChecker checker;
+	protected boolean isExecuting = false;
+
 	protected static Predicate<Transition> isCompletionTransition = new Predicate<Transition>() {
 		public boolean apply(Transition item) {
 			return item.getTriggers().isEmpty();
@@ -114,7 +123,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		// dispatch completion event
 		TransitionReplyChecker trc = new TransitionReplyChecker(checker, null, null);
 		trc.setAllowedToHaveReply(false);
+		isExecuting = true;
 		recalculateActiveState(trc);
+		isExecuting = false;
 	}
 
 	/**
@@ -201,53 +212,134 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		if (checker.hasErrors()) {
 			return null;
 		}
-		Transition goodTransition = getEnabledTransitionForOperation(operation, arguments, errorContext);
-		if (null == goodTransition) {
+		if (isSynchronous && isQueryOperation(operation)) {
+			return callQueryOperation(source, caller, operation, arguments, isSynchronous, errorContext);
+		}
+		if (isExecuting) {
+			// self-call error
 			if (isSynchronous) {
-				checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is not ready to respond to an event '"
-						+ operation.getLabel() + "'.", errorContext);
+				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName() + "\" cannot accept self-calls of \""
+						+ operation.getLabel() + "\" that is not query operation.", errorContext);
+				return null;
 			} else {
-				// warning, the machine is not able to process an operation
-				// event
-				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName() + "\" is not ready for an event \""
-						+ operation.getLabel() + "\". Event is lost.", errorContext);
-				// asynchronous call returns immediately
-				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
-				checker.getSystemState().getCoordinator().fireEvent(ecrce);
+				// TODO place event in queue
 			}
 		} else {
-			// dispatch new execution event
-			EsculapaCallEvent ece = new EsculapaCallEvent(source, errorContext, this, operation, arguments, isSynchronous);
-			checker.getSystemState().getCoordinator().fireEvent(ece);
-			if (checker.hasErrors()) {
-				return null;
-			}
-			if (!isSynchronous) {
-				// asynchronous call returns immediately
-				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
-				checker.getSystemState().getCoordinator().fireEvent(ecrce);
-			}
+			// TODO execute everything asynchronous from queue
+			isExecuting = true;
+		}
+		try {
+			Transition goodTransition = getEnabledTransitionForOperation(operation, arguments, errorContext);
+			if (null == goodTransition) {
+				if (isSynchronous) {
+					checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is not ready to respond to an event '"
+							+ operation.getLabel() + "'.", errorContext);
+				} else {
+					// warning, the machine is not able to process an operation
+					// event
+					checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName()
+							+ "\" is not ready for an event \"" + operation.getLabel() + "\". Event is lost.", errorContext);
+					// asynchronous call returns immediately
+					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
+					checker.getSystemState().getCoordinator().fireEvent(ecrce);
+				}
+			} else {
+				// dispatch new execution event
+				EsculapaCallEvent ece = new EsculapaCallEvent(source, errorContext, this, operation, arguments, isSynchronous);
+				checker.getSystemState().getCoordinator().fireEvent(ece);
+				if (checker.hasErrors()) {
+					return null;
+				}
+				if (!isSynchronous) {
+					// asynchronous call returns immediately
+					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
+					checker.getSystemState().getCoordinator().fireEvent(ecrce);
+				}
 
-			TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
-			// only synchronous calls can have a reply
-			trc.setAcceptReplies(isSynchronous);
-			fireTransition(trc);
-			// dispatch completion event
-			recalculateActiveState(trc);
-			ValueSpecification result = trc.getReply();
-			trc.check();
+				TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
+				// only synchronous calls can have a reply
+				trc.setAcceptReplies(isSynchronous);
+				fireTransition(trc);
+				// dispatch completion event
+				recalculateActiveState(trc);
+				ValueSpecification result = trc.getReply();
+				trc.check();
 
-			if (isSynchronous && !trc.hasErrors()) {
-				// dispatch new reply event
-				EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, result, ece.getSequenceId());
-				checker.getSystemState().getCoordinator().fireEvent(ere);
-				// synchronous control flow returned here
-				EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
-				checker.getSystemState().getCoordinator().fireEvent(ecrce);
-				return result;
+				if (isSynchronous && !trc.hasErrors()) {
+					// dispatch new reply event
+					EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, result, ece.getSequenceId());
+					checker.getSystemState().getCoordinator().fireEvent(ere);
+					// synchronous control flow returned here
+					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
+					checker.getSystemState().getCoordinator().fireEvent(ecrce);
+					return result;
+				}
+			}
+			return null;
+		} finally {
+			isExecuting = false;
+		}
+	}
+
+	/**
+	 * Executes query operation. Does not change state of SM.
+	 * 
+	 * @param source
+	 * @param caller
+	 * @param operation
+	 * @param arguments
+	 * @param isSynchronous
+	 * @param errorContext
+	 * @return
+	 */
+	private ValueSpecification callQueryOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
+			boolean isSynchronous, Element errorContext) {
+		OpaqueExpression oe = (OpaqueExpression) operation.getBodyCondition().getSpecification();
+		preprocessOperationArguments(operation, arguments, errorContext);
+		EsculapaCallEvent ece = new EsculapaCallEvent(source, errorContext, this, operation, arguments, isSynchronous);
+		checker.getSystemState().getCoordinator().fireEvent(ece);
+		if (checker.hasErrors()) {
+			return null;
+		}
+		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), errorContext);
+		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
+		Object result = ocl.evaluate(oe.getBodies().get(0));
+		if (ocl.hasErrors()) {
+			return null;
+		}
+		ValueSpecification umlResult = null;
+		try {
+			umlResult = OclToUmlConverter.convertToOCLSingleValue(result, checker, errorContext);
+		} catch (OCLEmptyCollectionException e) {
+			checker.addOtherProblem(Diagnostic.ERROR, "OCL query operation returned empty collection.", errorContext);
+		} catch (OCLMultiplicityManyCollectionException e) {
+			checker.addProblem(Diagnostic.ERROR, "OCL query operation returned multiplicity many collection.");
+		} catch (OCLConversionException e) {
+			checker.addProblem(Diagnostic.ERROR, "OCL query operation returned value that couldn't be converted to UML.");
+		}
+		EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, umlResult, ece.getSequenceId());
+		checker.getSystemState().getCoordinator().fireEvent(ere);
+		return umlResult;
+	}
+
+	/**
+	 * Checks if operation is valid query operation. I.e. if it has isQuery set
+	 * to true and has OCL body expression.
+	 * 
+	 * @param operation
+	 * @return
+	 */
+	private boolean isQueryOperation(Operation operation) {
+		if (operation.isQuery()) {
+			if (null != operation.getBodyCondition()) {
+				if (operation.getBodyCondition().getSpecification() instanceof OpaqueExpression) {
+					if (!((OpaqueExpression) operation.getBodyCondition().getSpecification()).getBodies().isEmpty()) {
+						return true;
+					}
+				}
 			}
 		}
-		return null;
+		return false;
 	}
 
 	/**
@@ -464,6 +556,13 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			}
 		}
 
+	}
+
+	/**
+	 * @return the isExecuting
+	 */
+	public boolean isExecuting() {
+		return isExecuting;
 	}
 
 }

@@ -14,7 +14,6 @@ package dk.dtu.imm.esculapauml.core.executors;
 import static ch.lambdaj.Lambda.join;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Level;
@@ -33,6 +32,10 @@ import org.eclipse.uml2.uml.ValueSpecification;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
+import dk.dtu.imm.esculapauml.core.ocl.convert.OCLConversionException;
+import dk.dtu.imm.esculapauml.core.ocl.convert.OCLEmptyCollectionException;
+import dk.dtu.imm.esculapauml.core.ocl.convert.OCLMultiplicityManyCollectionException;
+import dk.dtu.imm.esculapauml.core.ocl.convert.OclToUmlConverter;
 import dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper;
 import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAdd;
@@ -640,31 +643,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 *            of navigation (for error only)
 	 * @return
 	 */
-	@SuppressWarnings("rawtypes")
 	private ValueSpecification translateOCLResult(Object oclResult, String name) {
-		if (oclResult instanceof ValueSpecification) {
-			return (ValueSpecification) oclResult;
-		}
-		if (oclResult instanceof Collection) {
-			Collection collection = (Collection) oclResult;
-			if (collection.isEmpty()) {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through empty collection ('" + name + "') is not possible.");
-				return null;
-			} else if (collection.size() == 1) {
-				oclResult = collection.toArray()[0];
-				if (oclResult instanceof ValueSpecification) {
-					return (ValueSpecification) oclResult;
-				}
-			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through multiplicity many ('" + name + "') is not possible, use OCL expression instead.");
-				return null;
-			}
-		}
-		if (UMLTypesUtil.canBeConverted(oclResult)) {
-			return UMLTypesUtil.getObjectValue(oclResult, checker, checker.getCheckedObject());
-		}
-		if(null == oclResult) {
-			return UMLTypesUtil.getNullValue();
+		try {
+			return OclToUmlConverter.convertToOCLSingleValue(oclResult, checker, checker.getCheckedObject());
+		} catch (OCLEmptyCollectionException e) {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through empty collection ('" + name + "') is not possible.");
+		} catch (OCLMultiplicityManyCollectionException e) {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through multiplicity many ('" + name + "') is not possible, use OCL expression instead.");
+		} catch (OCLConversionException e) {
 		}
 		return null;
 	}
