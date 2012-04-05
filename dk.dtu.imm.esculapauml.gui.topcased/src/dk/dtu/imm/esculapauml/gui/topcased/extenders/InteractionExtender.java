@@ -221,10 +221,11 @@ public class InteractionExtender implements ExtenderInterface {
 
 		if (sourcePrev != null) {
 			GraphEdge prevMessageEdge = (GraphEdge) Utils.getGraphElement(di.getSemanticModel().getGraphElement(), sourcePrev.getMessage(), true);
-			// if we are not finishing an execution
+			// if we are not finishing an execution or we are self message
 			// shift down the interaction before we add message to diagram
-			if (targetSpec.getFinish() != message.getReceiveEvent()) {
-				shiftInteractionVerticallyFromY(di, PosUtils.getAbsolutePosition(prevMessageEdge.getAnchor().get(0)).y, distanceBetweenMessages);
+			if (targetSpec.getFinish() != message.getReceiveEvent() || source == target) {
+				shiftInteractionVerticallyFromY(di, PosUtils.getAbsolutePosition(prevMessageEdge.getAnchor().get(prevMessageEdge.getAnchor().size() - 1)).y,
+						distanceBetweenMessages);
 			}
 			if (prevMessageEdge != null) {
 				if (!prevMessageEdge.getAnchor().isEmpty()) {
@@ -295,7 +296,6 @@ public class InteractionExtender implements ExtenderInterface {
 			}
 		}
 
-		// make sure for other cases
 		Point srcPoint = PosUtils.getAbsolutePosition(srcConnector);
 		Point targetPoint = PosUtils.getAbsolutePosition(targetConnector);
 		Point deltaPoint = srcPoint.getCopy().translate(targetPoint.getNegated());
@@ -303,6 +303,10 @@ public class InteractionExtender implements ExtenderInterface {
 		if (deltaPoint.y > 0) {
 			// we change the target point
 			targetConnector.getPosition().translate(0, deltaPoint.y);
+		}
+		// self messages support
+		if (source == target) {
+			targetConnector.getPosition().translate(0, distanceBetweenMessages);
 		}
 
 		di.getContained().add(edge);
