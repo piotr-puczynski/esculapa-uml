@@ -25,14 +25,14 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Test of an error in case there is provided interface of component that is not
- * realized in the component by any class.
+ * Test of an error in case classes in components have generalization to class
+ * in other component.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class ComponentAssociationsTest extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("ComponentProvidedInterface.uml");
+public class ComponentProvidedInterfaceTest extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("ComponentGeneralizations.uml");
 
 	@Test
 	public void componentAssociations() throws InterruptedException {
@@ -47,6 +47,7 @@ public class ComponentAssociationsTest extends LoggingTest {
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
 		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-				"Provided interface 'R1' is not realized by any class in component 'CompA'.'"));
+				"The component 'CompA' has classifier 'A' that has general type 'B' that is located in other component 'CompB'."));
+
 	}
 }

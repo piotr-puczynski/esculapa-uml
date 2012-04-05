@@ -15,7 +15,7 @@
       <element href="ComponentProvidedInterface.uml#_w8IxIM37EdqwVrslYOdUDA"/>
     </semanticModel>
     <contained xsi:type="di:GraphNode" xmi:id="_Da11YH2bEeGeLt1-g2-BqQ" position="127,123" size="100,-1">
-      <anchorage xmi:id="_setJkH6GEeG3XeKXa9ZwOg" graphEdge="_sewz8H6GEeG3XeKXa9ZwOg"/>
+      <anchorage xmi:id="_setJkH6GEeG3XeKXa9ZwOg"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_Da11YX2bEeGeLt1-g2-BqQ" presentation="default">
         <element href="ComponentProvidedInterface.uml#_Da9KIH2bEeGeLt1-g2-BqQ"/>
       </semanticModel>
@@ -33,6 +33,7 @@
       </contained>
     </contained>
     <contained xsi:type="di:GraphNode" xmi:id="_EMIIYH2bEeGeLt1-g2-BqQ" position="410,124" size="100,-1">
+      <anchorage xmi:id="_yAPVgX70EeG-RMriGgo5Iw" graphEdge="_sewz8H6GEeG3XeKXa9ZwOg"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_EMIIYX2bEeGeLt1-g2-BqQ" presentation="default">
         <element href="ComponentProvidedInterface.uml#_EMPdIH2bEeGeLt1-g2-BqQ"/>
       </semanticModel>
@@ -49,7 +50,7 @@
         </semanticModel>
       </contained>
     </contained>
-    <contained xsi:type="di:GraphNode" xmi:id="_8oYNwX6EEeG3XeKXa9ZwOg" position="119,210" size="100,-1">
+    <contained xsi:type="di:GraphNode" xmi:id="_8oYNwX6EEeG3XeKXa9ZwOg" position="410,210" size="100,-1">
       <anchorage xmi:id="_setJkX6GEeG3XeKXa9ZwOg" graphEdge="_sewz8H6GEeG3XeKXa9ZwOg"/>
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_8oY00H6EEeG3XeKXa9ZwOg" presentation="default">
         <element href="ComponentProvidedInterface.uml#_8ooFYH6EEeG3XeKXa9ZwOg"/>
@@ -67,7 +68,7 @@
         </semanticModel>
       </contained>
     </contained>
-    <contained xsi:type="di:GraphEdge" xmi:id="_sewz8H6GEeG3XeKXa9ZwOg" anchor="_setJkH6GEeG3XeKXa9ZwOg _setJkX6GEeG3XeKXa9ZwOg">
+    <contained xsi:type="di:GraphEdge" xmi:id="_sewz8H6GEeG3XeKXa9ZwOg" anchor="_yAPVgX70EeG-RMriGgo5Iw _setJkX6GEeG3XeKXa9ZwOg">
       <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_sewz8X6GEeG3XeKXa9ZwOg" presentation="default">
         <element href="ComponentProvidedInterface.uml#_se594H6GEeG3XeKXa9ZwOg"/>
       </semanticModel>
