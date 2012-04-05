@@ -164,10 +164,12 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				if (sourceLifeline == targetLifeline) {
 					// for a self message
 					messageGenerator.setReceiveAfterSent(true);
+					messageGenerator.setGenerateNewBESForReceive(false);
+				} else {
+					messageGenerator.setReceiveGenerateAfter(sequencer.getLastOccurrenceOnLifeline(targetLifeline));
+					messageGenerator.setGenerateNewBESForReceive(hasToGenerateNewBES(sequencer.getLastMessageOnLifeline(targetLifeline), targetLifeline));
 				}
 				messageGenerator.setArguments(event.getArguments());
-				messageGenerator.setReceiveGenerateAfter(sequencer.getLastOccurrenceOnLifeline(targetLifeline));
-				messageGenerator.setGenerateNewBESForReceive(hasToGenerateNewBES(sequencer.getLastMessageOnLifeline(targetLifeline), targetLifeline));
 				message = messageGenerator.generate();
 			}
 		}
@@ -474,7 +476,12 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		} else {
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getSendEvent());
 		}
-		messageGenerator.setReceiveGenerateAfter((MessageOccurrenceSpecification) message.getSendEvent());
+		if(sourceLifeline == targetLifeline) {
+			// self reply
+			messageGenerator.setReceiveAfterSent(true);
+		} else {
+			messageGenerator.setReceiveGenerateAfter((MessageOccurrenceSpecification) message.getSendEvent());
+		}
 		messageGenerator.setGenerateNewBESForReceive(false);
 		messageGenerator.setGenerateNewBESForSent(false);
 		return messageGenerator.generate();

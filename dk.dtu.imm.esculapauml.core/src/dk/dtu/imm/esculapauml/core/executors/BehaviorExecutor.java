@@ -294,6 +294,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	private ValueSpecification callQueryOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
 			boolean isSynchronous, Element errorContext) {
+		// asynchronous query operation does not make sense (it must return
+		// result) so it must be synchronous
 		OpaqueExpression oe = (OpaqueExpression) operation.getBodyCondition().getSpecification();
 		preprocessOperationArguments(operation, arguments, errorContext);
 		EsculapaCallEvent ece = new EsculapaCallEvent(source, errorContext, this, operation, arguments, isSynchronous);
@@ -319,6 +321,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		}
 		EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, umlResult, ece.getSequenceId());
 		checker.getSystemState().getCoordinator().fireEvent(ere);
+		EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
+		checker.getSystemState().getCoordinator().fireEvent(ecrce);
 		return umlResult;
 	}
 
