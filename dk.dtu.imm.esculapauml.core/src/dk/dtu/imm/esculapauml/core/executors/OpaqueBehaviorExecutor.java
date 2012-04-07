@@ -18,9 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Level;
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
@@ -681,11 +679,17 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			return null;
 		}
 		String navigation = (String) node.getChild(1).jjtGetValue();
-		ValuesCollection umlIndex = null;
+		ValuesCollection selector = null;
 		if (node.getChild(1).jjtGetNumChildren() > 0) {
-			// this is SALIdentSelector
-			umlIndex = node.getChild(1).getChild(0).jjtAccept(this, data);
-			// TODO validate index
+			navigation = (String) node.getChild(1).getChild(0).jjtGetValue();
+			// this is SALIdentSelector, accept selector
+			selector = node.getChild(1).getChild(1).jjtAccept(this, data);
+			if (null == selector) {
+				// selector is invalid
+				return null;
+			}
+		} else {
+			navigation = (String) node.getChild(1).jjtGetValue();
 		}
 		ValueSpecification contextSpec = contextSpecs.get(0);
 		if (contextSpec instanceof InstanceValue) {
@@ -702,6 +706,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			} catch (OCLConversionException e) {
 				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot navigate to ('" + navigation + "'). Cannot convert to UML value: " + e.getOclValue().toString());
 				return null;
+			}
+			if (null != selector) {
+				if (!umlResult.select(selector)) {
+					trc.addProblem(Diagnostic.ERROR, "[SAL] Selector index out of bound '" + selector + "'.");
+					return null;
+				}
 			}
 			return umlResult;
 		} else {
@@ -762,7 +772,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALIdentSelector node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		// first node is ident, second node is selector
+		ValuesCollection context = node.getChild(0).jjtAccept(this, data);
+		ValuesCollection selector = node.getChild(1).jjtAccept(this, data);
 		return null;
 	}
 
@@ -790,7 +802,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALCollectionExpression node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValuesCollection umlResult = new ValuesList();
+
 		return null;
 	}
 
@@ -804,7 +817,15 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALSelector node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		ValuesCollection selection = node.getChild(0).jjtAccept(this, data);
+		if (selection.isSingleValued(trc)) {
+			ValueSpecification arg1 = selection.get(0);
+			if (arg1 instanceof LiteralInteger) {
+				return selection;
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer. Selector must be integer value.");
+			}
+		}
 		return null;
 	}
 }

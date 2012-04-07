@@ -101,4 +101,13 @@ public interface ValuesCollection extends Collection<ValueSpecification> {
 	 */
 	boolean isSingleValued(Checker trc);
 
+	/**
+	 * Used to evaluate selector on given collection. Selector must be
+	 * IntegerLiteral.
+	 * 
+	 * @param selector
+	 * @return 
+	 */
+	boolean select(ValuesCollection selector);
+
 }

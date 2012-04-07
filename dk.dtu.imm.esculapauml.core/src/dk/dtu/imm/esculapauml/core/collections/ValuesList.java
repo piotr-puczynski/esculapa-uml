@@ -22,6 +22,7 @@ import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.LiteralInteger;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
 
@@ -358,7 +359,37 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 				result += vs.stringValue() + ", ";
 			}
 		}
+		if (!result.isEmpty()) {
+			result = result.substring(0, result.length() - 2);
+		}
 		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.collections.ValuesCollection#select(dk.dtu
+	 * .imm.esculapauml.core.collections.ValuesCollection)
+	 */
+	@Override
+	public boolean select(ValuesCollection selector) {
+		int index = ((LiteralInteger) selector.get(0)).getValue();
+		return select(index);
+	}
+
+	/**
+	 * @param index
+	 * @return
+	 */
+	private boolean select(int index) {
+		if (index < 0 || index >= list.size()) {
+			return false;
+		}
+		ValueSpecification vs = list.get(0);
+		list.clear();
+		add(vs);
+		return true;
 	}
 
 }

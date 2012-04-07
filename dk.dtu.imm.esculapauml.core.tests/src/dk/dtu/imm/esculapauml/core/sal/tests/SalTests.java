@@ -62,7 +62,7 @@ public class SalTests {
 		assertEquals("fnc2", id2.jjtGetValue());
 
 	}
-	
+
 	@Test
 	public void parseIdentSelector() throws ParseException {
 		SALParser parser = new SALParser("obj1[1]");
@@ -75,15 +75,16 @@ public class SalTests {
 
 		SALNode member = root.getChild(0);
 		assertEquals(SALParserTreeConstants.JJTIDENTSELECTOR, member.getId());
-		assertEquals(1, member.jjtGetNumChildren());
-		assertEquals("obj1", member.jjtGetValue());
+		assertEquals(2, member.jjtGetNumChildren());
 
-		SALNode selector = member.getChild(0);
+		SALNode ident = member.getChild(0);
+		SALNode selector = member.getChild(1);
 
+		assertEquals(SALParserTreeConstants.JJTIDENT, ident.getId());
 		assertEquals(SALParserTreeConstants.JJTSELECTOR, selector.getId());
 
 	}
-	
+
 	@Test
 	public void parseCallSelector() throws ParseException {
 		SALParser parser = new SALParser("op()[1]");
@@ -96,15 +97,16 @@ public class SalTests {
 
 		SALNode member = root.getChild(0);
 		assertEquals(SALParserTreeConstants.JJTCALLSELECTOR, member.getId());
-		assertEquals(1, member.jjtGetNumChildren());
-		assertEquals("op", member.jjtGetValue());
+		assertEquals(2, member.jjtGetNumChildren());
 
-		SALNode selector = member.getChild(0);
+		SALNode call = member.getChild(0);
+		SALNode selector = member.getChild(1);
 
 		assertEquals(SALParserTreeConstants.JJTSELECTOR, selector.getId());
+		assertEquals(SALParserTreeConstants.JJTCALL, call.getId());
 
 	}
-	
+
 	@Test
 	public void assignmentSelector() throws ParseException {
 		SALParser parser = new SALParser("abc[20] := 90");
@@ -120,7 +122,7 @@ public class SalTests {
 		assertEquals(2, member.jjtGetNumChildren());
 
 	}
-	
+
 	@Test
 	public void collection() throws ParseException {
 		SALParser parser = new SALParser("[2,5,6]");
