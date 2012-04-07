@@ -13,7 +13,6 @@ package dk.dtu.imm.esculapauml.core.tests.uml.stateMachines;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 //import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -43,10 +42,7 @@ public class InstancesMultiplicityManyTest extends LoggingTest {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		TestUtils.printDiagnostic(diagnostics);
-		// there is an error
-		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
-		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
-		// models have no differences
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "[SAL] Naigation through multiplicity many ('d') is not possible, use OCL expression instead."));
+		// there is no error
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
 	}
 }
