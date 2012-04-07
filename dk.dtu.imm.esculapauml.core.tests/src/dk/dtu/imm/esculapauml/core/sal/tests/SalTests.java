@@ -106,6 +106,22 @@ public class SalTests {
 	}
 	
 	@Test
+	public void assignmentSelector() throws ParseException {
+		SALParser parser = new SALParser("abc[20] := 90");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode member = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTASSIGNMENTSELECTOR, member.getId());
+		assertEquals(2, member.jjtGetNumChildren());
+
+	}
+	
+	@Test
 	public void collection() throws ParseException {
 		SALParser parser = new SALParser("[2,5,6]");
 

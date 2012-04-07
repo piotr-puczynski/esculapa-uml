@@ -31,6 +31,7 @@ import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
+import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
 import dk.dtu.imm.esculapauml.core.ocl.convert.OCLConversionException;
 import dk.dtu.imm.esculapauml.core.ocl.convert.OCLEmptyCollectionException;
@@ -41,9 +42,13 @@ import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAdd;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAnd;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAssignment;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALAssignmentSelector;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALCall;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALCallSelector;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALCollectionExpression;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALDiv;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALIdent;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALIdentSelector;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALIntegerConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALLogicConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALMember;
@@ -208,7 +213,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SimpleNode node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SimpleNode node, SALEvaluationHelper data) {
 		// not visiting
 		return null;
 	}
@@ -222,7 +227,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALRoot node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALRoot node, SALEvaluationHelper data) {
 		for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
 			node.getChild(i).jjtAccept(this, data);
 		}
@@ -238,9 +243,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALAssignment node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALAssignment node, SALEvaluationHelper data) {
 		String varName = (String) node.jjtGetValue();
-		ValueSpecification value = node.getChild(0).jjtAccept(this, data);
+		ValuesCollection value = node.getChild(0).jjtAccept(this, data);
 		if (null != value) {
 			setVariable(varName, value, trc.getCheckedObject());
 		}
@@ -256,7 +261,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALReplyStatement node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALReplyStatement node, SALEvaluationHelper data) {
 		ValueSpecification replyValue = node.getChild(0).jjtAccept(this, data);
 		if (null != replyValue) {
 			trc.setReply(replyValue);
@@ -273,7 +278,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALIntegerConstant node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALIntegerConstant node, SALEvaluationHelper data) {
 		return UMLTypesUtil.getValue((Integer) node.jjtGetValue(), checker, checker.getCheckedObject());
 	}
 
@@ -286,7 +291,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALLogicConstant node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALLogicConstant node, SALEvaluationHelper data) {
 		return UMLTypesUtil.getValue((Boolean) node.jjtGetValue(), checker, checker.getCheckedObject());
 	}
 
@@ -299,7 +304,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALStringConstant node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALStringConstant node, SALEvaluationHelper data) {
 		return UMLTypesUtil.getValue((String) node.jjtGetValue(), checker, checker.getCheckedObject());
 	}
 
@@ -312,7 +317,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALNullConstant node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALNullConstant node, SALEvaluationHelper data) {
 		return UMLTypesUtil.getNullValue();
 	}
 
@@ -325,7 +330,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALCall node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALCall node, SALEvaluationHelper data) {
 		Object instance = data.getFunctionEvaluationContext();
 		String name = (String) node.jjtGetValue();
 		ValueSpecification result = null;
@@ -365,7 +370,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALOCLExpression node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALOCLExpression node, SALEvaluationHelper data) {
 		String oclExpression = (String) node.jjtGetValue();
 		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
 		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
@@ -386,7 +391,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALOr node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALOr node, SALEvaluationHelper data) {
 		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
 		if (arg1 instanceof LiteralBoolean) {
 			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
@@ -410,7 +415,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALAnd node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALAnd node, SALEvaluationHelper data) {
 		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
 		if (arg1 instanceof LiteralBoolean) {
 			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
@@ -434,7 +439,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALAdd node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALAdd node, SALEvaluationHelper data) {
 		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
 		if (arg1 instanceof LiteralInteger) {
 			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
@@ -458,7 +463,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALSubstract node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALSubstract node, SALEvaluationHelper data) {
 		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
 		if (arg1 instanceof LiteralInteger) {
 			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
@@ -482,7 +487,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALMult node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALMult node, SALEvaluationHelper data) {
 		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
 		if (arg1 instanceof LiteralInteger) {
 			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
@@ -506,7 +511,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALDiv node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALDiv node, SALEvaluationHelper data) {
 		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
 		if (arg1 instanceof LiteralInteger) {
 			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
@@ -530,7 +535,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALMod node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALMod node, SALEvaluationHelper data) {
 		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
 		if (arg1 instanceof LiteralInteger) {
 			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
@@ -554,7 +559,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALNot node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALNot node, SALEvaluationHelper data) {
 		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
 		if (arg1 instanceof LiteralBoolean) {
 			return UMLTypesUtil.getValue(!((LiteralBoolean) arg1).isValue(), checker, checker.getCheckedObject());
@@ -573,7 +578,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALMemberCall node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALMemberCall node, SALEvaluationHelper data) {
 		// first child is a given context, second child is SALCall
 		ValueSpecification context = node.getChild(0).jjtAccept(this, data);
 		if (null != context) {
@@ -594,7 +599,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALMember node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALMember node, SALEvaluationHelper data) {
 		// member second child will be always SALIdent that we will not evaluate
 		// but just grab its name
 		ValueSpecification contextSpec = node.getChild(0).jjtAccept(this, data);
@@ -623,7 +628,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
 	@Override
-	public ValueSpecification visit(SALIdent node, SALEvaluationHelper data) {
+	public ValuesCollection visit(SALIdent node, SALEvaluationHelper data) {
 		// always evaluate this from self
 		String name = (String) node.jjtGetValue();
 		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
@@ -633,6 +638,62 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			return null;
 		}
 		return translateOCLResult(result, name);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALAssignmentSelector,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValuesCollection visit(SALAssignmentSelector node, SALEvaluationHelper data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALIdentSelector,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValuesCollection visit(SALIdentSelector node, SALEvaluationHelper data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALCallSelector,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValuesCollection visit(SALCallSelector node, SALEvaluationHelper data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALCollectionExpression,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValuesCollection visit(SALCollectionExpression node, SALEvaluationHelper data) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/**
