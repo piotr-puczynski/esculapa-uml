@@ -11,11 +11,10 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.ValueSpecification;
 
+import dk.dtu.imm.esculapauml.core.collections.CallArguments;
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
@@ -33,13 +32,13 @@ public class EsculapaCallEvent extends EsculapaEvent {
 	private Operation operation;
 	private InstanceExecutor target;
 	private boolean isSynchronousCall;
-	private EList<ValueSpecification> arguments;
+	private CallArguments arguments;
 
 	/**
 	 * @param source
 	 * @param arguments
 	 */
-	public EsculapaCallEvent(Object source, Element errorContext, InstanceExecutor target, Operation operation, EList<ValueSpecification> arguments,
+	public EsculapaCallEvent(Object source, Element errorContext, InstanceExecutor target, Operation operation, CallArguments arguments,
 			boolean isSynchronousCall) {
 		super(source, errorContext);
 		this.operation = operation;
@@ -82,7 +81,7 @@ public class EsculapaCallEvent extends EsculapaEvent {
 	/**
 	 * @return the arguments
 	 */
-	public EList<ValueSpecification> getArguments() {
+	public CallArguments getArguments() {
 		return arguments;
 	}
 

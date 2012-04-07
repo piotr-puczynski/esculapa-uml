@@ -80,7 +80,7 @@ public class SalTests {
 
 		SALNode selector = member.getChild(0);
 
-		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, selector.getId());
+		assertEquals(SALParserTreeConstants.JJTSELECTOR, selector.getId());
 
 	}
 	
@@ -101,7 +101,7 @@ public class SalTests {
 
 		SALNode selector = member.getChild(0);
 
-		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, selector.getId());
+		assertEquals(SALParserTreeConstants.JJTSELECTOR, selector.getId());
 
 	}
 	

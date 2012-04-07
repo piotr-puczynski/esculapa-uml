@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Level;
@@ -47,7 +46,6 @@ import org.eclipse.uml2.uml.State;
 import org.eclipse.uml2.uml.StateMachine;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Trigger;
-import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.Vertex;
 import org.eclipse.uml2.uml.VisibilityKind;
 
@@ -55,16 +53,16 @@ import ch.lambdaj.function.matcher.Predicate;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
+import dk.dtu.imm.esculapauml.core.collections.CallArguments;
+import dk.dtu.imm.esculapauml.core.collections.OCLConversionException;
+import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
+import dk.dtu.imm.esculapauml.core.collections.ValuesList;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
 import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
-import dk.dtu.imm.esculapauml.core.ocl.convert.OCLConversionException;
-import dk.dtu.imm.esculapauml.core.ocl.convert.OCLEmptyCollectionException;
-import dk.dtu.imm.esculapauml.core.ocl.convert.OCLMultiplicityManyCollectionException;
-import dk.dtu.imm.esculapauml.core.ocl.convert.OclToUmlConverter;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
@@ -186,8 +184,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * java.lang.Object, java.lang.String, org.eclipse.emf.common.util.EList,
 	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
-	public ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments,
-			boolean isSynchronous, Element errorContext) {
+	public ValuesCollection callOperation(Object source, InstanceSpecification caller, String operationName, CallArguments arguments, boolean isSynchronous,
+			Element errorContext) {
 		Operation operation = getOperationByName(operationName);
 		if (null == operation) {
 			checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' has no operation with name '" + operationName + "'.",
@@ -205,8 +203,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * java.lang.Object, org.eclipse.uml2.uml.Operation,
 	 * org.eclipse.emf.common.util.EList, boolean, org.eclipse.uml2.uml.Element)
 	 */
-	public ValueSpecification callOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
-			boolean isSynchronous, Element errorContext) {
+	public ValuesCollection callOperation(Object source, InstanceSpecification caller, Operation operation, CallArguments arguments, boolean isSynchronous,
+			Element errorContext) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
 		checkOperationConformance(caller, operation, errorContext);
 		if (checker.hasErrors()) {
@@ -262,7 +260,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				fireTransition(trc);
 				// dispatch completion event
 				recalculateActiveState(trc);
-				ValueSpecification result = trc.getReply();
+				ValuesCollection result = trc.getReply();
 				trc.check();
 
 				if (isSynchronous && !trc.hasErrors()) {
@@ -292,7 +290,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param errorContext
 	 * @return
 	 */
-	private ValueSpecification callQueryOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
+	private ValuesCollection callQueryOperation(Object source, InstanceSpecification caller, Operation operation, CallArguments arguments,
 			boolean isSynchronous, Element errorContext) {
 		// asynchronous query operation does not make sense (it must return
 		// result) so it must be synchronous
@@ -309,15 +307,11 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		if (ocl.hasErrors()) {
 			return null;
 		}
-		ValueSpecification umlResult = null;
+		ValuesCollection umlResult = new ValuesList();
 		try {
-			umlResult = OclToUmlConverter.convertToOCLSingleValue(result, checker, errorContext);
-		} catch (OCLEmptyCollectionException e) {
-			checker.addOtherProblem(Diagnostic.ERROR, "OCL query operation returned empty collection.", errorContext);
-		} catch (OCLMultiplicityManyCollectionException e) {
-			checker.addProblem(Diagnostic.ERROR, "OCL query operation returned multiplicity many collection.");
+			umlResult.addFromOCL(result, checker, errorContext);
 		} catch (OCLConversionException e) {
-			checker.addProblem(Diagnostic.ERROR, "OCL query operation returned value that couldn't be converted to UML.");
+			checker.addProblem(Diagnostic.ERROR, "OCL query operation returned value that couldn't be converted to UML: " + e.getOclValue().toString());
 		}
 		EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, umlResult, ece.getSequenceId());
 		checker.getSystemState().getCoordinator().fireEvent(ere);
@@ -386,7 +380,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * 
 	 * @return
 	 */
-	private Transition getEnabledTransitionForOperation(final Operation operation, EList<ValueSpecification> arguments, Element errorContext) {
+	private Transition getEnabledTransitionForOperation(final Operation operation, CallArguments arguments, Element errorContext) {
 		// if there are any argument to set, make a deep copy of current
 		// instance (in case we need to restore it later)
 		Collection<Slot> backupSlots = null;
@@ -445,19 +439,18 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param arguments
 	 * @param errorContext
 	 */
-	private void preprocessOperationArguments(Operation operation, EList<ValueSpecification> arguments, Element errorContext) {
+	private void preprocessOperationArguments(Operation operation, CallArguments arguments, Element errorContext) {
 		EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>(filter(
 				having(on(Parameter.class).getDirection(), not(equalTo(ParameterDirectionKind.RETURN_LITERAL))), operation.getOwnedParameters()));
-		List<ValueSpecification> argumentsIn = filter(having(on(ValueSpecification.class).getName(), not(equalTo("return"))), arguments);
-		Iterator<ValueSpecification> a = argumentsIn.iterator();
+		Iterator<ValuesCollection> a = arguments.iterator();
 		Iterator<Parameter> p = parameters.iterator();
 
 		while (a.hasNext() && p.hasNext()) {
-			ValueSpecification arg = a.next();
+			ValuesCollection arg = a.next();
 			Parameter param = p.next();
 			if (param.getDirection() == ParameterDirectionKind.IN_LITERAL) {
 				arg.setName(param.getName());
-				if (!setVariable(arg.getName(), arg, errorContext)) {
+				if (!setVariable(param.getName(), arg, errorContext)) {
 					break;
 				}
 			}

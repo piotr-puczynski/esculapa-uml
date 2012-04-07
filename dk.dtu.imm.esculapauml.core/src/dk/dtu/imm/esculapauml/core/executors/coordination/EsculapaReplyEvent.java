@@ -13,8 +13,8 @@ package dk.dtu.imm.esculapauml.core.executors.coordination;
 
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.ValueSpecification;
 
+import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 
 /**
@@ -30,7 +30,7 @@ public class EsculapaReplyEvent extends EsculapaEvent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Operation operation;
-	private ValueSpecification result;
+	private ValuesCollection result;
 	private long initiatingCallSequenceNumber;
 
 	/**
@@ -43,7 +43,7 @@ public class EsculapaReplyEvent extends EsculapaEvent {
 	/**
 	 * @param source
 	 */
-	public EsculapaReplyEvent(InstanceExecutor source, Element errorContext, Operation operation, ValueSpecification result, long initiatingCallSequenceNumber) {
+	public EsculapaReplyEvent(InstanceExecutor source, Element errorContext, Operation operation, ValuesCollection result, long initiatingCallSequenceNumber) {
 		super(source, errorContext);
 		this.operation = operation;
 		this.result = result;
@@ -64,7 +64,7 @@ public class EsculapaReplyEvent extends EsculapaEvent {
 	/**
 	 * @return the result
 	 */
-	public ValueSpecification getResult() {
+	public ValuesCollection getResult() {
 		return result;
 	}
 

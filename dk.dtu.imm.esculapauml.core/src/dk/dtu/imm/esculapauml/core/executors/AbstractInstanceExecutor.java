@@ -36,6 +36,8 @@ import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.VisibilityKind;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
+import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
+import dk.dtu.imm.esculapauml.core.collections.ValuesList;
 import dk.dtu.imm.esculapauml.core.utils.Pair;
 
 /**
@@ -111,10 +113,10 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		for (Property property : properties) {
 			if (null != property.getDefaultValue()) {
 				if (null == getVariable(property.getName())) {
-					// variable is not set already
-					if (!setVariable(property.getName(), property.getDefaultValue(), null)) {
+					// variable is not set
+					if (!setVariable(property.getName(), 0, property.getDefaultValue(), null)) {
 						checker.addProblem(Diagnostic.ERROR, "Default value for property '" + property.getLabel() + "' of class '" + originalClass.getLabel()
-								+ "' is of the a wrong type.");
+								+ "' is of a wrong type.");
 						break;
 					}
 				}
@@ -161,8 +163,109 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * .lang.String, org.eclipse.uml2.uml.ValueSpecification,
 	 * org.eclipse.uml2.uml.Element)
 	 */
-	public boolean setVariable(String name, ValueSpecification value, Element errorContext) {
-		return setVariable(name, 0, value, errorContext);
+	public boolean setVariable(String name, ValuesCollection value, Element errorContext) {
+		Property prop = null;
+		boolean isLinkMode = false;
+		List<InstanceSpecification> variableContext = new ArrayList<InstanceSpecification>();
+		for (int i = 0; i < value.size(); ++i) {
+			variableContext.add(instanceSpecification);
+		}
+		Pair<Association, Property> assoc = findPropertyInAssociationFor(name);
+		if (null != assoc) {
+			// this is association
+			// check if a link is already existing
+			EList<InstanceSpecification> instances = checker.getSystemState().getExistingLinksForInstance(assoc.getLeft(), instanceSpecification);
+			if (instances.size() > value.size()) {
+				// we need to remove additional links (if necessary)
+				for (int i = instances.size() - 1; i >= value.size(); --i) {
+					checker.getSystemState().removeInstanceSpecification(instances.get(i));
+					instances.remove(i);
+				}
+			}
+			isLinkMode = true;
+			if (instances.size() == value.size()) {
+				// great :) we have exact number of required links
+				variableContext = new ArrayList<InstanceSpecification>(instances);
+				prop = assoc.getRight();
+			} else {
+				// TODO add creation of new links
+				checker.addOtherProblem(Diagnostic.ERROR, "Link out of bounds error when trying to assign '" + name + ".", errorContext);
+				return false;
+			}
+
+		} else {
+			// this is attribute
+			prop = findAttributeFor(name);
+		}
+		if (null == prop) {
+			// create local variable
+			if (null == value.getType()) {
+				checker.addOtherProblem(Diagnostic.ERROR,
+						"Type couldn't be coerced from given value to any significant type when tried to create local variable '" + name + "'.", errorContext);
+				return false;
+			} else {
+				prop = originalClass.createOwnedAttribute(name, value.getType());
+				prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
+				// prop.setLower(0);
+				// prop.setUpper(value.size());
+				checker.getSystemState().addGeneratedElement(prop);
+			}
+		}
+		// type check
+		if (!prop.getType().conformsTo(value.getType())) {
+			if (null != errorContext) {
+				if (null != value.getType() && null != prop.getType()) {
+					checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "' to value of type: "
+							+ value.getType().getName() + ". Required type must conform to: " + prop.getType().getName() + ".", errorContext);
+				} else {
+					checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "'.", errorContext);
+				}
+			}
+			return false;
+		}
+		// do we have a slot that is needed?
+		for (int i = 0; i < value.size(); ++i) {
+			int index;
+			if (isLinkMode) {
+				index = 0;
+			} else {
+				index = i;
+			}
+			Slot slot = null;
+			List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), variableContext.get(i).getSlots());
+			if (slots.isEmpty()) {
+				if (0 == index) {
+					slot = variableContext.get(i).createSlot();
+					slot.setDefiningFeature(prop);
+				} else {
+					checker.addOtherProblem(Diagnostic.ERROR,
+							"Cannot initialize local variable '" + name + "' with index greater than 0 (" + String.valueOf(index) + ").", errorContext);
+					return false;
+				}
+			} else {
+				slot = slots.get(0);
+			}
+			if (!isLinkMode && i == 0) {
+				// remove additional attribute values in first iteration
+				if (slot.getValues().size() > value.size()) {
+					for (int r = slot.getValues().size() - 1; r >= value.size(); --r) {
+						slot.getValues().remove(r);
+					}
+				}
+			}
+			if (index < slot.getValues().size()) {
+				// remove old value
+				slot.getValues().remove(index);
+			}
+			if (index < 0 || index > slot.getValues().size()) {
+				checker.addOtherProblem(Diagnostic.ERROR, "Array out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
+						errorContext);
+				return false;
+			} else {
+				slot.getValues().add(index, EcoreUtil.copy(value.get(i)));
+			}
+		}
+		return true;
 	}
 
 	/*
@@ -183,14 +286,18 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			// this is association
 			// check if a link is already existing
 			EList<InstanceSpecification> instances = checker.getSystemState().getExistingLinksForInstance(assoc.getLeft(), instanceSpecification);
-			if (!instances.isEmpty() && index <= instances.size()) {
+			if (!instances.isEmpty() && index < instances.size()) {
 				// we have a link
 				variableContext = instances.get(index);
 				prop = assoc.getRight();
 				// reset index (always zero inside links)
 				index = 0;
-			} else {
+				// } else if (index == instances.size()) {
 				// TODO add creation of new link
+			} else {
+				checker.addOtherProblem(Diagnostic.ERROR, "Link out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
+						errorContext);
+				return false;
 			}
 
 		} else {
@@ -225,8 +332,14 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		if (null == slot) {
 			List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), variableContext.getSlots());
 			if (slots.isEmpty()) {
-				slot = variableContext.createSlot();
-				slot.setDefiningFeature(prop);
+				if (0 == index) {
+					slot = variableContext.createSlot();
+					slot.setDefiningFeature(prop);
+				} else {
+					checker.addOtherProblem(Diagnostic.ERROR,
+							"Cannot initialize local variable '" + name + "' with index greater than 0 (" + String.valueOf(index) + ").", errorContext);
+					return false;
+				}
 			} else {
 				slot = slots.get(0);
 			}
@@ -252,8 +365,13 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#getVariable(java
 	 * .lang.String)
 	 */
-	public ValueSpecification getVariable(String name) {
-		return getVariable(name, 0);
+	public ValuesCollection getVariable(String name) {
+		List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature().getName(), equalTo(name)), instanceSpecification.getSlots());
+		if (slots.isEmpty()) {
+			return null;
+		} else {
+			return new ValuesList(slots.get(0).getValues());
+		}
 	}
 
 	/*

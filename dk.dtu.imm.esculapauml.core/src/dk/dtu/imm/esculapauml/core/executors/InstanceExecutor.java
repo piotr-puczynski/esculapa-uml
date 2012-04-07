@@ -11,12 +11,14 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.ValueSpecification;
+
+import dk.dtu.imm.esculapauml.core.collections.CallArguments;
+import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 
 /**
  * @author Piotr J. Puczynski
@@ -48,7 +50,7 @@ public interface InstanceExecutor extends Executor {
 	 * @return true if set successfully or false if type check failed and
 	 *         variable was not set.
 	 */
-	boolean setVariable(String name, ValueSpecification value, Element errorContext);
+	boolean setVariable(String name, ValuesCollection value, Element errorContext);
 
 	/**
 	 * Sets local variable (for arrays).
@@ -69,7 +71,7 @@ public interface InstanceExecutor extends Executor {
 	 * @param name
 	 * @return value if variable was found or null if it was not.
 	 */
-	ValueSpecification getVariable(String name);
+	ValuesCollection getVariable(String name);
 
 	/**
 	 * Gets local variable with index (for arrays).
@@ -113,8 +115,8 @@ public interface InstanceExecutor extends Executor {
 	 * @param errorContext
 	 * @return
 	 */
-	ValueSpecification callOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
-			boolean isSynchronous, Element errorContext);
+	ValuesCollection callOperation(Object source, InstanceSpecification caller, Operation operation, CallArguments arguments, boolean isSynchronous,
+			Element errorContext);
 
 	/**
 	 * Operation used to call operation on an instance. Uses operation name to
@@ -127,8 +129,8 @@ public interface InstanceExecutor extends Executor {
 	 * @param errorContext
 	 * @return
 	 */
-	ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments,
-			boolean isSynchronous, Element errorContext);
+	ValuesCollection callOperation(Object source, InstanceSpecification caller, String operationName, CallArguments arguments, boolean isSynchronous,
+			Element errorContext);
 
 	/**
 	 * Gets the original class of the instance type.

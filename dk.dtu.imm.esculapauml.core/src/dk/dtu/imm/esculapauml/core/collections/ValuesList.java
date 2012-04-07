@@ -18,7 +18,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.ValueSpecification;
+
+import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
+import dk.dtu.imm.esculapauml.core.checkers.Checker;
+import dk.dtu.imm.esculapauml.core.utils.UMLTypesUtil;
 
 /**
  * List of value specification used during model execution to pass arguments.
@@ -31,6 +40,50 @@ import org.eclipse.uml2.uml.ValueSpecification;
 public class ValuesList extends AbstractList<ValueSpecification> implements ValuesCollection {
 
 	private List<ValueSpecification> list = new ArrayList<ValueSpecification>();
+	private Type type = null;
+
+	/**
+	 * 
+	 */
+	public ValuesList() {
+		super();
+	}
+
+	/**
+	 * Generates list from EList of values.
+	 * 
+	 * @param values
+	 */
+	public ValuesList(EList<ValueSpecification> values) {
+		for (ValueSpecification val : values) {
+			add(val);
+			type = val.getType();
+		}
+	}
+
+	/**
+	 * Generates list from one value.
+	 * 
+	 * @param values
+	 */
+	public ValuesList(ValueSpecification value) {
+		add(value);
+		type = value.getType();
+	}
+
+	/**
+	 * Create list from values of given name filtered from given collection.
+	 * 
+	 * @param string
+	 * @param arguments
+	 */
+	public ValuesList(String name, EList<ValueSpecification> arguments) {
+		for (ValueSpecification arg : arguments) {
+			if (arg.getName().equals(name)) {
+				add(arg);
+			}
+		}
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -52,39 +105,55 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.size();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#add(int, java.lang.Object)
 	 */
 	@Override
 	public void add(int index, ValueSpecification element) {
+		type = element.getType();
 		list.add(index, element);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#add(java.lang.Object)
 	 */
 	@Override
 	public boolean add(ValueSpecification e) {
+		type = e.getType();
 		return list.add(e);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.util.AbstractList#addAll(int, java.util.Collection)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.util.AbstractCollection#addAll(java.util.Collection)
 	 */
 	@Override
-	public boolean addAll(int index, Collection<? extends ValueSpecification> c) {
-		return list.addAll(index, c);
+	public boolean addAll(Collection<? extends ValueSpecification> c) {
+		if (!c.isEmpty()) {
+			type = ((ValueSpecification) c.toArray()[0]).getType();
+		}
+		return list.addAll(c);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#clear()
 	 */
 	@Override
 	public void clear() {
 		list.clear();
+		type = null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#equals(java.lang.Object)
 	 */
 	@Override
@@ -92,7 +161,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.equals(o);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#hashCode()
 	 */
 	@Override
@@ -100,7 +171,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.hashCode();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#indexOf(java.lang.Object)
 	 */
 	@Override
@@ -108,7 +181,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.indexOf(o);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#iterator()
 	 */
 	@Override
@@ -116,7 +191,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.iterator();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#lastIndexOf(java.lang.Object)
 	 */
 	@Override
@@ -124,7 +201,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.lastIndexOf(o);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#listIterator()
 	 */
 	@Override
@@ -132,7 +211,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.listIterator();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#listIterator(int)
 	 */
 	@Override
@@ -140,7 +221,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.listIterator(index);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#remove(int)
 	 */
 	@Override
@@ -148,7 +231,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.remove(index);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#set(int, java.lang.Object)
 	 */
 	@Override
@@ -156,14 +241,124 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		return list.set(index, element);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.util.AbstractList#subList(int, int)
 	 */
 	@Override
 	public List<ValueSpecification> subList(int fromIndex, int toIndex) {
 		return list.subList(fromIndex, toIndex);
 	}
-	
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.dtu.imm.esculapauml.core.collections.ValuesCollection#getType()
+	 */
+	@Override
+	public Type getType() {
+		if (list.isEmpty()) {
+			return null;
+		} else {
+			return type;
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.collections.ValuesCollection#setName(java
+	 * .lang.String)
+	 */
+	@Override
+	public void setName(String name) {
+		for (ValueSpecification val : list) {
+			val.setName(name);
+		}
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.collections.ValuesCollection#addFromOCL(java
+	 * .lang.Object, dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker,
+	 * org.eclipse.uml2.uml.Element)
+	 */
+	@Override
+	public void addFromOCL(Object oclValue, BehaviorChecker checker, Element errorContext) throws OCLConversionException {
+		if (oclValue instanceof ValueSpecification) {
+			add((ValueSpecification) oclValue);
+			return;
+		}
+		if (oclValue instanceof Collection) {
+			@SuppressWarnings("rawtypes")
+			Collection collection = (Collection) oclValue;
+			for (Object obj : collection) {
+				addFromOCL(obj, checker, errorContext);
+			}
+			return;
+		} else {
+			if (UMLTypesUtil.canBeConverted(oclValue)) {
+				add(UMLTypesUtil.getObjectValue(oclValue, checker, errorContext));
+				return;
+			}
+			if (null == oclValue) {
+				add(UMLTypesUtil.getNullValue());
+				return;
+			}
+		}
+		throw new OCLConversionException(oclValue);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.collections.ValuesCollection#isSingleValued()
+	 */
+	@Override
+	public boolean isSingleValued(Checker checker) {
+		if (list.size() == 1) {
+			return true;
+		} else {
+			checker.addProblem(Diagnostic.ERROR, "The value was expected to be single valued but it is: " + toString());
+			return false;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "[" + getValuesNames() + "]";
+	}
+
+	/**
+	 * @return
+	 */
+	private String getValuesNames() {
+		String result = "";
+		for (ValueSpecification vs : list) {
+			if (vs instanceof InstanceValue) {
+				result += "instance: ";
+				if (null != ((InstanceValue) vs).getInstance()) {
+					result += ((InstanceValue) vs).getInstance().getLabel();
+				}
+				result += ", ";
+			} else {
+				result += vs.stringValue() + ", ";
+			}
+		}
+		return result;
+	}
 
 }

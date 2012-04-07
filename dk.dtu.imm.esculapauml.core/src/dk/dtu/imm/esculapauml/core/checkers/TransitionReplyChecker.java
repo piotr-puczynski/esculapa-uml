@@ -17,7 +17,8 @@ import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Transition;
 import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.ValueSpecification;
+
+import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 
 /**
  * Class used to exchange a result of firing a transition and check if a reply
@@ -27,7 +28,7 @@ import org.eclipse.uml2.uml.ValueSpecification;
  * 
  */
 public class TransitionReplyChecker extends AbstractChecker<Transition> {
-	private ValueSpecification reply = null;
+	private ValuesCollection reply = null;
 	private Type returnType = null;
 	private Operation operation;
 	private boolean allowedToHaveReply = true;
@@ -63,7 +64,7 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 	 * 
 	 * @return the reply
 	 */
-	public ValueSpecification getReply() {
+	public ValuesCollection getReply() {
 		return reply;
 	}
 
@@ -75,7 +76,7 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 	 * @param reply
 	 *            the reply to set
 	 */
-	public void setReply(ValueSpecification reply) {
+	public void setReply(ValuesCollection reply) {
 		if (isAllowedToHaveReply()) {
 			if (!isAcceptingReplies()) {
 				addProblem(Diagnostic.WARNING, "Reply will be ignored. It was used in the context of asynchronous call.");

@@ -14,6 +14,7 @@ package dk.dtu.imm.esculapauml.core.executors;
 import static ch.lambdaj.Lambda.join;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Level;
@@ -31,12 +32,11 @@ import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
+import dk.dtu.imm.esculapauml.core.collections.CallArguments;
+import dk.dtu.imm.esculapauml.core.collections.OCLConversionException;
 import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
+import dk.dtu.imm.esculapauml.core.collections.ValuesList;
 import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
-import dk.dtu.imm.esculapauml.core.ocl.convert.OCLConversionException;
-import dk.dtu.imm.esculapauml.core.ocl.convert.OCLEmptyCollectionException;
-import dk.dtu.imm.esculapauml.core.ocl.convert.OCLMultiplicityManyCollectionException;
-import dk.dtu.imm.esculapauml.core.ocl.convert.OclToUmlConverter;
 import dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper;
 import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAdd;
@@ -64,6 +64,7 @@ import dk.dtu.imm.esculapauml.core.sal.parser.SALParser;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALReplyStatement;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALRoot;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALSelector;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALStringConstant;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALSubstract;
 import dk.dtu.imm.esculapauml.core.sal.parser.SimpleNode;
@@ -183,8 +184,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
 	@Override
-	public ValueSpecification callOperation(Object source, InstanceSpecification caller, Operation operation, EList<ValueSpecification> arguments,
-			boolean isSynchronous, Element errorContext) {
+	public ValuesCollection callOperation(Object source, InstanceSpecification caller, Operation operation, CallArguments arguments, boolean isSynchronous,
+			Element errorContext) {
 		// redirect calls to parent
 		return parent.callOperation(source, caller, operation, arguments, isSynchronous, errorContext);
 	}
@@ -198,8 +199,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * boolean, org.eclipse.uml2.uml.Element)
 	 */
 	@Override
-	public ValueSpecification callOperation(Object source, InstanceSpecification caller, String operationName, EList<ValueSpecification> arguments,
-			boolean isSynchronous, Element errorContext) {
+	public ValuesCollection callOperation(Object source, InstanceSpecification caller, String operationName, CallArguments arguments, boolean isSynchronous,
+			Element errorContext) {
 		// redirect calls to parent
 		return parent.callOperation(source, caller, operationName, arguments, isSynchronous, errorContext);
 	}
@@ -262,7 +263,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALReplyStatement node, SALEvaluationHelper data) {
-		ValueSpecification replyValue = node.getChild(0).jjtAccept(this, data);
+		ValuesCollection replyValue = node.getChild(0).jjtAccept(this, data);
 		if (null != replyValue) {
 			trc.setReply(replyValue);
 		}
@@ -279,7 +280,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALIntegerConstant node, SALEvaluationHelper data) {
-		return UMLTypesUtil.getValue((Integer) node.jjtGetValue(), checker, checker.getCheckedObject());
+		return new ValuesList(UMLTypesUtil.getValue((Integer) node.jjtGetValue(), checker, checker.getCheckedObject()));
 	}
 
 	/*
@@ -292,7 +293,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALLogicConstant node, SALEvaluationHelper data) {
-		return UMLTypesUtil.getValue((Boolean) node.jjtGetValue(), checker, checker.getCheckedObject());
+		return new ValuesList(UMLTypesUtil.getValue((Boolean) node.jjtGetValue(), checker, checker.getCheckedObject()));
 	}
 
 	/*
@@ -305,7 +306,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALStringConstant node, SALEvaluationHelper data) {
-		return UMLTypesUtil.getValue((String) node.jjtGetValue(), checker, checker.getCheckedObject());
+		return new ValuesList(UMLTypesUtil.getValue((String) node.jjtGetValue(), checker, checker.getCheckedObject()));
 	}
 
 	/*
@@ -318,7 +319,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALNullConstant node, SALEvaluationHelper data) {
-		return UMLTypesUtil.getNullValue();
+		return new ValuesList(UMLTypesUtil.getNullValue());
 	}
 
 	/*
@@ -329,34 +330,46 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * imm.esculapauml.core.sal.parser.SALCall,
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
+	@SuppressWarnings("rawtypes")
 	@Override
 	public ValuesCollection visit(SALCall node, SALEvaluationHelper data) {
-		Object instance = data.getFunctionEvaluationContext();
+		Object instances = data.getFunctionEvaluationContext();
 		String name = (String) node.jjtGetValue();
-		ValueSpecification result = null;
-		if (instance instanceof InstanceValue) {
-			instance = ((InstanceValue) instance).getInstance();
+		ValuesCollection result = new ValuesList();
+		if (!(instances instanceof Collection)) {
+			List<Object> list = new ArrayList<Object>();
+			list.add(instances);
+			instances = list;
 		}
-		if (instance instanceof InstanceSpecification) {
-			InstanceExecutor executor = checker.getSystemState().getInstanceExecutor((InstanceSpecification) instance);
-			if (null == executor) {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot obtain executor for operation: '" + name + "'.");
-			} else {
-				// evaluate arguments in fresh context
-				Object oldContext = data.setFunctionEvaluationContext(getInstanceSpecification());
-				EList<ValueSpecification> arguments = new BasicEList<ValueSpecification>();
-				for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
-					arguments.add(node.getChild(i).jjtAccept(this, data));
-				}
-				data.setFunctionEvaluationContext(oldContext);
-				if (checker.hasErrors()) {
-					return null;
-				}
-				result = executor.callOperation(parent, getInstanceSpecification(), name, arguments, true, trc.getCheckedObject());
+		for (Object instance : (Collection) instances) {
+			if (instance instanceof InstanceValue) {
+				instance = ((InstanceValue) instance).getInstance();
 			}
+			if (instance instanceof InstanceSpecification) {
+				InstanceExecutor executor = checker.getSystemState().getInstanceExecutor((InstanceSpecification) instance);
+				if (null == executor) {
+					trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot obtain executor for operation: '" + name + "'.");
+					break;
+				} else {
+					// evaluate arguments in fresh context
+					Object oldContext = data.setFunctionEvaluationContext(getInstanceSpecification());
+					CallArguments arguments = new CallArguments();
+					for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
+						arguments.addArgument(node.getChild(i).jjtAccept(this, data));
+					}
+					data.setFunctionEvaluationContext(oldContext);
+					if (checker.hasErrors()) {
+						return null;
+					}
+					ValuesCollection partResult = executor.callOperation(parent, getInstanceSpecification(), name, arguments, true, trc.getCheckedObject());
+					if (null != partResult) {
+						result.addAll(partResult);
+					}
+				}
 
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Operation: '" + name + "' must be called in the context of existing instance specification.");
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Operation: '" + name + "' must be called in the context of existing instance specification.");
+			}
 		}
 		return result;
 	}
@@ -379,7 +392,15 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			return null;
 		}
 
-		return translateOCLResult(result, oclExpression);
+		ValuesCollection umlResult = new ValuesList();
+		try {
+			umlResult.addFromOCL(result, checker, checker.getCheckedObject());
+		} catch (OCLConversionException e) {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Convertion from OCL ('" + oclExpression + "') to UML failed on object: " + e.getOclValue().toString());
+			return null;
+		}
+
+		return umlResult;
 	}
 
 	/*
@@ -392,16 +413,23 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALOr node, SALEvaluationHelper data) {
-		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
-		if (arg1 instanceof LiteralBoolean) {
-			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
-			if (arg2 instanceof LiteralBoolean) {
-				return UMLTypesUtil.getValue(((LiteralBoolean) arg1).isValue() || ((LiteralBoolean) arg2).isValue(), checker, checker.getCheckedObject());
+		ValuesCollection args1 = node.getChild(0).jjtAccept(this, data);
+		if (args1.isSingleValued(trc)) {
+			ValueSpecification arg1 = args1.get(0);
+			if (arg1 instanceof LiteralBoolean) {
+				ValuesCollection args2 = node.getChild(1).jjtAccept(this, data);
+				if (args2.isSingleValued(trc)) {
+					ValueSpecification arg2 = args2.get(0);
+					if (arg2 instanceof LiteralBoolean) {
+						return new ValuesList(UMLTypesUtil.getValue(((LiteralBoolean) arg1).isValue() || ((LiteralBoolean) arg2).isValue(), checker,
+								checker.getCheckedObject()));
+					} else {
+						trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2 + "' to Boolean.");
+					}
+				}
 			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to Boolean.");
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1 + "' to Boolean.");
 			}
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to Boolean.");
 		}
 		return null;
 	}
@@ -416,16 +444,23 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALAnd node, SALEvaluationHelper data) {
-		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
-		if (arg1 instanceof LiteralBoolean) {
-			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
-			if (arg2 instanceof LiteralBoolean) {
-				return UMLTypesUtil.getValue(((LiteralBoolean) arg1).isValue() && ((LiteralBoolean) arg2).isValue(), checker, checker.getCheckedObject());
+		ValuesCollection args1 = node.getChild(0).jjtAccept(this, data);
+		if (args1.isSingleValued(trc)) {
+			ValueSpecification arg1 = args1.get(0);
+			if (arg1 instanceof LiteralBoolean) {
+				ValuesCollection args2 = node.getChild(1).jjtAccept(this, data);
+				if (args2.isSingleValued(trc)) {
+					ValueSpecification arg2 = args2.get(0);
+					if (arg2 instanceof LiteralBoolean) {
+						return new ValuesList(UMLTypesUtil.getValue(((LiteralBoolean) arg1).isValue() && ((LiteralBoolean) arg2).isValue(), checker,
+								checker.getCheckedObject()));
+					} else {
+						trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2 + "' to Boolean.");
+					}
+				}
 			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to Boolean.");
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1 + "' to Boolean.");
 			}
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to Boolean.");
 		}
 		return null;
 	}
@@ -440,16 +475,23 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALAdd node, SALEvaluationHelper data) {
-		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
-		if (arg1 instanceof LiteralInteger) {
-			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
-			if (arg2 instanceof LiteralInteger) {
-				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() + ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+		ValuesCollection args1 = node.getChild(0).jjtAccept(this, data);
+		if (args1.isSingleValued(trc)) {
+			ValueSpecification arg1 = args1.get(0);
+			if (arg1 instanceof LiteralInteger) {
+				ValuesCollection args2 = node.getChild(1).jjtAccept(this, data);
+				if (args2.isSingleValued(trc)) {
+					ValueSpecification arg2 = args2.get(0);
+					if (arg2 instanceof LiteralInteger) {
+						return new ValuesList(UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() + ((LiteralInteger) arg2).getValue(), checker,
+								checker.getCheckedObject()));
+					} else {
+						trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+					}
+				}
 			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 			}
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 		}
 		return null;
 	}
@@ -464,16 +506,23 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALSubstract node, SALEvaluationHelper data) {
-		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
-		if (arg1 instanceof LiteralInteger) {
-			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
-			if (arg2 instanceof LiteralInteger) {
-				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() - ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+		ValuesCollection args1 = node.getChild(0).jjtAccept(this, data);
+		if (args1.isSingleValued(trc)) {
+			ValueSpecification arg1 = args1.get(0);
+			if (arg1 instanceof LiteralInteger) {
+				ValuesCollection args2 = node.getChild(1).jjtAccept(this, data);
+				if (args2.isSingleValued(trc)) {
+					ValueSpecification arg2 = args2.get(0);
+					if (arg2 instanceof LiteralInteger) {
+						return new ValuesList(UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() - ((LiteralInteger) arg2).getValue(), checker,
+								checker.getCheckedObject()));
+					} else {
+						trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+					}
+				}
 			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 			}
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 		}
 		return null;
 	}
@@ -488,16 +537,23 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALMult node, SALEvaluationHelper data) {
-		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
-		if (arg1 instanceof LiteralInteger) {
-			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
-			if (arg2 instanceof LiteralInteger) {
-				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() * ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+		ValuesCollection args1 = node.getChild(0).jjtAccept(this, data);
+		if (args1.isSingleValued(trc)) {
+			ValueSpecification arg1 = args1.get(0);
+			if (arg1 instanceof LiteralInteger) {
+				ValuesCollection args2 = node.getChild(1).jjtAccept(this, data);
+				if (args2.isSingleValued(trc)) {
+					ValueSpecification arg2 = args2.get(0);
+					if (arg2 instanceof LiteralInteger) {
+						return new ValuesList(UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() * ((LiteralInteger) arg2).getValue(), checker,
+								checker.getCheckedObject()));
+					} else {
+						trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+					}
+				}
 			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 			}
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 		}
 		return null;
 	}
@@ -512,16 +568,23 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALDiv node, SALEvaluationHelper data) {
-		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
-		if (arg1 instanceof LiteralInteger) {
-			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
-			if (arg2 instanceof LiteralInteger) {
-				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() / ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+		ValuesCollection args1 = node.getChild(0).jjtAccept(this, data);
+		if (args1.isSingleValued(trc)) {
+			ValueSpecification arg1 = args1.get(0);
+			if (arg1 instanceof LiteralInteger) {
+				ValuesCollection args2 = node.getChild(1).jjtAccept(this, data);
+				if (args2.isSingleValued(trc)) {
+					ValueSpecification arg2 = args2.get(0);
+					if (arg2 instanceof LiteralInteger) {
+						return new ValuesList(UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() / ((LiteralInteger) arg2).getValue(), checker,
+								checker.getCheckedObject()));
+					} else {
+						trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+					}
+				}
 			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 			}
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 		}
 		return null;
 	}
@@ -536,16 +599,23 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALMod node, SALEvaluationHelper data) {
-		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
-		if (arg1 instanceof LiteralInteger) {
-			ValueSpecification arg2 = node.getChild(1).jjtAccept(this, data);
-			if (arg2 instanceof LiteralInteger) {
-				return UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() % ((LiteralInteger) arg2).getValue(), checker, checker.getCheckedObject());
+		ValuesCollection args1 = node.getChild(0).jjtAccept(this, data);
+		if (args1.isSingleValued(trc)) {
+			ValueSpecification arg1 = args1.get(0);
+			if (arg1 instanceof LiteralInteger) {
+				ValuesCollection args2 = node.getChild(1).jjtAccept(this, data);
+				if (args2.isSingleValued(trc)) {
+					ValueSpecification arg2 = args2.get(0);
+					if (arg2 instanceof LiteralInteger) {
+						return new ValuesList(UMLTypesUtil.getValue(((LiteralInteger) arg1).getValue() % ((LiteralInteger) arg2).getValue(), checker,
+								checker.getCheckedObject()));
+					} else {
+						trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+					}
+				}
 			} else {
-				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg2.getLabel() + "' to integer.");
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 			}
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to integer.");
 		}
 		return null;
 	}
@@ -560,11 +630,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALNot node, SALEvaluationHelper data) {
-		ValueSpecification arg1 = node.getChild(0).jjtAccept(this, data);
-		if (arg1 instanceof LiteralBoolean) {
-			return UMLTypesUtil.getValue(!((LiteralBoolean) arg1).isValue(), checker, checker.getCheckedObject());
-		} else {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to Boolean.");
+		ValuesCollection args1 = node.getChild(0).jjtAccept(this, data);
+		if (args1.isSingleValued(trc)) {
+			ValueSpecification arg1 = args1.get(0);
+			if (arg1 instanceof LiteralBoolean) {
+				return new ValuesList(UMLTypesUtil.getValue(!((LiteralBoolean) arg1).isValue(), checker, checker.getCheckedObject()));
+			} else {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot convert '" + arg1.getLabel() + "' to Boolean.");
+			}
 		}
 		return null;
 	}
@@ -580,10 +653,10 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	@Override
 	public ValuesCollection visit(SALMemberCall node, SALEvaluationHelper data) {
 		// first child is a given context, second child is SALCall
-		ValueSpecification context = node.getChild(0).jjtAccept(this, data);
-		if (null != context) {
+		ValuesCollection context = node.getChild(0).jjtAccept(this, data);
+		if (null != context && !context.isEmpty()) {
 			Object oldContext = data.setFunctionEvaluationContext(context);
-			ValueSpecification result = node.getChild(1).jjtAccept(this, data);
+			ValuesCollection result = node.getChild(1).jjtAccept(this, data);
 			data.setFunctionEvaluationContext(oldContext);
 			return result;
 		}
@@ -600,10 +673,21 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALMember node, SALEvaluationHelper data) {
-		// member second child will be always SALIdent that we will not evaluate
-		// but just grab its name
-		ValueSpecification contextSpec = node.getChild(0).jjtAccept(this, data);
+		// member second child will be always SALIdent or SALIdentSelector that
+		// we will not evaluate but just grab its name and values
+		ValuesCollection contextSpecs = node.getChild(0).jjtAccept(this, data);
+		if (!contextSpecs.isSingleValued(trc)) {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot navigate because context was multiplicity many value.");
+			return null;
+		}
 		String navigation = (String) node.getChild(1).jjtGetValue();
+		ValuesCollection umlIndex = null;
+		if (node.getChild(1).jjtGetNumChildren() > 0) {
+			// this is SALIdentSelector
+			umlIndex = node.getChild(1).getChild(0).jjtAccept(this, data);
+			// TODO validate index
+		}
+		ValueSpecification contextSpec = contextSpecs.get(0);
 		if (contextSpec instanceof InstanceValue) {
 			InstanceSpecification context = ((InstanceValue) contextSpec).getInstance();
 			OCLEvaluator ocl = new OCLEvaluator(checker, context, trc.getCheckedObject());
@@ -612,7 +696,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			if (ocl.hasErrors()) {
 				return null;
 			}
-			return translateOCLResult(result, navigation);
+			ValuesCollection umlResult = new ValuesList();
+			try {
+				umlResult.addFromOCL(result, checker, checker.getCheckedObject());
+			} catch (OCLConversionException e) {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot navigate to ('" + navigation + "'). Cannot convert to UML value: " + e.getOclValue().toString());
+				return null;
+			}
+			return umlResult;
 		} else {
 			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot navigate through '" + navigation + "' because it is not instance of complex class.");
 		}
@@ -637,7 +728,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		if (ocl.hasErrors()) {
 			return null;
 		}
-		return translateOCLResult(result, name);
+		ValuesCollection umlResult = new ValuesList();
+		try {
+			umlResult.addFromOCL(result, checker, checker.getCheckedObject());
+		} catch (OCLConversionException e) {
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot resolve ident to ('" + name + "'). Cannot convert to UML value: " + e.getOclValue().toString());
+			return null;
+		}
+		return umlResult;
 	}
 
 	/*
@@ -696,23 +794,17 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		return null;
 	}
 
-	/**
-	 * Changes OCL result into ValueSpecification for evaluation.
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @param oclResult
-	 * @param name
-	 *            of navigation (for error only)
-	 * @return
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALSelector,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
-	private ValueSpecification translateOCLResult(Object oclResult, String name) {
-		try {
-			return OclToUmlConverter.convertToOCLSingleValue(oclResult, checker, checker.getCheckedObject());
-		} catch (OCLEmptyCollectionException e) {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through empty collection ('" + name + "') is not possible.");
-		} catch (OCLMultiplicityManyCollectionException e) {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Naigation through multiplicity many ('" + name + "') is not possible, use OCL expression instead.");
-		} catch (OCLConversionException e) {
-		}
+	@Override
+	public ValuesCollection visit(SALSelector node, SALEvaluationHelper data) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

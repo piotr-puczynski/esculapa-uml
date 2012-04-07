@@ -9,17 +9,35 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.ocl.convert;
+package dk.dtu.imm.esculapauml.core.collections;
 
 /**
+ * Base class for exception of OCL 2 UML converter.
+ * 
  * @author Piotr J. Puczynski
- *
+ * 
  */
-public class OCLEmptyCollectionException extends OCLConversionException {
+public class OCLConversionException extends Exception {
+	private Object oclValue;
+
+	/**
+	 * @param oclValue
+	 */
+	public OCLConversionException(Object oclValue) {
+		this.oclValue = oclValue;
+	}
+
+	/**
+	 * @return the oclValue
+	 */
+	public Object getOclValue() {
+		return oclValue;
+	}
+
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8127233368949790720L;
+	private static final long serialVersionUID = 8149004296676438841L;
 
 }

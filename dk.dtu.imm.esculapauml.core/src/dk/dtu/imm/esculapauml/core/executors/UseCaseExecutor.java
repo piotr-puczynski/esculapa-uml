@@ -44,6 +44,9 @@ import org.eclipse.uml2.uml.UMLPackage.Literals;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
+import dk.dtu.imm.esculapauml.core.collections.CallArguments;
+import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
+import dk.dtu.imm.esculapauml.core.collections.ValuesList;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
@@ -145,7 +148,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			messageGenerator.setGenerateNewBESForSent(hasToGenerateNewBES(currentMessage, sourceLifeline));
 			// always generate new bes for target
 			messageGenerator.setGenerateNewBESForReceive(true);
-			messageGenerator.setArguments(event.getArguments());
+			messageGenerator.setArguments(event.getArguments().getFlattened());
 			message = messageGenerator.generate();
 
 		} else {
@@ -154,7 +157,8 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			message = getNextMessage(currentMessage);
 			if (null == message || InteractionUtils.getMessageOperation(message) != operation
 					|| InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
-					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline || !areArgumentsEqual(message.getArguments(), event.getArguments())) {
+					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline
+					|| !areArgumentsEqual(message.getArguments(), event.getArguments().getFlattened())) {
 				// message not conform to given operation
 				// we need to generate a new message
 				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
@@ -169,7 +173,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 					messageGenerator.setReceiveGenerateAfter(sequencer.getLastOccurrenceOnLifeline(targetLifeline));
 					messageGenerator.setGenerateNewBESForReceive(hasToGenerateNewBES(sequencer.getLastMessageOnLifeline(targetLifeline), targetLifeline));
 				}
-				messageGenerator.setArguments(event.getArguments());
+				messageGenerator.setArguments(event.getArguments().getFlattened());
 				message = messageGenerator.generate();
 			}
 		}
@@ -361,8 +365,8 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				}
 				Operation operation = (Operation) signature;
 				callStack.add(message);
-				targetExecutor.callOperation(message, caller, operation, message.getArguments(), message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL,
-						message);
+				targetExecutor.callOperation(message, caller, operation, new CallArguments(operation, message.getArguments()),
+						message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL, message);
 			}
 		}
 	}
@@ -410,24 +414,37 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	 * @param reply
 	 * @param result
 	 */
-	private void setMessageReturn(Message message, Message reply, ValueSpecification result) {
+	private void setMessageReturn(Message message, Message reply, ValuesCollection results) {
 		if (replyShouldBeChecked(reply)) {
 			// check reply
-			ValueSpecification expectedResult = reply.getArgument("return", null);
-			if (null != expectedResult) {
-				if (expectedResult.getType() != result.getType() || !expectedResult.stringValue().equals(result.stringValue())) {
-					checker.addOtherProblem(Diagnostic.ERROR, "Reply " + reply.getLabel() + " result ('" + result.stringValue()
-							+ "') is not equal to expected result ('" + expectedResult.stringValue() + "').", reply);
+			ValuesCollection expectedResults = new ValuesList("return", reply.getArguments());
+			if (!expectedResults.isEmpty()) {
+				if (expectedResults.size() != results.size()) {
+					checker.addOtherProblem(Diagnostic.ERROR, "Reply " + reply.getLabel() + " result size ('" + results.size()
+							+ "') is not equal to expected result size ('" + expectedResults.size() + "').", reply);
+				}
+				Iterator<ValueSpecification> itResult = results.iterator();
+				Iterator<ValueSpecification> itExpectedResult = expectedResults.iterator();
+				while (itResult.hasNext() && itExpectedResult.hasNext()) {
+					ValueSpecification result = itResult.next();
+					ValueSpecification expectedResult = itExpectedResult.next();
+					if (expectedResult.getType() != result.getType() || !expectedResult.stringValue().equals(result.stringValue())) {
+						checker.addOtherProblem(Diagnostic.ERROR, "Reply " + reply.getLabel() + " result ('" + result.stringValue()
+								+ "') is not equal to expected result ('" + expectedResult.stringValue() + "').", reply);
+						break;
+					}
 				}
 			}
 		} else {
 			// clean old values
 			reply.getArguments().clear();
 			// set return
-			if (null != result) {
-				ValueSpecification ret = EcoreUtil.copy(result);
-				ret.setName("return");
-				reply.getArguments().add(ret);
+			if (null != results) {
+				for (ValueSpecification result : results) {
+					ValueSpecification ret = EcoreUtil.copy(result);
+					ret.setName("return");
+					reply.getArguments().add(ret);
+				}
 			}
 		}
 
@@ -476,7 +493,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		} else {
 			messageGenerator.setSentGenerateAfter((MessageOccurrenceSpecification) currentMessage.getSendEvent());
 		}
-		if(sourceLifeline == targetLifeline) {
+		if (sourceLifeline == targetLifeline) {
 			// self reply
 			messageGenerator.setReceiveAfterSent(true);
 		} else {

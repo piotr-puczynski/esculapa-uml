@@ -9,19 +9,38 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.ocl.convert;
+package dk.dtu.imm.esculapauml.core.collections;
+
+import org.eclipse.uml2.uml.Type;
 
 /**
- * Base class for exception of OCL 2 UML converter.
+ * Class of incompatible type exception.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class OCLConversionException extends Exception {
+public class TypesIncompatibleException extends Exception {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8149004296676438841L;
+	private static final long serialVersionUID = -2693962535838861835L;
+
+	private Type incompatibleType;
+
+	/**
+	 * @return the incompatibleType
+	 */
+	public Type getIncompatibleType() {
+		return incompatibleType;
+	}
+
+	/**
+	 * @param incompatibleType
+	 */
+	public TypesIncompatibleException(Type incompatibleType) {
+		super();
+		this.incompatibleType = incompatibleType;
+	}
 
 }
