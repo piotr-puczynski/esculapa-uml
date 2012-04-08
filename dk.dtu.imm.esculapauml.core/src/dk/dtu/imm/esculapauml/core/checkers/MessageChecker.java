@@ -11,13 +11,13 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.checkers;
 
-import java.util.Iterator;
+//import java.util.Iterator;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.UniqueEList;
+//import org.eclipse.emf.common.util.EList;
+//import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.ConnectableElement;
 import org.eclipse.uml2.uml.Message;
@@ -25,9 +25,9 @@ import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
-import org.eclipse.uml2.uml.Parameter;
-import org.eclipse.uml2.uml.Type;
-import org.eclipse.uml2.uml.ValueSpecification;
+//import org.eclipse.uml2.uml.Parameter;
+//import org.eclipse.uml2.uml.Type;
+//import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 
@@ -109,7 +109,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 						}
 					}
 				}
-
+/*
 				EList<ValueSpecification> arguments = checkee.getArguments();
 
 				if (!arguments.isEmpty()) {
@@ -129,7 +129,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 							break;
 						}
 					}
-				}
+				}*/
 			} else { // operation is not specified
 				addProblem(Diagnostic.ERROR, "The message '" + checkee.getLabel() + "' has no operation set.");
 			}

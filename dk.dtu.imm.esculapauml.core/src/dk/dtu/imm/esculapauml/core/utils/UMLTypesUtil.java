@@ -42,7 +42,8 @@ import org.eclipse.uml2.uml.resource.UMLResource;
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 
 /**
- * Class translates from Java types to UML primitive types.
+ * Class translates from Java types to UML primitive types as well as provides
+ * useful operations on UML types.
  * 
  * @author Piotr J. Puczynski
  * 
@@ -139,6 +140,92 @@ public class UMLTypesUtil {
 		instanceResult.setType(value.getClassifiers().get(0));
 		instanceResult.setInstance(value);
 		return instanceResult;
+	}
+
+	/**
+	 * Checks if two values are equal. Type must be identical.
+	 * 
+	 * @param value
+	 * @param value
+	 * @return
+	 */
+	static public boolean areIdentical(ValueSpecification value, ValueSpecification value2) {
+		if (value.getType() != value2.getType()) {
+			return false;
+		}
+
+		if (value instanceof LiteralNull && value2 instanceof LiteralNull) {
+			return true;
+		}
+
+		if (value instanceof InstanceValue && value2 instanceof InstanceValue) {
+			if (((InstanceValue) value).getInstance() == ((InstanceValue) value2).getInstance()) {
+				return true;
+			}
+		}
+
+		if (value instanceof LiteralBoolean && value2 instanceof LiteralBoolean) {
+			if (((LiteralBoolean) value).isValue() == ((LiteralBoolean) value2).isValue()) {
+				return true;
+			}
+		}
+
+		if (value instanceof LiteralInteger && value2 instanceof LiteralInteger) {
+			if (((LiteralInteger) value).getValue() == ((LiteralInteger) value2).getValue()) {
+				return true;
+			}
+		}
+
+		if (value instanceof LiteralString && value2 instanceof LiteralString) {
+			if (((LiteralString) value).getValue().equals(((LiteralString) value2).getValue())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if two values are equal. The types do not need to be equal but
+	 * must conform to each other.
+	 * 
+	 * @param value
+	 * @param value
+	 * @return
+	 */
+	static public boolean areEqualTypeConformance(ValueSpecification value, ValueSpecification value2) {
+
+		if (value instanceof LiteralNull && value2 instanceof LiteralNull) {
+			return true;
+		}
+
+		if (value instanceof LiteralBoolean && value2 instanceof LiteralBoolean) {
+			if (((LiteralBoolean) value).isValue() == ((LiteralBoolean) value2).isValue()) {
+				return true;
+			}
+		}
+
+		if (value instanceof LiteralInteger && value2 instanceof LiteralInteger) {
+			if (((LiteralInteger) value).getValue() == ((LiteralInteger) value2).getValue()) {
+				return true;
+			}
+		}
+
+		if (value instanceof LiteralString && value2 instanceof LiteralString) {
+			if (((LiteralString) value).getValue().equals(((LiteralString) value2).getValue())) {
+				return true;
+			}
+		}
+
+		if (value instanceof InstanceValue && value2 instanceof InstanceValue) {
+			if (value.getType() == value2.getType() || value2.getType().conformsTo(value.getType())) {
+				if (((InstanceValue) value).getInstance() == ((InstanceValue) value2).getInstance()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**

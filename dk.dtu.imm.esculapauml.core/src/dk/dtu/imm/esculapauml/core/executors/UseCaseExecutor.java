@@ -55,6 +55,7 @@ import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
 import dk.dtu.imm.esculapauml.core.generators.MessageGenerator;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
 import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
+import dk.dtu.imm.esculapauml.core.utils.UMLTypesUtil;
 
 /**
  * executes the use case
@@ -212,8 +213,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		while (it.hasNext() && it2.hasNext()) {
 			ValueSpecification val = it.next();
 			ValueSpecification val2 = it2.next();
-			// string value
-			if (!val.getType().conformsTo(val2.getType()) || !val.stringValue().equals(val2.stringValue())) {
+			if (!UMLTypesUtil.areEqualTypeConformance(val, val2)) {
 				return false;
 			}
 		}
@@ -428,7 +428,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				while (itResult.hasNext() && itExpectedResult.hasNext()) {
 					ValueSpecification result = itResult.next();
 					ValueSpecification expectedResult = itExpectedResult.next();
-					if (expectedResult.getType() != result.getType() || !expectedResult.stringValue().equals(result.stringValue())) {
+					if (!UMLTypesUtil.areIdentical(expectedResult, result)) {
 						checker.addOtherProblem(Diagnostic.ERROR, "Reply " + reply.getLabel() + " result ('" + result.stringValue()
 								+ "') is not equal to expected result ('" + expectedResult.stringValue() + "').", reply);
 						break;
