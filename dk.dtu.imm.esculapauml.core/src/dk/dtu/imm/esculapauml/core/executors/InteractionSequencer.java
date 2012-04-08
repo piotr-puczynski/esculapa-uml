@@ -90,6 +90,10 @@ public class InteractionSequencer {
 	public Message getMessageWithSequence(Long number) {
 		return sequencer.get(number);
 	}
+	
+	public boolean wasExecuted(Message message) {
+		return sequencer.values().contains(message);
+	}
 
 	public void printSequence() {
 		System.out.println("Sequence of events: ");
