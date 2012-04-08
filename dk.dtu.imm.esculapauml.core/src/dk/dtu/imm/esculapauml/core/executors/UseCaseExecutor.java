@@ -19,7 +19,6 @@ import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -554,11 +553,16 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			if (null != targetLifeline) {
 				Collection<MessageOccurrenceSpecification> targetSpecsCol = EcoreUtil.getObjectsByType(targetLifeline.getCoveredBys(),
 						Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
-				ArrayList<MessageOccurrenceSpecification> targetSpecs = new ArrayList<MessageOccurrenceSpecification>(targetSpecsCol);
+				List<MessageOccurrenceSpecification> targetSpecs = new ArrayList<MessageOccurrenceSpecification>(targetSpecsCol);
+				// we are only interested in sent events after receive event
 				int sourceIndex = targetSpecs.indexOf(receiveEvent);
-				if ((sourceIndex >= 0) && (sourceIndex + 1 != targetSpecs.size())) {
-					MessageOccurrenceSpecification nextEnd = targetSpecs.get(sourceIndex + 1);
-					return nextEnd.getMessage();
+				if (sourceIndex >= 0) {
+					targetSpecs = targetSpecs.subList(sourceIndex + 1, targetSpecs.size());
+					for (MessageOccurrenceSpecification nextEnd : targetSpecs) {
+						if (nextEnd == nextEnd.getMessage().getSendEvent()) {
+							return nextEnd.getMessage();
+						}
+					}
 				}
 			}
 
