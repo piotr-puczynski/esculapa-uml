@@ -15,7 +15,6 @@ import static ch.lambdaj.Lambda.filter;
 import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -228,6 +227,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		}
 		try {
 			Transition goodTransition = getEnabledTransitionForOperation(operation, arguments, errorContext);
+			if (checker.hasErrors()) {
+				return null;
+			}
 			if (null == goodTransition) {
 				if (isSynchronous) {
 					checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is not ready to respond to an event '"
@@ -296,6 +298,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		// result) so it must be synchronous
 		OpaqueExpression oe = (OpaqueExpression) operation.getBodyCondition().getSpecification();
 		preprocessOperationArguments(operation, arguments, errorContext);
+		if (checker.hasErrors()) {
+			return null;
+		}
 		EsculapaCallEvent ece = new EsculapaCallEvent(source, errorContext, this, operation, arguments, isSynchronous);
 		checker.getSystemState().getCoordinator().fireEvent(ece);
 		if (checker.hasErrors()) {
@@ -441,22 +446,30 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	private void preprocessOperationArguments(Operation operation, CallArguments arguments, Element errorContext) {
 		EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>(filter(
-				having(on(Parameter.class).getDirection(), not(equalTo(ParameterDirectionKind.RETURN_LITERAL))), operation.getOwnedParameters()));
+				having(on(Parameter.class).getDirection(), equalTo(ParameterDirectionKind.IN_LITERAL)), operation.getOwnedParameters()));
 		Iterator<ValuesCollection> a = arguments.iterator();
 		Iterator<Parameter> p = parameters.iterator();
 
 		while (a.hasNext() && p.hasNext()) {
 			ValuesCollection arg = a.next();
 			Parameter param = p.next();
-			if (param.getDirection() == ParameterDirectionKind.IN_LITERAL) {
-				arg.setName(param.getName());
-				if (!setVariable(param.getName(), arg, errorContext)) {
-					break;
-				}
+			arg.setName(param.getName());
+			if (!arg.conformsToType(param)) {
+				checker.addOtherProblem(Diagnostic.ERROR, "Type of argument of operation '" + operation.getLabel()
+						+ "' does not conform to type of parameter '" + param.getLabel() + "'. Arguments are: " + arg + ".", errorContext);
+				return;
+			}
+			if (!arg.conformsToMultiplicity(param)) {
+				checker.addOtherProblem(Diagnostic.ERROR, "Multiplicity of argument of operation '" + operation.getLabel()
+						+ "' does not conform to multiplicity of parameter '" + param.getLabel() + "'. Arguments are: " + arg + ".", errorContext);
+				return;
+			}
+			if (!setVariable(param.getName(), arg, errorContext, true, param.getLowerValue(), param.getUpperValue())) {
+				return;
 			}
 		}
 		if (a.hasNext() || p.hasNext()) {
-			checker.addOtherProblem(Diagnostic.WARNING, "Wrong number of arguments for operation '" + operation.getLabel() + "'", errorContext);
+			checker.addOtherProblem(Diagnostic.ERROR, "Wrong number of arguments for call of operation '" + operation.getLabel() + "'.", errorContext);
 		}
 
 	}

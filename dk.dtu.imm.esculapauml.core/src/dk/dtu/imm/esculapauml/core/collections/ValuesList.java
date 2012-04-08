@@ -303,12 +303,23 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	 */
 	@Override
 	public boolean isSingleValued(Checker checker) {
-		if (list.size() == 1) {
+		if (isSingleValued()) {
 			return true;
 		} else {
 			checker.addProblem(Diagnostic.ERROR, "The value was expected to be single valued but it is: " + toString());
 			return false;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.collections.ValuesCollection#isSingleValued()
+	 */
+	@Override
+	public boolean isSingleValued() {
+		return list.size() == 1;
 	}
 
 	/*
@@ -412,7 +423,14 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	 */
 	@Override
 	public boolean conformsToMultiplicity(MultiplicityElement multiplicity) {
-		// TODO Auto-generated method stub
+		int lower = multiplicity.getLower();
+		int upper = multiplicity.getUpper();
+		if (lower > 0 && list.size() < lower) {
+			return false;
+		}
+		if (upper > -1 && list.size() > upper) {
+			return false;
+		}
 		return true;
 	}
 
@@ -458,6 +476,30 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		}
 
 		return type;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.dtu.imm.esculapauml.core.collections.ValuesCollection#
+	 * inferLowerMultiplicity()
+	 */
+	@Override
+	public int inferLowerMultiplicity() {
+		// for now we will just answer minimum value
+		return 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.dtu.imm.esculapauml.core.collections.ValuesCollection#
+	 * inferUpperMultiplicity()
+	 */
+	@Override
+	public int inferUpperMultiplicity() {
+		// for now we will just answer maximum value
+		return -1;
 	}
 
 }

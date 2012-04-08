@@ -165,6 +165,22 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * org.eclipse.uml2.uml.Element)
 	 */
 	public boolean setVariable(String name, ValuesCollection value, Element errorContext) {
+		return setVariable(name, value, errorContext, false, null, null);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#setVariable(java
+	 * .lang.String, dk.dtu.imm.esculapauml.core.collections.ValuesCollection,
+	 * org.eclipse.uml2.uml.Element, boolean,
+	 * org.eclipse.uml2.uml.ValueSpecification,
+	 * org.eclipse.uml2.uml.ValueSpecification)
+	 */
+	@Override
+	public boolean setVariable(String name, ValuesCollection value, Element errorContext, boolean setMultiplicities, ValueSpecification lowerValue,
+			ValueSpecification upperValue) {
 		Property prop = null;
 		boolean isLinkMode = false;
 		List<InstanceSpecification> variableContext = new ArrayList<InstanceSpecification>();
@@ -208,8 +224,17 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			} else {
 				prop = originalClass.createOwnedAttribute(name, infered);
 				prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
-				// prop.setLower(0);
-				// prop.setUpper(value.size());
+				if (setMultiplicities) {
+					if (null != lowerValue) {
+						prop.setLowerValue(EcoreUtil.copy(lowerValue));
+					}
+					if (null != upperValue) {
+						prop.setUpperValue(EcoreUtil.copy(upperValue));
+					}
+				} else if (!value.isSingleValued()) {
+					prop.setLower(value.inferLowerMultiplicity());
+					prop.setUpper(value.inferUpperMultiplicity());
+				}
 				checker.getSystemState().addGeneratedElement(prop);
 			}
 		}
@@ -227,7 +252,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		}
 		// multiplicity check
 		if (!value.conformsToMultiplicity(prop)) {
-			//TODO multiplicity check
+			checker.addOtherProblem(Diagnostic.ERROR, "Multiplicity check failed when trying to assign '" + name + "' to value: " + value + ".", errorContext);
 		}
 		// do we have a slot that is needed?
 		for (int i = 0; i < value.size(); ++i) {

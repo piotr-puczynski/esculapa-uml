@@ -39,6 +39,7 @@ public class RedefinitionOfLocalVariableTest extends LoggingTest {
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
+		// TestUtils.printDiagnostic(diagnostics);
 		// there is no error
 		TestUtils.printDiagnostic(diagnostics);
 		assertEquals(Diagnostic.OK, diagnostics.getSeverity());

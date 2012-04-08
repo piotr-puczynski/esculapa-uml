@@ -128,4 +128,23 @@ public interface ValuesCollection extends Collection<ValueSpecification> {
 	 */
 	Type inferType();
 
+	/**
+	 * Infers lower multiplicity of collection.
+	 * 
+	 * @return
+	 */
+	int inferLowerMultiplicity();
+
+	/**
+	 * Infers upper multiplicity of collection.
+	 * 
+	 * @return
+	 */
+	int inferUpperMultiplicity();
+
+	/**
+	 * @return
+	 */
+	boolean isSingleValued();
+
 }

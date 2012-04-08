@@ -40,7 +40,21 @@ public interface InstanceExecutor extends Executor {
 	String getInstanceName();
 
 	/**
-	 * Sets local variable.
+	 * Sets local variable with multiplicity.
+	 * 
+	 * @param name
+	 * @param arg
+	 * @param errorContext
+	 * @param b
+	 * @param lowerValue
+	 * @param upperValue
+	 * @return
+	 */
+	boolean setVariable(String name, ValuesCollection arg, Element errorContext, boolean setMultiplicities, ValueSpecification lowerValue,
+			ValueSpecification upperValue);
+
+	/**
+	 * Sets local variable. Infer multiplicity.
 	 * 
 	 * @param name
 	 * @param value
