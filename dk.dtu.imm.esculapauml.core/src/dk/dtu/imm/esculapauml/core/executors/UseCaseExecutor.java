@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
@@ -70,6 +71,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	protected SystemState systemState;
 	protected UseCaseChecker checker;
 	protected Stack<Message> callStack = new Stack<Message>();
+	protected List<Message> executedAssynchMessages = new ArrayList<Message>();
 	protected InteractionSequencer sequencer = new InteractionSequencer();
 
 	/**
@@ -322,6 +324,9 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	@Override
 	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
 		if (!callStack.isEmpty()) {
+			if (callStack.peek().getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
+				executedAssynchMessages.add(0, callStack.peek());
+			}
 			callStack.pop();
 		}
 
@@ -555,6 +560,34 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 					MessageOccurrenceSpecification nextEnd = targetSpecs.get(sourceIndex + 1);
 					return nextEnd.getMessage();
 				}
+			}
+
+			// because asynchronous calls do not have reply messages (usually)
+			// we cannot track them normally
+			// before returning here check if there is any asynchronous call on
+			// the stack
+			Iterator<Message> it = executedAssynchMessages.iterator();
+			while (it.hasNext()) {
+				// try to find next message for assynch
+				Message assynchMessage = it.next();
+				// message may be used only once
+				it.remove();
+				MessageEnd sentEvent = assynchMessage.getSendEvent();
+				if (sentEvent instanceof MessageOccurrenceSpecification) {
+					Lifeline sourceLifeline = (Lifeline) EcoreUtil.getObjectByType(((MessageOccurrenceSpecification) sentEvent).getCovereds(),
+							Literals.LIFELINE);
+					if (null != sourceLifeline) {
+						Collection<MessageOccurrenceSpecification> sourceSpecsCol = EcoreUtil.getObjectsByType(sourceLifeline.getCoveredBys(),
+								Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
+						ArrayList<MessageOccurrenceSpecification> sourceSpecs = new ArrayList<MessageOccurrenceSpecification>(sourceSpecsCol);
+						int sourceIndex = sourceSpecs.indexOf(sentEvent);
+						if ((sourceIndex >= 0) && (sourceIndex + 1 != sourceSpecs.size())) {
+							MessageOccurrenceSpecification nextEnd = sourceSpecs.get(sourceIndex + 1);
+							return nextEnd.getMessage();
+						}
+					}
+				}
+
 			}
 
 		}
