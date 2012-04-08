@@ -156,7 +156,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		} else {
 			// we need to check if the next message conforms to the event
 			// check if operation and lifelines are the same
-			message = getNextMessage(currentMessage);
+			message = getNextMessage(currentMessage, false);
 			if (null == message || InteractionUtils.getMessageOperation(message) != operation
 					|| InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
 					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline
@@ -279,7 +279,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// wa assume we retrieved the reply for last call on stack, if not
 			// its an error
 			if (callMessage == sequencer.getMessageWithSequence(event.getInitiatingCallSequenceNumber())) {
-				Message reply = getNextMessage(currentMessage);
+				Message reply = getNextMessage(currentMessage, false);
 				if (reply == null) {
 					reply = generateReplyMessage(callMessage);
 				} else if (reply.getMessageSort() != MessageSort.REPLY_LITERAL) {
@@ -343,7 +343,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				logger.warn(checkee.getLabel() + ": executor stopped due to errors detected");
 				break;
 			}
-			currentMessage = getNextMessage(currentMessage);
+			currentMessage = getNextMessage(currentMessage, true);
 		}
 
 	}
@@ -546,7 +546,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	 * @param msg
 	 * @return
 	 */
-	private Message getNextMessage(Message message) {
+	private Message getNextMessage(Message message, boolean searchInAssynch) {
 		MessageEnd receiveEvent = message.getReceiveEvent();
 		if (receiveEvent instanceof MessageOccurrenceSpecification) {
 			Lifeline targetLifeline = (Lifeline) EcoreUtil.getObjectByType(((MessageOccurrenceSpecification) receiveEvent).getCovereds(), Literals.LIFELINE);
@@ -566,32 +566,36 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				}
 			}
 
-			// because asynchronous calls do not have reply messages (usually)
-			// we cannot track them normally
-			// before returning here check if there is any asynchronous call on
-			// the stack
-			Iterator<Message> it = executedAssynchMessages.iterator();
-			while (it.hasNext()) {
-				// try to find next message for assynch
-				Message assynchMessage = it.next();
-				// message may be used only once
-				it.remove();
-				MessageEnd sentEvent = assynchMessage.getSendEvent();
-				if (sentEvent instanceof MessageOccurrenceSpecification) {
-					Lifeline sourceLifeline = (Lifeline) EcoreUtil.getObjectByType(((MessageOccurrenceSpecification) sentEvent).getCovereds(),
-							Literals.LIFELINE);
-					if (null != sourceLifeline) {
-						Collection<MessageOccurrenceSpecification> sourceSpecsCol = EcoreUtil.getObjectsByType(sourceLifeline.getCoveredBys(),
-								Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
-						ArrayList<MessageOccurrenceSpecification> sourceSpecs = new ArrayList<MessageOccurrenceSpecification>(sourceSpecsCol);
-						int sourceIndex = sourceSpecs.indexOf(sentEvent);
-						if ((sourceIndex >= 0) && (sourceIndex + 1 != sourceSpecs.size())) {
-							MessageOccurrenceSpecification nextEnd = sourceSpecs.get(sourceIndex + 1);
-							return nextEnd.getMessage();
+			if (searchInAssynch) {
+				// because asynchronous calls do not have reply messages
+				// (usually)
+				// we cannot track them normally
+				// before returning here check if there is any asynchronous call
+				// on
+				// the stack
+				Iterator<Message> it = executedAssynchMessages.iterator();
+				while (it.hasNext()) {
+					// try to find next message for assynch
+					Message assynchMessage = it.next();
+					// message may be used only once
+					it.remove();
+					MessageEnd sentEvent = assynchMessage.getSendEvent();
+					if (sentEvent instanceof MessageOccurrenceSpecification) {
+						Lifeline sourceLifeline = (Lifeline) EcoreUtil.getObjectByType(((MessageOccurrenceSpecification) sentEvent).getCovereds(),
+								Literals.LIFELINE);
+						if (null != sourceLifeline) {
+							Collection<MessageOccurrenceSpecification> sourceSpecsCol = EcoreUtil.getObjectsByType(sourceLifeline.getCoveredBys(),
+									Literals.MESSAGE_OCCURRENCE_SPECIFICATION);
+							ArrayList<MessageOccurrenceSpecification> sourceSpecs = new ArrayList<MessageOccurrenceSpecification>(sourceSpecsCol);
+							int sourceIndex = sourceSpecs.indexOf(sentEvent);
+							if ((sourceIndex >= 0) && (sourceIndex + 1 != sourceSpecs.size())) {
+								MessageOccurrenceSpecification nextEnd = sourceSpecs.get(sourceIndex + 1);
+								return nextEnd.getMessage();
+							}
 						}
 					}
-				}
 
+				}
 			}
 
 		}
