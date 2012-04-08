@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.MessageOccurrenceSpecification;
 import org.eclipse.uml2.uml.MessageSort;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
+import org.eclipse.uml2.uml.ValueSpecification;
 //import org.eclipse.uml2.uml.Parameter;
 //import org.eclipse.uml2.uml.Type;
 //import org.eclipse.uml2.uml.ValueSpecification;
@@ -109,27 +110,37 @@ public class MessageChecker extends AbstractChecker<Message> {
 						}
 					}
 				}
-/*
-				EList<ValueSpecification> arguments = checkee.getArguments();
 
-				if (!arguments.isEmpty()) {
-					EList<Parameter> parameters = new UniqueEList.FastCompare<Parameter>(((Operation) signature).getOwnedParameters());
-
-					Iterator<ValueSpecification> a = arguments.iterator();
-					Iterator<Parameter> p = parameters.iterator();
-
-					while (a.hasNext() && p.hasNext()) {
-						ValueSpecification arg = a.next();
-						Type argumentType = arg.getType();
-						Type parameterType = p.next().getType();
-
-						if (argumentType == null ? parameterType != null : !argumentType.conformsTo(parameterType)) {
-							addProblem(Diagnostic.ERROR, "The argument '" + arg.getLabel() + "' of the message '" + checkee.getLabel()
-									+ "' has wrong type (expected: " + parameterType.getName() + ").");
-							break;
-						}
+				// check if all the arguments correspond to the parameters
+				Operation operation = ((Operation) signature);
+				for (ValueSpecification arg : checkee.getArguments()) {
+					if (null == operation.getOwnedParameter(arg.getName(), arg.getType(), false, false)) {
+						addProblem(Diagnostic.ERROR,
+								"Cannot find parameter of operation that the argument (name: '" + arg.getLabel() + "', value: '" + arg.stringValue()
+										+ "') of the message '" + checkee.getLabel() + "' could represent. It has wrong name or type.");
 					}
-				}*/
+				}
+				/*
+				 * EList<ValueSpecification> arguments = checkee.getArguments();
+				 * // check if all the names correspond to the parameters if
+				 * (!arguments.isEmpty()) { EList<Parameter> parameters = new
+				 * UniqueEList.FastCompare<Parameter>(((Operation)
+				 * signature).getOwnedParameters());
+				 * 
+				 * Iterator<ValueSpecification> a = arguments.iterator();
+				 * Iterator<Parameter> p = parameters.iterator();
+				 * 
+				 * while (a.hasNext() && p.hasNext()) { ValueSpecification arg =
+				 * a.next(); Type argumentType = arg.getType(); Type
+				 * parameterType = p.next().getType();
+				 * 
+				 * if (argumentType == null ? parameterType != null :
+				 * !argumentType.conformsTo(parameterType)) {
+				 * addProblem(Diagnostic.ERROR, "The argument '" +
+				 * arg.getLabel() + "' of the message '" + checkee.getLabel() +
+				 * "' has wrong type (expected: " + parameterType.getName() +
+				 * ")."); break; } } }
+				 */
 			} else { // operation is not specified
 				addProblem(Diagnostic.ERROR, "The message '" + checkee.getLabel() + "' has no operation set.");
 			}

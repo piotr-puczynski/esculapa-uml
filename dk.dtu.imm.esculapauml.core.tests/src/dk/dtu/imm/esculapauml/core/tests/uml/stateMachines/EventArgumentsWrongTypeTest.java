@@ -41,12 +41,14 @@ public class EventArgumentsWrongTypeTest extends LoggingTest {
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
-		TestUtils.printDiagnostic(diagnostics);
+		// TestUtils.printDiagnostic(diagnostics);
 
 		// there is an error
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "The argument 'cowNumber' of the message 'm' has wrong type (expected: Integer)."));
+		assertTrue(TestUtils
+				.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
+						"Cannot find parameter of operation that the argument (name: 'cowNumber', value: 'milky') of the message 'm' could represent. It has wrong name or type."));
 	}
 }
