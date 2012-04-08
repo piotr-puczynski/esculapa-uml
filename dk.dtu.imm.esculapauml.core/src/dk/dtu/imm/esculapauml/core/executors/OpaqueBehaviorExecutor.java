@@ -256,6 +256,32 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALAssignmentSelector,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValuesCollection visit(SALAssignmentSelector node, SALEvaluationHelper data) {
+		// assign single value
+		// first is selector, then expression to assign
+		String varName = (String) node.jjtGetValue();
+		ValuesCollection values = node.getChild(1).jjtAccept(this, data);
+		if (null != values) {
+			if (values.isSingleValued(trc)) {
+				ValuesCollection selector = node.getChild(0).jjtAccept(this, data);
+				if (null != selector) {
+					ValueSpecification value = values.get(0);
+					setVariable(varName, ((LiteralInteger) selector.get(0)).getValue(), value, trc.getCheckedObject());
+				}
+			}
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
 	 * imm.esculapauml.core.sal.parser.SALReplyStatement,
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
@@ -679,15 +705,11 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			return null;
 		}
 		String navigation = (String) node.getChild(1).jjtGetValue();
-		ValuesCollection selector = null;
+		boolean hasSelector = false;
 		if (node.getChild(1).jjtGetNumChildren() > 0) {
 			navigation = (String) node.getChild(1).getChild(0).jjtGetValue();
 			// this is SALIdentSelector, accept selector
-			selector = node.getChild(1).getChild(1).jjtAccept(this, data);
-			if (null == selector) {
-				// selector is invalid
-				return null;
-			}
+			hasSelector = true;
 		} else {
 			navigation = (String) node.getChild(1).jjtGetValue();
 		}
@@ -707,7 +729,12 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 				trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot navigate to ('" + navigation + "'). Cannot convert to UML value: " + e.getOclValue().toString());
 				return null;
 			}
-			if (null != selector) {
+			if (hasSelector) {
+				ValuesCollection selector = node.getChild(1).getChild(1).jjtAccept(this, data);
+				if (null == selector) {
+					// selector is invalid
+					return null;
+				}
 				if (!umlResult.select(selector)) {
 					trc.addProblem(Diagnostic.ERROR, "[SAL] Selector index out of bound '" + selector + "'.");
 					return null;
@@ -753,20 +780,6 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
-	 * imm.esculapauml.core.sal.parser.SALAssignmentSelector,
-	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
-	 */
-	@Override
-	public ValuesCollection visit(SALAssignmentSelector node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
 	 * imm.esculapauml.core.sal.parser.SALIdentSelector,
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
@@ -775,6 +788,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		// first node is ident, second node is selector
 		ValuesCollection context = node.getChild(0).jjtAccept(this, data);
 		ValuesCollection selector = node.getChild(1).jjtAccept(this, data);
+		if (null != context && null != selector) {
+			if (!context.select(selector)) {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Selector index out of bound '" + selector + "'.");
+				return null;
+			} else {
+				return context;
+			}
+		}
 		return null;
 	}
 
@@ -788,7 +809,17 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 */
 	@Override
 	public ValuesCollection visit(SALCallSelector node, SALEvaluationHelper data) {
-		// TODO Auto-generated method stub
+		// first node is call, second node is selector
+		ValuesCollection context = node.getChild(0).jjtAccept(this, data);
+		ValuesCollection selector = node.getChild(1).jjtAccept(this, data);
+		if (null != context && null != selector) {
+			if (!context.select(selector)) {
+				trc.addProblem(Diagnostic.ERROR, "[SAL] Selector index out of bound '" + selector + "'.");
+				return null;
+			} else {
+				return context;
+			}
+		}
 		return null;
 	}
 
@@ -803,8 +834,14 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	@Override
 	public ValuesCollection visit(SALCollectionExpression node, SALEvaluationHelper data) {
 		ValuesCollection umlResult = new ValuesList();
-
-		return null;
+		for (int i = 0; !checker.hasErrors() && i < node.jjtGetNumChildren(); ++i) {
+			ValuesCollection partResult = node.getChild(i).jjtAccept(this, data);
+			if (null == partResult) {
+				return null;
+			}
+			umlResult.addAll(partResult);
+		}
+		return umlResult;
 	}
 
 	/*
