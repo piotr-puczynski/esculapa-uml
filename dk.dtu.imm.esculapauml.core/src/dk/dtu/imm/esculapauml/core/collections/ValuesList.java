@@ -23,7 +23,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.LiteralInteger;
+import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
@@ -41,7 +43,6 @@ import dk.dtu.imm.esculapauml.core.utils.UMLTypesUtil;
 public class ValuesList extends AbstractList<ValueSpecification> implements ValuesCollection {
 
 	private List<ValueSpecification> list = new ArrayList<ValueSpecification>();
-	private Type type = null;
 
 	/**
 	 * 
@@ -58,7 +59,6 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	public ValuesList(EList<ValueSpecification> values) {
 		for (ValueSpecification val : values) {
 			add(val);
-			type = val.getType();
 		}
 	}
 
@@ -69,7 +69,6 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	 */
 	public ValuesList(ValueSpecification value) {
 		add(value);
-		type = value.getType();
 	}
 
 	/**
@@ -113,7 +112,6 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	 */
 	@Override
 	public void add(int index, ValueSpecification element) {
-		type = element.getType();
 		list.add(index, element);
 	}
 
@@ -124,7 +122,6 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	 */
 	@Override
 	public boolean add(ValueSpecification e) {
-		type = e.getType();
 		return list.add(e);
 	}
 
@@ -135,9 +132,6 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	 */
 	@Override
 	public boolean addAll(Collection<? extends ValueSpecification> c) {
-		if (!c.isEmpty()) {
-			type = ((ValueSpecification) c.toArray()[0]).getType();
-		}
 		return list.addAll(c);
 	}
 
@@ -149,7 +143,6 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	@Override
 	public void clear() {
 		list.clear();
-		type = null;
 	}
 
 	/*
@@ -255,21 +248,6 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see dk.dtu.imm.esculapauml.core.collections.ValuesCollection#getType()
-	 */
-	@Override
-	public Type getType() {
-		if (list.isEmpty()) {
-			return null;
-		} else {
-			return type;
-		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * dk.dtu.imm.esculapauml.core.collections.ValuesCollection#setName(java
 	 * .lang.String)
@@ -356,7 +334,7 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 				}
 				result += ", ";
 			} else {
-				result += vs.stringValue() + ", ";
+				result += (vs.getType() == null) ? "(no type)" : vs.getType().getLabel() + ": '" + vs.stringValue() + "', ";
 			}
 		}
 		if (!result.isEmpty()) {
@@ -390,6 +368,96 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		list.clear();
 		add(vs);
 		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.collections.ValuesCollection#conformsToType
+	 * (org.eclipse.uml2.uml.TypedElement)
+	 */
+	@Override
+	public boolean conformsToType(TypedElement type) {
+		// type will be the most possible general type in the check
+		// if we do not have elements its fine
+		if (list.isEmpty()) {
+			return true;
+		}
+		// if type is null and we are not empty
+		if (null == type.getType()) {
+			return false;
+		}
+		// check type of elements
+		for (ValueSpecification vs : list) {
+			if (vs.getType() != type.getType()) {
+				if (null == vs.getType()) {
+					return false;
+				} else {
+					if (!vs.getType().conformsTo(type.getType())) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.dtu.imm.esculapauml.core.collections.ValuesCollection#
+	 * conformsToMultiplicity(org.eclipse.uml2.uml.MultiplicityElement)
+	 */
+	@Override
+	public boolean conformsToMultiplicity(MultiplicityElement multiplicity) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.dtu.imm.esculapauml.core.collections.ValuesCollection#inferType()
+	 */
+	@Override
+	public Type inferType() {
+		// if we are empty, no way to infer type
+		if (list.isEmpty()) {
+			return null;
+		}
+		Type type = null;
+
+		for (ValueSpecification vs : list) {
+			if (null == type) {
+				// first time
+				if (null == vs.getType()) {
+					return null;
+				} else {
+					type = vs.getType();
+				}
+			} else {
+				if (null == vs.getType()) {
+					return null;
+				} else {
+					if (vs.getType() != type) {
+						if (vs.getType().conformsTo(type)) {
+							// vs seems to be more specific
+							continue;
+						} else if (type.conformsTo(vs.getType())) {
+							// vs seems to be more general
+							type = vs.getType();
+						} else {
+							// elements are too different
+							return null;
+						}
+					}
+				}
+			}
+		}
+
+		return type;
 	}
 
 }

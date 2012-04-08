@@ -16,7 +16,6 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Transition;
-import org.eclipse.uml2.uml.Type;
 
 import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 
@@ -29,7 +28,7 @@ import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
  */
 public class TransitionReplyChecker extends AbstractChecker<Transition> {
 	private ValuesCollection reply = null;
-	private Type returnType = null;
+	private Parameter returnParam = null;
 	private Operation operation;
 	private boolean allowedToHaveReply = true;
 	private boolean acceptReplies = true;
@@ -41,17 +40,17 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 		super(checker, transition);
 		this.operation = operation;
 		if (null != operation) {
-			calculateOperationReturnType();
+			calculateOperationReturnParam();
 		}
 	}
 
 	/**
 	 * Calculates what is the type of result of operation.
 	 */
-	private void calculateOperationReturnType() {
+	private void calculateOperationReturnParam() {
 		for (Parameter parameter : operation.getOwnedParameters()) {
 			if (parameter.getDirection() == ParameterDirectionKind.RETURN_LITERAL) {
-				returnType = parameter.getType();
+				returnParam = parameter;
 				return;
 			}
 		}
@@ -88,17 +87,23 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 			}
 
 			if (null != operation) {
-				if (null == returnType) {
+				if (null == returnParam || (null != returnParam && null == returnParam.getType())) {
 					// reply was issued for operation that do not have return
 					// value
-					addProblem(Diagnostic.ERROR, "Failed to assign return value for operation '" + operation.getName() + "' to value of type: "
-							+ reply.getType().getName() + ". The operation is declared not to have result value.");
+					addProblem(Diagnostic.ERROR, "Failed to assign return value for operation '" + operation.getName() + "' to value: " + reply
+							+ ". The operation is declared not to have result.");
 					return;
 				} else {
-					if (!returnType.conformsTo(reply.getType())) {
+					if (!reply.conformsToType(returnParam)) {
 						// the reply failed type check
 						addProblem(Diagnostic.ERROR, "Type check failed when trying to assign return value for operation '" + operation.getName()
-								+ "' to value of type: " + reply.getType().getName() + ". Required type must conform to: " + returnType.getName() + ".");
+								+ "' to value: " + reply + ".");
+						return;
+					}
+					if (!reply.conformsToMultiplicity(returnParam)) {
+						// the reply failed multiplicity check
+						addProblem(Diagnostic.ERROR, "Multiplicity check failed when trying to assign return value for operation '" + operation.getName()
+								+ "' to value: " + reply + ".");
 						return;
 					}
 				}
@@ -135,9 +140,9 @@ public class TransitionReplyChecker extends AbstractChecker<Transition> {
 	public void check() {
 		if (isAllowedToHaveReply()) {
 			if (isAcceptingReplies()) {
-				if (null != returnType && null == reply) {
+				if (null != returnParam && null != returnParam.getType() && null == reply) {
 					addProblem(Diagnostic.ERROR, "Missing reply statement for operation '" + operation.getName()
-							+ "'. The operation must return value of type '" + returnType.getName() + "'.");
+							+ "'. The operation must return value of type '" + returnParam.getType().getName() + "'.");
 				}
 			}
 		}

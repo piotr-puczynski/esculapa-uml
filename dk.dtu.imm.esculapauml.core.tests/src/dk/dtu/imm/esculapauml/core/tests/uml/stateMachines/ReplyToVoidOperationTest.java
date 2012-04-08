@@ -48,6 +48,6 @@ public class ReplyToVoidOperationTest extends LoggingTest {
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
 		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR,
-				"Failed to assign return value for operation 'm' to value of type: String. The operation is declared not to have result value."));
+				"Failed to assign return value for operation 'm' to value: [String: 'muuuu']. The operation is declared not to have result."));
 	}
 }

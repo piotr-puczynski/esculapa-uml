@@ -14,11 +14,13 @@ package dk.dtu.imm.esculapauml.core.collections;
 import java.util.Collection;
 
 import org.eclipse.uml2.uml.Element;
-import org.eclipse.uml2.uml.Type;
+import org.eclipse.uml2.uml.MultiplicityElement;
+import org.eclipse.uml2.uml.TypedElement;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
+import org.eclipse.uml2.uml.Type;
 
 /**
  * Inferface for UML collection for handling arguments values during execution.
@@ -27,14 +29,6 @@ import dk.dtu.imm.esculapauml.core.checkers.Checker;
  * 
  */
 public interface ValuesCollection extends Collection<ValueSpecification> {
-
-	/**
-	 * Returns the most general type of values in collection or null if
-	 * collection is empty.
-	 * 
-	 * @return
-	 */
-	Type getType();
 
 	/**
 	 * @param index
@@ -106,8 +100,32 @@ public interface ValuesCollection extends Collection<ValueSpecification> {
 	 * IntegerLiteral.
 	 * 
 	 * @param selector
-	 * @return 
+	 * @return
 	 */
 	boolean select(ValuesCollection selector);
+
+	/**
+	 * Check if collection can be assigned to given typed element.
+	 * 
+	 * @param returnParam
+	 * @return
+	 */
+	boolean conformsToType(TypedElement type);
+
+	/**
+	 * Check if collection can be assigned to given multiplicity element.
+	 * 
+	 * @param returnParam
+	 * @return
+	 */
+	boolean conformsToMultiplicity(MultiplicityElement multiplicity);
+
+	/**
+	 * Infers generic type of collection. If collection type cannot be inferred,
+	 * it returns null.
+	 * 
+	 * @return
+	 */
+	Type inferType();
 
 }

@@ -31,6 +31,7 @@ import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
 import org.eclipse.uml2.uml.VisibilityKind;
@@ -199,12 +200,13 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		}
 		if (null == prop) {
 			// create local variable
-			if (null == value.getType()) {
+			Type infered = value.inferType();
+			if (null == infered) {
 				checker.addOtherProblem(Diagnostic.ERROR,
-						"Type couldn't be coerced from given value to any significant type when tried to create local variable '" + name + "'.", errorContext);
+						"Type couldn't be inferred from given value to any significant type when tried to create local variable '" + name + "'.", errorContext);
 				return false;
 			} else {
-				prop = originalClass.createOwnedAttribute(name, value.getType());
+				prop = originalClass.createOwnedAttribute(name, infered);
 				prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 				// prop.setLower(0);
 				// prop.setUpper(value.size());
@@ -212,16 +214,20 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			}
 		}
 		// type check
-		if (!prop.getType().conformsTo(value.getType())) {
+		if (!value.conformsToType(prop)) {
 			if (null != errorContext) {
-				if (null != value.getType() && null != prop.getType()) {
-					checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "' to value of type: "
-							+ value.getType().getName() + ". Required type must conform to: " + prop.getType().getName() + ".", errorContext);
+				if (null != prop.getType()) {
+					checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "' to value: " + value
+							+ ". Required type must conform to: " + prop.getType().getName() + ".", errorContext);
 				} else {
-					checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "'.", errorContext);
+					checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "' to value " + value + ".", errorContext);
 				}
 			}
 			return false;
+		}
+		// multiplicity check
+		if (!value.conformsToMultiplicity(prop)) {
+			//TODO multiplicity check
 		}
 		// do we have a slot that is needed?
 		for (int i = 0; i < value.size(); ++i) {
