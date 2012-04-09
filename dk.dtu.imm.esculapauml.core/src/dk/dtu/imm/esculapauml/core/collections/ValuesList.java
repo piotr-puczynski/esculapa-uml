@@ -368,14 +368,21 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	}
 
 	/**
+	 * Reduce collection to element of given index from 1. -1 represents the
+	 * last value in the collection.
+	 * 
 	 * @param index
 	 * @return
 	 */
 	private boolean select(int index) {
+		--index;
+		if (index == -2) { // was -1 = infinity
+			index = list.size() - 1;
+		}
 		if (index < 0 || index >= list.size()) {
 			return false;
 		}
-		ValueSpecification vs = list.get(0);
+		ValueSpecification vs = list.get(index);
 		list.clear();
 		add(vs);
 		return true;
@@ -486,8 +493,11 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	 */
 	@Override
 	public int inferLowerMultiplicity() {
-		// for now we will just answer minimum value
-		return 0;
+		if (isSingleValued()) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	/*
@@ -498,8 +508,11 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	 */
 	@Override
 	public int inferUpperMultiplicity() {
-		// for now we will just answer maximum value
-		return -1;
+		if (isSingleValued()) {
+			return 1;
+		} else {
+			return -1;
+		}
 	}
 
 }

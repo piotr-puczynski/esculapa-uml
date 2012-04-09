@@ -231,7 +231,8 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 					if (null != upperValue) {
 						prop.setUpperValue(EcoreUtil.copy(upperValue));
 					}
-				} else if (!value.isSingleValued()) {
+				} else if (value.inferLowerMultiplicity() != 1 || value.inferUpperMultiplicity() != 1) {
+					// write only when the values are not default 1,1
 					prop.setLower(value.inferLowerMultiplicity());
 					prop.setUpper(value.inferUpperMultiplicity());
 				}
@@ -317,14 +318,16 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			// this is association
 			// check if a link is already existing
 			EList<InstanceSpecification> instances = checker.getSystemState().getExistingLinksForInstance(assoc.getLeft(), instanceSpecification);
-			if (!instances.isEmpty() && index < instances.size()) {
+			int umlIndex = calculateUMLIndex(index);
+			if (!instances.isEmpty() && umlIndex >= 0 && umlIndex < instances.size()) {
 				// we have a link
-				variableContext = instances.get(index);
+				variableContext = instances.get(umlIndex);
 				prop = assoc.getRight();
-				// reset index (always zero inside links)
-				index = 0;
+				// reset index (always one inside links) = umlIndex
+				// corresponding 0
+				index = 1;
 				// } else if (index == instances.size()) {
-				// TODO add creation of new link
+				// TODO add creation of new link umlIndex == -1
 			} else {
 				checker.addOtherProblem(Diagnostic.ERROR, "Link out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
 						errorContext);
@@ -359,11 +362,12 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			}
 			return false;
 		}
+		int umlIndex = calculateUMLIndex(index);
 		// do we have a slot that is needed?
 		if (null == slot) {
 			List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), variableContext.getSlots());
 			if (slots.isEmpty()) {
-				if (0 == index) {
+				if (-1 == umlIndex) {
 					slot = variableContext.createSlot();
 					slot.setDefiningFeature(prop);
 				} else {
@@ -375,18 +379,35 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				slot = slots.get(0);
 			}
 		}
-		if (index < slot.getValues().size()) {
+		if (umlIndex > -1 && umlIndex < slot.getValues().size()) {
 			// remove old value
-			slot.getValues().remove(index);
+			slot.getValues().remove(umlIndex);
 		}
-		if (index < 0 || index > slot.getValues().size()) {
+		if (umlIndex == -1) {
+			// infinity: add new value to the end
+			slot.getValues().add(valueToSet);
+		} else if (umlIndex < 0 || umlIndex > slot.getValues().size()) {
 			checker.addOtherProblem(Diagnostic.ERROR, "Array out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
 					errorContext);
 			return false;
 		} else {
-			slot.getValues().add(index, valueToSet);
+			slot.getValues().add(umlIndex, valueToSet);
 		}
 		return true;
+	}
+
+	/**
+	 * Changes from SAL index to Java index.
+	 * 
+	 * @param index
+	 * @param instances
+	 * @return
+	 */
+	private int calculateUMLIndex(int index) {
+		if (index == -1) { // infinity
+			return -1;
+		}
+		return --index;
 	}
 
 	/*
