@@ -769,7 +769,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		try {
 			umlResult.addFromOCL(result, checker, checker.getCheckedObject());
 		} catch (OCLConversionException e) {
-			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot resolve ident to ('" + name + "'). Cannot convert to UML value: " + e.getOclValue().toString());
+			trc.addProblem(Diagnostic.ERROR, "[SAL] Cannot resolve ident ('" + name + "'). Cannot convert to UML value: " + e.getOclValue().toString());
 			return null;
 		}
 		return umlResult;
