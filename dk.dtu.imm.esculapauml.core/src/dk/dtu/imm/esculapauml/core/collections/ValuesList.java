@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.LiteralInteger;
+import org.eclipse.uml2.uml.LiteralNull;
 import org.eclipse.uml2.uml.MultiplicityElement;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.TypedElement;
@@ -338,7 +339,9 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 	private String getValuesNames() {
 		String result = "";
 		for (ValueSpecification vs : list) {
-			if (vs instanceof InstanceValue) {
+			if (vs instanceof LiteralNull) {
+				result += "null, ";
+			} else if (vs instanceof InstanceValue) {
 				result += "instance: ";
 				if (null != ((InstanceValue) vs).getInstance()) {
 					result += ((InstanceValue) vs).getInstance().getLabel();
