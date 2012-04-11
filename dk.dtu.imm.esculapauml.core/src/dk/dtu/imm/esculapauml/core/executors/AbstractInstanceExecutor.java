@@ -319,6 +319,9 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			// check if a link is already existing
 			EList<InstanceSpecification> instances = checker.getSystemState().getExistingLinksForInstance(assoc.getLeft(), instanceSpecification);
 			int umlIndex = calculateUMLIndex(index);
+			if (umlIndex == -1) {
+				umlIndex = instances.size() - 1;
+			}
 			if (!instances.isEmpty() && umlIndex >= 0 && umlIndex < instances.size()) {
 				// we have a link
 				variableContext = instances.get(umlIndex);
@@ -327,7 +330,6 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				// corresponding 0
 				index = 1;
 				// } else if (index == instances.size()) {
-				// TODO add creation of new link umlIndex == -1
 			} else {
 				checker.addOtherProblem(Diagnostic.ERROR, "Link out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
 						errorContext);
@@ -367,7 +369,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		if (null == slot) {
 			List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), variableContext.getSlots());
 			if (slots.isEmpty()) {
-				if (-1 == umlIndex) {
+				if (0 == umlIndex) {
 					slot = variableContext.createSlot();
 					slot.setDefiningFeature(prop);
 				} else {
@@ -379,14 +381,14 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				slot = slots.get(0);
 			}
 		}
-		if (umlIndex > -1 && umlIndex < slot.getValues().size()) {
+		if (umlIndex == -1) {
+			umlIndex = slot.getValues().size() - 1;
+		}
+		if (umlIndex < 0 && umlIndex < slot.getValues().size()) {
 			// remove old value
 			slot.getValues().remove(umlIndex);
 		}
-		if (umlIndex == -1) {
-			// infinity: add new value to the end
-			slot.getValues().add(valueToSet);
-		} else if (umlIndex < 0 || umlIndex > slot.getValues().size()) {
+		if (umlIndex < 0 || umlIndex >= slot.getValues().size()) {
 			checker.addOtherProblem(Diagnostic.ERROR, "Array out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
 					errorContext);
 			return false;
