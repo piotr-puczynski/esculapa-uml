@@ -384,15 +384,13 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		if (umlIndex == -1) {
 			umlIndex = slot.getValues().size() - 1;
 		}
-		if (umlIndex < 0 && umlIndex < slot.getValues().size()) {
-			// remove old value
-			slot.getValues().remove(umlIndex);
-		}
 		if (umlIndex < 0 || umlIndex >= slot.getValues().size()) {
 			checker.addOtherProblem(Diagnostic.ERROR, "Array out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
 					errorContext);
 			return false;
 		} else {
+			// remove old value
+			slot.getValues().remove(umlIndex);
 			slot.getValues().add(umlIndex, valueToSet);
 		}
 		return true;
