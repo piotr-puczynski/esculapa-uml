@@ -329,7 +329,6 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	 * org.eclipse.uml2.uml.Element)
 	 */
 	public boolean setVariable(String name, int index, ValueSpecification value, Element errorContext) {
-		ValueSpecification valueToSet = EcoreUtil.copy(value);
 		Property prop = null;
 		Slot slot = null;
 		InstanceSpecification variableContext = instanceSpecification;
@@ -362,18 +361,18 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		}
 		if (null == prop) {
 			// create local variable
-			if (null == valueToSet.getType()) {
+			if (null == value.getType()) {
 				checker.addOtherProblem(Diagnostic.ERROR,
 						"Type couldn't be coerced from given value to any significant type when tried to create local variable '" + name + "'.", errorContext);
 				return false;
 			} else {
-				prop = originalClass.createOwnedAttribute(name, valueToSet.getType());
+				prop = originalClass.createOwnedAttribute(name, value.getType());
 				prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
 				checker.getSystemState().addGeneratedElement(prop);
 			}
 		}
 		// type check
-		if (!prop.getType().conformsTo(valueToSet.getType())) {
+		if (!prop.getType().conformsTo(value.getType())) {
 			if (null != errorContext) {
 				if (null != value.getType() && null != prop.getType()) {
 					checker.addOtherProblem(Diagnostic.ERROR, "Type check failed when trying to assign '" + name + "' to value of type: "
@@ -405,7 +404,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		} else {
 			// remove old value
 			slot.getValues().remove(umlIndex);
-			slot.getValues().add(umlIndex, valueToSet);
+			slot.getValues().add(umlIndex, EcoreUtil.copy(value));
 		}
 		return true;
 	}
