@@ -33,7 +33,7 @@ public class CheckInTag extends LoggingTest {
 	private Resource model = TestUtils.getUMLResource("ToolTest.uml");
 
 	@Test
-	public void eventArgumentsAndResult() throws InterruptedException {
+	public void checkInTag() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "CheckInDetail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);

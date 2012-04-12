@@ -234,7 +234,9 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		slot.setDefiningFeature(prop);
 
 		for (ValueSpecification vs : value) {
-			slot.getValues().add(EcoreUtil.copy(vs));
+			ValueSpecification toInsert = EcoreUtil.copy(vs);
+			toInsert.setType(prop.getType());
+			slot.getValues().add(EcoreUtil.copy(toInsert));
 		}
 		return true;
 	}
@@ -290,7 +292,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		// create new links
 		Iterator<ValueSpecification> it = value.iterator();
 		Association association = assoc.getLeft();
-		int indexOfSelfProp = association.getMemberEnds().get(0) == assoc.getRight() ? 0 : 1;
+		int indexOfSelfProp = association.getMemberEnds().get(0) == assoc.getRight() ? 1 : 0;
 
 		while (it.hasNext()) {
 			InstanceValue linkEnd = (InstanceValue) it.next();
@@ -309,11 +311,15 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 
 			// create instance value for myself
 			ValueSpecification self = UMLTypesUtil.getValue(instanceSpecification, checker, instanceSpecification);
-
+			
 			// place instance values in the slots
 
+			self.setType(link.getSlots().get(indexOfSelfProp).getDefiningFeature().getType());
 			link.getSlots().get(indexOfSelfProp).getValues().add(self);
-			link.getSlots().get(Math.abs(indexOfSelfProp - 1)).getValues().add(EcoreUtil.copy(linkEnd));
+			
+			ValueSpecification toInsert = EcoreUtil.copy(linkEnd);
+			toInsert.setType(link.getSlots().get(Math.abs(indexOfSelfProp - 1)).getDefiningFeature().getType());
+			link.getSlots().get(Math.abs(indexOfSelfProp - 1)).getValues().add(toInsert);
 
 		}
 		return true;
@@ -404,7 +410,9 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		} else {
 			// remove old value
 			slot.getValues().remove(umlIndex);
-			slot.getValues().add(umlIndex, EcoreUtil.copy(value));
+			ValueSpecification toInsert = EcoreUtil.copy(value);
+			toInsert.setType(slot.getDefiningFeature().getType());
+			slot.getValues().add(umlIndex, toInsert);
 		}
 		return true;
 	}

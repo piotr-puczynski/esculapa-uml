@@ -16,6 +16,7 @@ import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.StructuralFeature;
+import org.eclipse.uml2.uml.ValueSpecification;
 
 /**
  * Checks slots in instance specifications.
@@ -59,6 +60,15 @@ public class SlotChecker extends AbstractChecker<Slot> {
 				if (!classifier.getFeatures().contains(sf)) {
 					addProblem(Diagnostic.ERROR,
 							"Slot defining feature '" + sf.getLabel() + "' has no representation in instance classifier '" + classifier.getLabel() + "'.");
+				}
+			}
+
+			// check that the type of values is the type of the sf
+
+			for (ValueSpecification vs : checkee.getValues()) {
+				if (vs.getType() != sf.getType()) {
+					addOtherProblem(Diagnostic.ERROR,
+							"Type of value '" + vs.getLabel() + "' is different than the slot type '" + sf.getType().getName() + "'.", vs);
 				}
 			}
 
