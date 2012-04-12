@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.not;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.common.util.Diagnostic;
@@ -28,6 +29,7 @@ import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.InstanceValue;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Slot;
@@ -40,6 +42,7 @@ import dk.dtu.imm.esculapauml.core.checkers.Checker;
 import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 import dk.dtu.imm.esculapauml.core.collections.ValuesList;
 import dk.dtu.imm.esculapauml.core.utils.Pair;
+import dk.dtu.imm.esculapauml.core.utils.UMLTypesUtil;
 
 /**
  * Executes instances.
@@ -115,7 +118,7 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			if (null != property.getDefaultValue()) {
 				if (null == getVariable(property.getName())) {
 					// variable is not set
-					if (!setVariable(property.getName(), 0, property.getDefaultValue(), null)) {
+					if (!setVariable(property.getName(), new ValuesList(property.getDefaultValue()), null, false, null, null)) {
 						checker.addProblem(Diagnostic.ERROR, "Default value for property '" + property.getLabel() + "' of class '" + originalClass.getLabel()
 								+ "' is of a wrong type.");
 						break;
@@ -182,39 +185,13 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 	public boolean setVariable(String name, ValuesCollection value, Element errorContext, boolean setMultiplicities, ValueSpecification lowerValue,
 			ValueSpecification upperValue) {
 		Property prop = null;
-		boolean isLinkMode = false;
-		List<InstanceSpecification> variableContext = new ArrayList<InstanceSpecification>();
-		for (int i = 0; i < value.size(); ++i) {
-			variableContext.add(instanceSpecification);
-		}
-		Pair<Association, Property> assoc = findPropertyInAssociationFor(name);
-		if (null != assoc) {
-			// this is association
-			// check if a link is already existing
-			EList<InstanceSpecification> instances = checker.getSystemState().getExistingLinksForInstance(assoc.getLeft(), instanceSpecification);
-			if (instances.size() > value.size()) {
-				// we need to remove additional links (if necessary)
-				for (int i = instances.size() - 1; i >= value.size(); --i) {
-					checker.getSystemState().removeInstanceSpecification(instances.get(i));
-					instances.remove(i);
-				}
-			}
-			isLinkMode = true;
-			if (instances.size() == value.size()) {
-				// great :) we have exact number of required links
-				variableContext = new ArrayList<InstanceSpecification>(instances);
-				prop = assoc.getRight();
-			} else {
-				// TODO add creation of new links
-				checker.addOtherProblem(Diagnostic.ERROR, "Link out of bounds error when trying to assign '" + name + ".", errorContext);
-				return false;
-			}
-
-		} else {
-			// this is attribute
-			prop = findAttributeFor(name);
-		}
+		prop = findAttributeFor(name);
 		if (null == prop) {
+			// they could be links
+			Pair<Association, Property> assoc = findPropertyInAssociationFor(name);
+			if (null != assoc) {
+				return setLinks(assoc, name, value, errorContext);
+			}
 			// create local variable
 			Type infered = value.inferType();
 			if (null == infered) {
@@ -239,6 +216,39 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 				checker.getSystemState().addGeneratedElement(prop);
 			}
 		}
+
+		if (!checkTypeAndMultiplicities(prop, name, value, errorContext)) {
+			return false;
+		}
+
+		// do we have a slot that is needed?
+		Slot slot = null;
+		List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), instanceSpecification.getSlots());
+		if (!slots.isEmpty()) {
+			// remove all values from the slot
+			for (Slot s : slots) {
+				EcoreUtil.delete(s, true);
+			}
+		}
+		slot = instanceSpecification.createSlot();
+		slot.setDefiningFeature(prop);
+
+		for (ValueSpecification vs : value) {
+			slot.getValues().add(EcoreUtil.copy(vs));
+		}
+		return true;
+	}
+
+	/**
+	 * Type check of collection.
+	 * 
+	 * @param prop
+	 * @param name
+	 * @param value
+	 * @param errorContext
+	 * @return
+	 */
+	private boolean checkTypeAndMultiplicities(Property prop, String name, ValuesCollection value, Element errorContext) {
 		// type check
 		if (!value.conformsToType(prop)) {
 			if (null != errorContext) {
@@ -255,49 +265,59 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		if (!value.conformsToMultiplicity(prop)) {
 			checker.addOtherProblem(Diagnostic.ERROR, "Multiplicity check failed when trying to assign '" + name + "' to value: " + value + ".", errorContext);
 		}
-		// do we have a slot that is needed?
-		for (int i = 0; i < value.size(); ++i) {
-			int index;
-			if (isLinkMode) {
-				index = 0;
-			} else {
-				index = i;
-			}
-			Slot slot = null;
-			List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), variableContext.get(i).getSlots());
-			if (slots.isEmpty()) {
-				if (0 == index) {
-					slot = variableContext.get(i).createSlot();
-					slot.setDefiningFeature(prop);
-				} else {
-					checker.addOtherProblem(Diagnostic.ERROR,
-							"Cannot initialize local variable '" + name + "' with index greater than 0 (" + String.valueOf(index) + ").", errorContext);
-					return false;
-				}
-			} else {
-				slot = slots.get(0);
-			}
-			if (!isLinkMode && i == 0) {
-				// remove additional attribute values in first iteration
-				if (slot.getValues().size() > value.size()) {
-					for (int r = slot.getValues().size() - 1; r >= value.size(); --r) {
-						slot.getValues().remove(r);
-					}
-				}
-			}
-			if (index < slot.getValues().size()) {
-				// remove old value
-				slot.getValues().remove(index);
-			}
-			if (index < 0 || index > slot.getValues().size()) {
-				checker.addOtherProblem(Diagnostic.ERROR, "Array out of bounds error when trying to assign '" + name + "' (" + String.valueOf(index) + ").",
-						errorContext);
-				return false;
-			} else {
-				slot.getValues().add(index, EcoreUtil.copy(value.get(i)));
-			}
+		return true;
+	}
+
+	/**
+	 * Assigns new links to the association, replaces all old links by new ones.
+	 * 
+	 * @param assoc
+	 * @param value
+	 * @param errorContext
+	 * @return
+	 */
+	private boolean setLinks(Pair<Association, Property> assoc, String name, ValuesCollection value, Element errorContext) {
+		// this is association
+		if (!checkTypeAndMultiplicities(assoc.getRight(), name, value, errorContext)) {
+			return false;
+		}
+		// check if a links are already existing
+		EList<InstanceSpecification> instances = checker.getSystemState().getExistingLinksForInstance(assoc.getLeft(), instanceSpecification);
+		// we need to remove old links
+		for (InstanceSpecification is : instances) {
+			checker.getSystemState().removeInstanceSpecification(is);
+		}
+		// create new links
+		Iterator<ValueSpecification> it = value.iterator();
+		Association association = assoc.getLeft();
+		int indexOfSelfProp = association.getMemberEnds().get(0) == assoc.getRight() ? 0 : 1;
+
+		while (it.hasNext()) {
+			InstanceValue linkEnd = (InstanceValue) it.next();
+			InstanceSpecification link = UMLFactory.eINSTANCE.createInstanceSpecification();
+			checker.getSystemState().getInstancePackage().getPackagedElements().add(link);
+			checker.getSystemState().addGeneratedElement(link);
+			link.getClassifiers().add(association);
+			link.setName("Link_" + instanceSpecification.getName() + "_" + linkEnd.getInstance().getName());
+
+			// create slots
+			Slot slot1 = link.createSlot();
+			slot1.setDefiningFeature(association.getMemberEnds().get(0));
+
+			Slot slot2 = link.createSlot();
+			slot2.setDefiningFeature(association.getMemberEnds().get(1));
+
+			// create instance value for myself
+			ValueSpecification self = UMLTypesUtil.getValue(instanceSpecification, checker, instanceSpecification);
+
+			// place instance values in the slots
+
+			link.getSlots().get(indexOfSelfProp).getValues().add(self);
+			link.getSlots().get(Math.abs(indexOfSelfProp - 1)).getValues().add(EcoreUtil.copy(linkEnd));
+
 		}
 		return true;
+
 	}
 
 	/*
@@ -369,14 +389,8 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		if (null == slot) {
 			List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), variableContext.getSlots());
 			if (slots.isEmpty()) {
-				if (0 == umlIndex) {
-					slot = variableContext.createSlot();
-					slot.setDefiningFeature(prop);
-				} else {
-					checker.addOtherProblem(Diagnostic.ERROR,
-							"Cannot initialize local variable '" + name + "' with index greater than 0 (" + String.valueOf(index) + ").", errorContext);
-					return false;
-				}
+				checker.addOtherProblem(Diagnostic.ERROR, "The variable '" + name + "' is not initialized.", errorContext);
+				return false;
 			} else {
 				slot = slots.get(0);
 			}
@@ -536,8 +550,8 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		// class association
 		for (Association assoc : originalClass.getAssociations()) {
 			// there are always two ends
-			List<Property> assocProp = assoc.getMemberEnds();
-			if (assocProp.size() == 2) {
+			if (assoc.isBinary()) {
+				List<Property> assocProp = assoc.getMemberEnds();
 				if (assocProp.get(0).getType() == assocProp.get(1).getType()) {
 					// self association
 					List<Property> filtered = filter(having(on(Property.class).getName(), equalTo(name)), assoc.getOwnedEnds());

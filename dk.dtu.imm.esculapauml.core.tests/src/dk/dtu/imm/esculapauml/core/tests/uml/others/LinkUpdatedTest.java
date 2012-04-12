@@ -30,11 +30,11 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  */
 public class LinkUpdatedTest extends LoggingTest {
 
-	private Resource model = TestUtils.getUMLResource("NavigatingThroughInterface.uml");
-	private Resource referenceModel = TestUtils.getUMLResource("results/NavigatingThroughInterface.uml");
+	private Resource model = TestUtils.getUMLResource("LinkUpdated.uml");
+	private Resource referenceModel = TestUtils.getUMLResource("results/LinkUpdated.uml");
 
 	@Test
-	public void protocolStateMachineOrder() throws InterruptedException {
+	public void linkUpdated() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "UseCase1Detail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
