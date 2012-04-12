@@ -224,14 +224,14 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		// do we have a slot that is needed?
 		Slot slot = null;
 		List<Slot> slots = filter(having(on(Slot.class).getDefiningFeature(), equalTo(prop)), instanceSpecification.getSlots());
-		if (!slots.isEmpty()) {
+		if (slots.isEmpty()) {
+			slot = instanceSpecification.createSlot();
+			slot.setDefiningFeature(prop);
+		} else {
 			// remove all values from the slot
-			for (Slot s : slots) {
-				EcoreUtil.delete(s, true);
-			}
+			slot = slots.get(0);
+			slot.getValues().clear();
 		}
-		slot = instanceSpecification.createSlot();
-		slot.setDefiningFeature(prop);
 
 		for (ValueSpecification vs : value) {
 			ValueSpecification toInsert = EcoreUtil.copy(vs);
@@ -311,12 +311,12 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 
 			// create instance value for myself
 			ValueSpecification self = UMLTypesUtil.getValue(instanceSpecification, checker, instanceSpecification);
-			
+
 			// place instance values in the slots
 
 			self.setType(link.getSlots().get(indexOfSelfProp).getDefiningFeature().getType());
 			link.getSlots().get(indexOfSelfProp).getValues().add(self);
-			
+
 			ValueSpecification toInsert = EcoreUtil.copy(linkEnd);
 			toInsert.setType(link.getSlots().get(Math.abs(indexOfSelfProp - 1)).getDefiningFeature().getType());
 			link.getSlots().get(Math.abs(indexOfSelfProp - 1)).getValues().add(toInsert);
