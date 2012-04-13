@@ -718,6 +718,17 @@
       <interfaceRealization xmi:id="_LFeG8IS7EeGhD-x3j6OdMQ" name="InterfaceRealization1" supplier="__ZNUIIS6EeGhD-x3j6OdMQ" client="_sPlhsGu9EeGSeaoga4MVvQ" contract="__ZNUIIS6EeGhD-x3j6OdMQ"/>
       <ownedOperation xmi:id="_9ZUp0Gu9EeGSeaoga4MVvQ" name="open"/>
       <ownedOperation xmi:id="_RrqFImu_EeGSeaoga4MVvQ" name="close"/>
+      <ownedOperation xmi:id="_AGWqwIV7EeGTkaWGePv-Cw" name="isOpened" isQuery="true" bodyCondition="_IzLQ8IV7EeGTkaWGePv-Cw">
+        <ownedRule xmi:id="_IzLQ8IV7EeGTkaWGePv-Cw" name="Constraint1">
+          <specification xmi:type="uml:OpaqueExpression" xmi:id="_KMRx4IV7EeGTkaWGePv-Cw" name="OpaqueExpression1">
+            <language>ocl</language>
+            <body>isOpened</body>
+          </specification>
+        </ownedRule>
+        <ownedParameter xmi:id="_CYVUcIV7EeGTkaWGePv-Cw" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_vk5QoGu9EeGSeaoga4MVvQ" name="A_&lt;expressLaneCheckIn>_&lt;barrier>" memberEnd="_vk5QoWu9EeGSeaoga4MVvQ _vk5QpGu9EeGSeaoga4MVvQ">
       <ownedEnd xmi:id="_vk5QoWu9EeGSeaoga4MVvQ" name="expressLaneCheckIn" type="_BbH34Gk4EeGnAqvLCl25Lw" association="_vk5QoGu9EeGSeaoga4MVvQ">
@@ -838,9 +849,9 @@
                 </transition>
                 <transition xmi:id="_SbVRxGvDEeGSeaoga4MVvQ" name="Transition9" source="_JDgzUmk9EeGnAqvLCl25Lw" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_kTT_8GvDEeGSeaoga4MVvQ">
                   <ownedRule xmi:id="_kTT_8GvDEeGSeaoga4MVvQ">
-                    <specification xmi:type="uml:OpaqueExpression" xmi:id="_mo0ewGvDEeGSeaoga4MVvQ" name="barrier.isOpened">
+                    <specification xmi:type="uml:OpaqueExpression" xmi:id="_mo0ewGvDEeGSeaoga4MVvQ" name="barrier.isOpened()">
                       <language>ocl</language>
-                      <body>barrier.isOpened</body>
+                      <body>barrier.oclAsType(Barrier).isOpened()</body>
                     </specification>
                   </ownedRule>
                   <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qCfwUGvDEeGSeaoga4MVvQ" name="barrier.close()"/>
@@ -879,6 +890,11 @@
     <packagedElement xmi:type="uml:Interface" xmi:id="__ZNUIIS6EeGhD-x3j6OdMQ" name="BarrierToLane">
       <ownedOperation xmi:id="_DCThwIS7EeGhD-x3j6OdMQ" name="open"/>
       <ownedOperation xmi:id="_DCThwYS7EeGhD-x3j6OdMQ" name="close"/>
+      <ownedOperation xmi:id="_FDfTIIV7EeGTkaWGePv-Cw" name="isOpened" isQuery="true">
+        <ownedParameter xmi:id="_FDfTIYV7EeGTkaWGePv-Cw" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
     </packagedElement>
   </packagedElement>
 </uml:Model>
