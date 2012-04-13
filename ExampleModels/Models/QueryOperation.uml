@@ -22,7 +22,14 @@
           <transition xmi:id="_leLEhkOKEeG4EdriM4MjZA" name="" source="_i03f8EOKEeG4EdriM4MjZA" target="_kg3uwEOKEeG4EdriM4MjZA">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_euQTMH8PEeGOmMGFgAUmZQ" name="i := 10"/>
           </transition>
-          <transition xmi:id="_5RGxtX8NEeGOmMGFgAUmZQ" name="" source="_kg3uwEOKEeG4EdriM4MjZA" target="_k8QDMkOKEeG4EdriM4MjZA"/>
+          <transition xmi:id="_5RGxtX8NEeGOmMGFgAUmZQ" name="" source="_kg3uwEOKEeG4EdriM4MjZA" target="_k8QDMkOKEeG4EdriM4MjZA" guard="_oclCQIVoEeGgYvsVOg_kXw">
+            <ownedRule xmi:id="_oclCQIVoEeGgYvsVOg_kXw">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_qOxYoIVoEeGgYvsVOg_kXw" name="m() = 10">
+                <language>ocl</language>
+                <body>m() = 10</body>
+              </specification>
+            </ownedRule>
+          </transition>
         </region>
       </ownedBehavior>
       <ownedOperation xmi:id="_IeJc8DJJEeGjS-_RcLljMA" name="m" isQuery="true" bodyCondition="_AaINYH8PEeGOmMGFgAUmZQ">
