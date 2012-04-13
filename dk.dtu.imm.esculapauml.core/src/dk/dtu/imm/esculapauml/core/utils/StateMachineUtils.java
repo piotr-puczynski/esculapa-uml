@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.OpaqueExpression;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Pseudostate;
 import org.eclipse.uml2.uml.PseudostateKind;
 import org.eclipse.uml2.uml.Region;
@@ -35,5 +37,25 @@ public final class StateMachineUtils {
 		List<Pseudostate> initials = filter(having(on(Pseudostate.class).getKind(), equalTo(PseudostateKind.INITIAL_LITERAL)), pseudostates);
 		assert initials.size() == 1;
 		return initials.get(0);
+	}
+
+	/**
+	 * Checks if operation is valid query operation. I.e. if it has isQuery set
+	 * to true and has OCL body expression.
+	 * 
+	 * @param operation
+	 * @return
+	 */
+	public static boolean isQueryOperation(Operation operation) {
+		if (operation.isQuery()) {
+			if (null != operation.getBodyCondition()) {
+				if (operation.getBodyCondition().getSpecification() instanceof OpaqueExpression) {
+					if (!((OpaqueExpression) operation.getBodyCondition().getSpecification()).getBodies().isEmpty()) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

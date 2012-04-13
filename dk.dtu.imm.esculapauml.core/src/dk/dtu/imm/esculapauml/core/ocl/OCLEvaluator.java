@@ -24,6 +24,8 @@ import org.eclipse.ocl.uml.options.UMLEvaluationOptions;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Operation;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 
@@ -35,35 +37,33 @@ import dk.dtu.imm.esculapauml.core.checkers.Checker;
  */
 public class OCLEvaluator {
 	private EvaluationMode mode = EvaluationMode.INSTANCE_MODEL;
-	private InstanceSpecification context;
-	private Checker checker;
 	private boolean debug = false;
 	private boolean hasErrors = false;
-	private Element errorContext;
+	private UMLEnvironmentFactory envFactory;
+	private UMLEnvironment env;
+	private org.eclipse.ocl.uml.OCL myOCL;
+	private Model model;
 
 	/**
 	 * 
 	 */
-	public OCLEvaluator(Checker checker, InstanceSpecification context, Element errorContext) {
-		this.context = context;
-		this.checker = checker;
-		setErrorContext(errorContext);
+	public OCLEvaluator(Model model) {
+		this.model = model;
+		envFactory = new UMLEnvironmentFactory(model.eResource().getResourceSet());
+		env = envFactory.createEnvironment();
+		myOCL = org.eclipse.ocl.uml.OCL.newInstance(env);
 	}
 
-	public Object evaluate(String expression) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Object evaluate(Checker checker, InstanceSpecification context, Element errorContext, String expression) {
 		hasErrors = false;
-		UMLEnvironmentFactory envFactory = new UMLEnvironmentFactory(context.getModel().eResource().getResourceSet());
-		UMLEnvironment env = envFactory.createEnvironment();
-		org.eclipse.ocl.uml.OCL myOCL = org.eclipse.ocl.uml.OCL.newInstance(env);
-		EvaluationEnvironment<?, ?, ?, ?, ?> evalEnv = myOCL.getEvaluationEnvironment();
+		EvaluationEnvironment evalEnv = myOCL.getEvaluationEnvironment();
 		EvaluationOptions.setOption(evalEnv, UMLEvaluationOptions.EVALUATION_MODE, mode);
 		OCLExpression<?> oclConstraint = null;
-		if (debug) {
-			myOCL.setEvaluationTracingEnabled(true);
-			myOCL.setParseTracingEnabled(true);
-		}
+		myOCL.setEvaluationTracingEnabled(debug);
+		myOCL.setParseTracingEnabled(debug);
+		OCLHelper helper = myOCL.createOCLHelper();
 
-		OCLHelper<?, ?, ?, ?> helper = myOCL.createOCLHelper();
 		helper.setInstanceContext(context);
 		try {
 			oclConstraint = helper.createQuery(expression);
@@ -72,7 +72,6 @@ public class OCLEvaluator {
 			hasErrors = true;
 			return null;
 		}
-		@SuppressWarnings("unchecked")
 		Object result = myOCL.evaluate(context, (OCLExpression<Classifier>) oclConstraint);
 		if (myOCL.isInvalid(result)) {
 			checker.addOtherProblem(Diagnostic.ERROR, "Evaluation of '" + expression + "' in context of '" + context.getLabel() + "' returned invalid value.",
@@ -81,6 +80,21 @@ public class OCLEvaluator {
 			return null;
 		}
 		return result;
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void defineBody(Checker checker, Classifier context, Operation operation, Element errorContext, String expression) {
+		hasErrors = false;
+		myOCL.setEvaluationTracingEnabled(debug);
+		myOCL.setParseTracingEnabled(debug);
+		OCLHelper helper = myOCL.createOCLHelper();
+		helper.setOperationContext(context, operation);
+		try {
+			helper.createBodyCondition(expression);
+		} catch (ParserException e) {
+			checker.addOtherProblem(Diagnostic.ERROR, "OCL parsing exception of '" + expression + "': " + e.getMessage(), errorContext);
+			hasErrors = true;
+		}
 	}
 
 	/**
@@ -99,14 +113,6 @@ public class OCLEvaluator {
 	}
 
 	/**
-	 * @param errorContext
-	 *            the errorContext to set
-	 */
-	public void setErrorContext(Element errorContext) {
-		this.errorContext = errorContext;
-	}
-
-	/**
 	 * @param debug
 	 *            the debug to set
 	 */
@@ -119,5 +125,12 @@ public class OCLEvaluator {
 	 */
 	public boolean hasErrors() {
 		return hasErrors;
+	}
+
+	/**
+	 * @return the model
+	 */
+	public Model getModel() {
+		return model;
 	}
 }

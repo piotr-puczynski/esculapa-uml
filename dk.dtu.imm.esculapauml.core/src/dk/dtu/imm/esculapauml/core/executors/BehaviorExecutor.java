@@ -209,7 +209,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		if (checker.hasErrors()) {
 			return null;
 		}
-		if (isSynchronous && isQueryOperation(operation)) {
+		if (isSynchronous && StateMachineUtils.isQueryOperation(operation)) {
 			return callQueryOperation(source, caller, operation, arguments, isSynchronous, errorContext);
 		}
 		if (isExecuting) {
@@ -306,9 +306,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		if (checker.hasErrors()) {
 			return null;
 		}
-		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), errorContext);
+		OCLEvaluator ocl = checker.getSystemState().getOcl();
 		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
-		Object result = ocl.evaluate(oe.getBodies().get(0));
+		Object result = ocl.evaluate(checker, getInstanceSpecification(), errorContext, oe.getBodies().get(0));
 		if (ocl.hasErrors()) {
 			return null;
 		}
@@ -323,26 +323,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
 		checker.getSystemState().getCoordinator().fireEvent(ecrce);
 		return umlResult;
-	}
-
-	/**
-	 * Checks if operation is valid query operation. I.e. if it has isQuery set
-	 * to true and has OCL body expression.
-	 * 
-	 * @param operation
-	 * @return
-	 */
-	private boolean isQueryOperation(Operation operation) {
-		if (operation.isQuery()) {
-			if (null != operation.getBodyCondition()) {
-				if (operation.getBodyCondition().getSpecification() instanceof OpaqueExpression) {
-					if (!((OpaqueExpression) operation.getBodyCondition().getSpecification()).getBodies().isEmpty()) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	/**

@@ -409,9 +409,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	@Override
 	public ValuesCollection visit(SALOCLExpression node, SALEvaluationHelper data) {
 		String oclExpression = (String) node.jjtGetValue();
-		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
+		OCLEvaluator ocl = checker.getSystemState().getOcl();
 		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
-		Object result = ocl.evaluate(oclExpression);
+		Object result = ocl.evaluate(checker, getInstanceSpecification(), trc.getCheckedObject(), oclExpression);
 		if (ocl.hasErrors()) {
 			return null;
 		}
@@ -716,9 +716,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		ValueSpecification contextSpec = contextSpecs.get(0);
 		if (contextSpec instanceof InstanceValue) {
 			InstanceSpecification context = ((InstanceValue) contextSpec).getInstance();
-			OCLEvaluator ocl = new OCLEvaluator(checker, context, trc.getCheckedObject());
+			OCLEvaluator ocl = checker.getSystemState().getOcl();
 			ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
-			Object result = ocl.evaluate(navigation);
+			Object result = ocl.evaluate(checker, context, trc.getCheckedObject(), navigation);
 			if (ocl.hasErrors()) {
 				return null;
 			}
@@ -759,9 +759,9 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	public ValuesCollection visit(SALIdent node, SALEvaluationHelper data) {
 		// always evaluate this from self
 		String name = (String) node.jjtGetValue();
-		OCLEvaluator ocl = new OCLEvaluator(checker, getInstanceSpecification(), trc.getCheckedObject());
+		OCLEvaluator ocl = checker.getSystemState().getOcl();
 		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
-		Object result = ocl.evaluate(name);
+		Object result = ocl.evaluate(checker, getInstanceSpecification(), trc.getCheckedObject(), name);
 		if (ocl.hasErrors()) {
 			return null;
 		}

@@ -53,9 +53,9 @@ public class OCLValidator extends AbstractValidator implements Validator {
 	 */
 	@Override
 	public boolean validateConstraint() {
-		OCLEvaluator eval = new OCLEvaluator(executor.getChecker(), executor.getInstanceSpecification(), errorContext);
+		OCLEvaluator eval = executor.getChecker().getSystemState().getOcl();
 		eval.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
-		Object result = eval.evaluate(calculateBody());
+		Object result = eval.evaluate(executor.getChecker(), executor.getInstanceSpecification(), errorContext, calculateBody());
 		if (eval.hasErrors()) {
 			return false;
 		} else {

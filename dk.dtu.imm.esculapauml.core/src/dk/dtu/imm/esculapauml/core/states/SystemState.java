@@ -32,7 +32,7 @@ import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.InstanceValue;
-import org.eclipse.uml2.uml.Model;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.Type;
@@ -41,8 +41,12 @@ import org.eclipse.uml2.uml.UMLPackage.Literals;
 
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
+import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCoordinator;
+import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
+import dk.dtu.imm.esculapauml.core.ocl.OCLInitializator;
+import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
  * State of the whole system. Stores the checkers responsible for statefull
@@ -59,6 +63,7 @@ public class SystemState {
 	private org.eclipse.uml2.uml.Package instancePackage = null;
 	private Set<Element> generatedElements = new HashSet<Element>();
 	private ExecutionCoordinator coordinator;
+	private OCLEvaluator ocl;
 
 	/**
 	 * Initialize state
@@ -79,15 +84,16 @@ public class SystemState {
 	 * 
 	 * @param model
 	 */
-	public void prepare(String name, Element toCheck) {
+	public void prepare(UseCaseChecker checker) {
 		generatedElements.clear();
 		existingInstances.clear();
 		existingComponents.clear();
 		behaviorCheckers.clear();
+		ocl = new OCLEvaluator(checker.getCheckedObject().getModel());
 		// search for existing instances and components
-		instancePackage = toCheck.getNearestPackage();
+		instancePackage = checker.getCheckedObject().getNearestPackage();
 		searchForExistingInstanceSpecifications(instancePackage);
-		searchForExistingComponents(instancePackage.getModel());
+		searchForExistingElements(checker);
 		coordinator = new ExecutionCoordinator();
 	}
 
@@ -96,12 +102,17 @@ public class SystemState {
 	 * 
 	 * @param model
 	 */
-	private void searchForExistingComponents(Model model) {
-		TreeIterator<EObject> it = model.eAllContents();
+	private void searchForExistingElements(UseCaseChecker checker) {
+		TreeIterator<EObject> it = checker.getCheckedObject().getModel().eAllContents();
 		while (it.hasNext()) {
 			EObject o = it.next();
 			if (o.eClass() == Literals.COMPONENT) {
 				existingComponents.add((Component) o);
+			} else if (o.eClass() == Literals.OPERATION) {
+				if (StateMachineUtils.isQueryOperation((Operation) o)) {
+					// pre-compile all query operations
+					OCLInitializator.initialize(ocl, checker, (Operation) o);
+				}
 			}
 		}
 	}
@@ -325,5 +336,12 @@ public class SystemState {
 	 */
 	public List<Component> getExistingComponents() {
 		return existingComponents;
+	}
+
+	/**
+	 * @return
+	 */
+	public OCLEvaluator getOcl() {
+		return ocl;
 	}
 }
