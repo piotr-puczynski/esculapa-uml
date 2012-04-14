@@ -323,8 +323,8 @@
         </ownedParameter>
       </ownedOperation>
     </packagedElement>
-    <packagedElement xmi:type="uml:Component" xmi:id="_phJbYIYdEeGDwridaIG-ew">
-      <nestedClassifier xmi:type="uml:Component" xmi:id="_qORnIIYdEeGDwridaIG-ew" name="Toll System">
+    <packagedElement xmi:type="uml:Component" xmi:id="_phJbYIYdEeGDwridaIG-ew" name="System">
+      <nestedClassifier xmi:type="uml:Component" xmi:id="_qORnIIYdEeGDwridaIG-ew" name="TollSystem">
         <nestedClassifier xmi:type="uml:Component" xmi:id="_25eucIYdEeGDwridaIG-ew" name="Lane" clientDependency="_LS_zAIYjEeGDwridaIG-ew">
           <nestedClassifier xmi:type="uml:Class" xmi:id="_BbH34Gk4EeGnAqvLCl25Lw" name="ExpressLaneCheckIn" classifierBehavior="_H1aBcGk9EeGnAqvLCl25Lw">
             <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_H1aBcGk9EeGnAqvLCl25Lw" name="ExpressLaneCheckIn Behavior">
@@ -380,7 +380,7 @@
                   <ownedRule xmi:id="_kTT_8GvDEeGSeaoga4MVvQ">
                     <specification xmi:type="uml:OpaqueExpression" xmi:id="_mo0ewGvDEeGSeaoga4MVvQ" name="barrier.isOpened">
                       <language>ocl</language>
-                      <body>barrier.oclAsType(Barrier).isOpened()</body>
+                      <body>barrier.oclAsType(System::TollSystem::Barrier::Barrier).isOpened()</body>
                     </specification>
                   </ownedRule>
                   <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qCfwUGvDEeGSeaoga4MVvQ" name="barrier.close()"/>
