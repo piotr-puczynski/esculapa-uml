@@ -40,14 +40,6 @@
       </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_a6oYIGk4EeGnAqvLCl25Lw" name="antenna" classifier="_qZkdQGk2EeGnAqvLCl25Lw"/>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_fLfJUGk4EeGnAqvLCl25Lw" name="lane" classifier="_BbH34Gk4EeGnAqvLCl25Lw"/>
-      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_oqD8kGk4EeGnAqvLCl25Lw" name="InstanceSpecification1" classifier="_OG8qQGk4EeGnAqvLCl25Lw">
-        <slot xmi:id="_oqD8kWk4EeGnAqvLCl25Lw" definingFeature="_OG8qRGk4EeGnAqvLCl25Lw">
-          <value xmi:type="uml:InstanceValue" xmi:id="_oqD8kmk4EeGnAqvLCl25Lw" type="_qZkdQGk2EeGnAqvLCl25Lw" instance="_a6oYIGk4EeGnAqvLCl25Lw"/>
-        </slot>
-        <slot xmi:id="_oqD8k2k4EeGnAqvLCl25Lw" definingFeature="_OG8qQWk4EeGnAqvLCl25Lw">
-          <value xmi:type="uml:InstanceValue" xmi:id="_oqD8lGk4EeGnAqvLCl25Lw" type="_BbH34Gk4EeGnAqvLCl25Lw" instance="_fLfJUGk4EeGnAqvLCl25Lw"/>
-        </slot>
-      </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_dP24MGk6EeGnAqvLCl25Lw" name="server" classifier="__nWXsGk4EeGnAqvLCl25Lw"/>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_iCmOcGk6EeGnAqvLCl25Lw" name="InstanceSpecification2" classifier="_CXp8IGk5EeGnAqvLCl25Lw">
         <slot xmi:id="_iCmOcWk6EeGnAqvLCl25Lw" definingFeature="_CXp8IWk5EeGnAqvLCl25Lw">
@@ -143,26 +135,16 @@
         </slot>
       </packagedElement>
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_ol8IMWvCEeGSeaoga4MVvQ" name="CallEvent2" operation="_wxtsQGvBEeGSeaoga4MVvQ"/>
+      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_E2XiQIYtEeGDwridaIG-ew" name="InstanceSpecification1" classifier="_f4XlcIYsEeGDwridaIG-ew">
+        <slot xmi:id="_E2YJUIYtEeGDwridaIG-ew" definingFeature="_f4XldIYsEeGDwridaIG-ew">
+          <value xmi:type="uml:InstanceValue" xmi:id="_E2YJUYYtEeGDwridaIG-ew" type="_aqiOoIYsEeGDwridaIG-ew" instance="_fLfJUGk4EeGnAqvLCl25Lw"/>
+        </slot>
+        <slot xmi:id="_E2YJUoYtEeGDwridaIG-ew" definingFeature="_f4XlcYYsEeGDwridaIG-ew">
+          <value xmi:type="uml:InstanceValue" xmi:id="_E2YJU4YtEeGDwridaIG-ew" type="_qZkdQGk2EeGnAqvLCl25Lw" instance="_a6oYIGk4EeGnAqvLCl25Lw"/>
+        </slot>
+      </packagedElement>
     </packagedElement>
     <packagedElement xmi:type="uml:Actor" xmi:id="_bWMaIGk1EeGnAqvLCl25Lw" name="Skoda300"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_qZkdQGk2EeGnAqvLCl25Lw" name="Antenna" classifierBehavior="_wvlx4Gk7EeGnAqvLCl25Lw">
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_wvlx4Gk7EeGnAqvLCl25Lw" name="AntennaBehavior">
-        <region xmi:id="_wvlx4Wk7EeGnAqvLCl25Lw" name="Region">
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_x22U42k7EeGnAqvLCl25Lw" name="Pseudostate1"/>
-          <subvertex xmi:type="uml:State" xmi:id="_y7V3wmk7EeGnAqvLCl25Lw" name="Idle"/>
-          <transition xmi:id="_0khcFmk7EeGnAqvLCl25Lw" name="Transition1" source="_x22U42k7EeGnAqvLCl25Lw" target="_y7V3wmk7EeGnAqvLCl25Lw"/>
-          <transition xmi:id="_1OeYBWk7EeGnAqvLCl25Lw" name="Transition2" source="_y7V3wmk7EeGnAqvLCl25Lw" target="_y7V3wmk7EeGnAqvLCl25Lw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_HESjAGk8EeGnAqvLCl25Lw" name="lane.tagDetection(tagId)"/>
-            <trigger xmi:id="_2CP-UGk7EeGnAqvLCl25Lw" name="vehicleArrives(tagId)" event="_6QbO8Gk7EeGnAqvLCl25Lw"/>
-          </transition>
-        </region>
-      </ownedBehavior>
-      <ownedOperation xmi:id="_uBg0Umk2EeGnAqvLCl25Lw" name="vehicleArrives">
-        <ownedParameter xmi:id="_3gpoQGk2EeGnAqvLCl25Lw" name="tagId">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedParameter>
-      </ownedOperation>
-    </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_v1G44Gk2EeGnAqvLCl25Lw" name="Tag" classifierBehavior="_71vD0GnTEeGWfINm-Iyg7w">
       <ownedAttribute xmi:id="_AcC18mk3EeGnAqvLCl25Lw" name="id" visibility="private">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
@@ -194,16 +176,6 @@
       <ownedOperation xmi:id="_Kg8c0mu9EeGSeaoga4MVvQ" name="setEntryStation">
         <ownedParameter xmi:id="_MbYwQGu9EeGSeaoga4MVvQ" name="station" type="_dRMFMGu8EeGSeaoga4MVvQ"/>
       </ownedOperation>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_OG8qQGk4EeGnAqvLCl25Lw" name="A_&lt;expressLaneCheckIn>_&lt;antenna>" memberEnd="_OG8qQWk4EeGnAqvLCl25Lw _OG8qRGk4EeGnAqvLCl25Lw">
-      <ownedEnd xmi:id="_OG8qQWk4EeGnAqvLCl25Lw" name="lane" type="_BbH34Gk4EeGnAqvLCl25Lw" association="_OG8qQGk4EeGnAqvLCl25Lw">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_OG8qQmk4EeGnAqvLCl25Lw" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_OG8qQ2k4EeGnAqvLCl25Lw" value="1"/>
-      </ownedEnd>
-      <ownedEnd xmi:id="_OG8qRGk4EeGnAqvLCl25Lw" name="antenna" type="_qZkdQGk2EeGnAqvLCl25Lw" association="_OG8qQGk4EeGnAqvLCl25Lw">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_OG8qRWk4EeGnAqvLCl25Lw" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_OG8qRmk4EeGnAqvLCl25Lw" value="1"/>
-      </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="__nWXsGk4EeGnAqvLCl25Lw" name="EnterpriseServer" classifierBehavior="_Ep6gYGk-EeGnAqvLCl25Lw">
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Ep6gYGk-EeGnAqvLCl25Lw" name="StateMachine">
@@ -325,8 +297,9 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Component" xmi:id="_phJbYIYdEeGDwridaIG-ew" name="System">
       <nestedClassifier xmi:type="uml:Component" xmi:id="_qORnIIYdEeGDwridaIG-ew" name="TollSystem">
-        <nestedClassifier xmi:type="uml:Component" xmi:id="_25eucIYdEeGDwridaIG-ew" name="Lane" clientDependency="_LS_zAIYjEeGDwridaIG-ew">
-          <nestedClassifier xmi:type="uml:Class" xmi:id="_BbH34Gk4EeGnAqvLCl25Lw" name="ExpressLaneCheckIn" classifierBehavior="_H1aBcGk9EeGnAqvLCl25Lw">
+        <nestedClassifier xmi:type="uml:Component" xmi:id="_25eucIYdEeGDwridaIG-ew" name="Lane" clientDependency="_LS_zAIYjEeGDwridaIG-ew _3bHeEIYsEeGDwridaIG-ew">
+          <interfaceRealization xmi:id="_3bHeEIYsEeGDwridaIG-ew" name="InterfaceRealization1" supplier="_aqiOoIYsEeGDwridaIG-ew" client="_25eucIYdEeGDwridaIG-ew" contract="_aqiOoIYsEeGDwridaIG-ew"/>
+          <nestedClassifier xmi:type="uml:Class" xmi:id="_BbH34Gk4EeGnAqvLCl25Lw" name="ExpressLaneCheckIn" clientDependency="_jWQBkIYsEeGDwridaIG-ew" classifierBehavior="_H1aBcGk9EeGnAqvLCl25Lw">
             <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_H1aBcGk9EeGnAqvLCl25Lw" name="ExpressLaneCheckIn Behavior">
               <region xmi:id="_H1aBcWk9EeGnAqvLCl25Lw" name="Region">
                 <subvertex xmi:type="uml:Pseudostate" xmi:id="_IdR5wWk9EeGnAqvLCl25Lw" name="Pseudostate1"/>
@@ -388,6 +361,7 @@
                 </transition>
               </region>
             </ownedBehavior>
+            <interfaceRealization xmi:id="_jWQBkIYsEeGDwridaIG-ew" name="InterfaceRealization1" supplier="_aqiOoIYsEeGDwridaIG-ew" client="_BbH34Gk4EeGnAqvLCl25Lw" contract="_aqiOoIYsEeGDwridaIG-ew"/>
             <ownedOperation xmi:id="_qEwRkGk7EeGnAqvLCl25Lw" name="tagDetection">
               <ownedParameter xmi:id="_ssV-4Gk7EeGnAqvLCl25Lw" name="tagId">
                 <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
@@ -435,7 +409,45 @@
             </ownedOperation>
           </nestedClassifier>
         </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Component" xmi:id="_maxigIYsEeGDwridaIG-ew" name="Antenna" clientDependency="_3-EaIoYsEeGDwridaIG-ew">
+          <nestedClassifier xmi:type="uml:Class" xmi:id="_qZkdQGk2EeGnAqvLCl25Lw" name="Antenna" classifierBehavior="_wvlx4Gk7EeGnAqvLCl25Lw">
+            <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_wvlx4Gk7EeGnAqvLCl25Lw" name="AntennaBehavior">
+              <region xmi:id="_wvlx4Wk7EeGnAqvLCl25Lw" name="Region">
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_x22U42k7EeGnAqvLCl25Lw" name="Pseudostate1"/>
+                <subvertex xmi:type="uml:State" xmi:id="_y7V3wmk7EeGnAqvLCl25Lw" name="Idle"/>
+                <transition xmi:id="_0khcFmk7EeGnAqvLCl25Lw" name="Transition1" source="_x22U42k7EeGnAqvLCl25Lw" target="_y7V3wmk7EeGnAqvLCl25Lw"/>
+                <transition xmi:id="_1OeYBWk7EeGnAqvLCl25Lw" name="Transition2" source="_y7V3wmk7EeGnAqvLCl25Lw" target="_y7V3wmk7EeGnAqvLCl25Lw">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_HESjAGk8EeGnAqvLCl25Lw" name="lane.tagDetection(tagId)"/>
+                  <trigger xmi:id="_2CP-UGk7EeGnAqvLCl25Lw" name="vehicleArrives(tagId)" event="_6QbO8Gk7EeGnAqvLCl25Lw"/>
+                </transition>
+              </region>
+            </ownedBehavior>
+            <ownedOperation xmi:id="_uBg0Umk2EeGnAqvLCl25Lw" name="vehicleArrives">
+              <ownedParameter xmi:id="_3gpoQGk2EeGnAqvLCl25Lw" name="tagId">
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              </ownedParameter>
+            </ownedOperation>
+          </nestedClassifier>
+          <packagedElement xmi:type="uml:Usage" xmi:id="_3-EaIoYsEeGDwridaIG-ew" name="Usage1" supplier="_aqiOoIYsEeGDwridaIG-ew" client="_maxigIYsEeGDwridaIG-ew"/>
+        </nestedClassifier>
       </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_aqiOoIYsEeGDwridaIG-ew" name="ExpressLaneToAntenna">
+      <ownedOperation xmi:id="_iVCcMIYsEeGDwridaIG-ew" name="tagDetection">
+        <ownedParameter xmi:id="_iVCcMYYsEeGDwridaIG-ew" name="tagId">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_f4XlcIYsEeGDwridaIG-ew" name="A_&lt;antenna>_&lt;expressLaneToAntenna>" memberEnd="_f4XlcYYsEeGDwridaIG-ew _f4XldIYsEeGDwridaIG-ew">
+      <ownedEnd xmi:id="_f4XlcYYsEeGDwridaIG-ew" name="antenna" type="_qZkdQGk2EeGnAqvLCl25Lw" association="_f4XlcIYsEeGDwridaIG-ew">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_f4XlcoYsEeGDwridaIG-ew" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_f4Xlc4YsEeGDwridaIG-ew" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_f4XldIYsEeGDwridaIG-ew" name="lane" type="_aqiOoIYsEeGDwridaIG-ew" association="_f4XlcIYsEeGDwridaIG-ew">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_f4XldYYsEeGDwridaIG-ew" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_f4XldoYsEeGDwridaIG-ew" value="1"/>
+      </ownedEnd>
     </packagedElement>
   </packagedElement>
 </uml:Model>
