@@ -39,7 +39,7 @@ public class InteractionSequencer {
 	// key is reply, call is value
 	protected Map<Message, Message> replies = new HashMap<Message, Message>();
 	protected Map<Lifeline, MessageOccurrenceSpecification> progress = new HashMap<Lifeline, MessageOccurrenceSpecification>();
-	
+
 	/**
 	 * @param message
 	 */
@@ -47,14 +47,14 @@ public class InteractionSequencer {
 		progress.put(InteractionUtils.getMessageSourceLifeline(message), (MessageOccurrenceSpecification) message.getSendEvent());
 		progress.put(InteractionUtils.getMessageTargetLifeline(message), (MessageOccurrenceSpecification) message.getReceiveEvent());
 	}
-	
+
 	MessageOccurrenceSpecification getLastOccurrenceOnLifeline(Lifeline lifeline) {
 		return progress.get(lifeline);
 	}
-	
+
 	Message getLastMessageOnLifeline(Lifeline lifeline) {
 		MessageOccurrenceSpecification mos = progress.get(lifeline);
-		if(null != mos) {
+		if (null != mos) {
 			mos.getMessage();
 		}
 		return null;
@@ -90,7 +90,7 @@ public class InteractionSequencer {
 	public Message getMessageWithSequence(Long number) {
 		return sequencer.get(number);
 	}
-	
+
 	public boolean wasExecuted(Message message) {
 		return sequencer.values().contains(message);
 	}
@@ -99,7 +99,9 @@ public class InteractionSequencer {
 		System.out.println("Sequence of events: ");
 		long i = 1;
 		for (Message message : sequencer.values()) {
-			System.out.println(i++ + ": " + message.toString());
+			System.out.println(i++ + ": name: " + message.getLabel() + ", type: " + message.getMessageSort() + " (from "
+					+ InteractionUtils.getMessageSourceLifeline(message).getLabel() + " to " + InteractionUtils.getMessageTargetLifeline(message).getLabel()
+					+ ")");
 		}
 		System.out.println("Simulation finished.");
 	}
