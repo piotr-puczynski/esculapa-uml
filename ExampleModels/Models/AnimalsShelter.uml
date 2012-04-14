@@ -177,7 +177,6 @@
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_5Hf-AIZFEeGgjZMeQihLRw" name="BehaviorExecutionSpecification1" covered="_wgUFwIZFEeGgjZMeQihLRw" start="_-jGEAIZFEeGgjZMeQihLRw" finish="_-jGEAIZFEeGgjZMeQihLRw"/>
         <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_5gz14IZFEeGgjZMeQihLRw" name="BehaviorExecutionSpecification2" covered="_1h2F8IZFEeGgjZMeQihLRw" start="_-jGrEIZFEeGgjZMeQihLRw" finish="_-jGrEIZFEeGgjZMeQihLRw"/>
         <message xmi:id="_-jHSIIZFEeGgjZMeQihLRw" name="adoptAFriend" receiveEvent="_-jGrEIZFEeGgjZMeQihLRw" sendEvent="_-jGEAIZFEeGgjZMeQihLRw">
-          <argument xmi:type="uml:InstanceValue" xmi:id="_ABKkgYZGEeGgjZMeQihLRw" name="return" type="_es6kUIY_EeGgjZMeQihLRw"/>
           <argument xmi:type="uml:LiteralString" xmi:id="_ABKkgIZGEeGgjZMeQihLRw" name="name" value="Jack">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
           </argument>
