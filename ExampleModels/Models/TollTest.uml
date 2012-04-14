@@ -134,12 +134,12 @@
           </value>
         </slot>
       </packagedElement>
-      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_lG2H8Gu-EeGSeaoga4MVvQ" name="InstanceSpecification7" classifier="_vk5QoGu9EeGSeaoga4MVvQ">
-        <slot xmi:id="_lG2H8Wu-EeGSeaoga4MVvQ" definingFeature="_vk5QoWu9EeGSeaoga4MVvQ">
+      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_lG2H8Gu-EeGSeaoga4MVvQ" name="InstanceSpecification7" classifier="_NfIssIYeEeGDwridaIG-ew">
+        <slot xmi:id="_lG2H8Wu-EeGSeaoga4MVvQ" definingFeature="_NfIssYYeEeGDwridaIG-ew">
           <value xmi:type="uml:InstanceValue" xmi:id="_lG2H8mu-EeGSeaoga4MVvQ" type="_BbH34Gk4EeGnAqvLCl25Lw" instance="_fLfJUGk4EeGnAqvLCl25Lw"/>
         </slot>
-        <slot xmi:id="_lG2H82u-EeGSeaoga4MVvQ" definingFeature="_vk5QpGu9EeGSeaoga4MVvQ">
-          <value xmi:type="uml:InstanceValue" xmi:id="_lG2H9Gu-EeGSeaoga4MVvQ" type="_sPlhsGu9EeGSeaoga4MVvQ" instance="_fvOjAGu-EeGSeaoga4MVvQ"/>
+        <slot xmi:id="_lG2H82u-EeGSeaoga4MVvQ" definingFeature="_NfIstIYeEeGDwridaIG-ew">
+          <value xmi:type="uml:InstanceValue" xmi:id="_lG2H9Gu-EeGSeaoga4MVvQ" type="_LWCSMIYeEeGDwridaIG-ew" instance="_fvOjAGu-EeGSeaoga4MVvQ"/>
         </slot>
       </packagedElement>
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_ol8IMWvCEeGSeaoga4MVvQ" name="CallEvent2" operation="_wxtsQGvBEeGSeaoga4MVvQ"/>
@@ -194,75 +194,6 @@
       <ownedOperation xmi:id="_Kg8c0mu9EeGSeaoga4MVvQ" name="setEntryStation">
         <ownedParameter xmi:id="_MbYwQGu9EeGSeaoga4MVvQ" name="station" type="_dRMFMGu8EeGSeaoga4MVvQ"/>
       </ownedOperation>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Class" xmi:id="_BbH34Gk4EeGnAqvLCl25Lw" name="ExpressLaneCheckIn" classifierBehavior="_H1aBcGk9EeGnAqvLCl25Lw">
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_H1aBcGk9EeGnAqvLCl25Lw" name="ExpressLaneCheckIn Behavior">
-        <region xmi:id="_H1aBcWk9EeGnAqvLCl25Lw" name="Region">
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_IdR5wWk9EeGnAqvLCl25Lw" name="Pseudostate1"/>
-          <subvertex xmi:type="uml:State" xmi:id="_JDgzUmk9EeGnAqvLCl25Lw" name="Idle"/>
-          <subvertex xmi:type="uml:State" xmi:id="_K6YOUGk9EeGnAqvLCl25Lw" name="Detection"/>
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_KshuYGnTEeGWfINm-Iyg7w" name="check" kind="choice"/>
-          <subvertex xmi:type="uml:State" xmi:id="_QVpTAGnTEeGWfINm-Iyg7w" name="validity check"/>
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_zFUKwGu6EeGSeaoga4MVvQ" name="" kind="choice"/>
-          <transition xmi:id="_J_6xNmk9EeGnAqvLCl25Lw" name="" source="_IdR5wWk9EeGnAqvLCl25Lw" target="_JDgzUmk9EeGnAqvLCl25Lw"/>
-          <transition xmi:id="_MZyyoGk9EeGnAqvLCl25Lw" name="Transition2" source="_JDgzUmk9EeGnAqvLCl25Lw" target="_K6YOUGk9EeGnAqvLCl25Lw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZIpq4Gk9EeGnAqvLCl25Lw" name="exists := enterpriseServer.tagExists(tagId)"/>
-            <trigger xmi:id="_POQeUGk9EeGnAqvLCl25Lw" name="" event="_Q4LpgGk9EeGnAqvLCl25Lw"/>
-          </transition>
-          <transition xmi:id="_OW9Yw2nTEeGWfINm-Iyg7w" name="" source="_K6YOUGk9EeGnAqvLCl25Lw" target="_KshuYGnTEeGWfINm-Iyg7w"/>
-          <transition xmi:id="_RcGkxGnTEeGWfINm-Iyg7w" name="Transition4" source="_KshuYGnTEeGWfINm-Iyg7w" target="_QVpTAGnTEeGWfINm-Iyg7w" guard="_VuF-YGnTEeGWfINm-Iyg7w">
-            <ownedRule xmi:id="_VuF-YGnTEeGWfINm-Iyg7w">
-              <specification xmi:type="uml:OpaqueExpression" xmi:id="_XJlsAGnTEeGWfINm-Iyg7w" name="exists">
-                <language>ocl</language>
-                <body>exists</body>
-              </specification>
-            </ownedRule>
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ip3RQGnTEeGWfINm-Iyg7w" name="tag := enterpriseServer.getTag(tagId); isValid := tag.checkValidity()"/>
-          </transition>
-          <transition xmi:id="_SwzG0GnTEeGWfINm-Iyg7w" name="Transition5" source="_KshuYGnTEeGWfINm-Iyg7w" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_XxuqEGnTEeGWfINm-Iyg7w">
-            <ownedRule xmi:id="_XxuqEGnTEeGWfINm-Iyg7w" name="">
-              <specification xmi:type="uml:OpaqueExpression" xmi:id="_Y50TgGnTEeGWfINm-Iyg7w" name="else">
-                <language>ocl</language>
-                <body>else</body>
-              </specification>
-            </ownedRule>
-          </transition>
-          <transition xmi:id="_1DnqhGu6EeGSeaoga4MVvQ" name="" source="_QVpTAGnTEeGWfINm-Iyg7w" target="_zFUKwGu6EeGSeaoga4MVvQ"/>
-          <transition xmi:id="_4UMqdGu6EeGSeaoga4MVvQ" name="Transition7" source="_zFUKwGu6EeGSeaoga4MVvQ" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_7dKmgGu6EeGSeaoga4MVvQ">
-            <ownedRule xmi:id="_7dKmgGu6EeGSeaoga4MVvQ">
-              <specification xmi:type="uml:OpaqueExpression" xmi:id="_8Jv_sGu6EeGSeaoga4MVvQ" name="else">
-                <language>ocl</language>
-                <body>else</body>
-              </specification>
-            </ownedRule>
-          </transition>
-          <transition xmi:id="_E1tqRGu7EeGSeaoga4MVvQ" name="Transition8" source="_zFUKwGu6EeGSeaoga4MVvQ" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_JOCVYGu7EeGSeaoga4MVvQ">
-            <ownedRule xmi:id="_JOCVYGu7EeGSeaoga4MVvQ" name="">
-              <specification xmi:type="uml:OpaqueExpression" xmi:id="_KmXaQGu7EeGSeaoga4MVvQ" name="isValid">
-                <language>ocl</language>
-                <body>isValid</body>
-              </specification>
-            </ownedRule>
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_V6Bf0Gu7EeGSeaoga4MVvQ" name="tag.setEntryStation(station); barrier.open()"/>
-          </transition>
-          <transition xmi:id="_SbVRxGvDEeGSeaoga4MVvQ" name="Transition9" source="_JDgzUmk9EeGnAqvLCl25Lw" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_kTT_8GvDEeGSeaoga4MVvQ">
-            <ownedRule xmi:id="_kTT_8GvDEeGSeaoga4MVvQ">
-              <specification xmi:type="uml:OpaqueExpression" xmi:id="_mo0ewGvDEeGSeaoga4MVvQ" name="barrier.isOpened">
-                <language>ocl</language>
-                <body>barrier.isOpened</body>
-              </specification>
-            </ownedRule>
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qCfwUGvDEeGSeaoga4MVvQ" name="barrier.close()"/>
-            <trigger xmi:id="_X7KXgGvDEeGSeaoga4MVvQ" name="" event="_fcI1oGvDEeGSeaoga4MVvQ"/>
-          </transition>
-        </region>
-      </ownedBehavior>
-      <ownedOperation xmi:id="_qEwRkGk7EeGnAqvLCl25Lw" name="tagDetection">
-        <ownedParameter xmi:id="_ssV-4Gk7EeGnAqvLCl25Lw" name="tagId">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedParameter>
-      </ownedOperation>
-      <ownedOperation xmi:id="_wxtsQGvBEeGSeaoga4MVvQ" name="vehicleDrivesThrough"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Association" xmi:id="_OG8qQGk4EeGnAqvLCl25Lw" name="A_&lt;expressLaneCheckIn>_&lt;antenna>" memberEnd="_OG8qQWk4EeGnAqvLCl25Lw _OG8qRGk4EeGnAqvLCl25Lw">
       <ownedEnd xmi:id="_OG8qQWk4EeGnAqvLCl25Lw" name="lane" type="_BbH34Gk4EeGnAqvLCl25Lw" association="_OG8qQGk4EeGnAqvLCl25Lw">
@@ -370,41 +301,141 @@
       </ownedEnd>
     </packagedElement>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_YWVfUGu9EeGSeaoga4MVvQ" name="setEntryStation(station)" operation="_Kg8c0mu9EeGSeaoga4MVvQ"/>
-    <packagedElement xmi:type="uml:Class" xmi:id="_sPlhsGu9EeGSeaoga4MVvQ" name="Barrier" classifierBehavior="_-_ldAGu9EeGSeaoga4MVvQ">
-      <ownedAttribute xmi:id="_f8htQmvAEeGSeaoga4MVvQ" name="isOpened" visibility="private">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-      </ownedAttribute>
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_-_ldAGu9EeGSeaoga4MVvQ" name="StateMachine">
-        <region xmi:id="_-_ldAWu9EeGSeaoga4MVvQ" name="Region">
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="__dIUo2u9EeGSeaoga4MVvQ" name="Pseudostate1"/>
-          <subvertex xmi:type="uml:State" xmi:id="__2Lt0Gu9EeGSeaoga4MVvQ" name="Idle"/>
-          <subvertex xmi:type="uml:State" xmi:id="__apWcmu_EeGSeaoga4MVvQ" name="opened"/>
-          <transition xmi:id="_AqmNUGu-EeGSeaoga4MVvQ" name="Transition1" source="__2Lt0Gu9EeGSeaoga4MVvQ" target="__apWcmu_EeGSeaoga4MVvQ">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qForQGvAEeGSeaoga4MVvQ" name="isOpened := true;"/>
-            <trigger xmi:id="_Do1gEGu-EeGSeaoga4MVvQ" name="" event="_FJQxAGu-EeGSeaoga4MVvQ"/>
-          </transition>
-          <transition xmi:id="_BOyfhWu-EeGSeaoga4MVvQ" name="Transition2" source="__dIUo2u9EeGSeaoga4MVvQ" target="__2Lt0Gu9EeGSeaoga4MVvQ"/>
-          <transition xmi:id="_C33rRGvAEeGSeaoga4MVvQ" name="Transition3" source="__apWcmu_EeGSeaoga4MVvQ" target="__2Lt0Gu9EeGSeaoga4MVvQ">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_s0L8MGvAEeGSeaoga4MVvQ" name="isOpened := false;"/>
-            <trigger xmi:id="_FDJQAGvAEeGSeaoga4MVvQ" name="" event="_GrcDgGvAEeGSeaoga4MVvQ"/>
-          </transition>
-        </region>
-      </ownedBehavior>
-      <ownedOperation xmi:id="_9ZUp0Gu9EeGSeaoga4MVvQ" name="open"/>
-      <ownedOperation xmi:id="_RrqFImu_EeGSeaoga4MVvQ" name="close"/>
-    </packagedElement>
-    <packagedElement xmi:type="uml:Association" xmi:id="_vk5QoGu9EeGSeaoga4MVvQ" name="A_&lt;expressLaneCheckIn>_&lt;barrier>" memberEnd="_vk5QoWu9EeGSeaoga4MVvQ _vk5QpGu9EeGSeaoga4MVvQ">
-      <ownedEnd xmi:id="_vk5QoWu9EeGSeaoga4MVvQ" name="expressLaneCheckIn" type="_BbH34Gk4EeGnAqvLCl25Lw" association="_vk5QoGu9EeGSeaoga4MVvQ">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vk5Qomu9EeGSeaoga4MVvQ" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vk5Qo2u9EeGSeaoga4MVvQ" value="1"/>
-      </ownedEnd>
-      <ownedEnd xmi:id="_vk5QpGu9EeGSeaoga4MVvQ" name="barrier" type="_sPlhsGu9EeGSeaoga4MVvQ" association="_vk5QoGu9EeGSeaoga4MVvQ">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vk5QpWu9EeGSeaoga4MVvQ" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vk5Qpmu9EeGSeaoga4MVvQ" value="1"/>
-      </ownedEnd>
-    </packagedElement>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_FJQxAGu-EeGSeaoga4MVvQ" name="open()" operation="_9ZUp0Gu9EeGSeaoga4MVvQ"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_GrcDgGvAEeGSeaoga4MVvQ" name="close()" operation="_RrqFImu_EeGSeaoga4MVvQ"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_fcI1oGvDEeGSeaoga4MVvQ" name="vehicleDrivesThrough()" operation="_wxtsQGvBEeGSeaoga4MVvQ"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_NfIssIYeEeGDwridaIG-ew" name="A_&lt;expressLaneCheckIn>_&lt;barrierToLane>" memberEnd="_NfIssYYeEeGDwridaIG-ew _NfIstIYeEeGDwridaIG-ew">
+      <ownedEnd xmi:id="_NfIssYYeEeGDwridaIG-ew" name="lane" type="_BbH34Gk4EeGnAqvLCl25Lw" association="_NfIssIYeEeGDwridaIG-ew">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NfIssoYeEeGDwridaIG-ew" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NfIss4YeEeGDwridaIG-ew" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_NfIstIYeEeGDwridaIG-ew" name="barrier" type="_LWCSMIYeEeGDwridaIG-ew" association="_NfIssIYeEeGDwridaIG-ew">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NfIstYYeEeGDwridaIG-ew" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NfIstoYeEeGDwridaIG-ew" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_LWCSMIYeEeGDwridaIG-ew" name="BarrierToLane">
+      <ownedOperation xmi:id="_dFYBwIYeEeGDwridaIG-ew" name="open"/>
+      <ownedOperation xmi:id="_dFYBwYYeEeGDwridaIG-ew" name="close"/>
+      <ownedOperation xmi:id="_dFYBwoYeEeGDwridaIG-ew" name="isOpened" isQuery="true">
+        <ownedParameter xmi:id="_dFYBw4YeEeGDwridaIG-ew" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_phJbYIYdEeGDwridaIG-ew">
+      <nestedClassifier xmi:type="uml:Component" xmi:id="_qORnIIYdEeGDwridaIG-ew" name="Toll System">
+        <nestedClassifier xmi:type="uml:Component" xmi:id="_25eucIYdEeGDwridaIG-ew" name="Lane" clientDependency="_LS_zAIYjEeGDwridaIG-ew">
+          <nestedClassifier xmi:type="uml:Class" xmi:id="_BbH34Gk4EeGnAqvLCl25Lw" name="ExpressLaneCheckIn" classifierBehavior="_H1aBcGk9EeGnAqvLCl25Lw">
+            <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_H1aBcGk9EeGnAqvLCl25Lw" name="ExpressLaneCheckIn Behavior">
+              <region xmi:id="_H1aBcWk9EeGnAqvLCl25Lw" name="Region">
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_IdR5wWk9EeGnAqvLCl25Lw" name="Pseudostate1"/>
+                <subvertex xmi:type="uml:State" xmi:id="_JDgzUmk9EeGnAqvLCl25Lw" name="Idle"/>
+                <subvertex xmi:type="uml:State" xmi:id="_K6YOUGk9EeGnAqvLCl25Lw" name="Detection"/>
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_KshuYGnTEeGWfINm-Iyg7w" name="check" kind="choice"/>
+                <subvertex xmi:type="uml:State" xmi:id="_QVpTAGnTEeGWfINm-Iyg7w" name="validity check"/>
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_zFUKwGu6EeGSeaoga4MVvQ" name="" kind="choice"/>
+                <transition xmi:id="_J_6xNmk9EeGnAqvLCl25Lw" name="" source="_IdR5wWk9EeGnAqvLCl25Lw" target="_JDgzUmk9EeGnAqvLCl25Lw"/>
+                <transition xmi:id="_MZyyoGk9EeGnAqvLCl25Lw" name="Transition2" source="_JDgzUmk9EeGnAqvLCl25Lw" target="_K6YOUGk9EeGnAqvLCl25Lw">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZIpq4Gk9EeGnAqvLCl25Lw" name="exists := enterpriseServer.tagExists(tagId)"/>
+                  <trigger xmi:id="_POQeUGk9EeGnAqvLCl25Lw" name="" event="_Q4LpgGk9EeGnAqvLCl25Lw"/>
+                </transition>
+                <transition xmi:id="_OW9Yw2nTEeGWfINm-Iyg7w" name="" source="_K6YOUGk9EeGnAqvLCl25Lw" target="_KshuYGnTEeGWfINm-Iyg7w"/>
+                <transition xmi:id="_RcGkxGnTEeGWfINm-Iyg7w" name="Transition4" source="_KshuYGnTEeGWfINm-Iyg7w" target="_QVpTAGnTEeGWfINm-Iyg7w" guard="_VuF-YGnTEeGWfINm-Iyg7w">
+                  <ownedRule xmi:id="_VuF-YGnTEeGWfINm-Iyg7w">
+                    <specification xmi:type="uml:OpaqueExpression" xmi:id="_XJlsAGnTEeGWfINm-Iyg7w" name="exists">
+                      <language>ocl</language>
+                      <body>exists</body>
+                    </specification>
+                  </ownedRule>
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ip3RQGnTEeGWfINm-Iyg7w" name="tag := enterpriseServer.getTag(tagId); isValid := tag.checkValidity()"/>
+                </transition>
+                <transition xmi:id="_SwzG0GnTEeGWfINm-Iyg7w" name="Transition5" source="_KshuYGnTEeGWfINm-Iyg7w" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_XxuqEGnTEeGWfINm-Iyg7w">
+                  <ownedRule xmi:id="_XxuqEGnTEeGWfINm-Iyg7w" name="">
+                    <specification xmi:type="uml:OpaqueExpression" xmi:id="_Y50TgGnTEeGWfINm-Iyg7w" name="else">
+                      <language>ocl</language>
+                      <body>else</body>
+                    </specification>
+                  </ownedRule>
+                </transition>
+                <transition xmi:id="_1DnqhGu6EeGSeaoga4MVvQ" name="" source="_QVpTAGnTEeGWfINm-Iyg7w" target="_zFUKwGu6EeGSeaoga4MVvQ"/>
+                <transition xmi:id="_4UMqdGu6EeGSeaoga4MVvQ" name="Transition7" source="_zFUKwGu6EeGSeaoga4MVvQ" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_7dKmgGu6EeGSeaoga4MVvQ">
+                  <ownedRule xmi:id="_7dKmgGu6EeGSeaoga4MVvQ">
+                    <specification xmi:type="uml:OpaqueExpression" xmi:id="_8Jv_sGu6EeGSeaoga4MVvQ" name="else">
+                      <language>ocl</language>
+                      <body>else</body>
+                    </specification>
+                  </ownedRule>
+                </transition>
+                <transition xmi:id="_E1tqRGu7EeGSeaoga4MVvQ" name="Transition8" source="_zFUKwGu6EeGSeaoga4MVvQ" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_JOCVYGu7EeGSeaoga4MVvQ">
+                  <ownedRule xmi:id="_JOCVYGu7EeGSeaoga4MVvQ" name="">
+                    <specification xmi:type="uml:OpaqueExpression" xmi:id="_KmXaQGu7EeGSeaoga4MVvQ" name="isValid">
+                      <language>ocl</language>
+                      <body>isValid</body>
+                    </specification>
+                  </ownedRule>
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_V6Bf0Gu7EeGSeaoga4MVvQ" name="tag.setEntryStation(station); barrier.open()"/>
+                </transition>
+                <transition xmi:id="_SbVRxGvDEeGSeaoga4MVvQ" name="Transition9" source="_JDgzUmk9EeGnAqvLCl25Lw" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_kTT_8GvDEeGSeaoga4MVvQ">
+                  <ownedRule xmi:id="_kTT_8GvDEeGSeaoga4MVvQ">
+                    <specification xmi:type="uml:OpaqueExpression" xmi:id="_mo0ewGvDEeGSeaoga4MVvQ" name="barrier.isOpened">
+                      <language>ocl</language>
+                      <body>barrier.oclAsType(Barrier).isOpened()</body>
+                    </specification>
+                  </ownedRule>
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qCfwUGvDEeGSeaoga4MVvQ" name="barrier.close()"/>
+                  <trigger xmi:id="_X7KXgGvDEeGSeaoga4MVvQ" name="" event="_fcI1oGvDEeGSeaoga4MVvQ"/>
+                </transition>
+              </region>
+            </ownedBehavior>
+            <ownedOperation xmi:id="_qEwRkGk7EeGnAqvLCl25Lw" name="tagDetection">
+              <ownedParameter xmi:id="_ssV-4Gk7EeGnAqvLCl25Lw" name="tagId">
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              </ownedParameter>
+            </ownedOperation>
+            <ownedOperation xmi:id="_wxtsQGvBEeGSeaoga4MVvQ" name="vehicleDrivesThrough"/>
+          </nestedClassifier>
+          <packagedElement xmi:type="uml:Usage" xmi:id="_LS_zAIYjEeGDwridaIG-ew" name="Usage1" supplier="_LWCSMIYeEeGDwridaIG-ew" client="_25eucIYdEeGDwridaIG-ew"/>
+        </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Component" xmi:id="_1qgnoIYiEeGDwridaIG-ew" name="Barrier" clientDependency="_KlnIkoYjEeGDwridaIG-ew">
+          <interfaceRealization xmi:id="_KlnIkoYjEeGDwridaIG-ew" name="InterfaceRealization1" supplier="_LWCSMIYeEeGDwridaIG-ew" client="_1qgnoIYiEeGDwridaIG-ew" contract="_LWCSMIYeEeGDwridaIG-ew"/>
+          <nestedClassifier xmi:type="uml:Class" xmi:id="_sPlhsGu9EeGSeaoga4MVvQ" name="Barrier" clientDependency="_ROG40IYeEeGDwridaIG-ew" classifierBehavior="_-_ldAGu9EeGSeaoga4MVvQ">
+            <ownedAttribute xmi:id="_f8htQmvAEeGSeaoga4MVvQ" name="isOpened" visibility="private">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedAttribute>
+            <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_-_ldAGu9EeGSeaoga4MVvQ" name="StateMachine">
+              <region xmi:id="_-_ldAWu9EeGSeaoga4MVvQ" name="Region">
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="__dIUo2u9EeGSeaoga4MVvQ" name="Pseudostate1"/>
+                <subvertex xmi:type="uml:State" xmi:id="__2Lt0Gu9EeGSeaoga4MVvQ" name="Idle"/>
+                <subvertex xmi:type="uml:State" xmi:id="__apWcmu_EeGSeaoga4MVvQ" name="opened"/>
+                <transition xmi:id="_AqmNUGu-EeGSeaoga4MVvQ" name="Transition1" source="__2Lt0Gu9EeGSeaoga4MVvQ" target="__apWcmu_EeGSeaoga4MVvQ">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qForQGvAEeGSeaoga4MVvQ" name="isOpened := true;"/>
+                  <trigger xmi:id="_Do1gEGu-EeGSeaoga4MVvQ" name="" event="_FJQxAGu-EeGSeaoga4MVvQ"/>
+                </transition>
+                <transition xmi:id="_BOyfhWu-EeGSeaoga4MVvQ" name="Transition2" source="__dIUo2u9EeGSeaoga4MVvQ" target="__2Lt0Gu9EeGSeaoga4MVvQ"/>
+                <transition xmi:id="_C33rRGvAEeGSeaoga4MVvQ" name="Transition3" source="__apWcmu_EeGSeaoga4MVvQ" target="__2Lt0Gu9EeGSeaoga4MVvQ">
+                  <effect xmi:type="uml:OpaqueBehavior" xmi:id="_s0L8MGvAEeGSeaoga4MVvQ" name="isOpened := false;"/>
+                  <trigger xmi:id="_FDJQAGvAEeGSeaoga4MVvQ" name="" event="_GrcDgGvAEeGSeaoga4MVvQ"/>
+                </transition>
+              </region>
+            </ownedBehavior>
+            <interfaceRealization xmi:id="_ROG40IYeEeGDwridaIG-ew" name="InterfaceRealization1" supplier="_LWCSMIYeEeGDwridaIG-ew" client="_sPlhsGu9EeGSeaoga4MVvQ" contract="_LWCSMIYeEeGDwridaIG-ew"/>
+            <ownedOperation xmi:id="_9ZUp0Gu9EeGSeaoga4MVvQ" name="open"/>
+            <ownedOperation xmi:id="_RrqFImu_EeGSeaoga4MVvQ" name="close"/>
+            <ownedOperation xmi:id="_ZE-j4IYdEeGDwridaIG-ew" name="isOpened" isQuery="true" bodyCondition="_jF1vYIYeEeGDwridaIG-ew">
+              <ownedRule xmi:id="_jF1vYIYeEeGDwridaIG-ew" name="Constraint1">
+                <specification xmi:type="uml:OpaqueExpression" xmi:id="_ltFecIYeEeGDwridaIG-ew" name="OpaqueExpression1">
+                  <language>ocl</language>
+                  <body>isOpened</body>
+                </specification>
+              </ownedRule>
+              <ownedParameter xmi:id="_cNZGUIYdEeGDwridaIG-ew" name="return" direction="return">
+                <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              </ownedParameter>
+            </ownedOperation>
+          </nestedClassifier>
+        </nestedClassifier>
+      </nestedClassifier>
+    </packagedElement>
   </packagedElement>
 </uml:Model>
