@@ -60,7 +60,7 @@ public class SlotChecker extends AbstractChecker<Slot> {
 			// instance
 			if (!instance.getClassifiers().isEmpty()) {
 				Classifier classifier = instance.getClassifiers().get(0);
-				if (!classifier.getFeatures().contains(sf)) {
+				if (!classifier.getFeatures().contains(sf) && !classifier.getAllAttributes().contains(sf)) {
 					addProblem(Diagnostic.ERROR,
 							"Slot defining feature '" + sf.getLabel() + "' has no representation in instance classifier '" + classifier.getLabel() + "'.");
 				}
