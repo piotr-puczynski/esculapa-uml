@@ -59,26 +59,38 @@
       </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_pl0IQGk6EeGnAqvLCl25Lw" name="tag1" classifier="_v1G44Gk2EeGnAqvLCl25Lw">
         <slot xmi:id="_26SPAmk6EeGnAqvLCl25Lw" definingFeature="_AcC18mk3EeGnAqvLCl25Lw">
-          <value xmi:type="uml:LiteralString" xmi:id="_5_aM4Gk6EeGnAqvLCl25Lw" value="tag367"/>
+          <value xmi:type="uml:LiteralString" xmi:id="_5_aM4Gk6EeGnAqvLCl25Lw" value="tag367">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </value>
         </slot>
         <slot xmi:id="_993JAmu3EeGSeaoga4MVvQ" definingFeature="_8Vfu8Gu1EeGSeaoga4MVvQ">
-          <value xmi:type="uml:LiteralBoolean" xmi:id="_-9cWsGu3EeGSeaoga4MVvQ"/>
+          <value xmi:type="uml:LiteralBoolean" xmi:id="_-9cWsGu3EeGSeaoga4MVvQ">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </value>
         </slot>
       </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_ptGcAGk6EeGnAqvLCl25Lw" name="tag2" classifier="_v1G44Gk2EeGnAqvLCl25Lw">
         <slot xmi:id="_7dcRImk6EeGnAqvLCl25Lw" definingFeature="_AcC18mk3EeGnAqvLCl25Lw">
-          <value xmi:type="uml:LiteralString" xmi:id="_9kYIcGk6EeGnAqvLCl25Lw" value="tag123"/>
+          <value xmi:type="uml:LiteralString" xmi:id="_9kYIcGk6EeGnAqvLCl25Lw" value="tag123">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </value>
         </slot>
         <slot xmi:id="_7JNQEmu3EeGSeaoga4MVvQ" definingFeature="_8Vfu8Gu1EeGSeaoga4MVvQ">
-          <value xmi:type="uml:LiteralBoolean" xmi:id="_8X0YQGu3EeGSeaoga4MVvQ" value="true"/>
+          <value xmi:type="uml:LiteralBoolean" xmi:id="_8X0YQGu3EeGSeaoga4MVvQ" value="true">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </value>
         </slot>
       </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_p0ZW0Gk6EeGnAqvLCl25Lw" name="tag3" classifier="_v1G44Gk2EeGnAqvLCl25Lw">
         <slot xmi:id="_7lxGsGk6EeGnAqvLCl25Lw" definingFeature="_AcC18mk3EeGnAqvLCl25Lw">
-          <value xmi:type="uml:LiteralString" xmi:id="__oofMGk6EeGnAqvLCl25Lw" value="tag890"/>
+          <value xmi:type="uml:LiteralString" xmi:id="__oofMGk6EeGnAqvLCl25Lw" value="tag890">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </value>
         </slot>
         <slot xmi:id="_CQlicmu4EeGSeaoga4MVvQ" definingFeature="_8Vfu8Gu1EeGSeaoga4MVvQ">
-          <value xmi:type="uml:LiteralBoolean" xmi:id="_DuoNwGu4EeGSeaoga4MVvQ" value="true"/>
+          <value xmi:type="uml:LiteralBoolean" xmi:id="_DuoNwGu4EeGSeaoga4MVvQ" value="true">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </value>
         </slot>
       </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_x92KMGk6EeGnAqvLCl25Lw" name="InstanceSpecification3" classifier="_EYNeoGk5EeGnAqvLCl25Lw">
@@ -117,7 +129,9 @@
       </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_fvOjAGu-EeGSeaoga4MVvQ" name="barrier" classifier="_sPlhsGu9EeGSeaoga4MVvQ">
         <slot xmi:id="_FM-LUGvJEeGSeaoga4MVvQ" definingFeature="_f8htQmvAEeGSeaoga4MVvQ">
-          <value xmi:type="uml:LiteralBoolean" xmi:id="_GoWkMGvJEeGSeaoga4MVvQ"/>
+          <value xmi:type="uml:LiteralBoolean" xmi:id="_GoWkMGvJEeGSeaoga4MVvQ">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </value>
         </slot>
       </packagedElement>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_lG2H8Gu-EeGSeaoga4MVvQ" name="InstanceSpecification7" classifier="_vk5QoGu9EeGSeaoga4MVvQ">
