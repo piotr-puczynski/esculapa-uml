@@ -126,11 +126,11 @@
           </value>
         </slot>
       </packagedElement>
-      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_lG2H8Gu-EeGSeaoga4MVvQ" name="InstanceSpecification7" classifier="_NfIssIYeEeGDwridaIG-ew">
-        <slot xmi:id="_lG2H8Wu-EeGSeaoga4MVvQ" definingFeature="_NfIssYYeEeGDwridaIG-ew">
-          <value xmi:type="uml:InstanceValue" xmi:id="_lG2H8mu-EeGSeaoga4MVvQ" type="_BbH34Gk4EeGnAqvLCl25Lw" instance="_fLfJUGk4EeGnAqvLCl25Lw"/>
+      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_lG2H8Gu-EeGSeaoga4MVvQ" name="InstanceSpecification7" classifier="_JTrloIYuEeGDwridaIG-ew">
+        <slot xmi:id="_lG2H8Wu-EeGSeaoga4MVvQ" definingFeature="_JTrloYYuEeGDwridaIG-ew">
+          <value xmi:type="uml:InstanceValue" xmi:id="_lG2H8mu-EeGSeaoga4MVvQ" type="_BM3PgIYuEeGDwridaIG-ew" instance="_fLfJUGk4EeGnAqvLCl25Lw"/>
         </slot>
-        <slot xmi:id="_lG2H82u-EeGSeaoga4MVvQ" definingFeature="_NfIstIYeEeGDwridaIG-ew">
+        <slot xmi:id="_lG2H82u-EeGSeaoga4MVvQ" definingFeature="_JTrlpIYuEeGDwridaIG-ew">
           <value xmi:type="uml:InstanceValue" xmi:id="_lG2H9Gu-EeGSeaoga4MVvQ" type="_LWCSMIYeEeGDwridaIG-ew" instance="_fvOjAGu-EeGSeaoga4MVvQ"/>
         </slot>
       </packagedElement>
@@ -276,16 +276,6 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_FJQxAGu-EeGSeaoga4MVvQ" name="open()" operation="_9ZUp0Gu9EeGSeaoga4MVvQ"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_GrcDgGvAEeGSeaoga4MVvQ" name="close()" operation="_RrqFImu_EeGSeaoga4MVvQ"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_fcI1oGvDEeGSeaoga4MVvQ" name="vehicleDrivesThrough()" operation="_wxtsQGvBEeGSeaoga4MVvQ"/>
-    <packagedElement xmi:type="uml:Association" xmi:id="_NfIssIYeEeGDwridaIG-ew" name="A_&lt;expressLaneCheckIn>_&lt;barrierToLane>" memberEnd="_NfIssYYeEeGDwridaIG-ew _NfIstIYeEeGDwridaIG-ew">
-      <ownedEnd xmi:id="_NfIssYYeEeGDwridaIG-ew" name="lane" type="_BbH34Gk4EeGnAqvLCl25Lw" association="_NfIssIYeEeGDwridaIG-ew">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NfIssoYeEeGDwridaIG-ew" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NfIss4YeEeGDwridaIG-ew" value="1"/>
-      </ownedEnd>
-      <ownedEnd xmi:id="_NfIstIYeEeGDwridaIG-ew" name="barrier" type="_LWCSMIYeEeGDwridaIG-ew" association="_NfIssIYeEeGDwridaIG-ew">
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_NfIstYYeEeGDwridaIG-ew" value="1"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_NfIstoYeEeGDwridaIG-ew" value="1"/>
-      </ownedEnd>
-    </packagedElement>
     <packagedElement xmi:type="uml:Interface" xmi:id="_LWCSMIYeEeGDwridaIG-ew" name="BarrierToLane">
       <ownedOperation xmi:id="_dFYBwIYeEeGDwridaIG-ew" name="open"/>
       <ownedOperation xmi:id="_dFYBwYYeEeGDwridaIG-ew" name="close"/>
@@ -300,6 +290,7 @@
         <nestedClassifier xmi:type="uml:Component" xmi:id="_25eucIYdEeGDwridaIG-ew" name="Lane" clientDependency="_LS_zAIYjEeGDwridaIG-ew _3bHeEIYsEeGDwridaIG-ew">
           <interfaceRealization xmi:id="_3bHeEIYsEeGDwridaIG-ew" name="InterfaceRealization1" supplier="_aqiOoIYsEeGDwridaIG-ew" client="_25eucIYdEeGDwridaIG-ew" contract="_aqiOoIYsEeGDwridaIG-ew"/>
           <nestedClassifier xmi:type="uml:Class" xmi:id="_BbH34Gk4EeGnAqvLCl25Lw" name="ExpressLaneCheckIn" clientDependency="_jWQBkIYsEeGDwridaIG-ew" classifierBehavior="_H1aBcGk9EeGnAqvLCl25Lw">
+            <generalization xmi:id="_GSj-AIYuEeGDwridaIG-ew" general="_BM3PgIYuEeGDwridaIG-ew"/>
             <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_H1aBcGk9EeGnAqvLCl25Lw" name="ExpressLaneCheckIn Behavior">
               <region xmi:id="_H1aBcWk9EeGnAqvLCl25Lw" name="Region">
                 <subvertex xmi:type="uml:Pseudostate" xmi:id="_IdR5wWk9EeGnAqvLCl25Lw" name="Pseudostate1"/>
@@ -447,6 +438,17 @@
       <ownedEnd xmi:id="_f4XldIYsEeGDwridaIG-ew" name="lane" type="_aqiOoIYsEeGDwridaIG-ew" association="_f4XlcIYsEeGDwridaIG-ew">
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_f4XldYYsEeGDwridaIG-ew" value="1"/>
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_f4XldoYsEeGDwridaIG-ew" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_BM3PgIYuEeGDwridaIG-ew" name="Lane" isAbstract="true"/>
+    <packagedElement xmi:type="uml:Association" xmi:id="_JTrloIYuEeGDwridaIG-ew" name="A_&lt;lane>_&lt;barrierToLane>" memberEnd="_JTrloYYuEeGDwridaIG-ew _JTrlpIYuEeGDwridaIG-ew">
+      <ownedEnd xmi:id="_JTrloYYuEeGDwridaIG-ew" name="lane" type="_BM3PgIYuEeGDwridaIG-ew" association="_JTrloIYuEeGDwridaIG-ew">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JTrlooYuEeGDwridaIG-ew" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JTrlo4YuEeGDwridaIG-ew" value="1"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_JTrlpIYuEeGDwridaIG-ew" name="barrier" type="_LWCSMIYeEeGDwridaIG-ew" association="_JTrloIYuEeGDwridaIG-ew">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JTrlpYYuEeGDwridaIG-ew" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JTrlpoYuEeGDwridaIG-ew" value="1"/>
       </ownedEnd>
     </packagedElement>
   </packagedElement>
