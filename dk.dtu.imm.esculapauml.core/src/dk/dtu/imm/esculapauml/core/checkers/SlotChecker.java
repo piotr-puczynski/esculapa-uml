@@ -12,8 +12,11 @@
 package dk.dtu.imm.esculapauml.core.checkers;
 
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.uml2.uml.BehavioredClassifier;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.InstanceSpecification;
+import org.eclipse.uml2.uml.InstanceValue;
+import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Slot;
 import org.eclipse.uml2.uml.StructuralFeature;
 import org.eclipse.uml2.uml.ValueSpecification;
@@ -69,6 +72,25 @@ public class SlotChecker extends AbstractChecker<Slot> {
 				if (vs.getType() != sf.getType()) {
 					addOtherProblem(Diagnostic.ERROR,
 							"Type of value '" + vs.getLabel() + "' is different than the slot type '" + sf.getType().getName() + "'.", vs);
+				} else if (vs instanceof InstanceValue) {
+					// check that vs type is more general or equal to the one of
+					// instance in case of instancevalue
+					InstanceValue iv = (InstanceValue) vs;
+					if (null == iv.getInstance()) {
+						addOtherProblem(Diagnostic.ERROR, "Instance value '" + vs.getLabel() + "' points to no instance specification.", iv);
+					} else {
+						Classifier class_ = iv.getInstance().getClassifiers().get(0);
+						if (!iv.getInstance().getClassifiers().get(0).conformsTo(iv.getType())) {
+							// check for interface realizations
+							if (!(class_ instanceof BehavioredClassifier) || !(iv.getType() instanceof Interface)
+									|| !((BehavioredClassifier) class_).getAllImplementedInterfaces().contains(iv.getType())) {
+								addOtherProblem(Diagnostic.ERROR, "Instance value type '" + vs.getType().getLabel()
+										+ "' does not conform to its instance specification of type '" + iv.getInstance().getClassifiers().get(0).getLabel()
+										+ "'.", iv);
+							}
+
+						}
+					}
 				}
 			}
 
