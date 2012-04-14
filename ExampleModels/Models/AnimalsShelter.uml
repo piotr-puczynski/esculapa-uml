@@ -40,10 +40,31 @@
         <region xmi:id="_Psg4gYZFEeGgjZMeQihLRw" name="Region">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_QOUlEIZFEeGgjZMeQihLRw" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_QzGGEIZFEeGgjZMeQihLRw" name="Idle"/>
+          <subvertex xmi:type="uml:State" xmi:id="_okHQ8IZVEeGgjZMeQihLRw" name="check release"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_vivP8YZVEeGgjZMeQihLRw" name="" kind="choice"/>
           <transition xmi:id="_SCFoxIZFEeGgjZMeQihLRw" name="" source="_QOUlEIZFEeGgjZMeQihLRw" target="_QzGGEIZFEeGgjZMeQihLRw"/>
-          <transition xmi:id="_TM7rRIZFEeGgjZMeQihLRw" name="Transition1" source="_QzGGEIZFEeGgjZMeQihLRw" target="_QzGGEIZFEeGgjZMeQihLRw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aciskIZFEeGgjZMeQihLRw" name="reply ocl(`animals->select(animal | animal.name = name)`)"/>
+          <transition xmi:id="_TM7rRIZFEeGgjZMeQihLRw" name="Transition1" source="_QzGGEIZFEeGgjZMeQihLRw" target="_okHQ8IZVEeGgjZMeQihLRw">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aciskIZFEeGgjZMeQihLRw" name="found := ocl(`animals->select(animal | animal.name = name)`)"/>
             <trigger xmi:id="_UDYLEIZFEeGgjZMeQihLRw" event="_Vh1tIIZFEeGgjZMeQihLRw"/>
+          </transition>
+          <transition xmi:id="_xvn-RYZVEeGgjZMeQihLRw" name="" source="_okHQ8IZVEeGgjZMeQihLRw" target="_vivP8YZVEeGgjZMeQihLRw"/>
+          <transition xmi:id="_2P_LFIZVEeGgjZMeQihLRw" name="Transition2" source="_vivP8YZVEeGgjZMeQihLRw" target="_QzGGEIZFEeGgjZMeQihLRw" guard="_5ykhAIZVEeGgjZMeQihLRw">
+            <ownedRule xmi:id="_5ykhAIZVEeGgjZMeQihLRw">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_6oRZ8IZVEeGgjZMeQihLRw" name="else">
+                <language>ocl</language>
+                <body>else</body>
+              </specification>
+            </ownedRule>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_8yMT0IZVEeGgjZMeQihLRw" name="reply found"/>
+          </transition>
+          <transition xmi:id="_AH-j5IZWEeGgjZMeQihLRw" name="Transition3" source="_vivP8YZVEeGgjZMeQihLRw" target="_QzGGEIZFEeGgjZMeQihLRw" guard="_CvpJsIZWEeGgjZMeQihLRw">
+            <ownedRule xmi:id="_CvpJsIZWEeGgjZMeQihLRw">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_LEMZ0IZWEeGgjZMeQihLRw" name="result->isEmpty()">
+                <language>ocl</language>
+                <body>not found->isEmpty()</body>
+              </specification>
+            </ownedRule>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_XrJTQIZWEeGgjZMeQihLRw" name="animals := ocl(`animals->select(animal | animal.name &lt;> name)`); reply found;"/>
           </transition>
         </region>
       </ownedBehavior>

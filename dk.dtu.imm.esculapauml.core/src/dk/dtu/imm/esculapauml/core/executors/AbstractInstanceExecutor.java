@@ -194,27 +194,28 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 			}
 			// create local variable
 			Type infered = value.inferType();
-			if (null == infered) {
-				checker.addOtherProblem(Diagnostic.ERROR,
-						"Type couldn't be inferred from given value to any significant type when tried to create local variable '" + name + "'.", errorContext);
-				return false;
-			} else {
-				prop = originalClass.createOwnedAttribute(name, infered);
-				prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
-				if (setMultiplicities) {
-					if (null != lowerValue) {
-						prop.setLowerValue(EcoreUtil.copy(lowerValue));
-					}
-					if (null != upperValue) {
-						prop.setUpperValue(EcoreUtil.copy(upperValue));
-					}
-				} else if (value.inferLowerMultiplicity() != 1 || value.inferUpperMultiplicity() != 1) {
-					// write only when the values are not default 1,1
-					prop.setLower(value.inferLowerMultiplicity());
-					prop.setUpper(value.inferUpperMultiplicity());
+			// if (null == infered) {
+			// checker.addOtherProblem(Diagnostic.ERROR,
+			// "Type couldn't be inferred from given value to any significant type when tried to create local variable '"
+			// + name + "'.", errorContext);
+			// return false;
+			// } else {
+			prop = originalClass.createOwnedAttribute(name, infered);
+			prop.setVisibility(VisibilityKind.PRIVATE_LITERAL);
+			if (setMultiplicities) {
+				if (null != lowerValue) {
+					prop.setLowerValue(EcoreUtil.copy(lowerValue));
 				}
-				checker.getSystemState().addGeneratedElement(prop);
+				if (null != upperValue) {
+					prop.setUpperValue(EcoreUtil.copy(upperValue));
+				}
+			} else if (value.inferLowerMultiplicity() != 1 || value.inferUpperMultiplicity() != 1) {
+				// write only when the values are not default 1,1
+				prop.setLower(value.inferLowerMultiplicity());
+				prop.setUpper(value.inferUpperMultiplicity());
 			}
+			checker.getSystemState().addGeneratedElement(prop);
+			// }
 		}
 
 		if (!checkTypeAndMultiplicities(prop, name, value, errorContext)) {
@@ -265,7 +266,15 @@ public abstract class AbstractInstanceExecutor extends AbstractExecutor implemen
 		}
 		// multiplicity check
 		if (!value.conformsToMultiplicity(prop)) {
-			checker.addOtherProblem(Diagnostic.ERROR, "Multiplicity check failed when trying to assign '" + name + "' to value: " + value + ".", errorContext);
+			// check if prop was generated, if yes we will be flexible
+			if (checker.getSystemState().wasGenerated(prop)) {
+				prop.setLower(value.inferLowerMultiplicity());
+				prop.setUpper(value.inferUpperMultiplicity());
+			} else {
+				checker.addOtherProblem(Diagnostic.ERROR, "Multiplicity check failed when trying to assign '" + name + "' to value: " + value + ".",
+						errorContext);
+				return false;
+			}
 		}
 		return true;
 	}

@@ -407,7 +407,7 @@ public class ValuesList extends AbstractList<ValueSpecification> implements Valu
 		}
 		// if type is null and we are not empty
 		if (null == type.getType()) {
-			return false;
+			return true;
 		}
 		// check type of elements
 		for (ValueSpecification vs : list) {

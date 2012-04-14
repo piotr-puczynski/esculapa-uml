@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_KqIygIY_EeGgjZMeQihLRw" activeDiagram="_vdH4gYZHEeGgjZMeQihLRw">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_KqIygIY_EeGgjZMeQihLRw" activeDiagram="_PshfkYZFEeGgjZMeQihLRw">
   <model href="AnimalsShelter.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_KqJZkIY_EeGgjZMeQihLRw" position="0,0" size="100,100" name="AnimalsShelter" viewport="0,0">
     <property xmi:id="_KqbtcIY_EeGgjZMeQihLRw" key="pageFormatName" value="A4"/>
@@ -378,8 +378,8 @@
           </semanticModel>
         </contained>
         <contained xsi:type="di:GraphNode" xmi:id="_QzAmgIZFEeGgjZMeQihLRw" position="226,96" size="50,50">
-          <anchorage xmi:id="_SCEaoYZFEeGgjZMeQihLRw" graphEdge="_SCFowIZFEeGgjZMeQihLRw _TM7rQIZFEeGgjZMeQihLRw"/>
-          <anchorage xmi:id="_TM6dIIZFEeGgjZMeQihLRw" graphEdge="_TM7rQIZFEeGgjZMeQihLRw"/>
+          <anchorage xmi:id="_SCEaoYZFEeGgjZMeQihLRw" graphEdge="_SCFowIZFEeGgjZMeQihLRw _TM7rQIZFEeGgjZMeQihLRw _2P_LEIZVEeGgjZMeQihLRw _AH-j4IZWEeGgjZMeQihLRw"/>
+          <anchorage xmi:id="_TM6dIIZFEeGgjZMeQihLRw"/>
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_QzAmgYZFEeGgjZMeQihLRw" presentation="default">
             <element href="AnimalsShelter.uml#_QzGGEIZFEeGgjZMeQihLRw"/>
           </semanticModel>
@@ -391,12 +391,49 @@
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_SCFowoZFEeGgjZMeQihLRw" id="nameEdgeObject"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_SCFow4ZFEeGgjZMeQihLRw" visible="false" id="TransitionStereotypeEdgeObject"/>
         </contained>
-        <contained xsi:type="di:GraphEdge" xmi:id="_TM7rQIZFEeGgjZMeQihLRw" anchor="_SCEaoYZFEeGgjZMeQihLRw _TM6dIIZFEeGgjZMeQihLRw">
+        <contained xsi:type="di:GraphEdge" xmi:id="_TM7rQIZFEeGgjZMeQihLRw" anchor="_SCEaoYZFEeGgjZMeQihLRw _rM0_oIZVEeGgjZMeQihLRw">
           <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_TM7rQYZFEeGgjZMeQihLRw" presentation="default">
             <element href="AnimalsShelter.uml#_TM7rRIZFEeGgjZMeQihLRw"/>
           </semanticModel>
-          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_TM7rQoZFEeGgjZMeQihLRw" id="nameEdgeObject" offset="-4,17"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_TM7rQoZFEeGgjZMeQihLRw" id="nameEdgeObject" offset="185,-5"/>
           <contained xsi:type="di:EdgeObjectOffset" xmi:id="_TM7rQ4ZFEeGgjZMeQihLRw" visible="false" id="TransitionStereotypeEdgeObject"/>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_oj-HAIZVEeGgjZMeQihLRw" position="308,223" size="107,50">
+          <anchorage xmi:id="_rM0_oIZVEeGgjZMeQihLRw" graphEdge="_TM7rQIZFEeGgjZMeQihLRw _xvn-QYZVEeGgjZMeQihLRw"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_oj-HAYZVEeGgjZMeQihLRw" presentation="default">
+            <element href="AnimalsShelter.uml#_okHQ8IZVEeGgjZMeQihLRw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphNode" xmi:id="_vile8IZVEeGgjZMeQihLRw" position="336,314" size="-1,-1">
+          <property xmi:id="_vivP8IZVEeGgjZMeQihLRw" key="name" value="visible"/>
+          <anchorage xmi:id="_xvn-QIZVEeGgjZMeQihLRw" graphEdge="_xvn-QYZVEeGgjZMeQihLRw _2P_LEIZVEeGgjZMeQihLRw _AH-j4IZWEeGgjZMeQihLRw"/>
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_vile8YZVEeGgjZMeQihLRw" presentation="default">
+            <element href="AnimalsShelter.uml#_vivP8YZVEeGgjZMeQihLRw"/>
+          </semanticModel>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_xvn-QYZVEeGgjZMeQihLRw" anchor="_rM0_oIZVEeGgjZMeQihLRw _xvn-QIZVEeGgjZMeQihLRw">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_xvn-QoZVEeGgjZMeQihLRw" presentation="default">
+            <element href="AnimalsShelter.uml#_xvn-RYZVEeGgjZMeQihLRw"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_xvn-Q4ZVEeGgjZMeQihLRw" id="nameEdgeObject"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_xvn-RIZVEeGgjZMeQihLRw" visible="false" id="TransitionStereotypeEdgeObject"/>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_2P_LEIZVEeGgjZMeQihLRw" anchor="_xvn-QIZVEeGgjZMeQihLRw _SCEaoYZFEeGgjZMeQihLRw">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_2P_LEYZVEeGgjZMeQihLRw" presentation="default">
+            <element href="AnimalsShelter.uml#_2P_LFIZVEeGgjZMeQihLRw"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_2P_LEoZVEeGgjZMeQihLRw" id="nameEdgeObject" offset="-19,18"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_2P_LE4ZVEeGgjZMeQihLRw" visible="false" id="TransitionStereotypeEdgeObject"/>
+          <waypoints>[-105, 0, 0, 208]</waypoints>
+        </contained>
+        <contained xsi:type="di:GraphEdge" xmi:id="_AH-j4IZWEeGgjZMeQihLRw" anchor="_xvn-QIZVEeGgjZMeQihLRw _SCEaoYZFEeGgjZMeQihLRw">
+          <semanticModel xsi:type="di:EMFSemanticModelBridge" xmi:id="_AH-j4YZWEeGgjZMeQihLRw" presentation="default">
+            <element href="AnimalsShelter.uml#_AH-j5IZWEeGgjZMeQihLRw"/>
+          </semanticModel>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_AH-j4oZWEeGgjZMeQihLRw" id="nameEdgeObject" offset="-37,-145"/>
+          <contained xsi:type="di:EdgeObjectOffset" xmi:id="_AH-j44ZWEeGgjZMeQihLRw" visible="false" id="TransitionStereotypeEdgeObject"/>
+          <waypoints>[159, 0, 264, 208]</waypoints>
+          <waypoints>[159, -208, 264, 0]</waypoints>
         </contained>
       </contained>
     </diagrams>
