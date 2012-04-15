@@ -11,7 +11,7 @@
   </elementImport>
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="AnimalsShelter">
     <packagedElement xmi:type="uml:Class" xmi:id="_MvnRQIY_EeGgjZMeQihLRw" name="AnimalsShelter" classifierBehavior="_rtS4IIZEEeGgjZMeQihLRw">
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_rtS4IIZEEeGgjZMeQihLRw" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_rtS4IIZEEeGgjZMeQihLRw" name="AnimalsShelter behavior">
         <region xmi:id="_rtS4IYZEEeGgjZMeQihLRw" name="Region">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_s-OUgIZEEeGgjZMeQihLRw" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_tuf64IZEEeGgjZMeQihLRw" name="Idle"/>
@@ -36,7 +36,7 @@
       </ownedOperation>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_PTRg0IY_EeGgjZMeQihLRw" name="Cage" classifierBehavior="_Psg4gIZFEeGgjZMeQihLRw">
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Psg4gIZFEeGgjZMeQihLRw" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Psg4gIZFEeGgjZMeQihLRw" name="Cage behavior">
         <region xmi:id="_Psg4gYZFEeGgjZMeQihLRw" name="Region">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_QOUlEIZFEeGgjZMeQihLRw" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_QzGGEIZFEeGgjZMeQihLRw" name="Idle"/>
