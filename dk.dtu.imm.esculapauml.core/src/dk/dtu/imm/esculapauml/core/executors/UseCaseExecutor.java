@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Stack;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -141,7 +140,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			targetLifeline = lifelineGenerator.generate();
 			// we will need also to generate BehaviorExecutionSpecification and
 			// a message (with call event)
-			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
+			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline, sequencer);
 			messageGenerator.setOperation(operation);
 			MessageOccurrenceSpecification mos = InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline);
 			messageGenerator.setSentGenerateAfter(mos);
@@ -163,7 +162,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 					|| !areArgumentsEqual(message.getArguments(), event.getArguments().getFlattened())) {
 				// message not conform to given operation
 				// we need to generate a new message
-				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline);
+				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline, sequencer);
 				messageGenerator.setOperation(operation);
 				messageGenerator.setGenerateNewBESForSent(hasToGenerateNewBES(currentMessage, sourceLifeline));
 				messageGenerator.setSentGenerateAfter(InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline));
@@ -487,7 +486,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		// lifelines intentionally switched
 		Lifeline sourceLifeline = InteractionUtils.getMessageTargetLifeline(message);
 		Lifeline targetLifeline = InteractionUtils.getMessageSourceLifeline(message);
-		MessageGenerator messageGenerator = new MessageGenerator(systemState, (BasicDiagnostic) checker.getDiagnostics(), sourceLifeline, targetLifeline);
+		MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline, sequencer);
 		messageGenerator.setMessageSort(MessageSort.REPLY_LITERAL);
 		messageGenerator.setCustomName("ReplyOf" + message.getName());
 		messageGenerator.setOperation(InteractionUtils.getMessageOperation(message));

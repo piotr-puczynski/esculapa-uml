@@ -17,7 +17,6 @@ import static org.hamcrest.Matchers.is;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.BasicDiagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.BehaviorExecutionSpecification;
@@ -32,7 +31,7 @@ import org.eclipse.uml2.uml.UMLFactory;
 import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
-import dk.dtu.imm.esculapauml.core.states.SystemState;
+import dk.dtu.imm.esculapauml.core.executors.InteractionSequencer;
 
 /**
  * @author Piotr J. Puczynski
@@ -50,28 +49,19 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 	private boolean generateNewBESForReceive = true;
 	private String customName = null;
 	private EList<ValueSpecification> arguments = null;
-
-	/**
-	 * @param systemState
-	 * @param diagnostic
-	 */
-	public MessageGenerator(SystemState systemState, BasicDiagnostic diagnostic, Lifeline sourceLifeline, Lifeline targetLifeline) {
-		super(systemState, diagnostic);
-		logger = Logger.getLogger(MessageGenerator.class);
-		this.targetLifeline = targetLifeline;
-		this.sourceLifeline = sourceLifeline;
-	}
+	private InteractionSequencer sequencer;
 
 	/**
 	 * @param checker
 	 * @param sourceLifeline2
 	 * @param targetLifeline2
 	 */
-	public MessageGenerator(Checker checker, Lifeline sourceLifeline, Lifeline targetLifeline) {
+	public MessageGenerator(Checker checker, Lifeline sourceLifeline, Lifeline targetLifeline, InteractionSequencer sequencer) {
 		super(checker);
 		logger = Logger.getLogger(MessageGenerator.class);
 		this.targetLifeline = targetLifeline;
 		this.sourceLifeline = sourceLifeline;
+		this.sequencer = sequencer;
 	}
 
 	/*
@@ -138,25 +128,36 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 		if (null == after) {
 			// generate at the end but always before BES
 			if (allBes.isEmpty()) {
+				// insert in the end
+				lifeline.getCoveredBys().add(toInsert);
 				if (generateNewBES) {
 					// insert new and only bes
 					BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, diagnostic, lifeline);
 					besGenerator.setPosition(BehaviorExecutionSpecificationGenerator.POSITION_END);
 					besGenerator.setStartAndFinish(toInsert);
 					besGenerator.generate();
-				} else {
-					// somebody else will generate BES in this case
-					lifeline.getCoveredBys().add(toInsert);
 				}
 			} else {
 				if (extendBehavorExecutionSpecificationsIfNecessary) {
-					// get the last available bes
-					BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) ((BehaviorExecutionSpecification) allBes.get(allBes.size() - 1));
-					after = (MessageOccurrenceSpecification) bes.getFinish();
+					// we need to know where to generate bes, we should generate
+					// bes after the last executed bes or; if no bes was
+					// executed, at the beginning
+					BehaviorExecutionSpecification bes = findLastExecutedBES(allBes);
+					int insertIndex;
+					if(null == bes) {
+						insertIndex = 0;
+					} else {
+						insertIndex = lifeline.getCoveredBys().indexOf(bes.getFinish()) + 1;
+					}
+					lifeline.getCoveredBys().add(insertIndex, toInsert);
 					if (generateNewBES) {
 						BehaviorExecutionSpecificationGenerator besGenerator = new BehaviorExecutionSpecificationGenerator(systemState, diagnostic, lifeline);
 						// insert after previous spec
-						besGenerator.setPosition(lifeline.getCoveredBys().indexOf(bes) + 1);
+						if(null == bes) {
+							besGenerator.setPosition(lifeline.getCoveredBys().indexOf(allBes.get(0)));
+						} else {
+							besGenerator.setPosition(lifeline.getCoveredBys().indexOf(bes) + 1);
+						}
 						besGenerator.setStartAndFinish(toInsert);
 						besGenerator.generate();
 					} else {
@@ -200,6 +201,27 @@ public class MessageGenerator extends AbstractGenerator<Message> {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Finds last bes of which start message was executed.
+	 * 
+	 * @param allBes
+	 * @return
+	 */
+	private BehaviorExecutionSpecification findLastExecutedBES(List<InteractionFragment> allBes) {
+		BehaviorExecutionSpecification result = null;
+		for (InteractionFragment intfrag : allBes) {
+			if (intfrag instanceof BehaviorExecutionSpecification) {
+				BehaviorExecutionSpecification bes = (BehaviorExecutionSpecification) intfrag;
+				if (sequencer.wasExecuted(((MessageOccurrenceSpecification) bes.getStart()).getMessage())) {
+					result = bes;
+				} else {
+					break;
+				}
+			}
+		}
+		return result;
 	}
 
 	/**
