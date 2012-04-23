@@ -102,7 +102,7 @@ public class MessageChecker extends AbstractChecker<Message> {
 						if (ce != null) {
 							if (ce.getType() instanceof Classifier) {
 								Classifier type = (Classifier) ce.getType();
-								if (!type.getOperations().contains(signature)) {
+								if (!type.getAllOperations().contains(signature)) {
 									addProblem(Diagnostic.ERROR, "The message '" + checkee.getLabel() + "' calls non-existing operation in class '"
 											+ ((Operation) signature).getClass_().getLabel() + "'.");
 								}
