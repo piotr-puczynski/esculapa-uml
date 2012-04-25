@@ -102,7 +102,7 @@
         </slot>
       </packagedElement>
       <packagedElement xmi:type="uml:CallEvent" xmi:id="_PPgtcWk7EeGnAqvLCl25Lw" name="CallEvent1" operation="_uBg0Umk2EeGnAqvLCl25Lw"/>
-      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_lnFZIGu8EeGSeaoga4MVvQ" name="station6" classifier="_dRMFMGu8EeGSeaoga4MVvQ"/>
+      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_lnFZIGu8EeGSeaoga4MVvQ" name="station5" classifier="_dRMFMGu8EeGSeaoga4MVvQ"/>
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_fvOjAGu-EeGSeaoga4MVvQ" name="barrier" classifier="_sPlhsGu9EeGSeaoga4MVvQ">
         <slot xmi:id="_FM-LUGvJEeGSeaoga4MVvQ" definingFeature="_f8htQmvAEeGSeaoga4MVvQ">
           <value xmi:type="uml:LiteralBoolean" xmi:id="_GoWkMGvJEeGSeaoga4MVvQ">
