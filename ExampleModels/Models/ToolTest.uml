@@ -353,12 +353,13 @@
       <generalization xmi:id="_4DTPUI1GEeGZaJa0E9UYEg" general="_7ofp0I1FEeGZaJa0E9UYEg"/>
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_H1aBcGk9EeGnAqvLCl25Lw" name="ExpressLaneCheckIn Behavior">
         <region xmi:id="_H1aBcWk9EeGnAqvLCl25Lw" name="Region">
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_IdR5wWk9EeGnAqvLCl25Lw" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_IdR5wWk9EeGnAqvLCl25Lw" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_JDgzUmk9EeGnAqvLCl25Lw" name="Idle"/>
           <subvertex xmi:type="uml:State" xmi:id="_K6YOUGk9EeGnAqvLCl25Lw" name="Detection"/>
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_KshuYGnTEeGWfINm-Iyg7w" name="check" kind="choice"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_KshuYGnTEeGWfINm-Iyg7w" name="" kind="choice"/>
           <subvertex xmi:type="uml:State" xmi:id="_QVpTAGnTEeGWfINm-Iyg7w" name="validity check"/>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_zFUKwGu6EeGSeaoga4MVvQ" name="" kind="choice"/>
+          <subvertex xmi:type="uml:State" xmi:id="_a5FycI8IEeGaV8WWOl074w" name="Notify problem"/>
           <transition xmi:id="_J_6xNmk9EeGnAqvLCl25Lw" name="" source="_IdR5wWk9EeGnAqvLCl25Lw" target="_JDgzUmk9EeGnAqvLCl25Lw"/>
           <transition xmi:id="_MZyyoGk9EeGnAqvLCl25Lw" name="Transition2" source="_JDgzUmk9EeGnAqvLCl25Lw" target="_K6YOUGk9EeGnAqvLCl25Lw">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZIpq4Gk9EeGnAqvLCl25Lw" name="exists := enterpriseServer.tagExists(tagId)"/>
@@ -374,7 +375,7 @@
             </ownedRule>
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ip3RQGnTEeGWfINm-Iyg7w" name="tag := enterpriseServer.getTag(tagId); isValid := tag.checkValidity()"/>
           </transition>
-          <transition xmi:id="_SwzG0GnTEeGWfINm-Iyg7w" name="Transition5" source="_KshuYGnTEeGWfINm-Iyg7w" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_XxuqEGnTEeGWfINm-Iyg7w">
+          <transition xmi:id="_SwzG0GnTEeGWfINm-Iyg7w" name="Transition5" source="_KshuYGnTEeGWfINm-Iyg7w" target="_a5FycI8IEeGaV8WWOl074w" guard="_XxuqEGnTEeGWfINm-Iyg7w">
             <ownedRule xmi:id="_XxuqEGnTEeGWfINm-Iyg7w" name="">
               <specification xmi:type="uml:OpaqueExpression" xmi:id="_Y50TgGnTEeGWfINm-Iyg7w" name="else">
                 <language>ocl</language>
@@ -383,7 +384,7 @@
             </ownedRule>
           </transition>
           <transition xmi:id="_1DnqhGu6EeGSeaoga4MVvQ" name="" source="_QVpTAGnTEeGWfINm-Iyg7w" target="_zFUKwGu6EeGSeaoga4MVvQ"/>
-          <transition xmi:id="_4UMqdGu6EeGSeaoga4MVvQ" name="Transition7" source="_zFUKwGu6EeGSeaoga4MVvQ" target="_JDgzUmk9EeGnAqvLCl25Lw" guard="_7dKmgGu6EeGSeaoga4MVvQ">
+          <transition xmi:id="_4UMqdGu6EeGSeaoga4MVvQ" name="Transition7" source="_zFUKwGu6EeGSeaoga4MVvQ" target="_a5FycI8IEeGaV8WWOl074w" guard="_7dKmgGu6EeGSeaoga4MVvQ">
             <ownedRule xmi:id="_7dKmgGu6EeGSeaoga4MVvQ">
               <specification xmi:type="uml:OpaqueExpression" xmi:id="_8Jv_sGu6EeGSeaoga4MVvQ" name="else">
                 <language>ocl</language>
@@ -409,6 +410,9 @@
             </ownedRule>
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qCfwUGvDEeGSeaoga4MVvQ" name="barrier.close()"/>
             <trigger xmi:id="_X7KXgGvDEeGSeaoga4MVvQ" name="" event="_fcI1oGvDEeGSeaoga4MVvQ"/>
+          </transition>
+          <transition xmi:id="_4cBr5I8IEeGaV8WWOl074w" name="Transition1" source="_a5FycI8IEeGaV8WWOl074w" target="_JDgzUmk9EeGnAqvLCl25Lw">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_61HDII8IEeGaV8WWOl074w" name="station.notifyProblem(self.id)"/>
           </transition>
         </region>
       </ownedBehavior>
@@ -576,7 +580,7 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_itH58I1cEeGZaJa0E9UYEg" name="ExpressLaneCheckOut" classifierBehavior="_rIOeAI1cEeGZaJa0E9UYEg">
       <generalization xmi:id="_lHFa8I1cEeGZaJa0E9UYEg" general="_7ofp0I1FEeGZaJa0E9UYEg"/>
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_rIOeAI1cEeGZaJa0E9UYEg" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_rIOeAI1cEeGZaJa0E9UYEg" name="ExpressLineCheckOut Behavior">
         <region xmi:id="_rIOeAY1cEeGZaJa0E9UYEg" name="Region">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_rjfdsI1cEeGZaJa0E9UYEg" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_skJCYI1cEeGZaJa0E9UYEg" name="Idle"/>
