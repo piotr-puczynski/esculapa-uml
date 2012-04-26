@@ -318,7 +318,7 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </defaultValue>
       </ownedAttribute>
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_71vD0GnTEeGWfINm-Iyg7w" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_71vD0GnTEeGWfINm-Iyg7w" name="Tag Behavior">
         <region xmi:id="_71vD0WnTEeGWfINm-Iyg7w" name="Region">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_8M4YgGnTEeGWfINm-Iyg7w" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_-lIpUGnTEeGWfINm-Iyg7w" name="idle"/>
@@ -418,17 +418,17 @@
       </ownedBehavior>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="__nWXsGk4EeGnAqvLCl25Lw" name="EnterpriseServer" classifierBehavior="_Ep6gYGk-EeGnAqvLCl25Lw">
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Ep6gYGk-EeGnAqvLCl25Lw" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_Ep6gYGk-EeGnAqvLCl25Lw" name="EnterpriseServer Behavior">
         <region xmi:id="_Ep6gYWk-EeGnAqvLCl25Lw" name="Region">
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_FCnUQGk-EeGnAqvLCl25Lw" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_FCnUQGk-EeGnAqvLCl25Lw" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_FiJv8Gk-EeGnAqvLCl25Lw" name="Idle"/>
           <subvertex xmi:type="uml:State" xmi:id="_uyD0kmlDEeGnAqvLCl25Lw" name="exists"/>
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_yMIuwGlDEeGnAqvLCl25Lw" name="Pseudostate2" kind="choice"/>
-          <transition xmi:id="_GXQzBmk-EeGnAqvLCl25Lw" name="Transition1" source="_FCnUQGk-EeGnAqvLCl25Lw" target="_FiJv8Gk-EeGnAqvLCl25Lw"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_yMIuwGlDEeGnAqvLCl25Lw" name="" kind="choice"/>
+          <transition xmi:id="_GXQzBmk-EeGnAqvLCl25Lw" name="" source="_FCnUQGk-EeGnAqvLCl25Lw" target="_FiJv8Gk-EeGnAqvLCl25Lw"/>
           <transition xmi:id="_HDfm5Gk-EeGnAqvLCl25Lw" name="Transition2" source="_FiJv8Gk-EeGnAqvLCl25Lw" target="_uyD0kmlDEeGnAqvLCl25Lw">
             <trigger xmi:id="_JOzA0Gk-EeGnAqvLCl25Lw" event="_MwaGYGk-EeGnAqvLCl25Lw"/>
           </transition>
-          <transition xmi:id="_zan7JWlDEeGnAqvLCl25Lw" name="Transition3" source="_uyD0kmlDEeGnAqvLCl25Lw" target="_yMIuwGlDEeGnAqvLCl25Lw"/>
+          <transition xmi:id="_zan7JWlDEeGnAqvLCl25Lw" name="" source="_uyD0kmlDEeGnAqvLCl25Lw" target="_yMIuwGlDEeGnAqvLCl25Lw"/>
           <transition xmi:id="_1DqVhGlDEeGnAqvLCl25Lw" name="Transition4" source="_yMIuwGlDEeGnAqvLCl25Lw" target="_FiJv8Gk-EeGnAqvLCl25Lw" guard="_GgFwIGlEEeGnAqvLCl25Lw">
             <ownedRule xmi:id="_GgFwIGlEEeGnAqvLCl25Lw">
               <specification xmi:type="uml:OpaqueExpression" xmi:id="_XTgC8GlEEeGnAqvLCl25Lw" name="self.registredTags->select (tag | tag.id=tagId)->size() > 0">
@@ -480,15 +480,18 @@
     </packagedElement>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_6QbO8Gk7EeGnAqvLCl25Lw" name="vehicleArrives(tagId)" operation="_uBg0Umk2EeGnAqvLCl25Lw"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_Q4LpgGk9EeGnAqvLCl25Lw" name="tagDetection(tagId)" operation="_qEwRkGk7EeGnAqvLCl25Lw"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MwaGYGk-EeGnAqvLCl25Lw" name="tagExists(tagID)" operation="_RarPYmk5EeGnAqvLCl25Lw"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_MwaGYGk-EeGnAqvLCl25Lw" name="tagExists(tagId)" operation="_RarPYmk5EeGnAqvLCl25Lw"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_NLAtkGnUEeGWfINm-Iyg7w" name="getTag(tagId)" operation="_hJ0BwGk5EeGnAqvLCl25Lw"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_3JEwkGu5EeGSeaoga4MVvQ" name="checkValidity()" operation="_rfWmUmu3EeGSeaoga4MVvQ"/>
     <packagedElement xmi:type="uml:Class" xmi:id="_dRMFMGu8EeGSeaoga4MVvQ" name="Station" classifierBehavior="_6n5ggGu8EeGSeaoga4MVvQ">
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_6n5ggGu8EeGSeaoga4MVvQ" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_6n5ggGu8EeGSeaoga4MVvQ" name="Station Behavior">
         <region xmi:id="_6n5ggWu8EeGSeaoga4MVvQ" name="Region">
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_6-xvcGu8EeGSeaoga4MVvQ" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_6-xvcGu8EeGSeaoga4MVvQ" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="_8BkpMmu8EeGSeaoga4MVvQ" name="Idle"/>
-          <transition xmi:id="_80wZoGu8EeGSeaoga4MVvQ" name="Transition1" source="_6-xvcGu8EeGSeaoga4MVvQ" target="_8BkpMmu8EeGSeaoga4MVvQ"/>
+          <transition xmi:id="_80wZoGu8EeGSeaoga4MVvQ" name="" source="_6-xvcGu8EeGSeaoga4MVvQ" target="_8BkpMmu8EeGSeaoga4MVvQ"/>
+          <transition xmi:id="_qFrJlY-FEeGQm8ZqjZbecg" name="Transition1" source="_8BkpMmu8EeGSeaoga4MVvQ" target="_8BkpMmu8EeGSeaoga4MVvQ">
+            <trigger xmi:id="_qvVKkI-FEeGQm8ZqjZbecg" event="_t86g4I-FEeGQm8ZqjZbecg"/>
+          </transition>
         </region>
       </ownedBehavior>
       <ownedOperation xmi:id="_xH_HYI1kEeGZaJa0E9UYEg" name="notifyProblem">
@@ -502,16 +505,16 @@
       <ownedAttribute xmi:id="_f8htQmvAEeGSeaoga4MVvQ" name="isOpened" visibility="private">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
       </ownedAttribute>
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_-_ldAGu9EeGSeaoga4MVvQ" name="StateMachine">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_-_ldAGu9EeGSeaoga4MVvQ" name="Barrier Behavior">
         <region xmi:id="_-_ldAWu9EeGSeaoga4MVvQ" name="Region">
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="__dIUo2u9EeGSeaoga4MVvQ" name="Pseudostate1"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="__dIUo2u9EeGSeaoga4MVvQ" name=""/>
           <subvertex xmi:type="uml:State" xmi:id="__2Lt0Gu9EeGSeaoga4MVvQ" name="Idle"/>
           <subvertex xmi:type="uml:State" xmi:id="__apWcmu_EeGSeaoga4MVvQ" name="opened"/>
           <transition xmi:id="_AqmNUGu-EeGSeaoga4MVvQ" name="Transition1" source="__2Lt0Gu9EeGSeaoga4MVvQ" target="__apWcmu_EeGSeaoga4MVvQ">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qForQGvAEeGSeaoga4MVvQ" name="isOpened := true;"/>
             <trigger xmi:id="_Do1gEGu-EeGSeaoga4MVvQ" name="" event="_FJQxAGu-EeGSeaoga4MVvQ"/>
           </transition>
-          <transition xmi:id="_BOyfhWu-EeGSeaoga4MVvQ" name="Transition2" source="__dIUo2u9EeGSeaoga4MVvQ" target="__2Lt0Gu9EeGSeaoga4MVvQ"/>
+          <transition xmi:id="_BOyfhWu-EeGSeaoga4MVvQ" name="" source="__dIUo2u9EeGSeaoga4MVvQ" target="__2Lt0Gu9EeGSeaoga4MVvQ"/>
           <transition xmi:id="_C33rRGvAEeGSeaoga4MVvQ" name="Transition3" source="__apWcmu_EeGSeaoga4MVvQ" target="__2Lt0Gu9EeGSeaoga4MVvQ">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_s0L8MGvAEeGSeaoga4MVvQ" name="isOpened := false;"/>
             <trigger xmi:id="_FDJQAGvAEeGSeaoga4MVvQ" name="" event="_GrcDgGvAEeGSeaoga4MVvQ"/>
@@ -649,5 +652,6 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_T55gwI1dEeGZaJa0E9UYEg" name="tagDetection(tagId)" operation="_qEwRkGk7EeGnAqvLCl25Lw"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_FCwlAI1rEeGZaJa0E9UYEg" name="calculateAndUpdateAccumulatedPrice(exitStation)" operation="_uGSpQI1qEeGZaJa0E9UYEg"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_s4utII1uEeGZaJa0E9UYEg" name="vehicleDrivesThrough()" operation="_wxtsQGvBEeGSeaoga4MVvQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_t86g4I-FEeGQm8ZqjZbecg" name="notifyProblem(id)" operation="_xH_HYI1kEeGZaJa0E9UYEg"/>
   </packagedElement>
 </uml:Model>
