@@ -14,6 +14,8 @@ package dk.dtu.imm.esculapauml.core.executors;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.eclipse.uml2.uml.Lifeline;
 import org.eclipse.uml2.uml.Message;
@@ -35,7 +37,7 @@ import dk.dtu.imm.esculapauml.core.utils.InteractionUtils;
  */
 public class InteractionSequencer {
 
-	protected Map<Long, Message> sequencer = new HashMap<Long, Message>();
+	protected SortedMap<Long, Message> sequencer = new TreeMap<Long, Message>();
 	// key is reply, call is value
 	protected Map<Message, Message> replies = new HashMap<Message, Message>();
 	protected Map<Lifeline, MessageOccurrenceSpecification> progress = new HashMap<Lifeline, MessageOccurrenceSpecification>();
@@ -53,7 +55,7 @@ public class InteractionSequencer {
 	}
 
 	Message getLastMessageOnLifeline(Lifeline lifeline) {
-		MessageOccurrenceSpecification mos = progress.get(lifeline);
+		MessageOccurrenceSpecification mos = getLastOccurrenceOnLifeline(lifeline);
 		if (null != mos) {
 			mos.getMessage();
 		}
