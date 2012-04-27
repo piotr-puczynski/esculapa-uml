@@ -24,8 +24,8 @@
           <end xmi:id="_o4c6MDJLEeGjS-_RcLljMA"/>
           <end xmi:id="_vfbOMTJLEeGjS-_RcLljMA" role="_vfbOMDJLEeGjS-_RcLljMA"/>
         </ownedConnector>
-        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Piotr" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_Fi0z8DJMEeGjS-_RcLljMA _YIzXoJByEeGrtIUcPM0jpQ _TRXuoJByEeGrtIUcPM0jpQ _SOTS8DJKEeGjS-_RcLljMA"/>
-        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="c" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_Fi1bADJMEeGjS-_RcLljMA _YIyJgJByEeGrtIUcPM0jpQ _TRWggJByEeGrtIUcPM0jpQ _0ZLLYDJLEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_fRnNsDJJEeGjS-_RcLljMA" name="Piotr" represents="_skGXcDJJEeGjS-_RcLljMA" coveredBy="_Fi0z8DJMEeGjS-_RcLljMA _TRXuoJByEeGrtIUcPM0jpQ _YIzXoJByEeGrtIUcPM0jpQ _SOTS8DJKEeGjS-_RcLljMA"/>
+        <lifeline xmi:id="_o900UDJJEeGjS-_RcLljMA" name="c" represents="_vfbOMDJLEeGjS-_RcLljMA" coveredBy="_Fi1bADJMEeGjS-_RcLljMA _TRWggJByEeGrtIUcPM0jpQ _YIyJgJByEeGrtIUcPM0jpQ _0ZLLYDJLEeGjS-_RcLljMA"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_YIyJgJByEeGrtIUcPM0jpQ" name="MessageOccurrenceSpecification5" covered="_o900UDJJEeGjS-_RcLljMA" event="_YIz-sJByEeGrtIUcPM0jpQ" message="_YIz-sZByEeGrtIUcPM0jpQ"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_YIzXoJByEeGrtIUcPM0jpQ" name="MessageOccurrenceSpecification6" covered="_fRnNsDJJEeGjS-_RcLljMA" event="_YIz-sJByEeGrtIUcPM0jpQ" message="_YIz-sZByEeGrtIUcPM0jpQ"/>
         <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_TRWggJByEeGrtIUcPM0jpQ" name="MessageOccurrenceSpecification3" covered="_o900UDJJEeGjS-_RcLljMA" event="_TRY8wJByEeGrtIUcPM0jpQ" message="_TRZj0JByEeGrtIUcPM0jpQ"/>

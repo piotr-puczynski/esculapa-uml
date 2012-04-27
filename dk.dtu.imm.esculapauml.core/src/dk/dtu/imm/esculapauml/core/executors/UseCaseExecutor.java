@@ -338,7 +338,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		logger.info(checkee.getLabel() + ": executor start execution");
 		while (null != currentMessage) {
 			if ((currentMessage.getMessageSort() == MessageSort.REPLY_LITERAL)) {
-				checker.addOtherProblem(Diagnostic.ERROR, "Cannot execute reply message " + currentMessage.getLabel() + "'.", currentMessage);
+				checker.addOtherProblem(Diagnostic.ERROR, "Cannot execute reply message '" + currentMessage.getLabel() + "'.", currentMessage);
 				break;
 			}
 			executeMessage(currentMessage);
