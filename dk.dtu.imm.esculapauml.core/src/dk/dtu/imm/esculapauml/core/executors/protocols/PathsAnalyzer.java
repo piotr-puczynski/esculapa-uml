@@ -58,7 +58,7 @@ public class PathsAnalyzer {
 	 * @param event
 	 */
 	public void preCall(Operation operation, EsculapaCallEvent event) {
-		for (PSMState psmState : states) {
+		for (PSMState psmState : new ArrayList<PSMState>(states)) {
 			psmState.preCall(operation, event);
 		}
 		eliminateDuplicatedAndTerminatedStates();
