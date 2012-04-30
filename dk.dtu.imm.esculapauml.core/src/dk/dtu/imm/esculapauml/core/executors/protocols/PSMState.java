@@ -309,12 +309,12 @@ public class PSMState {
 	 * @param event
 	 */
 	private void fireEvent(Transition transitionToTake, EsculapaCallEvent event) {
-		fireTransition(transitionToTake);
 		if (event.isSynchronousCall()) {
 			synchronousEvents.put(event.getSequenceId(), transitionToTake);
 		} else {
 			validatePostCondition(transitionToTake);
 			if (!isTerminated()) {
+				fireTransition(transitionToTake);
 				recalculateActiveState();
 			}
 		}
@@ -335,6 +335,7 @@ public class PSMState {
 			synchronousEvents.remove(event.getInitiatingCallSequenceNumber());
 			validatePostCondition(transition);
 			if (!isTerminated()) {
+				fireTransition(transition);
 				recalculateActiveState();
 			}
 		}

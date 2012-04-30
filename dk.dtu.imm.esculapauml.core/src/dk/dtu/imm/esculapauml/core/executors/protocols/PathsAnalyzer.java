@@ -85,7 +85,7 @@ public class PathsAnalyzer {
 			executor.setVariable("result", event.getResult(), event.getErrorContext());
 		}
 
-		for (PSMState psmState : states) {
+		for (PSMState psmState : new ArrayList<PSMState>(states)) {
 			psmState.postCall(event);
 		}
 		eliminateDuplicatedAndTerminatedStates();
