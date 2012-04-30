@@ -392,9 +392,8 @@ public class PSMState {
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	
+	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -402,12 +401,11 @@ public class PSMState {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((activeConfiguration == null) ? 0 : activeConfiguration.hashCode());
+		result = prime * result + ((synchronousEvents == null) ? 0 : synchronousEvents.hashCode());
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
@@ -423,6 +421,11 @@ public class PSMState {
 			if (other.activeConfiguration != null)
 				return false;
 		} else if (!activeConfiguration.equals(other.activeConfiguration))
+			return false;
+		if (synchronousEvents == null) {
+			if (other.synchronousEvents != null)
+				return false;
+		} else if (!synchronousEvents.equals(other.synchronousEvents))
 			return false;
 		return true;
 	}
