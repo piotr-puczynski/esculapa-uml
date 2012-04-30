@@ -9,7 +9,7 @@
   <elementImport xmi:id="_Dmpwwmk3EeGnAqvLCl25Lw">
     <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
   </elementImport>
-  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="ToolTest">
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="ToolSystem">
     <packagedElement xmi:type="uml:Package" xmi:id="_LbpecGk0EeGnAqvLCl25Lw" name="CheckIn">
       <packagedElement xmi:type="uml:UseCase" xmi:id="_k23fIGk1EeGnAqvLCl25Lw" name="CheckIn" classifierBehavior="_oRa6cGk1EeGnAqvLCl25Lw">
         <ownedBehavior xmi:type="uml:Interaction" xmi:id="_oRa6cGk1EeGnAqvLCl25Lw" name="CheckInDetail">
@@ -370,7 +370,7 @@
       <protocol xmi:id="_fkwAEJLIEeGhvfMnHf63Qw" name="BarrierToLane Protocol">
         <region xmi:id="_nRC9YJLIEeGhvfMnHf63Qw" name="Region1">
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_n0XF0JLIEeGhvfMnHf63Qw" name=""/>
-          <subvertex xmi:type="uml:State" xmi:id="_o2zaQJLIEeGhvfMnHf63Qw" name="Idle"/>
+          <subvertex xmi:type="uml:State" xmi:id="_o2zaQJLIEeGhvfMnHf63Qw" name="Closed"/>
           <subvertex xmi:type="uml:State" xmi:id="_sVcrYJLIEeGhvfMnHf63Qw" name="Opened"/>
           <transition xmi:id="_qDFAIJLIEeGhvfMnHf63Qw" name="" source="_n0XF0JLIEeGhvfMnHf63Qw" target="_o2zaQJLIEeGhvfMnHf63Qw"/>
           <transition xmi:id="_t6aeFJLIEeGhvfMnHf63Qw" name="Transition1" source="_o2zaQJLIEeGhvfMnHf63Qw" target="_sVcrYJLIEeGhvfMnHf63Qw">

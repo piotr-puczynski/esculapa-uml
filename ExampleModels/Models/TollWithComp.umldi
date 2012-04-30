@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_nABO4GkzEeGnAqvLCl25Lw" activeDiagram="_9JiKQJLhEeGhvfMnHf63Qw">
+<diagrams:Diagrams xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.topcased.org/DI/1.0" xmlns:diagrams="http://www.topcased.org/Diagrams/1.0" xmi:id="_nABO4GkzEeGnAqvLCl25Lw" activeDiagram="_gnqOkZLIEeGhvfMnHf63Qw">
   <model href="TollWithComp.uml#_w8IxIM37EdqwVrslYOdUDA"/>
   <diagrams xmi:id="_nABO4WkzEeGnAqvLCl25Lw" position="0,0" size="100,100" name="TollWithComp" viewport="0,0">
     <property xmi:id="_nAUJ0GkzEeGnAqvLCl25Lw" key="pageFormatName" value="A0"/>
@@ -1084,7 +1084,7 @@
   </subdiagrams>
   <subdiagrams xmi:id="_0XBucZLDEeGhvfMnHf63Qw">
     <model href="TollWithComp.uml#_0XBucJLDEeGhvfMnHf63Qw"/>
-    <diagrams xmi:id="_0XBucpLDEeGhvfMnHf63Qw" position="0,0" size="100,100" name="ToolTest" zoom="0.75" viewport="0,93">
+    <diagrams xmi:id="_0XBucpLDEeGhvfMnHf63Qw" position="0,0" size="100,100" name="ToolTest" viewport="0,0">
       <property xmi:id="_0XbXEJLDEeGhvfMnHf63Qw" key="pageFormatName" value="A0"/>
       <property xmi:id="_0XbXEZLDEeGhvfMnHf63Qw" key="diagramWidth" value="3364"/>
       <property xmi:id="_0XbXEpLDEeGhvfMnHf63Qw" key="diagramHeight" value="4756"/>
