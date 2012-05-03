@@ -42,6 +42,7 @@ import dk.dtu.imm.esculapauml.core.sal.parser.SALAnd;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAssignment;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALAssignmentSelector;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALCall;
+import dk.dtu.imm.esculapauml.core.sal.parser.SALCallAsync;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALCallSelector;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALCollectionExpression;
 import dk.dtu.imm.esculapauml.core.sal.parser.SALDiv;
@@ -354,9 +355,26 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 	 * imm.esculapauml.core.sal.parser.SALCall,
 	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
 	 */
-	@SuppressWarnings("rawtypes")
 	@Override
 	public ValuesCollection visit(SALCall node, SALEvaluationHelper data) {
+		return callOperation(node, data, true);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.sal.parser.SALParserVisitor#visit(dk.dtu.
+	 * imm.esculapauml.core.sal.parser.SALCallAsynch,
+	 * dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper)
+	 */
+	@Override
+	public ValuesCollection visit(SALCallAsync node, SALEvaluationHelper data) {
+		return callOperation(node, data, false);
+	}
+
+	@SuppressWarnings("rawtypes")
+	private ValuesCollection callOperation(SALNode node, SALEvaluationHelper data, boolean isSynchronous) {
 		Object instances = data.getFunctionEvaluationContext();
 		String name = (String) node.jjtGetValue();
 		ValuesCollection result = new ValuesList();
@@ -385,7 +403,8 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 					if (checker.hasErrors()) {
 						return null;
 					}
-					ValuesCollection partResult = executor.callOperation(parent, getInstanceSpecification(), name, arguments, true, trc.getCheckedObject());
+					ValuesCollection partResult = executor.callOperation(parent, getInstanceSpecification(), name, arguments, isSynchronous,
+							trc.getCheckedObject());
 					if (null != partResult) {
 						result.addAll(partResult);
 					}
