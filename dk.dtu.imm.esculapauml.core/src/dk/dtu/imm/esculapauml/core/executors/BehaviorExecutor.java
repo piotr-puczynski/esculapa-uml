@@ -298,7 +298,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	private void executeFromQueue() {
 		if (!eventsQueue.isEmpty()) {
 			EsculapaCallEvent event = eventsQueue.poll();
-			callOperation(event.getSource(), event.getCaller(), event.getOperation(), event.getArguments(), event.isSynchronousCall(), event.getErrorContext());
+			callOperation(event);
 		}
 
 	}

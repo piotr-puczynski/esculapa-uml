@@ -142,7 +142,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// a message (with call event)
 			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline, sequencer);
 			messageGenerator.setOperation(operation);
-			if(!event.isSynchronousCall()) {
+			if (!event.isSynchronousCall()) {
 				messageGenerator.setMessageSort(MessageSort.ASYNCH_CALL_LITERAL);
 			}
 			MessageOccurrenceSpecification mos = InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline);
@@ -160,6 +160,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// check if operation and lifelines are the same
 			message = getNextMessage(currentMessage);
 			if (null == message || InteractionUtils.getMessageOperation(message) != operation
+					|| (message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL) != event.isSynchronousCall()
 					|| InteractionUtils.getMessageSourceLifeline(message) != sourceLifeline
 					|| InteractionUtils.getMessageTargetLifeline(message) != targetLifeline
 					|| !areArgumentsEqual(message.getArguments(), event.getArguments().getFlattened())) {
@@ -167,7 +168,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				// we need to generate a new message
 				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline, sequencer);
 				messageGenerator.setOperation(operation);
-				if(!event.isSynchronousCall()) {
+				if (!event.isSynchronousCall()) {
 					messageGenerator.setMessageSort(MessageSort.ASYNCH_CALL_LITERAL);
 				}
 				messageGenerator.setGenerateNewBESForSent(hasToGenerateNewBES(currentMessage, sourceLifeline));

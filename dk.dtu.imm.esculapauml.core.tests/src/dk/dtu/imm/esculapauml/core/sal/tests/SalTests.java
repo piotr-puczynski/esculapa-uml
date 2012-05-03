@@ -187,6 +187,32 @@ public class SalTests {
 	}
 
 	@Test
+	public void parseAsynch() throws ParseException {
+		SALParser parser = new SALParser("async:f(true, 123)");
+
+		SALNode root = parser.parse();
+		// root.dump("");
+
+		assertNotNull(root);
+		assertEquals(1, root.jjtGetNumChildren());
+
+		SALNode call = root.getChild(0);
+		assertEquals(SALParserTreeConstants.JJTCALLASYNC, call.getId());
+		assertEquals(2, call.jjtGetNumChildren());
+		assertEquals("f", call.jjtGetValue());
+
+		SALNode arg1 = call.getChild(0);
+
+		assertEquals(SALParserTreeConstants.JJTLOGICCONSTANT, arg1.getId());
+		assertEquals(true, arg1.jjtGetValue());
+
+		SALNode arg2 = call.getChild(1);
+		assertEquals(SALParserTreeConstants.JJTINTEGERCONSTANT, arg2.getId());
+		assertEquals(123, arg2.jjtGetValue());
+
+	}
+
+	@Test
 	public void parseMemberFunction() throws ParseException {
 		SALParser parser = new SALParser("obj1.member2(123, \"str\")");
 
