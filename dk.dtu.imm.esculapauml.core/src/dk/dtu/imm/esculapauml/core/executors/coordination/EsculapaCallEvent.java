@@ -12,6 +12,7 @@
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
 import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.InstanceSpecification;
 import org.eclipse.uml2.uml.Operation;
 
 import dk.dtu.imm.esculapauml.core.collections.CallArguments;
@@ -33,18 +34,27 @@ public class EsculapaCallEvent extends EsculapaEvent {
 	private InstanceExecutor target;
 	private boolean isSynchronousCall;
 	private CallArguments arguments;
+	private InstanceSpecification caller;
 
 	/**
 	 * @param source
 	 * @param arguments
 	 */
-	public EsculapaCallEvent(Object source, Element errorContext, InstanceExecutor target, Operation operation, CallArguments arguments,
-			boolean isSynchronousCall) {
+	public EsculapaCallEvent(Object source, Element errorContext, InstanceSpecification caller, InstanceExecutor target, Operation operation,
+			CallArguments arguments, boolean isSynchronousCall) {
 		super(source, errorContext);
 		this.operation = operation;
 		this.target = target;
 		this.arguments = arguments;
+		this.caller = caller;
 		setSynchronousCall(isSynchronousCall);
+	}
+
+	/**
+	 * @return the caller
+	 */
+	public InstanceSpecification getCaller() {
+		return caller;
 	}
 
 	/**

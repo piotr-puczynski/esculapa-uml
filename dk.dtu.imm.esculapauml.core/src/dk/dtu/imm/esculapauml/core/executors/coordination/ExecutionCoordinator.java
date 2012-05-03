@@ -46,9 +46,12 @@ public class ExecutionCoordinator {
 	 * @param callEvent
 	 */
 	public void fireEvent(EsculapaCallEvent callEvent) {
-		assignSequenceNumber(callEvent);
-		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
-			listener.callEventOccurred(callEvent);
+		if (!callEvent.isSent()) {
+			assignSequenceNumber(callEvent);
+			callEvent.setSent(true);
+			for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
+				listener.callEventOccurred(callEvent);
+			}
 		}
 	}
 
@@ -58,9 +61,12 @@ public class ExecutionCoordinator {
 	 * @param replyEvent
 	 */
 	public void fireEvent(EsculapaReplyEvent replyEvent) {
-		assignSequenceNumber(replyEvent);
-		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
-			listener.replyEventOccurred(replyEvent);
+		if (!replyEvent.isSent()) {
+			assignSequenceNumber(replyEvent);
+			replyEvent.setSent(true);
+			for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
+				listener.replyEventOccurred(replyEvent);
+			}
 		}
 	}
 
@@ -70,9 +76,12 @@ public class ExecutionCoordinator {
 	 * @param replyEvent
 	 */
 	public void fireEvent(EsculapaCallReturnControlEvent controlEvent) {
-		assignSequenceNumber(controlEvent);
-		for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
-			listener.callReturnControlEventOccurred(controlEvent);
+		if (!controlEvent.isSent()) {
+			assignSequenceNumber(controlEvent);
+			controlEvent.setSent(true);
+			for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
+				listener.callReturnControlEventOccurred(controlEvent);
+			}
 		}
 	}
 }

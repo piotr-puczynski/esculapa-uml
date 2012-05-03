@@ -29,6 +29,7 @@ public abstract class EsculapaEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 	private long sequenceId;
 	private Element errorContext;
+	private boolean isSent = false;
 
 	/**
 	 * @param source
@@ -58,6 +59,20 @@ public abstract class EsculapaEvent extends EventObject {
 	 */
 	public Element getErrorContext() {
 		return errorContext;
+	}
+
+	/**
+	 * @return the wasSent
+	 */
+	public boolean isSent() {
+		return isSent;
+	}
+
+	/**
+	 * @param wasSent the wasSent to set
+	 */
+	public void setSent(boolean isSent) {
+		this.isSent = isSent;
 	}
 
 }

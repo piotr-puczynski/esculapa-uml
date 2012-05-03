@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Set;
 
 import org.apache.log4j.Level;
@@ -74,6 +76,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	protected StateMachine checkee;
 	protected BehaviorChecker checker;
 	protected boolean isExecuting = false;
+	protected Queue<EsculapaCallEvent> eventsQueue = new LinkedList<EsculapaCallEvent>();
 
 	protected static Predicate<Transition> isCompletionTransition = new Predicate<Transition>() {
 		public boolean apply(Transition item) {
@@ -204,73 +207,78 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	public ValuesCollection callOperation(Object source, InstanceSpecification caller, Operation operation, CallArguments arguments, boolean isSynchronous,
 			Element errorContext) {
-		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + operation.getLabel());
-		checkOperationConformance(caller, operation, errorContext);
+		return callOperation(new EsculapaCallEvent(source, errorContext, caller, this, operation, arguments, isSynchronous));
+	}
+	
+	private ValuesCollection callOperation(EsculapaCallEvent event) {
+		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + event.getOperation().getLabel());
+		checkOperationConformance(event.getCaller(), event.getOperation(), event.getErrorContext());
 		if (checker.hasErrors()) {
 			return null;
 		}
-		if (isSynchronous && StateMachineUtils.isQueryOperation(operation)) {
-			return callQueryOperation(source, caller, operation, arguments, isSynchronous, errorContext);
+		if (event.isSynchronousCall() && StateMachineUtils.isQueryOperation(event.getOperation())) {
+			return callQueryOperation(event);
 		}
 		if (isExecuting) {
 			// self-call error
-			if (isSynchronous) {
+			if (event.isSynchronousCall()) {
 				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName() + "\" cannot accept self-calls of \""
-						+ operation.getLabel() + "\" that is not query operation.", errorContext);
+						+ event.getOperation().getLabel() + "\" that is not query operation.", event.getErrorContext());
 				return null;
 			} else {
-				// TODO place event in queue
+				checker.getSystemState().getCoordinator().fireEvent(event);
+				// place event in the queue
+				addToEventsQueue(event);
+				return null;
 			}
 		} else {
-			// TODO execute everything asynchronous from queue
 			isExecuting = true;
 		}
 		try {
-			Transition goodTransition = getEnabledTransitionForOperation(operation, arguments, errorContext);
+			Transition goodTransition = getEnabledTransitionForOperation(event.getOperation(), event.getArguments(), event.getErrorContext());
 			if (checker.hasErrors()) {
 				return null;
 			}
 			if (null == goodTransition) {
-				if (isSynchronous) {
+				if (event.isSynchronousCall()) {
 					checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is not ready to respond to an event '"
-							+ operation.getLabel() + "'.", errorContext);
+							+ event.getOperation().getLabel() + "'.", event.getErrorContext());
 				} else {
 					// warning, the machine is not able to process an operation
 					// event
 					checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName()
-							+ "\" is not ready for an event \"" + operation.getLabel() + "\". Event is lost.", errorContext);
+							+ "\" is not ready for an event \"" + event.getOperation().getLabel() + "\". Event is lost.", event.getErrorContext());
 					// asynchronous call returns immediately
-					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
+					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
 					checker.getSystemState().getCoordinator().fireEvent(ecrce);
 				}
 			} else {
 				// dispatch new execution event
-				EsculapaCallEvent ece = new EsculapaCallEvent(source, errorContext, this, operation, arguments, isSynchronous);
-				checker.getSystemState().getCoordinator().fireEvent(ece);
+				checker.getSystemState().getCoordinator().fireEvent(event);
 				if (checker.hasErrors()) {
 					return null;
 				}
-				if (!isSynchronous) {
+				if (!event.isSynchronousCall()) {
 					// asynchronous call returns immediately
-					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
+					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
 					checker.getSystemState().getCoordinator().fireEvent(ecrce);
 				}
 
-				TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, operation);
+				TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, event.getOperation());
 				// only synchronous calls can have a reply
-				trc.setAcceptReplies(isSynchronous);
+				trc.setAcceptReplies(event.isSynchronousCall());
 				fireTransition(trc);
 				// dispatch completion event
 				recalculateActiveState(trc);
 				ValuesCollection result = trc.getReply();
 				trc.check();
 
-				if (isSynchronous && !trc.hasErrors()) {
+				if (event.isSynchronousCall() && !trc.hasErrors()) {
 					// dispatch new reply event
-					EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, result, ece.getSequenceId());
+					EsculapaReplyEvent ere = new EsculapaReplyEvent(this, event.getErrorContext(), event.getOperation(), result, event.getSequenceId());
 					checker.getSystemState().getCoordinator().fireEvent(ere);
 					// synchronous control flow returned here
-					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
+					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
 					checker.getSystemState().getCoordinator().fireEvent(ecrce);
 					return result;
 				}
@@ -278,7 +286,29 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			return null;
 		} finally {
 			isExecuting = false;
+			if (!checker.hasErrors()) {
+				executeFromQueue();
+			}
 		}
+	}
+
+	/**
+	 * 
+	 */
+	private void executeFromQueue() {
+		if (!eventsQueue.isEmpty()) {
+			EsculapaCallEvent event = eventsQueue.poll();
+			callOperation(event.getSource(), event.getCaller(), event.getOperation(), event.getArguments(), event.isSynchronousCall(), event.getErrorContext());
+		}
+
+	}
+
+	/**
+	 * @param esculapaCallEvent
+	 */
+	private void addToEventsQueue(EsculapaCallEvent callEvent) {
+		eventsQueue.offer(callEvent);
+
 	}
 
 	/**
@@ -292,35 +322,33 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * @param errorContext
 	 * @return
 	 */
-	private ValuesCollection callQueryOperation(Object source, InstanceSpecification caller, Operation operation, CallArguments arguments,
-			boolean isSynchronous, Element errorContext) {
+	private ValuesCollection callQueryOperation(EsculapaCallEvent event) {
 		// asynchronous query operation does not make sense (it must return
 		// result) so it must be synchronous
-		OpaqueExpression oe = (OpaqueExpression) operation.getBodyCondition().getSpecification();
-		preprocessOperationArguments(operation, arguments, errorContext);
+		OpaqueExpression oe = (OpaqueExpression) event.getOperation().getBodyCondition().getSpecification();
+		preprocessOperationArguments(event.getOperation(), event.getArguments(), event.getErrorContext());
 		if (checker.hasErrors()) {
 			return null;
 		}
-		EsculapaCallEvent ece = new EsculapaCallEvent(source, errorContext, this, operation, arguments, isSynchronous);
-		checker.getSystemState().getCoordinator().fireEvent(ece);
+		checker.getSystemState().getCoordinator().fireEvent(event);
 		if (checker.hasErrors()) {
 			return null;
 		}
 		OCLEvaluator ocl = checker.getSystemState().getOcl();
 		ocl.setDebug(logger.getEffectiveLevel() == Level.DEBUG);
-		Object result = ocl.evaluate(checker, getInstanceSpecification(), errorContext, oe.getBodies().get(0));
+		Object result = ocl.evaluate(checker, getInstanceSpecification(), event.getErrorContext(), oe.getBodies().get(0));
 		if (ocl.hasErrors()) {
 			return null;
 		}
 		ValuesCollection umlResult = new ValuesList();
 		try {
-			umlResult.addFromOCL(result, checker, errorContext);
+			umlResult.addFromOCL(result, checker, event.getErrorContext());
 		} catch (OCLConversionException e) {
 			checker.addProblem(Diagnostic.ERROR, "OCL query operation returned value that couldn't be converted to UML: " + e.getOclValue().toString());
 		}
-		EsculapaReplyEvent ere = new EsculapaReplyEvent(this, errorContext, operation, umlResult, ece.getSequenceId());
+		EsculapaReplyEvent ere = new EsculapaReplyEvent(this, event.getErrorContext(), event.getOperation(), umlResult, event.getSequenceId());
 		checker.getSystemState().getCoordinator().fireEvent(ere);
-		EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, errorContext, operation);
+		EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
 		checker.getSystemState().getCoordinator().fireEvent(ecrce);
 		return umlResult;
 	}
