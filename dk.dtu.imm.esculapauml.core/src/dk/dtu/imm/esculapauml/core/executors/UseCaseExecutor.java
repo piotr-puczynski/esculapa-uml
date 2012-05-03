@@ -142,6 +142,9 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			// a message (with call event)
 			MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline, sequencer);
 			messageGenerator.setOperation(operation);
+			if(!event.isSynchronousCall()) {
+				messageGenerator.setMessageSort(MessageSort.ASYNCH_CALL_LITERAL);
+			}
 			MessageOccurrenceSpecification mos = InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline);
 			messageGenerator.setSentGenerateAfter(mos);
 			// generate new bes only when the last reply message was for the
@@ -164,6 +167,9 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				// we need to generate a new message
 				MessageGenerator messageGenerator = new MessageGenerator(checker, sourceLifeline, targetLifeline, sequencer);
 				messageGenerator.setOperation(operation);
+				if(!event.isSynchronousCall()) {
+					messageGenerator.setMessageSort(MessageSort.ASYNCH_CALL_LITERAL);
+				}
 				messageGenerator.setGenerateNewBESForSent(hasToGenerateNewBES(currentMessage, sourceLifeline));
 				messageGenerator.setSentGenerateAfter(InteractionUtils.getLastMessageEventOnLifeline(currentMessage, sourceLifeline));
 				if (sourceLifeline == targetLifeline) {
