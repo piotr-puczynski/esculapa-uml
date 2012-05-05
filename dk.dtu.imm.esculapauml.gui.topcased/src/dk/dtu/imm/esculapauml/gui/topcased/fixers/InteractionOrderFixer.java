@@ -110,7 +110,8 @@ public class InteractionOrderFixer {
 						EObject object = Utils.getElement(messageEdge);
 						if (object instanceof Message) {
 							Message message = (Message) object;
-							if (Utils.getSource(messageEdge) == besNode) {
+							// if (Utils.getSource(messageEdge) == besNode) {
+							if (messageEdge.getAnchor().indexOf(gc) == 0) { // source
 								// this is send occurrence
 								MessageEnd messageEnd = message.getSendEvent();
 								if (messageEnd instanceof MessageOccurrenceSpecification) {
@@ -122,7 +123,9 @@ public class InteractionOrderFixer {
 									l.add((InteractionFragment) messageEnd);
 								}
 							} else {
-								if (Utils.getTarget(messageEdge) == besNode) {
+								// if (Utils.getTarget(messageEdge) == besNode)
+								// {
+								if (messageEdge.getAnchor().indexOf(gc) == 1) { // target
 									// this is receive occurrence
 									MessageEnd messageEnd = message.getReceiveEvent();
 									if (messageEnd instanceof MessageOccurrenceSpecification) {
@@ -178,6 +181,5 @@ public class InteractionOrderFixer {
 	public boolean hadFixedErrors() {
 		return hadFixedErrors;
 	}
-
 
 }
