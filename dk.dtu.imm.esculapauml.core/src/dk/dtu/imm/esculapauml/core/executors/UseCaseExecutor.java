@@ -50,6 +50,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
+import dk.dtu.imm.esculapauml.core.executors.termination.ExecutionTerminator;
 import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
 import dk.dtu.imm.esculapauml.core.generators.MessageGenerator;
 import dk.dtu.imm.esculapauml.core.states.SystemState;
@@ -101,6 +102,9 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		logger.debug(checkee.getLabel() + ": executor preparation");
 		// register listener
 		systemState.getCoordinator().addExecutionListener(this);
+		// prepare terminator
+		new ExecutionTerminator(this);
+		
 		currentMessage = getFirstMessage();
 
 	}
@@ -204,6 +208,14 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		Message firstMessageOnBES = ((MessageOccurrenceSpecification) currentBES.getStart()).getMessage();
 		return previousMessage.getMessageSort() == MessageSort.REPLY_LITERAL && sequencer.getCallFor(previousMessage) == firstMessageOnBES;
 	}
+	
+	/**
+	 * @return the checkee
+	 */
+	public Interaction getInteraction() {
+		return checkee;
+	}
+
 
 	/**
 	 * Checks if the arguments are the same.
