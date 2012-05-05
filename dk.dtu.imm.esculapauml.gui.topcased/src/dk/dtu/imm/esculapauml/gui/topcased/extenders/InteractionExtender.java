@@ -432,7 +432,7 @@ public class InteractionExtender implements ExtenderInterface {
 			if (object instanceof EModelElement) {
 				EAnnotation annotation = UML2Util.getEAnnotation((EModelElement) object, AbstractChecker.ESCULAPA_NAMESPACE, false);
 				if (null != annotation) {
-					if (annotation.getDetails().get("generated").equals("true")) {
+					if (null != annotation.getDetails().get("generated") && annotation.getDetails().get("generated").equals("true")) {
 						if (null == annotation.getDetails().get("topcased-ploted") || !annotation.getDetails().get("topcased-ploted").equals("true")) {
 							// supported elements
 							if (object instanceof Lifeline || object instanceof Message || object instanceof BehaviorExecutionSpecification) {
@@ -456,8 +456,9 @@ public class InteractionExtender implements ExtenderInterface {
 		if (object instanceof EModelElement) {
 			EAnnotation annotation = UML2Util.getEAnnotation((EModelElement) object, AbstractChecker.ESCULAPA_NAMESPACE, false);
 			if (null != annotation) {
-				if (annotation.getDetails().get("generated").equals("true")) {
-					return true;
+				String detail = annotation.getDetails().get("generated");
+				if (null != detail) {
+					return detail.equals("true");
 				}
 			}
 		}

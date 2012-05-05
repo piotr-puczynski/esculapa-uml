@@ -317,8 +317,9 @@ public class SystemState {
 	public boolean wasGenerated(Element element) {
 		EAnnotation annotation = UML2Util.getEAnnotation(element, AbstractChecker.ESCULAPA_NAMESPACE, false);
 		if (null != annotation) {
-			if (annotation.getDetails().get("generated").equals("true")) {
-				return true;
+			String detail = annotation.getDetails().get("generated");
+			if (null != detail) {
+				return detail.equals("true");
 			}
 		}
 		return false;
