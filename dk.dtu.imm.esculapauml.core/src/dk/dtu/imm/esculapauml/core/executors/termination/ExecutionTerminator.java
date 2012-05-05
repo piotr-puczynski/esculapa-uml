@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.termination;
 
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Element;
@@ -34,9 +35,15 @@ public class ExecutionTerminator implements ExecutionListener {
 
 	private UseCaseExecutor executor;
 	// used to specify global maximum number of events during execution
-	private int maxGlobalEvents = -1;
+	private long maxGlobalEvents = -1;
 	// used to specify maximum number of repetitive subsequent events
-	private int maxRepetitiveSubsequentEvents = -1;
+	private long maxRepetitiveSubsequentEvents = -1;
+
+	private long numberOfExecutedEvents = 0;
+
+	private EsculapaCallEvent lastEvent = null;
+
+	private long numberOfRepetitiveEvents = 0;
 
 	/**
 	 * @param useCaseExecutor
@@ -46,7 +53,20 @@ public class ExecutionTerminator implements ExecutionListener {
 
 		// check our options
 		readOptions(executor.getInteraction());
+		if (isActive(maxGlobalEvents) || isActive(maxRepetitiveSubsequentEvents)) {
+			// we are active, register us as listener
+			executor.getChecker().getSystemState().getCoordinator().addExecutionListener(this);
+		}
+	}
 
+	/**
+	 * checks if option is active (is set)
+	 * 
+	 * @param option
+	 * @return
+	 */
+	private boolean isActive(long option) {
+		return option > -1L;
 	}
 
 	/**
@@ -59,11 +79,33 @@ public class ExecutionTerminator implements ExecutionListener {
 		if (null != annotation) {
 			String detail = annotation.getDetails().get("max-global-events");
 			if (null != detail) {
-				int maxGlobalEvents = Integer.getInteger(detail, -1);
-				if(maxGlobalEvents < 0) {
-					
+				long maxGlobalEvents;
+				try {
+					maxGlobalEvents = Long.parseLong(detail);
+				} catch (NumberFormatException ex) {
+					maxGlobalEvents = -1L;
+				}
+				if (!isActive(maxGlobalEvents)) {
+					executor.getChecker().addOtherProblem(Diagnostic.CANCEL, "Value of 'max-global-events' option is not correct (must be greater than 0).",
+							annotation);
 				} else {
 					this.maxGlobalEvents = maxGlobalEvents;
+				}
+			}
+
+			detail = annotation.getDetails().get("max-repetitive-subsequent-events");
+			if (null != detail) {
+				long maxRepetitiveSubsequentEvents;
+				try {
+					maxRepetitiveSubsequentEvents = Long.parseLong(detail);
+				} catch (NumberFormatException ex) {
+					maxRepetitiveSubsequentEvents = -1L;
+				}
+				if (!isActive(maxRepetitiveSubsequentEvents)) {
+					executor.getChecker().addOtherProblem(Diagnostic.CANCEL,
+							"Value of 'max-repetitive-subsequent-events' option is not correct (must be greater than 0).", annotation);
+				} else {
+					this.maxRepetitiveSubsequentEvents = maxRepetitiveSubsequentEvents;
 				}
 			}
 		}
@@ -79,8 +121,39 @@ public class ExecutionTerminator implements ExecutionListener {
 	 */
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
-		// TODO Auto-generated method stub
+		if (isActive(maxGlobalEvents)) {
+			if (++numberOfExecutedEvents > maxGlobalEvents) {
+				executor.getChecker().addOtherProblem(Diagnostic.CANCEL, "Value of 'max-global-events' has been exceeded. The execution is stopped.",
+						executor.getInteraction());
+			}
+		}
 
+		if (isActive(maxRepetitiveSubsequentEvents)) {
+			if (null == lastEvent) {
+				resetLastEvent(event);
+			} else {
+				if (lastEvent.getOperation() == event.getOperation() && lastEvent.getSource() == event.getSource()) {
+					++numberOfRepetitiveEvents;
+				} else {
+					resetLastEvent(event);
+				}
+			}
+
+			if (numberOfRepetitiveEvents > maxRepetitiveSubsequentEvents) {
+				executor.getChecker().addOtherProblem(Diagnostic.CANCEL,
+						"Value of 'max-repetitive-subsequent-events' has been exceeded. The execution is stopped.", executor.getInteraction());
+			}
+
+		}
+
+	}
+
+	/**
+	 * @param event
+	 */
+	private void resetLastEvent(EsculapaCallEvent event) {
+		lastEvent = event;
+		numberOfRepetitiveEvents = 0;
 	}
 
 	/*
@@ -93,7 +166,7 @@ public class ExecutionTerminator implements ExecutionListener {
 	 */
 	@Override
 	public void replyEventOccurred(EsculapaReplyEvent event) {
-		// TODO Auto-generated method stub
+		// ignore
 
 	}
 
@@ -108,7 +181,7 @@ public class ExecutionTerminator implements ExecutionListener {
 	 */
 	@Override
 	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
-		// TODO Auto-generated method stub
+		// ignore
 
 	}
 
