@@ -206,7 +206,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			Element errorContext) {
 		EsculapaCallEvent event = new EsculapaCallEvent(source, errorContext, caller, this, operation, arguments, isSynchronous);
 		if (isSynchronous) {
-			return callOperation(event);
+			return checker.getSystemState().getScheduler().executeSynchronousCallInQueue(event);
 		} else {
 			checker.getSystemState().getCoordinator().fireEvent(event);
 			EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event);

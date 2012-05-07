@@ -11,13 +11,16 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.scheduler;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
+import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 
 /**
- * Schedules the execution of the asynchronous events in the system.
+ * Schedules the execution of the events in the system.
  * 
  * @author Piotr J. Puczynski
  * 
@@ -25,10 +28,12 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 public class Scheduler {
 
 	protected Queue<EsculapaCallEvent> eventsQueue = new LinkedList<EsculapaCallEvent>();
+	private Map<EsculapaCallEvent, ValuesCollection> results = new HashMap<EsculapaCallEvent, ValuesCollection>();
 
 	public void enqueue(EsculapaCallEvent event) {
 		eventsQueue.offer(event);
 	}
+	
 
 	/**
 	 * Executes the first event from the queue. We do not need looping here, it
@@ -37,9 +42,25 @@ public class Scheduler {
 	public void executeFromQueue() {
 		if (!eventsQueue.isEmpty()) {
 			EsculapaCallEvent event = eventsQueue.poll();
-			event.getTarget().callOperation(event);
+			ValuesCollection result = event.getTarget().callOperation(event);
+			if(results.containsKey(event)) {
+				results.put(event, result);
+			}
 		}
-
+	}
+	
+	/**
+	 * Executes the synchronous call in the queue and returns its value.
+	 */
+	public ValuesCollection executeSynchronousCallInQueue(EsculapaCallEvent event) {
+		enqueue(event);
+		results.put(event, null);
+		while(eventsQueue.contains(event)) {
+			executeFromQueue();
+		}
+		ValuesCollection result = results.get(event);
+		results.remove(event);
+		return result;
 	}
 
 }
