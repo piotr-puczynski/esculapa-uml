@@ -62,6 +62,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
 import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
+import dk.dtu.imm.esculapauml.core.states.SystemState;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
 
 /**
@@ -73,6 +74,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	protected Set<Vertex> activeConfiguration = new HashSet<Vertex>();
 	protected StateMachine checkee;
 	protected BehaviorChecker checker;
+	protected SystemState systemState;
 	protected boolean isExecuting = false;
 
 	protected static Predicate<Transition> isCompletionTransition = new Predicate<Transition>() {
@@ -87,6 +89,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	public BehaviorExecutor(BehaviorChecker checker, String instanceName) {
 		super(checker, instanceName, (Class) checker.getCheckedObject().getContext());
 		this.checker = checker;
+		systemState = checker.getSystemState();
 		checkee = checker.getCheckedObject();
 		logger = Logger.getLogger(BehaviorExecutor.class);
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
@@ -99,6 +102,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	public BehaviorExecutor(BehaviorChecker checker, InstanceSpecification instanceSpecification) {
 		super(checker, instanceSpecification, (Class) checker.getCheckedObject().getContext());
 		this.checker = checker;
+		systemState = checker.getSystemState();
 		checkee = checker.getCheckedObject();
 		logger = Logger.getLogger(BehaviorExecutor.class);
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
@@ -206,12 +210,12 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			Element errorContext) {
 		EsculapaCallEvent event = new EsculapaCallEvent(source, errorContext, caller, this, operation, arguments, isSynchronous);
 		if (isSynchronous) {
-			return checker.getSystemState().getScheduler().executeSynchronousCallInQueue(event);
+			return systemState.getScheduler().executeSynchronousCallInQueue(event);
 		} else {
-			checker.getSystemState().getCoordinator().fireEvent(event);
+			systemState.getCoordinator().fireEvent(event);
 			EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event);
-			checker.getSystemState().getCoordinator().fireEvent(ecrce);
-			checker.getSystemState().getScheduler().enqueue(event);
+			systemState.getCoordinator().fireEvent(ecrce);
+			systemState.getScheduler().enqueue(event);
 			return null;
 		}
 	}
@@ -254,7 +258,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				}
 			} else {
 				// dispatch new execution event
-				checker.getSystemState().getCoordinator().fireEvent(event);
+				systemState.getCoordinator().fireEvent(event);
 				if (checker.hasErrors()) {
 					return null;
 				}
@@ -271,10 +275,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				if (event.isSynchronousCall() && !trc.hasErrors()) {
 					// dispatch new reply event
 					EsculapaReplyEvent ere = new EsculapaReplyEvent(this, event, result);
-					checker.getSystemState().getCoordinator().fireEvent(ere);
+					systemState.getCoordinator().fireEvent(ere);
 					// synchronous control flow returned here
 					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event);
-					checker.getSystemState().getCoordinator().fireEvent(ecrce);
+					systemState.getCoordinator().fireEvent(ecrce);
 					return result;
 				}
 			}
@@ -282,7 +286,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		} finally {
 			isExecuting = false;
 			if (!checker.hasErrors()) {
-				checker.getSystemState().getScheduler().executeFromQueue();
+				systemState.getScheduler().executeFromQueue();
 			}
 		}
 	}
@@ -306,7 +310,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		if (checker.hasErrors()) {
 			return null;
 		}
-		checker.getSystemState().getCoordinator().fireEvent(event);
+		systemState.getCoordinator().fireEvent(event);
 		if (checker.hasErrors()) {
 			return null;
 		}
@@ -323,9 +327,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			checker.addProblem(Diagnostic.ERROR, "OCL query operation returned value that couldn't be converted to UML: " + e.getOclValue().toString());
 		}
 		EsculapaReplyEvent ere = new EsculapaReplyEvent(this, event, umlResult);
-		checker.getSystemState().getCoordinator().fireEvent(ere);
+		systemState.getCoordinator().fireEvent(ere);
 		EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event);
-		checker.getSystemState().getCoordinator().fireEvent(ecrce);
+		systemState.getCoordinator().fireEvent(ecrce);
 		return umlResult;
 	}
 
