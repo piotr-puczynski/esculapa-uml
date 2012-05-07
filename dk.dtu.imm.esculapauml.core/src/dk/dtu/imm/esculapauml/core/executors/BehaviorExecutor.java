@@ -209,6 +209,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			return callOperation(event);
 		} else {
 			checker.getSystemState().getCoordinator().fireEvent(event);
+			EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
+			checker.getSystemState().getCoordinator().fireEvent(ecrce);
 			checker.getSystemState().getScheduler().enqueue(event);
 			return null;
 		}
@@ -250,19 +252,13 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 					checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName()
 							+ "\" is not ready for an event \"" + event.getOperation().getLabel() + "\". Event is lost.", event.getErrorContext());
 					// asynchronous call returns immediately
-					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
-					checker.getSystemState().getCoordinator().fireEvent(ecrce);
+					
 				}
 			} else {
 				// dispatch new execution event
 				checker.getSystemState().getCoordinator().fireEvent(event);
 				if (checker.hasErrors()) {
 					return null;
-				}
-				if (!event.isSynchronousCall()) {
-					// asynchronous call returns immediately
-					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
-					checker.getSystemState().getCoordinator().fireEvent(ecrce);
 				}
 
 				TransitionReplyChecker trc = new TransitionReplyChecker(checker, goodTransition, event.getOperation());
