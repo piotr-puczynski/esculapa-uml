@@ -359,6 +359,15 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			if ((currentMessage.getMessageSort() == MessageSort.REPLY_LITERAL)) {
 				checker.addOtherProblem(Diagnostic.ERROR, "Cannot execute reply message '" + currentMessage.getLabel() + "'.", currentMessage);
 				break;
+			}  else {
+				Lifeline lifeline = InteractionUtils.getMessageSourceLifeline(currentMessage);
+				if (null != lifeline) {
+					if (!(lifeline.getRepresents().getType() instanceof Actor)) {
+						checker.addOtherProblem(Diagnostic.ERROR, "Cannot execute message not from actor in interaction: '" + currentMessage.getLabel() + "'.",
+								currentMessage);
+						break;
+					}
+				}
 			}
 			executeMessage(currentMessage);
 			if (checker.hasErrors()) {
