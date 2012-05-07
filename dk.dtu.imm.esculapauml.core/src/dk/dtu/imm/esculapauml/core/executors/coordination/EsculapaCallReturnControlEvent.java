@@ -11,7 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Operation;
 
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
@@ -29,13 +28,17 @@ public class EsculapaCallReturnControlEvent extends EsculapaEvent {
 	 */
 	private static final long serialVersionUID = 1L;
 	private Operation operation;
+	private long initiatingCallSequenceNumber;
+
 
 	/**
-	 * @param source
+	 * @param behaviorExecutor
+	 * @param event
 	 */
-	public EsculapaCallReturnControlEvent(InstanceExecutor source, Element errorContext, Operation operation) {
-		super(source, errorContext);
-		this.operation = operation;
+	public EsculapaCallReturnControlEvent(InstanceExecutor source, EsculapaCallEvent event) {
+		super(source, event.getErrorContext());
+		this.operation = event.getOperation();
+		this.initiatingCallSequenceNumber = event.getSequenceId();
 	}
 
 	public InstanceExecutor getSource() {
@@ -47,5 +50,12 @@ public class EsculapaCallReturnControlEvent extends EsculapaEvent {
 	 */
 	public Operation getOperation() {
 		return operation;
+	}
+
+	/**
+	 * @return the initiatingCallSequenceNumber
+	 */
+	public long getInitiatingCallSequenceNumber() {
+		return initiatingCallSequenceNumber;
 	}
 }

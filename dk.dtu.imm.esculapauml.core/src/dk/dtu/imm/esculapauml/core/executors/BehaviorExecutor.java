@@ -209,7 +209,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			return callOperation(event);
 		} else {
 			checker.getSystemState().getCoordinator().fireEvent(event);
-			EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
+			EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event);
 			checker.getSystemState().getCoordinator().fireEvent(ecrce);
 			checker.getSystemState().getScheduler().enqueue(event);
 			return null;
@@ -251,8 +251,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 					// event
 					checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName()
 							+ "\" is not ready for an event \"" + event.getOperation().getLabel() + "\". Event is lost.", event.getErrorContext());
-					// asynchronous call returns immediately
-					
 				}
 			} else {
 				// dispatch new execution event
@@ -272,10 +270,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 
 				if (event.isSynchronousCall() && !trc.hasErrors()) {
 					// dispatch new reply event
-					EsculapaReplyEvent ere = new EsculapaReplyEvent(this, event.getErrorContext(), event.getOperation(), result, event.getSequenceId());
+					EsculapaReplyEvent ere = new EsculapaReplyEvent(this, event, result);
 					checker.getSystemState().getCoordinator().fireEvent(ere);
 					// synchronous control flow returned here
-					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
+					EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event);
 					checker.getSystemState().getCoordinator().fireEvent(ecrce);
 					return result;
 				}
@@ -324,9 +322,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		} catch (OCLConversionException e) {
 			checker.addProblem(Diagnostic.ERROR, "OCL query operation returned value that couldn't be converted to UML: " + e.getOclValue().toString());
 		}
-		EsculapaReplyEvent ere = new EsculapaReplyEvent(this, event.getErrorContext(), event.getOperation(), umlResult, event.getSequenceId());
+		EsculapaReplyEvent ere = new EsculapaReplyEvent(this, event, umlResult);
 		checker.getSystemState().getCoordinator().fireEvent(ere);
-		EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event.getErrorContext(), event.getOperation());
+		EsculapaCallReturnControlEvent ecrce = new EsculapaCallReturnControlEvent(this, event);
 		checker.getSystemState().getCoordinator().fireEvent(ecrce);
 		return umlResult;
 	}

@@ -341,10 +341,11 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 	@Override
 	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
 		if (!callStack.isEmpty()) {
-			if (callStack.peek().getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
-				executedAssynchMessages.add(0, callStack.peek());
+			Message callMessage = sequencer.getMessageWithSequence(event.getInitiatingCallSequenceNumber());
+			if (callMessage.getMessageSort() == MessageSort.ASYNCH_CALL_LITERAL) {
+				executedAssynchMessages.add(0, callMessage);
 			}
-			callStack.pop();
+			callStack.remove(callMessage);
 		}
 
 	}
