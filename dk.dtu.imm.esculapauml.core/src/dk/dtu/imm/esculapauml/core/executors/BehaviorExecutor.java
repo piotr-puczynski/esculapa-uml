@@ -236,6 +236,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 						+ event.getOperation().getLabel() + "\" that is not query operation.", event.getErrorContext());
 				return null;
 			} else {
+				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName()
+						+ "\" is not is stable state configuration to execute \"" + event.getOperation().getLabel() + "\". Event is lost.",
+						event.getErrorContext());
 				return null;
 			}
 		} else {
