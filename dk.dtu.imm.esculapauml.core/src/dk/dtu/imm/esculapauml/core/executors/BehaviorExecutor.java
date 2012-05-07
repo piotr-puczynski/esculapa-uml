@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Set;
 
 import org.apache.log4j.Level;
@@ -76,7 +74,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	protected StateMachine checkee;
 	protected BehaviorChecker checker;
 	protected boolean isExecuting = false;
-	protected Queue<EsculapaCallEvent> eventsQueue = new LinkedList<EsculapaCallEvent>();
 
 	protected static Predicate<Transition> isCompletionTransition = new Predicate<Transition>() {
 		public boolean apply(Transition item) {
@@ -207,10 +204,17 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	public ValuesCollection callOperation(Object source, InstanceSpecification caller, Operation operation, CallArguments arguments, boolean isSynchronous,
 			Element errorContext) {
-		return callOperation(new EsculapaCallEvent(source, errorContext, caller, this, operation, arguments, isSynchronous));
+		EsculapaCallEvent event = new EsculapaCallEvent(source, errorContext, caller, this, operation, arguments, isSynchronous);
+		if (isSynchronous) {
+			return callOperation(event);
+		} else {
+			checker.getSystemState().getCoordinator().fireEvent(event);
+			checker.getSystemState().getScheduler().enqueue(event);
+			return null;
+		}
 	}
-	
-	private ValuesCollection callOperation(EsculapaCallEvent event) {
+
+	public ValuesCollection callOperation(EsculapaCallEvent event) {
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: event arrived: " + event.getOperation().getLabel());
 		checkOperationConformance(event.getCaller(), event.getOperation(), event.getErrorContext());
 		if (checker.hasErrors()) {
@@ -226,9 +230,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 						+ event.getOperation().getLabel() + "\" that is not query operation.", event.getErrorContext());
 				return null;
 			} else {
-				checker.getSystemState().getCoordinator().fireEvent(event);
-				// place event in the queue
-				addToEventsQueue(event);
 				return null;
 			}
 		} else {
@@ -287,28 +288,9 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		} finally {
 			isExecuting = false;
 			if (!checker.hasErrors()) {
-				executeFromQueue();
+				checker.getSystemState().getScheduler().executeFromQueue();
 			}
 		}
-	}
-
-	/**
-	 * 
-	 */
-	private void executeFromQueue() {
-		if (!eventsQueue.isEmpty()) {
-			EsculapaCallEvent event = eventsQueue.poll();
-			callOperation(event);
-		}
-
-	}
-
-	/**
-	 * @param esculapaCallEvent
-	 */
-	private void addToEventsQueue(EsculapaCallEvent callEvent) {
-		eventsQueue.offer(callEvent);
-
 	}
 
 	/**

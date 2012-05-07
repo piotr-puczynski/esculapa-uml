@@ -34,6 +34,7 @@ import dk.dtu.imm.esculapauml.core.collections.CallArguments;
 import dk.dtu.imm.esculapauml.core.collections.OCLConversionException;
 import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 import dk.dtu.imm.esculapauml.core.collections.ValuesList;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
 import dk.dtu.imm.esculapauml.core.sal.SALEvaluationHelper;
 import dk.dtu.imm.esculapauml.core.sal.parser.ParseException;
@@ -202,6 +203,18 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 			Element errorContext) {
 		// redirect calls to parent
 		return parent.callOperation(source, caller, operationName, arguments, isSynchronous, errorContext);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.dtu.imm.esculapauml.core.executors.InstanceExecutor#callOperation(
+	 * dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent)
+	 */
+	@Override
+	public ValuesCollection callOperation(EsculapaCallEvent event) {
+		return parent.callOperation(event);
 	}
 
 	/*

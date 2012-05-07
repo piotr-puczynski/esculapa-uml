@@ -402,6 +402,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 				callStack.add(message);
 				targetExecutor.callOperation(message, caller, operation, new CallArguments(operation, message.getArguments()),
 						message.getMessageSort() == MessageSort.SYNCH_CALL_LITERAL, message);
+				checker.getSystemState().getScheduler().executeFromQueue();
 			}
 		}
 	}

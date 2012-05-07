@@ -44,6 +44,7 @@ import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.core.executors.InstanceExecutor;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCoordinator;
+import dk.dtu.imm.esculapauml.core.executors.scheduler.Scheduler;
 import dk.dtu.imm.esculapauml.core.ocl.OCLEvaluator;
 import dk.dtu.imm.esculapauml.core.ocl.OCLInitializator;
 import dk.dtu.imm.esculapauml.core.utils.StateMachineUtils;
@@ -64,6 +65,7 @@ public class SystemState {
 	private Set<Element> generatedElements = new HashSet<Element>();
 	private ExecutionCoordinator coordinator;
 	private OCLEvaluator ocl;
+	private Scheduler scheduler;
 
 	/**
 	 * Initialize state
@@ -95,6 +97,7 @@ public class SystemState {
 		searchForExistingInstanceSpecifications(instancePackage);
 		searchForExistingElements(checker);
 		coordinator = new ExecutionCoordinator();
+		scheduler = new Scheduler();
 	}
 
 	/**
@@ -344,5 +347,12 @@ public class SystemState {
 	 */
 	public OCLEvaluator getOcl() {
 		return ocl;
+	}
+
+	/**
+	 * @return the scheduler
+	 */
+	public Scheduler getScheduler() {
+		return scheduler;
 	}
 }

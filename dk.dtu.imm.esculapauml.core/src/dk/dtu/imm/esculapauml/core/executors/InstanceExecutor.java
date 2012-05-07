@@ -19,6 +19,7 @@ import org.eclipse.uml2.uml.ValueSpecification;
 
 import dk.dtu.imm.esculapauml.core.collections.CallArguments;
 import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 
 /**
  * @author Piotr J. Puczynski
@@ -145,6 +146,14 @@ public interface InstanceExecutor extends Executor {
 	 */
 	ValuesCollection callOperation(Object source, InstanceSpecification caller, String operationName, CallArguments arguments, boolean isSynchronous,
 			Element errorContext);
+
+	/**
+	 * Fires operation in event.
+	 * 
+	 * @param event
+	 * @return
+	 */
+	ValuesCollection callOperation(EsculapaCallEvent event);
 
 	/**
 	 * Gets the original class of the instance type.
