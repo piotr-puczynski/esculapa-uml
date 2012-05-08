@@ -33,7 +33,6 @@ public class Scheduler {
 	public void enqueue(EsculapaCallEvent event) {
 		eventsQueue.offer(event);
 	}
-	
 
 	/**
 	 * Executes the first event from the queue. We do not need looping here, it
@@ -43,21 +42,21 @@ public class Scheduler {
 		if (!eventsQueue.isEmpty()) {
 			EsculapaCallEvent event = eventsQueue.poll();
 			ValuesCollection result = event.getTarget().callOperation(event);
-			if(results.containsKey(event)) {
+			if (results.containsKey(event)) {
 				results.put(event, result);
 			}
 		}
 	}
-	
+
 	/**
 	 * Executes the synchronous call in the queue and returns its value.
 	 */
 	public ValuesCollection executeSynchronousCallInQueue(EsculapaCallEvent event) {
 		enqueue(event);
 		results.put(event, null);
-		while(eventsQueue.contains(event)) {
+		do {
 			executeFromQueue();
-		}
+		} while (eventsQueue.contains(event));
 		ValuesCollection result = results.get(event);
 		results.remove(event);
 		return result;
