@@ -16,7 +16,6 @@ import static ch.lambdaj.Lambda.having;
 import static ch.lambdaj.Lambda.on;
 import static org.hamcrest.Matchers.equalTo;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -138,8 +137,6 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	protected void recalculateActiveState(TransitionReplyChecker trc) {
 		// check for empty transitions and fire them
 		boolean hasCompletionTransitions;
-		// for loops detection
-		ArrayList<Transition> completionTransitionTaken = new ArrayList<Transition>();
 
 		do {
 			hasCompletionTransitions = false;
@@ -150,12 +147,10 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				Transition transitionToTake = TransitionChooser.choose(this, satisfiedCompletionTransitions);
 				if (null != transitionToTake) {
 					// detection of loops created by completion transitions
-					if (completionTransitionTaken.contains(transitionToTake)) {
+					if (null == transitionToTake.getGuard() && transitionToTake.getSource() == transitionToTake.getTarget()) {
 						checker.addOtherProblem(Diagnostic.ERROR, "Transition is ill-formed. Loop has been detected during firing of completion transitions.",
 								transitionToTake);
 						break;
-					} else {
-						completionTransitionTaken.add(transitionToTake);
 					}
 					hasCompletionTransitions = true;
 					trc.setNextTransition(transitionToTake);
