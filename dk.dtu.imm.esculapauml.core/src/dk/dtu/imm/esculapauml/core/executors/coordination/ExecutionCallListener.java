@@ -14,31 +14,16 @@ package dk.dtu.imm.esculapauml.core.executors.coordination;
 import java.util.EventListener;
 
 /**
- * Interface for listeners of execution events.
+ * Interface for call listeners of execution events.
  * 
  * @author Piotr J. Puczynski
- * 
+ *
  */
-public interface ExecutionListener extends EventListener {
-
+public interface ExecutionCallListener extends EventListener {
 	/**
 	 * Occurs when call event arrives.
 	 * 
 	 * @param event
 	 */
 	void callEventOccurred(EsculapaCallEvent event);
-
-	/**
-	 * Occurs when reply arrives.
-	 * 
-	 * @param event
-	 */
-	void replyEventOccurred(EsculapaReplyEvent event);
-
-	/**
-	 * Occurs when control flow returns.
-	 * 
-	 * @param event
-	 */
-	void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event);
 }

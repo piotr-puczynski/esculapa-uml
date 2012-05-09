@@ -11,6 +11,8 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors.coordination;
 
+import java.util.EventListener;
+
 import javax.swing.event.EventListenerList;
 
 /**
@@ -36,8 +38,33 @@ public class ExecutionCoordinator {
 	 * 
 	 * @param listener
 	 */
-	public void addExecutionListener(ExecutionListener listener) {
-		listenerList.add(ExecutionListener.class, listener);
+	public void addExecutionListener(EventListener listener) {
+		if (listener instanceof ExecutionCallListener) {
+			listenerList.add(ExecutionCallListener.class, (ExecutionCallListener) listener);
+		}
+		if (listener instanceof ExecutionReplyListener) {
+			listenerList.add(ExecutionReplyListener.class, (ExecutionReplyListener) listener);
+		}
+		if (listener instanceof ExecutionCallReturnControlListener) {
+			listenerList.add(ExecutionCallReturnControlListener.class, (ExecutionCallReturnControlListener) listener);
+		}
+	}
+
+	/**
+	 * Removes the execution listener from the observers list.
+	 * 
+	 * @param listener
+	 */
+	public void removeExecutionListener(EventListener listener) {
+		if (listener instanceof ExecutionCallListener) {
+			listenerList.remove(ExecutionCallListener.class, (ExecutionCallListener) listener);
+		}
+		if (listener instanceof ExecutionReplyListener) {
+			listenerList.remove(ExecutionReplyListener.class, (ExecutionReplyListener) listener);
+		}
+		if (listener instanceof ExecutionCallReturnControlListener) {
+			listenerList.remove(ExecutionCallReturnControlListener.class, (ExecutionCallReturnControlListener) listener);
+		}
 	}
 
 	/**
@@ -49,7 +76,7 @@ public class ExecutionCoordinator {
 		if (!callEvent.isSent()) {
 			assignSequenceNumber(callEvent);
 			callEvent.setSent(true);
-			for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
+			for (ExecutionCallListener listener : listenerList.getListeners(ExecutionCallListener.class)) {
 				listener.callEventOccurred(callEvent);
 			}
 		}
@@ -64,7 +91,7 @@ public class ExecutionCoordinator {
 		if (!replyEvent.isSent()) {
 			assignSequenceNumber(replyEvent);
 			replyEvent.setSent(true);
-			for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
+			for (ExecutionReplyListener listener : listenerList.getListeners(ExecutionReplyListener.class)) {
 				listener.replyEventOccurred(replyEvent);
 			}
 		}
@@ -79,7 +106,7 @@ public class ExecutionCoordinator {
 		if (!controlEvent.isSent()) {
 			assignSequenceNumber(controlEvent);
 			controlEvent.setSent(true);
-			for (ExecutionListener listener : listenerList.getListeners(ExecutionListener.class)) {
+			for (ExecutionCallReturnControlListener listener : listenerList.getListeners(ExecutionCallReturnControlListener.class)) {
 				listener.callReturnControlEventOccurred(controlEvent);
 			}
 		}

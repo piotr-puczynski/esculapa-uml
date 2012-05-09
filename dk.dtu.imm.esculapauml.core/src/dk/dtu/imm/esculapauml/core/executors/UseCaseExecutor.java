@@ -49,7 +49,9 @@ import dk.dtu.imm.esculapauml.core.collections.ValuesList;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
-import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCallListener;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCallReturnControlListener;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionReplyListener;
 import dk.dtu.imm.esculapauml.core.executors.termination.ExecutionTerminator;
 import dk.dtu.imm.esculapauml.core.generators.LifelineGenerator;
 import dk.dtu.imm.esculapauml.core.generators.MessageGenerator;
@@ -63,7 +65,7 @@ import dk.dtu.imm.esculapauml.core.utils.UMLTypesUtil;
  * @author Piotr J. Puczynski
  * 
  */
-public class UseCaseExecutor extends AbstractExecutor implements ExecutionListener {
+public class UseCaseExecutor extends AbstractExecutor implements ExecutionCallListener, ExecutionReplyListener, ExecutionCallReturnControlListener {
 
 	protected Message currentMessage;
 	protected Interaction checkee;
@@ -104,7 +106,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		systemState.getCoordinator().addExecutionListener(this);
 		// prepare terminator
 		new ExecutionTerminator(this);
-		
+
 		currentMessage = getFirstMessage();
 
 	}
@@ -208,14 +210,13 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 		Message firstMessageOnBES = ((MessageOccurrenceSpecification) currentBES.getStart()).getMessage();
 		return previousMessage.getMessageSort() == MessageSort.REPLY_LITERAL && sequencer.getCallFor(previousMessage) == firstMessageOnBES;
 	}
-	
+
 	/**
 	 * @return the checkee
 	 */
 	public Interaction getInteraction() {
 		return checkee;
 	}
-
 
 	/**
 	 * Checks if the arguments are the same.
@@ -360,7 +361,7 @@ public class UseCaseExecutor extends AbstractExecutor implements ExecutionListen
 			if ((currentMessage.getMessageSort() == MessageSort.REPLY_LITERAL)) {
 				checker.addOtherProblem(Diagnostic.ERROR, "Cannot execute reply message '" + currentMessage.getLabel() + "'.", currentMessage);
 				break;
-			}  else {
+			} else {
 				Lifeline lifeline = InteractionUtils.getMessageSourceLifeline(currentMessage);
 				if (null != lifeline) {
 					if (!(lifeline.getRepresents().getType() instanceof Actor)) {

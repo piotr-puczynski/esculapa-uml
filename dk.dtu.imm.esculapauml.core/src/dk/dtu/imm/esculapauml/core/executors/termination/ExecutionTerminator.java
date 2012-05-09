@@ -19,9 +19,7 @@ import org.eclipse.uml2.uml.Element;
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
-import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
-import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
-import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCallListener;
 
 /**
  * Class used for optional termination of the execution in case of
@@ -31,7 +29,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
  * @author Piotr J. Puczynski
  * 
  */
-public class ExecutionTerminator implements ExecutionListener {
+public class ExecutionTerminator implements ExecutionCallListener {
 
 	private UseCaseExecutor executor;
 	// used to specify global maximum number of events during execution
@@ -154,35 +152,6 @@ public class ExecutionTerminator implements ExecutionListener {
 	private void resetLastEvent(EsculapaCallEvent event) {
 		lastEvent = event;
 		numberOfRepetitiveEvents = 0;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#
-	 * replyEventOccurred
-	 * (dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent)
-	 */
-	@Override
-	public void replyEventOccurred(EsculapaReplyEvent event) {
-		// ignore
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#
-	 * callReturnControlEventOccurred
-	 * (dk.dtu.imm.esculapauml.core.executors.coordination
-	 * .EsculapaCallReturnControlEvent)
-	 */
-	@Override
-	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
-		// ignore
-
 	}
 
 }

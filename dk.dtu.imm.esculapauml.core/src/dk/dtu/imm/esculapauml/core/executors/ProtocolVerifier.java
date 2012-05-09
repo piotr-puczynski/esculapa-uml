@@ -26,9 +26,9 @@ import org.eclipse.uml2.uml.Trigger;
 
 import dk.dtu.imm.esculapauml.core.checkers.Checker;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
-import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
-import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCallListener;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionReplyListener;
 import dk.dtu.imm.esculapauml.core.executors.protocols.PathsAnalyzer;
 
 /**
@@ -38,7 +38,7 @@ import dk.dtu.imm.esculapauml.core.executors.protocols.PathsAnalyzer;
  * @author Piotr J. Puczynski
  * 
  */
-public class ProtocolVerifier extends AbstractExecutor implements ExecutionListener {
+public class ProtocolVerifier extends AbstractExecutor implements ExecutionCallListener, ExecutionReplyListener {
 	private InstanceExecutor instanceExecutor;
 	private Interface interface_;
 	private Map<Operation, Operation> methodsToOperations;
@@ -154,20 +154,6 @@ public class ProtocolVerifier extends AbstractExecutor implements ExecutionListe
 			}
 
 		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionListener#
-	 * callReturnControlEventOccurred
-	 * (dk.dtu.imm.esculapauml.core.executors.coordination
-	 * .EsculapaCallReturnControlEvent)
-	 */
-	@Override
-	public void callReturnControlEventOccurred(EsculapaCallReturnControlEvent event) {
-		// ignore
 	}
 
 	/**
