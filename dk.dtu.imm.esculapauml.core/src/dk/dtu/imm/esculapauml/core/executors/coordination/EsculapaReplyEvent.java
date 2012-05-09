@@ -30,8 +30,8 @@ public class EsculapaReplyEvent extends EsculapaEvent {
 	private static final long serialVersionUID = 1L;
 	private Operation operation;
 	private ValuesCollection result;
-	private long initiatingCallSequenceNumber;
-	
+	private EsculapaCallEvent callEvent;
+
 	/**
 	 * @param source
 	 * @param event
@@ -41,14 +41,14 @@ public class EsculapaReplyEvent extends EsculapaEvent {
 		super(source, event.getErrorContext());
 		this.operation = event.getOperation();
 		this.result = result;
-		this.initiatingCallSequenceNumber = event.getSequenceId();
+		this.callEvent = event;
 	}
-	
+
 	/**
 	 * @return the initiatingCallSequenceNumber
 	 */
 	public long getInitiatingCallSequenceNumber() {
-		return initiatingCallSequenceNumber;
+		return callEvent.getSequenceId();
 	}
 
 	public InstanceExecutor getSource() {
@@ -60,6 +60,13 @@ public class EsculapaReplyEvent extends EsculapaEvent {
 	 */
 	public Operation getOperation() {
 		return operation;
+	}
+
+	/**
+	 * @return the callEvent
+	 */
+	public EsculapaCallEvent getCallEvent() {
+		return callEvent;
 	}
 
 	/**
