@@ -57,7 +57,7 @@ public class InteractionSequencer {
 	Message getLastMessageOnLifeline(Lifeline lifeline) {
 		MessageOccurrenceSpecification mos = getLastOccurrenceOnLifeline(lifeline);
 		if (null != mos) {
-			mos.getMessage();
+			return mos.getMessage();
 		}
 		return null;
 	}
