@@ -151,6 +151,15 @@ public class PSMState {
 				ge.setPreconditions(isCompletionTransition);
 				EList<Transition> satisfiedCompletionTransitions = ge.getTransitionsWithEnabledGuards();
 
+				Iterator<Transition> it = satisfiedCompletionTransitions.iterator();
+				// validate post-conditions
+				while (it.hasNext()) {
+					Transition trans = it.next();
+					if (!validatePostCondition(trans, false)) {
+						it.remove();
+					}
+				}
+
 				Transition transitionToTake = satisfiedCompletionTransitions.isEmpty() ? null : satisfiedCompletionTransitions.get(0);
 				if (satisfiedCompletionTransitions.size() > 1) {
 					for (Transition transition : satisfiedCompletionTransitions) {
@@ -312,7 +321,7 @@ public class PSMState {
 		if (event.isSynchronousCall()) {
 			synchronousEvents.put(event.getSequenceId(), transitionToTake);
 		} else {
-			validatePostCondition(transitionToTake);
+			validatePostCondition(transitionToTake, true);
 			if (!isTerminated()) {
 				fireTransition(transitionToTake);
 				recalculateActiveState();
@@ -333,7 +342,7 @@ public class PSMState {
 			setTerminated(true);
 		} else {
 			synchronousEvents.remove(event.getInitiatingCallSequenceNumber());
-			validatePostCondition(transition);
+			validatePostCondition(transition, true);
 			if (!isTerminated()) {
 				fireTransition(transition);
 				recalculateActiveState();
@@ -347,7 +356,7 @@ public class PSMState {
 	 * 
 	 * @param transition
 	 */
-	private void validatePostCondition(Transition transition) {
+	private boolean validatePostCondition(Transition transition, boolean setTerminatedIfNotValid) {
 		Validator validator = null;
 		if (transition instanceof ProtocolTransition) {
 			validator = ValidatorsFactory.getInstance().getValidatorFor(pathsAnalyzer.getExecutor(), ((ProtocolTransition) transition).getPostCondition());
@@ -365,9 +374,13 @@ public class PSMState {
 		}
 		if (null != validator) {
 			if (!validator.validateConstraint()) {
-				setTerminated(true);
+				if (setTerminatedIfNotValid) {
+					setTerminated(true);
+				}
+				return false;
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -392,8 +405,9 @@ public class PSMState {
 		return null;
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -405,7 +419,9 @@ public class PSMState {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
