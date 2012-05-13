@@ -57,6 +57,7 @@ import dk.dtu.imm.esculapauml.core.collections.ValuesCollection;
 import dk.dtu.imm.esculapauml.core.collections.ValuesList;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallReturnControlEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCompletionEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaReplyEvent;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluator;
 import dk.dtu.imm.esculapauml.core.executors.guards.GuardEvaluatorsFactory;
@@ -135,10 +136,14 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * 
 	 */
 	protected void recalculateActiveState(TransitionReplyChecker trc) {
+		
 		// check for empty transitions and fire them
 		boolean hasCompletionTransitions;
 
 		do {
+			// notify of completion event
+			EsculapaCompletionEvent ece = new EsculapaCompletionEvent(this, checkee);
+			systemState.getCoordinator().fireEvent(ece);
 			hasCompletionTransitions = false;
 			for (Vertex vertex : activeConfiguration) {
 				GuardEvaluator ge = GuardEvaluatorsFactory.getGuardEvaluator(this, vertex);

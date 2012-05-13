@@ -48,6 +48,9 @@ public class ExecutionCoordinator {
 		if (listener instanceof ExecutionCallReturnControlListener) {
 			listenerList.add(ExecutionCallReturnControlListener.class, (ExecutionCallReturnControlListener) listener);
 		}
+		if (listener instanceof ExecutionCompletionListener) {
+			listenerList.add(ExecutionCompletionListener.class, (ExecutionCompletionListener) listener);
+		}
 	}
 
 	/**
@@ -64,6 +67,9 @@ public class ExecutionCoordinator {
 		}
 		if (listener instanceof ExecutionCallReturnControlListener) {
 			listenerList.remove(ExecutionCallReturnControlListener.class, (ExecutionCallReturnControlListener) listener);
+		}
+		if (listener instanceof ExecutionCompletionListener) {
+			listenerList.remove(ExecutionCompletionListener.class, (ExecutionCompletionListener) listener);
 		}
 	}
 
@@ -108,6 +114,21 @@ public class ExecutionCoordinator {
 			controlEvent.setSent(true);
 			for (ExecutionCallReturnControlListener listener : listenerList.getListeners(ExecutionCallReturnControlListener.class)) {
 				listener.callReturnControlEventOccurred(controlEvent);
+			}
+		}
+	}
+	
+	/**
+	 * Notify observers of completion event that occurred.
+	 * 
+	 * @param replyEvent
+	 */
+	public void fireEvent(EsculapaCompletionEvent completionEvent) {
+		if (!completionEvent.isSent()) {
+			assignSequenceNumber(completionEvent);
+			completionEvent.setSent(true);
+			for (ExecutionCompletionListener listener : listenerList.getListeners(ExecutionCompletionListener.class)) {
+				listener.completionEventOccurred(completionEvent);
 			}
 		}
 	}

@@ -19,7 +19,9 @@ import org.eclipse.uml2.uml.Element;
 import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.executors.UseCaseExecutor;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
+import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCompletionEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCallListener;
+import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCompletionListener;
 
 /**
  * Class used for optional termination of the execution in case of
@@ -29,7 +31,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCallListener;
  * @author Piotr J. Puczynski
  * 
  */
-public class ExecutionTerminator implements ExecutionCallListener {
+public class ExecutionTerminator implements ExecutionCallListener, ExecutionCompletionListener {
 
 	private UseCaseExecutor executor;
 	// used to specify global maximum number of events during execution
@@ -119,12 +121,7 @@ public class ExecutionTerminator implements ExecutionCallListener {
 	 */
 	@Override
 	public void callEventOccurred(EsculapaCallEvent event) {
-		if (isActive(maxGlobalEvents)) {
-			if (++numberOfExecutedEvents > maxGlobalEvents) {
-				executor.getChecker().addOtherProblem(Diagnostic.CANCEL, "Value of 'max-global-events' has been exceeded. The execution is stopped.",
-						executor.getInteraction());
-			}
-		}
+		countEvents();
 
 		if (isActive(maxRepetitiveSubsequentEvents)) {
 			if (null == lastEvent) {
@@ -147,11 +144,36 @@ public class ExecutionTerminator implements ExecutionCallListener {
 	}
 
 	/**
+	 * 
+	 */
+	private void countEvents() {
+		if (isActive(maxGlobalEvents)) {
+			if (++numberOfExecutedEvents > maxGlobalEvents) {
+				executor.getChecker().addOtherProblem(Diagnostic.CANCEL, "Value of 'max-global-events' has been exceeded. The execution is stopped.",
+						executor.getInteraction());
+			}
+		}
+	}
+
+	/**
 	 * @param event
 	 */
 	private void resetLastEvent(EsculapaCallEvent event) {
 		lastEvent = event;
 		numberOfRepetitiveEvents = 0;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.dtu.imm.esculapauml.core.executors.coordination.
+	 * ExecutionCompletionListener
+	 * #completionEventOccurred(dk.dtu.imm.esculapauml
+	 * .core.executors.coordination.EsculapaCompletionEvent)
+	 */
+	@Override
+	public void completionEventOccurred(EsculapaCompletionEvent event) {
+		countEvents();
 	}
 
 }
