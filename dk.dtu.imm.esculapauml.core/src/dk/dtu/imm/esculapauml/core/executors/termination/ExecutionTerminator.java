@@ -56,7 +56,7 @@ public class ExecutionTerminator implements ExecutionCallListener, ExecutionComp
 
 		// check our options
 		readOptions(executor.getInteraction());
-		if (isActive(maxGlobalEvents) || isActive(maxRepetitiveSubsequentEvents)) {
+		if (isActive(adaptiveEventsLimit) || isActive(maxGlobalEvents) || isActive(maxRepetitiveSubsequentEvents)) {
 			// we are active, register us as listener
 			executor.getChecker().getSystemState().getCoordinator().addExecutionListener(this);
 		}
@@ -184,7 +184,7 @@ public class ExecutionTerminator implements ExecutionCallListener, ExecutionComp
 						.booleanChoice(SimulationStateObserver.DECISION_TERMINATE_SIMULATION, false, adaptiveEventsLimit)) {
 					executor.getChecker().addOtherProblem(Diagnostic.CANCEL, "Simulation is cancelled.", executor.getInteraction());
 				} else {
-					adaptiveEventsLimit *= 10;
+					adaptiveEventsLimit *= 7;
 				}
 			}
 		}

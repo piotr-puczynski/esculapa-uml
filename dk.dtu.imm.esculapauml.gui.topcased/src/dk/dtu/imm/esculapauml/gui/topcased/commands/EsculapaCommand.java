@@ -68,7 +68,7 @@ public class EsculapaCommand extends Command {
 						+ "' had order of messages in diagram inconsistent with the order in the model. The model was fixed before checking.", modeler);
 			}
 			UseCaseChecker checker = new UseCaseChecker(interaction);
-			checker.getSystemState().getSimObservers().addListener(new SimulationObserver());
+			checker.getSystemState().getSimObservers().addListener(new SimulationObserver(modeler));
 			checker.check();
 			InteractionExtender ie = new InteractionExtender(modeler, checker.getCheckedObject());
 			ie.extend();

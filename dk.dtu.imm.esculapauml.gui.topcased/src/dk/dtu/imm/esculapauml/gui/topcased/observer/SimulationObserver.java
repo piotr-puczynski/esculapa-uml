@@ -11,6 +11,9 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.gui.topcased.observer;
 
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.topcased.modeler.editor.Modeler;
+
 import dk.dtu.imm.esculapauml.core.states.SimulationStateObserver;
 
 /**
@@ -18,6 +21,15 @@ import dk.dtu.imm.esculapauml.core.states.SimulationStateObserver;
  * 
  */
 public class SimulationObserver implements SimulationStateObserver {
+
+	private Modeler modeler;
+
+	/**
+	 * @param modeler
+	 */
+	public SimulationObserver(Modeler modeler) {
+		this.modeler = modeler;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -29,7 +41,8 @@ public class SimulationObserver implements SimulationStateObserver {
 	@Override
 	public boolean booleanChoice(int typeOfDecision, boolean defaultValue, Object data) {
 		if (DECISION_TERMINATE_SIMULATION == typeOfDecision) {
-
+			return MessageDialog.openQuestion(modeler.getSite().getShell(), "EsculapaUML simulation",
+					"Number of events exceeded threshold of " + data.toString() + ". Do you want to stop the simulation?");
 		}
 		return defaultValue;
 	}
