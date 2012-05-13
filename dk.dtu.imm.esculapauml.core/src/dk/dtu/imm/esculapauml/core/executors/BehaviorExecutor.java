@@ -27,6 +27,8 @@ import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.uml2.common.util.UML2Util;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.CallEvent;
 import org.eclipse.uml2.uml.Class;
@@ -49,6 +51,7 @@ import org.eclipse.uml2.uml.VisibilityKind;
 
 import ch.lambdaj.function.matcher.Predicate;
 
+import dk.dtu.imm.esculapauml.core.checkers.AbstractChecker;
 import dk.dtu.imm.esculapauml.core.checkers.BehaviorChecker;
 import dk.dtu.imm.esculapauml.core.checkers.TransitionReplyChecker;
 import dk.dtu.imm.esculapauml.core.collections.CallArguments;
@@ -76,6 +79,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	protected BehaviorChecker checker;
 	protected SystemState systemState;
 	protected boolean isExecuting = false;
+	protected boolean hasExternalChoice = false;
 
 	protected static Predicate<Transition> isCompletionTransition = new Predicate<Transition>() {
 		public boolean apply(Transition item) {
@@ -92,6 +96,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		systemState = checker.getSystemState();
 		checkee = checker.getCheckedObject();
 		logger = Logger.getLogger(BehaviorExecutor.class);
+		setOptions();
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
 	}
 
@@ -105,7 +110,27 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		systemState = checker.getSystemState();
 		checkee = checker.getCheckedObject();
 		logger = Logger.getLogger(BehaviorExecutor.class);
+		setOptions();
 		logger.debug(checkee.getLabel() + "[" + instanceName + "]: executor created");
+	}
+
+	/**
+	 * Sets options based on annotations.
+	 */
+	private void setOptions() {
+		EAnnotation annotation = UML2Util.getEAnnotation(checkee, AbstractChecker.ESCULAPA_NAMESPACE, false);
+		if (null != annotation) {
+			String detail = annotation.getDetails().get("external-choice");
+			if (null != detail) {
+				boolean isOn = false;
+				try {
+					isOn = Boolean.parseBoolean(detail);
+				} catch (NumberFormatException ex) {
+					isOn = false;
+				}
+				hasExternalChoice = isOn;
+			}
+		}
 	}
 
 	/*
@@ -136,7 +161,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 * 
 	 */
 	protected void recalculateActiveState(TransitionReplyChecker trc) {
-		
+
 		// check for empty transitions and fire them
 		boolean hasCompletionTransitions;
 
@@ -564,6 +589,13 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 	 */
 	public boolean isExecuting() {
 		return isExecuting;
+	}
+
+	/**
+	 * @return the hasExternalChoice
+	 */
+	public boolean hasExternalChoice() {
+		return hasExternalChoice;
 	}
 
 }

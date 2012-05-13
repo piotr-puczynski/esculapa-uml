@@ -13,12 +13,15 @@ package dk.dtu.imm.esculapauml.gui.topcased.observer;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.uml2.uml.Transition;
 import org.topcased.modeler.editor.Modeler;
 
 import dk.dtu.imm.esculapauml.core.states.SimulationStateObserver;
 import dk.dtu.imm.esculapauml.gui.topcased.labelProviders.TransitionLabelProvider;
 
 /**
+ * TOPCASED GUI for Esculapa UML choices.
+ * 
  * @author Piotr J. Puczynski
  * 
  */
@@ -58,16 +61,16 @@ public class SimulationObserver implements SimulationStateObserver {
 	 */
 	@Override
 	public Object multipleChoice(int typeOfDecision, Object defaultValue, Object[] data) {
-		if (DECISION_EXTERNAL_COMPONENT_CHOICE == typeOfDecision) {
+		if (DECISION_EXTERNAL_TRANSITION_CHOICE == typeOfDecision) {
 			ElementListSelectionDialog dialog = new ElementListSelectionDialog(modeler.getSite().getShell(), new TransitionLabelProvider());
 			dialog.setTitle("EsculapaUML: External choice");
-			dialog.setMessage("Please, choose transition to take:");
+			dialog.setMessage("Please, choose transition to take in '" + ((Transition) defaultValue).getContainer().getStateMachine().getLabel() + "':");
 			dialog.setElements(data);
 			dialog.setMultipleSelection(false);
 			dialog.setBlockOnOpen(true);
 			dialog.open();
 			Object result = dialog.getFirstResult();
-			if(null != result) {
+			if (null != result) {
 				return result;
 			}
 		}

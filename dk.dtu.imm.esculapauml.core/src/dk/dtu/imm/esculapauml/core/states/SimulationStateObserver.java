@@ -22,7 +22,7 @@ import java.util.EventListener;
  */
 public interface SimulationStateObserver extends EventListener {
 	static final int DECISION_TERMINATE_SIMULATION = 0;
-	static final int DECISION_EXTERNAL_COMPONENT_CHOICE = 1;
+	static final int DECISION_EXTERNAL_TRANSITION_CHOICE = 1;
 	
 	boolean booleanChoice(int typeOfDecision, boolean defaultValue, Object data);
 	
