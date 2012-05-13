@@ -66,6 +66,7 @@ public class SystemState {
 	private ExecutionCoordinator coordinator;
 	private OCLEvaluator ocl;
 	private Scheduler scheduler;
+	private SimulationObservable simObservers = new SimulationObservable();
 
 	/**
 	 * Initialize state
@@ -354,5 +355,12 @@ public class SystemState {
 	 */
 	public Scheduler getScheduler() {
 		return scheduler;
+	}
+
+	/**
+	 * @return the simObservers
+	 */
+	public SimulationObservable getSimObservers() {
+		return simObservers;
 	}
 }

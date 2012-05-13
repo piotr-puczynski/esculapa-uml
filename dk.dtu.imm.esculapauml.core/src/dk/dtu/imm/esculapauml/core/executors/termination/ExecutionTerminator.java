@@ -22,6 +22,7 @@ import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCallEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.EsculapaCompletionEvent;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCallListener;
 import dk.dtu.imm.esculapauml.core.executors.coordination.ExecutionCompletionListener;
+import dk.dtu.imm.esculapauml.core.states.SimulationStateObserver;
 
 /**
  * Class used for optional termination of the execution in case of
@@ -35,15 +36,17 @@ public class ExecutionTerminator implements ExecutionCallListener, ExecutionComp
 
 	private UseCaseExecutor executor;
 	// used to specify global maximum number of events during execution
-	private long maxGlobalEvents = -1;
+	private long maxGlobalEvents = -1L;
 	// used to specify maximum number of repetitive subsequent events
-	private long maxRepetitiveSubsequentEvents = -1;
+	private long maxRepetitiveSubsequentEvents = -1L;
 
-	private long numberOfExecutedEvents = 0;
+	private long numberOfExecutedEvents = 0L;
+
+	private long adaptiveEventsLimit = 200L;
 
 	private EsculapaCallEvent lastEvent = null;
 
-	private long numberOfRepetitiveEvents = 0;
+	private long numberOfRepetitiveEvents = 0L;
 
 	/**
 	 * @param useCaseExecutor
@@ -108,6 +111,26 @@ public class ExecutionTerminator implements ExecutionCallListener, ExecutionComp
 					this.maxRepetitiveSubsequentEvents = maxRepetitiveSubsequentEvents;
 				}
 			}
+
+			detail = annotation.getDetails().get("adaptive-events-limit");
+			if (null != detail) {
+				boolean isOn = true;
+				try {
+					isOn = Boolean.parseBoolean(detail);
+				} catch (NumberFormatException ex) {
+					adaptiveEventsLimit = -1L;
+				}
+				if (!isActive(adaptiveEventsLimit)) {
+					executor.getChecker().addOtherProblem(Diagnostic.CANCEL, "Value of 'adaptive-events-limit' option is not correct (must be boolean).",
+							annotation);
+				} else {
+					if (isOn) {
+						this.adaptiveEventsLimit = 200L;
+					} else {
+						this.adaptiveEventsLimit = -1L;
+					}
+				}
+			}
 		}
 	}
 
@@ -147,10 +170,22 @@ public class ExecutionTerminator implements ExecutionCallListener, ExecutionComp
 	 * 
 	 */
 	private void countEvents() {
+		++numberOfExecutedEvents;
 		if (isActive(maxGlobalEvents)) {
-			if (++numberOfExecutedEvents > maxGlobalEvents) {
+			if (numberOfExecutedEvents > maxGlobalEvents) {
 				executor.getChecker().addOtherProblem(Diagnostic.CANCEL, "Value of 'max-global-events' has been exceeded. The execution is stopped.",
 						executor.getInteraction());
+			}
+		}
+		if (isActive(adaptiveEventsLimit)) {
+			if (numberOfExecutedEvents > adaptiveEventsLimit) {
+				// SEND NOTIFICATION TO GUI OBSERVERS
+				if (executor.getChecker().getSystemState().getSimObservers()
+						.booleanChoice(SimulationStateObserver.DECISION_TERMINATE_SIMULATION, false, adaptiveEventsLimit)) {
+					executor.getChecker().addOtherProblem(Diagnostic.CANCEL, "Simulation is cancelled.", executor.getInteraction());
+				} else {
+					adaptiveEventsLimit *= 10;
+				}
 			}
 		}
 	}

@@ -20,6 +20,7 @@ import org.topcased.modeler.editor.Modeler;
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 import dk.dtu.imm.esculapauml.gui.topcased.extenders.InteractionExtender;
 import dk.dtu.imm.esculapauml.gui.topcased.fixers.InteractionOrderFixer;
+import dk.dtu.imm.esculapauml.gui.topcased.observer.SimulationObserver;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.GuiUtils;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.TopcasedMarkerHelper;
 
@@ -67,6 +68,7 @@ public class EsculapaCommand extends Command {
 						+ "' had order of messages in diagram inconsistent with the order in the model. The model was fixed before checking.", modeler);
 			}
 			UseCaseChecker checker = new UseCaseChecker(interaction);
+			checker.getSystemState().getSimObservers().addListener(new SimulationObserver());
 			checker.check();
 			InteractionExtender ie = new InteractionExtender(modeler, checker.getCheckedObject());
 			ie.extend();
