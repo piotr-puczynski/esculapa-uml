@@ -54,4 +54,19 @@ public class SimulationObservable {
 		}
 		return defaultValue;
 	}
+	
+	/**
+	 * Notify observers of booleanChoice needed and calculate result.
+	 * 
+	 * @param callEvent
+	 */
+	public Object multipleChoice(int typeOfDecision, Object defaultValue, Object[] data) {
+		for (SimulationStateObserver listener : listenerList.getListeners(SimulationStateObserver.class)) {
+			Object result = listener.multipleChoice(typeOfDecision, defaultValue, data);
+			if(defaultValue != result) {
+				return result;
+			}
+		}
+		return defaultValue;
+	}
 }
