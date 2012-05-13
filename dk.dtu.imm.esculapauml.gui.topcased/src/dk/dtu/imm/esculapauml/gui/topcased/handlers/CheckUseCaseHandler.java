@@ -14,11 +14,8 @@ package dk.dtu.imm.esculapauml.gui.topcased.handlers;
 
 import java.util.List;
 
-import dk.dtu.imm.esculapauml.gui.topcased.extenders.InteractionExtender;
-import dk.dtu.imm.esculapauml.gui.topcased.fixers.InteractionOrderFixer;
+import dk.dtu.imm.esculapauml.gui.topcased.commands.EsculapaCommand;
 import dk.dtu.imm.esculapauml.gui.topcased.utils.GuiUtils;
-import dk.dtu.imm.esculapauml.gui.topcased.utils.TopcasedMarkerHelper;
-import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -41,26 +38,14 @@ public class CheckUseCaseHandler extends AbstractHandler {
 		Modeler modeler = GuiUtils.getModeler(event);
 		EList<Interaction> interactions = GuiUtils.getUMLInteractionArgument(elements);
 		if (interactions.isEmpty()) {
-			GuiUtils.showError("Selection does not contain any UML2 Interaction elements.", event);
+			GuiUtils.showError("Selection does not contain any UML2 Interaction elements.", modeler);
 			return null;
 		}
 		Resource res = GuiUtils.getSelectedResource(event);
-		TopcasedMarkerHelper.deleteMarkers(res);
-		for (Interaction interaction : interactions) {
-			InteractionOrderFixer fixer = new InteractionOrderFixer(modeler, interaction);
-			fixer.fix();
-			if (fixer.hadFixedErrors()) {
-				GuiUtils.showInfo("Interaction '" + interaction.getLabel()
-						+ "' had order of messages in diagram inconsistent with the order in the model. The model was fixed before checking.", event);
-			}
-			UseCaseChecker checker = new UseCaseChecker(interaction);
-			checker.check();
-			InteractionExtender ie = new InteractionExtender(modeler, checker.getCheckedObject());
-			ie.extend();
-			TopcasedMarkerHelper.createMarkers(checker.getDiagnostics(), res);
-			modeler.refreshOutline();
-			modeler.refreshActiveDiagram();
-		}
+		EsculapaCommand esculapaCommand = new EsculapaCommand(res, modeler, interactions);
+		
+		GuiUtils.getCommandStack(event).execute(esculapaCommand);
+		
 
 		return null;
 

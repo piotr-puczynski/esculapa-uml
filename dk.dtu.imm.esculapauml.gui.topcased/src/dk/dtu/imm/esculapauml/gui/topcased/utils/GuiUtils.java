@@ -158,9 +158,8 @@ public final class GuiUtils {
 	 * @param string
 	 * @param event
 	 */
-	public static void showError(final String msg, ExecutionEvent event) {
-		final Modeler modeler = getModeler(event);
-		modeler.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+	public static void showError(final String msg, final Modeler modeler) {
+		modeler.getSite().getShell().getDisplay().syncExec(new Runnable() {
 			public void run() {
 				MessageDialog.openError(modeler.getSite().getShell(), "EsculapaUML error", msg);
 			}
@@ -173,9 +172,8 @@ public final class GuiUtils {
 	 * @param string
 	 * @param event
 	 */
-	public static void showInfo(final String msg, ExecutionEvent event) {
-		final Modeler modeler = getModeler(event);
-		modeler.getSite().getShell().getDisplay().asyncExec(new Runnable() {
+	public static void showInfo(final String msg, final Modeler modeler) {
+		modeler.getSite().getShell().getDisplay().syncExec(new Runnable() {
 			public void run() {
 				MessageDialog.openInformation(modeler.getSite().getShell(), "EsculapaUML info", msg);
 			}
