@@ -23,7 +23,7 @@ import org.eclipse.uml2.uml.Transition;
 import org.junit.Test;
 
 import dk.dtu.imm.esculapauml.core.checkers.UseCaseChecker;
-import dk.dtu.imm.esculapauml.core.executors.OpaqueBehaviorExecutor;
+import dk.dtu.imm.esculapauml.core.executors.EffectExtractor;
 import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
@@ -54,7 +54,7 @@ public class SimpleReplyBoolean2Test extends LoggingTest {
 		Transition transition = TestUtils.getTransitionByName(model, "testTransition");
 		assertNotNull(transition);
 		// behavior as SAL in body
-		assertEquals(OpaqueBehaviorExecutor.LANG_ID, ((OpaqueBehavior)transition.getEffect()).getLanguages().get(0));
+		assertEquals(EffectExtractor.SAL_LANG_ID, ((OpaqueBehavior)transition.getEffect()).getLanguages().get(0));
 		assertEquals("reply false", ((OpaqueBehavior)transition.getEffect()).getBodies().get(0));
 	}
 }

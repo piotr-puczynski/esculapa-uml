@@ -14,7 +14,10 @@ package dk.dtu.imm.esculapauml.gui.topcased.labelProviders;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Transition;
+
+import dk.dtu.imm.esculapauml.core.executors.EffectExtractor;
 
 /**
  * Provides label for transitions.
@@ -87,10 +90,24 @@ public class TransitionLabelProvider implements ILabelProvider {
 	 */
 	@Override
 	public String getText(Object element) {
-		if(element instanceof Transition) {
-			return ((Transition) element).getLabel();
+		if (element instanceof Transition) {
+			Transition transition = (Transition) element;
+			String result = "Transition '" + transition.getLabel() + "' from '" + transition.getSource().getLabel() + "' to '"
+					+ transition.getTarget().getLabel() + "' and effect '" + getEffect(transition) + "'";
+			return result;
 		}
 		return null;
 	}
 
+	/**
+	 * @param transition
+	 * @return
+	 */
+	private String getEffect(Transition transition) {
+		if (transition.getEffect() instanceof OpaqueBehavior) {
+			EffectExtractor ee = new EffectExtractor((OpaqueBehavior) transition.getEffect());
+			return ee.extract();
+		}
+		return "";
+	}
 }

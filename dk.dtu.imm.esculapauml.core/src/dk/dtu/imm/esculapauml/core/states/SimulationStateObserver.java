@@ -11,6 +11,7 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.states;
 
+import java.util.Collection;
 import java.util.EventListener;
 
 /**
@@ -26,5 +27,5 @@ public interface SimulationStateObserver extends EventListener {
 	
 	boolean booleanChoice(int typeOfDecision, boolean defaultValue, Object data);
 	
-	Object multipleChoice(int typeOfDecision, Object defaultValue, Object[] data);
+	Object multipleChoice(int typeOfDecision, Object defaultValue, @SuppressWarnings("rawtypes") Collection data, Object extra);
 }

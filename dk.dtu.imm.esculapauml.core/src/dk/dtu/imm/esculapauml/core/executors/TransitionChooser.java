@@ -37,11 +37,11 @@ public class TransitionChooser {
 			if (executor.hasExternalChoice()) {
 				// give a choice to the client
 				return (Transition) executor.getChecker().getSystemState().getSimObservers()
-						.multipleChoice(SimulationStateObserver.DECISION_EXTERNAL_TRANSITION_CHOICE, transitions.get(0), transitionsSet.toArray());
+						.multipleChoice(SimulationStateObserver.DECISION_EXTERNAL_TRANSITION_CHOICE, transitions.get(0), transitionsSet, executor.getInstanceName());
 			} else {
 				// set a warning on conflicting transitions
 				String names = joinFrom(transitions, Transition.class).getName();
-				executor.getChecker().addOtherProblem(Diagnostic.WARNING, "Conflicting transitions: [" + names + "]", transitions.toArray());
+				executor.getChecker().addOtherProblem(Diagnostic.WARNING, "Conflicting transitions: [" + names + "]", transitionsSet.toArray());
 			}
 		}
 		// make a choice of first transition if possible

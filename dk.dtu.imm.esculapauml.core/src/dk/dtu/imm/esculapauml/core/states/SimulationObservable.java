@@ -11,6 +11,8 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.states;
 
+import java.util.Collection;
+
 import javax.swing.event.EventListenerList;
 
 /**
@@ -60,9 +62,9 @@ public class SimulationObservable {
 	 * 
 	 * @param callEvent
 	 */
-	public Object multipleChoice(int typeOfDecision, Object defaultValue, Object[] data) {
+	public Object multipleChoice(int typeOfDecision, Object defaultValue, @SuppressWarnings("rawtypes") Collection data, Object extra) {
 		for (SimulationStateObserver listener : listenerList.getListeners(SimulationStateObserver.class)) {
-			Object result = listener.multipleChoice(typeOfDecision, defaultValue, data);
+			Object result = listener.multipleChoice(typeOfDecision, defaultValue, data, extra);
 			if(defaultValue != result) {
 				return result;
 			}

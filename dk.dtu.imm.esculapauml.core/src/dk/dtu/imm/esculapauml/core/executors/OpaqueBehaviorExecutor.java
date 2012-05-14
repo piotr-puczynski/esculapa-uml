@@ -11,8 +11,6 @@
  ****************************************************************************/
 package dk.dtu.imm.esculapauml.core.executors;
 
-import static ch.lambdaj.Lambda.join;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -80,12 +78,11 @@ import dk.dtu.imm.esculapauml.core.utils.UMLTypesUtil;
  */
 public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements SALParserVisitor {
 
-	protected OpaqueBehavior behavior;
+	protected EffectExtractor extractor;
 	protected TransitionReplyChecker trc;
 	protected SALNode root = null;
 	protected BehaviorChecker checker;
 	protected InstanceExecutor parent;
-	public static final String LANG_ID = "SAL";
 
 	/**
 	 * @param checker
@@ -95,7 +92,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		parent = instanceExecutor;
 		checker = (BehaviorChecker) instanceExecutor.getChecker();
 		this.trc = trc;
-		this.behavior = (OpaqueBehavior) trc.getCheckedObject().getEffect();
+		this.extractor = new EffectExtractor((OpaqueBehavior) trc.getCheckedObject().getEffect());
 	}
 
 	/*
@@ -110,12 +107,7 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		// meta-model
 		// and with simple when the body is taken from the name (only if
 		// advanced elements are not specified)
-		String toParse;
-		if (isInAdvancedMode()) {
-			toParse = calculateBodyAdvanced();
-		} else {
-			toParse = calculateBodySimple();
-		}
+		String toParse = extractor.extract();
 		SALParser parser = new SALParser(toParse);
 		try {
 			root = parser.parse();
@@ -126,43 +118,6 @@ public class OpaqueBehaviorExecutor extends AbstractInstanceExecutor implements 
 		}
 	}
 
-	/**
-	 * Calculate body from a name.
-	 * 
-	 * @return
-	 */
-	protected String calculateBodySimple() {
-		return behavior.getName();
-	}
-
-	/**
-	 * Calculate body from the bodies and languages.
-	 * 
-	 * @return
-	 */
-	protected String calculateBodyAdvanced() {
-		int i = 0;
-		List<String> bodies = new ArrayList<String>();
-		for (String lang : behavior.getLanguages()) {
-			if (lang.equalsIgnoreCase(LANG_ID)) {
-				if (behavior.getBodies().size() > i) {
-					bodies.add(behavior.getBodies().get(i));
-				}
-			}
-			++i;
-		}
-		return join(bodies, ";");
-	}
-
-	/**
-	 * If the mode is advanced the meta-model elements are used to get bodies of
-	 * behavior.
-	 * 
-	 * @return
-	 */
-	protected boolean isInAdvancedMode() {
-		return !behavior.getLanguages().isEmpty() || !behavior.getBodies().isEmpty();
-	}
 
 	/**
 	 * Executes a syntax tree in root.
