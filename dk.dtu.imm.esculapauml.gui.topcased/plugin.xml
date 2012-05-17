@@ -11,7 +11,7 @@
                mnemonic="E">
             <command
                   commandId="dk.dtu.imm.esculapauml.gui.topcased.checkUseCase"
-                  label="Check Use Case"
+                  label="Check scenario"
                   style="push">
             </command>
             <visibleWhen
