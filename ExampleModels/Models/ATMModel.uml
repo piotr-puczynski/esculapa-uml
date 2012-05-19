@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_qb8akM37EdqwVrslYOdUDA">
+  <elementImport xmi:id="_D-mecKGlEeGYhJ-ocQUHyA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+  </elementImport>
+  <elementImport xmi:id="_D-o6sKGlEeGYhJ-ocQUHyA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+  </elementImport>
+  <elementImport xmi:id="_D-o6saGlEeGYhJ-ocQUHyA">
+    <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="ATMModel">
+    <packagedElement xmi:type="uml:Package" xmi:id="_nD3ikKGmEeGYhJ-ocQUHyA" name="Withdraw">
+      <packagedElement xmi:type="uml:Actor" xmi:id="_voiSUKGmEeGYhJ-ocQUHyA" name="Client"/>
+      <packagedElement xmi:type="uml:UseCase" xmi:id="_xbQ0MKGmEeGYhJ-ocQUHyA" name="Withdraw money from ATM" classifierBehavior="_haVDAKGtEeGYhJ-ocQUHyA">
+        <ownedBehavior xmi:type="uml:Interaction" xmi:id="_haVDAKGtEeGYhJ-ocQUHyA" name="Withdraw money from ATMDetail">
+          <ownedAttribute xmi:id="_tdJ7sKGtEeGYhJ-ocQUHyA" name="Property1" type="_43Ae8KGkEeGYhJ-ocQUHyA"/>
+          <ownedConnector xmi:id="_maWnUKGtEeGYhJ-ocQUHyA" name="Connector1">
+            <end xmi:id="_maXOYKGtEeGYhJ-ocQUHyA" role="_3TtOQaGmEeGYhJ-ocQUHyA"/>
+            <end xmi:id="_tdJ7saGtEeGYhJ-ocQUHyA" role="_tdJ7sKGtEeGYhJ-ocQUHyA"/>
+          </ownedConnector>
+          <lifeline xmi:id="_iSQJgKGtEeGYhJ-ocQUHyA" name="Piotr" represents="_3TtOQaGmEeGYhJ-ocQUHyA" coveredBy="_3N8gUKGtEeGYhJ-ocQUHyA _8gpwEKGtEeGYhJ-ocQUHyA _DwBg0KGuEeGYhJ-ocQUHyA _osYe4KGuEeGYhJ-ocQUHyA _ruhaMaGuEeGYhJ-ocQUHyA _uprZMKGtEeGYhJ-ocQUHyA"/>
+          <lifeline xmi:id="_rK5lMKGtEeGYhJ-ocQUHyA" name="atm20" represents="_tdJ7sKGtEeGYhJ-ocQUHyA" coveredBy="_3N8gUaGtEeGYhJ-ocQUHyA _8gpwEaGtEeGYhJ-ocQUHyA _DwBg0aGuEeGYhJ-ocQUHyA _osZF8KGuEeGYhJ-ocQUHyA _ruhaMKGuEeGYhJ-ocQUHyA _v4bEQKGtEeGYhJ-ocQUHyA _7114gqGtEeGYhJ-ocQUHyA _CnHYAKGuEeGYhJ-ocQUHyA _mxCzkKGuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_ruhaMKGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification9" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_ruhaMqGuEeGYhJ-ocQUHyA" message="_ruhaM6GuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_ruhaMaGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification10" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_ruhaMqGuEeGYhJ-ocQUHyA" message="_ruhaM6GuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_osYe4KGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification7" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_osZtAKGuEeGYhJ-ocQUHyA" message="_osZtAaGuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_osZF8KGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification8" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_osZtAKGuEeGYhJ-ocQUHyA" message="_osZtAaGuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_DwBg0KGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification5" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_DwCH4KGuEeGYhJ-ocQUHyA" message="_DwCH4aGuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_DwBg0aGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification6" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_DwCH4KGuEeGYhJ-ocQUHyA" message="_DwCH4aGuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_8gpwEKGtEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification3" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_8gpwEqGtEeGYhJ-ocQUHyA" message="_8gpwE6GtEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_8gpwEaGtEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification4" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_8gpwEqGtEeGYhJ-ocQUHyA" message="_8gpwE6GtEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_3N8gUKGtEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification1" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_3N8gUqGtEeGYhJ-ocQUHyA" message="_3N8gU6GtEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_3N8gUaGtEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification2" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_3N8gUqGtEeGYhJ-ocQUHyA" message="_3N8gU6GtEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_uprZMKGtEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification1" covered="_iSQJgKGtEeGYhJ-ocQUHyA" start="_3N8gUKGtEeGYhJ-ocQUHyA" finish="_ruhaMaGuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_v4bEQKGtEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification2" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_3N8gUaGtEeGYhJ-ocQUHyA" finish="_3N8gUaGtEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_7114gqGtEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification3" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_8gpwEaGtEeGYhJ-ocQUHyA" finish="_8gpwEaGtEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_CnHYAKGuEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification4" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_DwBg0aGuEeGYhJ-ocQUHyA" finish="_DwBg0aGuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_mxCzkKGuEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification5" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_osZF8KGuEeGYhJ-ocQUHyA" finish="_ruhaMKGuEeGYhJ-ocQUHyA"/>
+          <message xmi:id="_3N8gU6GtEeGYhJ-ocQUHyA" name="insertCard" receiveEvent="_3N8gUaGtEeGYhJ-ocQUHyA" sendEvent="_3N8gUKGtEeGYhJ-ocQUHyA">
+            <argument xmi:type="uml:LiteralString" xmi:id="_4G1QIKGtEeGYhJ-ocQUHyA" name="cardNo" value="555">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </argument>
+          </message>
+          <message xmi:id="_8gpwE6GtEeGYhJ-ocQUHyA" name="verifyPIN" receiveEvent="_8gpwEaGtEeGYhJ-ocQUHyA" sendEvent="_8gpwEKGtEeGYhJ-ocQUHyA">
+            <argument xmi:type="uml:LiteralInteger" xmi:id="_948_wKGtEeGYhJ-ocQUHyA" name="pinNo" value="1234">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </argument>
+          </message>
+          <message xmi:id="_DwCH4aGuEeGYhJ-ocQUHyA" name="selectAmountToWithdraw" receiveEvent="_DwBg0aGuEeGYhJ-ocQUHyA" sendEvent="_DwBg0KGuEeGYhJ-ocQUHyA">
+            <argument xmi:type="uml:LiteralInteger" xmi:id="_Es3jkKGuEeGYhJ-ocQUHyA" name="amount" value="100">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </argument>
+          </message>
+          <message xmi:id="_osZtAaGuEeGYhJ-ocQUHyA" name="takeMoney" receiveEvent="_osZF8KGuEeGYhJ-ocQUHyA" sendEvent="_osYe4KGuEeGYhJ-ocQUHyA"/>
+          <message xmi:id="_ruhaM6GuEeGYhJ-ocQUHyA" name="100" messageSort="reply" receiveEvent="_ruhaMaGuEeGYhJ-ocQUHyA" sendEvent="_ruhaMKGuEeGYhJ-ocQUHyA"/>
+        </ownedBehavior>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Association" xmi:id="_3TtOQKGmEeGYhJ-ocQUHyA" name="A_&lt;client>_&lt;withdraw money from ATM>" memberEnd="_3TtOQaGmEeGYhJ-ocQUHyA _3TtORKGmEeGYhJ-ocQUHyA">
+        <ownedEnd xmi:id="_3TtOQaGmEeGYhJ-ocQUHyA" name="client" type="_voiSUKGmEeGYhJ-ocQUHyA" association="_3TtOQKGmEeGYhJ-ocQUHyA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3TtOQqGmEeGYhJ-ocQUHyA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3TtOQ6GmEeGYhJ-ocQUHyA" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:id="_3TtORKGmEeGYhJ-ocQUHyA" name="withdraw money from ATM" type="_xbQ0MKGmEeGYhJ-ocQUHyA" association="_3TtOQKGmEeGYhJ-ocQUHyA">
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_3TtORaGmEeGYhJ-ocQUHyA" value="1"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_3TtORqGmEeGYhJ-ocQUHyA" value="1"/>
+        </ownedEnd>
+      </packagedElement>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_3N8gUqGtEeGYhJ-ocQUHyA" name="CallEvent1" operation="_72a2YKGkEeGYhJ-ocQUHyA"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_8gpwEqGtEeGYhJ-ocQUHyA" name="CallEvent2" operation="_Oc5CQKGlEeGYhJ-ocQUHyA"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_DwCH4KGuEeGYhJ-ocQUHyA" name="CallEvent3" operation="_Ygf1MqGlEeGYhJ-ocQUHyA"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_osZtAKGuEeGYhJ-ocQUHyA" name="CallEvent4" operation="_jr7L0KGlEeGYhJ-ocQUHyA"/>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_ruhaMqGuEeGYhJ-ocQUHyA" name="CallEvent5"/>
+      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_RRdvwKGyEeGYhJ-ocQUHyA" name="atm20" classifier="_43Ae8KGkEeGYhJ-ocQUHyA"/>
+      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_VajFAKGyEeGYhJ-ocQUHyA" name="bank" classifier="_qe57gKGlEeGYhJ-ocQUHyA"/>
+      <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_X7LOsKGyEeGYhJ-ocQUHyA" name="InstanceSpecification1" classifier="_7wTK0KGlEeGYhJ-ocQUHyA">
+        <slot xmi:id="_X7LOsaGyEeGYhJ-ocQUHyA" definingFeature="_7wTK0aGlEeGYhJ-ocQUHyA">
+          <value xmi:type="uml:InstanceValue" xmi:id="_X7LOsqGyEeGYhJ-ocQUHyA" type="_43Ae8KGkEeGYhJ-ocQUHyA" instance="_RRdvwKGyEeGYhJ-ocQUHyA"/>
+        </slot>
+        <slot xmi:id="_X7LOs6GyEeGYhJ-ocQUHyA" definingFeature="_7wTK1KGlEeGYhJ-ocQUHyA">
+          <value xmi:type="uml:InstanceValue" xmi:id="_X7LOtKGyEeGYhJ-ocQUHyA" type="_qe57gKGlEeGYhJ-ocQUHyA" instance="_VajFAKGyEeGYhJ-ocQUHyA"/>
+        </slot>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_43Ae8KGkEeGYhJ-ocQUHyA" name="ATM" classifierBehavior="_QEWHQKGwEeGYhJ-ocQUHyA">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_QEWHQKGwEeGYhJ-ocQUHyA" name="ATM Behavior">
+        <region xmi:id="_QEWHQaGwEeGYhJ-ocQUHyA" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_QoDRQKGwEeGYhJ-ocQUHyA" name=""/>
+          <subvertex xmi:type="uml:State" xmi:id="_Sfc3wKGwEeGYhJ-ocQUHyA" name="idle"/>
+          <subvertex xmi:type="uml:State" xmi:id="_Y_Ra4KGwEeGYhJ-ocQUHyA" name="card inserted"/>
+          <subvertex xmi:type="uml:State" xmi:id="_nduogKGwEeGYhJ-ocQUHyA" name="verification"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_444QwKGwEeGYhJ-ocQUHyA" name="" kind="choice"/>
+          <subvertex xmi:type="uml:State" xmi:id="_FPpZIKGxEeGYhJ-ocQUHyA" name="verified"/>
+          <subvertex xmi:type="uml:State" xmi:id="_dItgAKGxEeGYhJ-ocQUHyA" name="amount selected"/>
+          <transition xmi:id="_U1uLkKGwEeGYhJ-ocQUHyA" name="" source="_QoDRQKGwEeGYhJ-ocQUHyA" target="_Sfc3wKGwEeGYhJ-ocQUHyA"/>
+          <transition xmi:id="_dW7-tKGwEeGYhJ-ocQUHyA" name="Transition1" source="_Sfc3wKGwEeGYhJ-ocQUHyA" target="_Y_Ra4KGwEeGYhJ-ocQUHyA">
+            <trigger xmi:id="_fi8jQKGwEeGYhJ-ocQUHyA" event="_huOvEKGwEeGYhJ-ocQUHyA"/>
+          </transition>
+          <transition xmi:id="_usrigKGwEeGYhJ-ocQUHyA" name="Transition2" source="_Y_Ra4KGwEeGYhJ-ocQUHyA" target="_nduogKGwEeGYhJ-ocQUHyA">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_wB3MwKGwEeGYhJ-ocQUHyA" name="isValid := bank.isCardValid(cardNo)"/>
+          </transition>
+          <transition xmi:id="_7Ip7AKGwEeGYhJ-ocQUHyA" name="" source="_nduogKGwEeGYhJ-ocQUHyA" target="_444QwKGwEeGYhJ-ocQUHyA"/>
+          <transition xmi:id="_86u8oKGwEeGYhJ-ocQUHyA" name="Transition3" source="_444QwKGwEeGYhJ-ocQUHyA" target="_Sfc3wKGwEeGYhJ-ocQUHyA" guard="_Ad9y0KGxEeGYhJ-ocQUHyA">
+            <ownedRule xmi:id="_Ad9y0KGxEeGYhJ-ocQUHyA">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_C-kuYKGxEeGYhJ-ocQUHyA" name="not isValid">
+                <language>ocl</language>
+                <body>not isValid</body>
+              </specification>
+            </ownedRule>
+          </transition>
+          <transition xmi:id="_HK_EdaGxEeGYhJ-ocQUHyA" name="Transition4" source="_444QwKGwEeGYhJ-ocQUHyA" target="_FPpZIKGxEeGYhJ-ocQUHyA" guard="_IsJVMKGxEeGYhJ-ocQUHyA">
+            <ownedRule xmi:id="_IsJVMKGxEeGYhJ-ocQUHyA">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_JaRmgKGxEeGYhJ-ocQUHyA" name="isValid">
+                <language>ocl</language>
+                <body>isValid</body>
+              </specification>
+            </ownedRule>
+          </transition>
+          <transition xmi:id="_gzyDlKGxEeGYhJ-ocQUHyA" name="Transition5" source="_FPpZIKGxEeGYhJ-ocQUHyA" target="_dItgAKGxEeGYhJ-ocQUHyA">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_sxQiMKGxEeGYhJ-ocQUHyA" name="bank.deductMoneyFromCard(cardNo, amount)"/>
+            <trigger xmi:id="_hc4D4KGxEeGYhJ-ocQUHyA" event="_k9MI8KGxEeGYhJ-ocQUHyA"/>
+          </transition>
+          <transition xmi:id="_0xfIJKGxEeGYhJ-ocQUHyA" name="Transition6" source="_dItgAKGxEeGYhJ-ocQUHyA" target="_Sfc3wKGwEeGYhJ-ocQUHyA">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6NdooKGxEeGYhJ-ocQUHyA" name="reply amount"/>
+            <trigger xmi:id="_2ikEMKGxEeGYhJ-ocQUHyA" event="_4hiSUKGxEeGYhJ-ocQUHyA"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_72a2YKGkEeGYhJ-ocQUHyA" name="insertCard">
+        <ownedParameter xmi:id="_-DmfoKGkEeGYhJ-ocQUHyA" name="cardNo">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_Oc5CQKGlEeGYhJ-ocQUHyA" name="verifyPIN">
+        <ownedParameter xmi:id="_RbceEKGlEeGYhJ-ocQUHyA" name="pinNo">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_Ygf1MqGlEeGYhJ-ocQUHyA" name="selectAmountToWithdraw">
+        <ownedParameter xmi:id="_m73SkKGlEeGYhJ-ocQUHyA" name="amount">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_jr7L0KGlEeGYhJ-ocQUHyA" name="takeMoney">
+        <ownedParameter xmi:id="_X6z_IKGuEeGYhJ-ocQUHyA" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_qe57gKGlEeGYhJ-ocQUHyA" name="Bank" classifierBehavior="_wp3WAKGyEeGYhJ-ocQUHyA">
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_wp3WAKGyEeGYhJ-ocQUHyA" name="Bank Behavior">
+        <region xmi:id="_wp3WAaGyEeGYhJ-ocQUHyA" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_xcnoo6GyEeGYhJ-ocQUHyA" name=""/>
+          <subvertex xmi:type="uml:State" xmi:id="_yP778KGyEeGYhJ-ocQUHyA" name="idle"/>
+          <transition xmi:id="_1TcJNKGyEeGYhJ-ocQUHyA" name="" source="_xcnoo6GyEeGYhJ-ocQUHyA" target="_yP778KGyEeGYhJ-ocQUHyA"/>
+          <transition xmi:id="_5EOTNKGyEeGYhJ-ocQUHyA" name="Transition1" source="_yP778KGyEeGYhJ-ocQUHyA" target="_yP778KGyEeGYhJ-ocQUHyA">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_9f-s0KGyEeGYhJ-ocQUHyA" name="reply true"/>
+            <trigger xmi:id="_5xDkAKGyEeGYhJ-ocQUHyA" name="" event="_8ZkeYKGyEeGYhJ-ocQUHyA"/>
+          </transition>
+          <transition xmi:id="__WNOpKGyEeGYhJ-ocQUHyA" name="Transition2" source="_yP778KGyEeGYhJ-ocQUHyA" target="_yP778KGyEeGYhJ-ocQUHyA">
+            <trigger xmi:id="_CcXuUKGzEeGYhJ-ocQUHyA" name="" event="_FhazsKGzEeGYhJ-ocQUHyA"/>
+          </transition>
+        </region>
+      </ownedBehavior>
+      <ownedOperation xmi:id="_tnA78qGlEeGYhJ-ocQUHyA" name="isCardValid">
+        <ownedParameter xmi:id="_w2beQKGlEeGYhJ-ocQUHyA" name="cardNo">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_0E9PwKGlEeGYhJ-ocQUHyA" name="return" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_MNPeYKGmEeGYhJ-ocQUHyA" name="deductMoneyFromCard">
+        <ownedParameter xmi:id="_OXnrQKGmEeGYhJ-ocQUHyA" name="cardNo">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_R8mN4KGmEeGYhJ-ocQUHyA" name="amount">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Association" xmi:id="_7wTK0KGlEeGYhJ-ocQUHyA" name="A_&lt;aTM>_&lt;bank>" memberEnd="_7wTK0aGlEeGYhJ-ocQUHyA _7wTK1KGlEeGYhJ-ocQUHyA">
+      <ownedEnd xmi:id="_7wTK0aGlEeGYhJ-ocQUHyA" name="atm" type="_43Ae8KGkEeGYhJ-ocQUHyA" association="_7wTK0KGlEeGYhJ-ocQUHyA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7wTK0qGlEeGYhJ-ocQUHyA" value="*"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7wTK06GlEeGYhJ-ocQUHyA"/>
+      </ownedEnd>
+      <ownedEnd xmi:id="_7wTK1KGlEeGYhJ-ocQUHyA" name="bank" type="_qe57gKGlEeGYhJ-ocQUHyA" association="_7wTK0KGlEeGYhJ-ocQUHyA">
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_7wTK1aGlEeGYhJ-ocQUHyA" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_7wTK1qGlEeGYhJ-ocQUHyA" value="1"/>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_huOvEKGwEeGYhJ-ocQUHyA" name="insertCard(cardNo)" operation="_72a2YKGkEeGYhJ-ocQUHyA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_k9MI8KGxEeGYhJ-ocQUHyA" name="selectAmountToWithdraw(amount)" operation="_Ygf1MqGlEeGYhJ-ocQUHyA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_4hiSUKGxEeGYhJ-ocQUHyA" name="takeMoney()" operation="_jr7L0KGlEeGYhJ-ocQUHyA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_8ZkeYKGyEeGYhJ-ocQUHyA" name="isCardValid(cardNo)" operation="_tnA78qGlEeGYhJ-ocQUHyA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_FhazsKGzEeGYhJ-ocQUHyA" name="deductMoneyFromCard(cardNo, amount)" operation="_MNPeYKGmEeGYhJ-ocQUHyA"/>
+  </packagedElement>
+</uml:Model>
