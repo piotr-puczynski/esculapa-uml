@@ -9,7 +9,7 @@
  *    Piotr J. Puczynski (DTU Informatics) - initial API and implementation 
  *    
  ****************************************************************************/
-package dk.dtu.imm.esculapauml.core.tests.toolSystem;
+package dk.dtu.imm.esculapauml.core.caseStudyTollSystem;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -24,17 +24,28 @@ import dk.dtu.imm.esculapauml.core.tests.uml.LoggingTest;
 import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
 
 /**
- * Tests tag check in use case.
+ * Tests of the toll system with components. Check-in and check-out scenarios.
  * 
  * @author Piotr J. Puczynski
  * 
  */
-public class CheckInTag extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("TollWithoutComponents.uml");
+public class TollSystemWithComponents extends LoggingTest {
+	private Resource model = TestUtils.getUMLResource("TollWithComp.uml");
 
 	@Test
 	public void checkInTag() throws InterruptedException {
 		Interaction interaction = TestUtils.getInteraction(model, "CheckInDetail");
+		assertNotNull(interaction);
+		UseCaseChecker checker = new UseCaseChecker(interaction);
+		checker.check();
+		Diagnostic diagnostics = checker.getDiagnostics();
+		// there is no error
+		assertEquals(Diagnostic.OK, diagnostics.getSeverity());
+	}
+
+	@Test
+	public void checkOutTag() throws InterruptedException {
+		Interaction interaction = TestUtils.getInteraction(model, "CheckOutDetail");
 		assertNotNull(interaction);
 		UseCaseChecker checker = new UseCaseChecker(interaction);
 		checker.check();
