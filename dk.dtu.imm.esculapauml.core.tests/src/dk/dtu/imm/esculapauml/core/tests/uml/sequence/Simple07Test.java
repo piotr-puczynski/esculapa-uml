@@ -48,7 +48,7 @@ public class Simple07Test extends LoggingTest {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is an error
-		 TestUtils.printDiagnostic(diagnostics);
+		// TestUtils.printDiagnostic(diagnostics);
 		assertEquals(Diagnostic.WARNING, diagnostics.getSeverity());
 		// there are errors
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
