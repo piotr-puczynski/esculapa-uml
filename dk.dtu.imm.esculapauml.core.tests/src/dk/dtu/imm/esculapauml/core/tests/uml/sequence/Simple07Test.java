@@ -48,12 +48,12 @@ public class Simple07Test extends LoggingTest {
 		checker.check();
 		Diagnostic diagnostics = checker.getDiagnostics();
 		// there is an error
-		// TestUtils.printDiagnostic(diagnostics);
+		 TestUtils.printDiagnostic(diagnostics);
 		assertEquals(Diagnostic.WARNING, diagnostics.getSeverity());
 		// there are errors
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// the errors are
-		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.WARNING, "Conflicting transitions: [conflict2, conflict1]", t2, t1));
+		assertTrue(TestUtils.diagnosticExists(diagnostics, Diagnostic.WARNING, "Conflicting transitions: [conflict2, conflict1]", t1, t2 ));
 	}
 
 }

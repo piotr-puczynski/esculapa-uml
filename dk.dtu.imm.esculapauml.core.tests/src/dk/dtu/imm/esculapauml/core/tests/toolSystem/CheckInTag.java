@@ -30,7 +30,7 @@ import dk.dtu.imm.esculapauml.core.tests.utils.TestUtils;
  * 
  */
 public class CheckInTag extends LoggingTest {
-	private Resource model = TestUtils.getUMLResource("TollTest.uml");
+	private Resource model = TestUtils.getUMLResource("TollWithoutComponents.uml");
 
 	@Test
 	public void checkInTag() throws InterruptedException {
