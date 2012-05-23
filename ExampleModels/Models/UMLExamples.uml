@@ -13,11 +13,39 @@
     <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
   </elementImport>
   <packagedElement xmi:type="uml:Package" xmi:id="_w8IxIM37EdqwVrslYOdUDA" name="UMLExamples">
-    <packagedElement xmi:type="uml:Class" xmi:id="_ItkHAKNdEeG3w7qvw6JjpQ" name="Class1" clientDependency="_i-NwUKNdEeG3w7qvw6JjpQ _X97JUKN2EeG3w7qvw6JjpQ _YvLAEKN2EeG3w7qvw6JjpQ">
+    <packagedElement xmi:type="uml:Class" xmi:id="_ItkHAKNdEeG3w7qvw6JjpQ" name="Class1" clientDependency="_i-NwUKNdEeG3w7qvw6JjpQ _X97JUKN2EeG3w7qvw6JjpQ _YvLAEKN2EeG3w7qvw6JjpQ" classifierBehavior="_83u0cKT8EeG2w-0mWLtLxA">
       <generalization xmi:id="_W2H9IKNdEeG3w7qvw6JjpQ" general="_St7YsKNdEeG3w7qvw6JjpQ"/>
       <ownedAttribute xmi:id="_Y3R8kKNdEeG3w7qvw6JjpQ" name="attribute1">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedAttribute>
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_83u0cKT8EeG2w-0mWLtLxA" name="Class1 Behavior">
+        <region xmi:id="_83zs8KT8EeG2w-0mWLtLxA" name="Region">
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_BfmXcKT9EeG2w-0mWLtLxA" name="Initial"/>
+          <subvertex xmi:type="uml:State" xmi:id="_C6YTYKT9EeG2w-0mWLtLxA" name="Idle"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_JaZDwKT9EeG2w-0mWLtLxA" name="" kind="choice"/>
+          <transition xmi:id="_EtkvUKT9EeG2w-0mWLtLxA" name="" source="_BfmXcKT9EeG2w-0mWLtLxA" target="_C6YTYKT9EeG2w-0mWLtLxA"/>
+          <transition xmi:id="_LKo5YKT9EeG2w-0mWLtLxA" name="" source="_C6YTYKT9EeG2w-0mWLtLxA" target="_JaZDwKT9EeG2w-0mWLtLxA">
+            <trigger xmi:id="_MSfSQKT9EeG2w-0mWLtLxA" name="" event="_PDKqIKT9EeG2w-0mWLtLxA"/>
+          </transition>
+          <transition xmi:id="_Q1p7cKT9EeG2w-0mWLtLxA" name="Transition1" source="_JaZDwKT9EeG2w-0mWLtLxA" target="_C6YTYKT9EeG2w-0mWLtLxA" guard="_VrkhgKT9EeG2w-0mWLtLxA">
+            <ownedRule xmi:id="_VrkhgKT9EeG2w-0mWLtLxA" name="">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_YUUscKT9EeG2w-0mWLtLxA" name="parameter1 = &quot;hello&quot;">
+                <language>ocl</language>
+                <body>parameter1 = &quot;hello&quot;</body>
+              </specification>
+            </ownedRule>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZZryAKT9EeG2w-0mWLtLxA" name="attribute1 := 15"/>
+          </transition>
+          <transition xmi:id="_cg-TFKT9EeG2w-0mWLtLxA" name="Transition2" source="_JaZDwKT9EeG2w-0mWLtLxA" target="_C6YTYKT9EeG2w-0mWLtLxA" guard="_en2gAKT9EeG2w-0mWLtLxA">
+            <ownedRule xmi:id="_en2gAKT9EeG2w-0mWLtLxA">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_fO1ngKT9EeG2w-0mWLtLxA" name="else">
+                <language>ocl</language>
+                <body>else</body>
+              </specification>
+            </ownedRule>
+          </transition>
+        </region>
+      </ownedBehavior>
       <interfaceRealization xmi:id="_i-NwUKNdEeG3w7qvw6JjpQ" name="InterfaceRealization1" supplier="_g5b1IKNdEeG3w7qvw6JjpQ" client="_ItkHAKNdEeG3w7qvw6JjpQ" contract="_g5b1IKNdEeG3w7qvw6JjpQ"/>
       <interfaceRealization xmi:id="_X97JUKN2EeG3w7qvw6JjpQ" supplier="_SRSWoKN2EeG3w7qvw6JjpQ" client="_ItkHAKNdEeG3w7qvw6JjpQ"/>
       <ownedOperation xmi:id="_KBAr4KNdEeG3w7qvw6JjpQ" name="operation1">
@@ -83,5 +111,6 @@
       <nestedClassifier xmi:type="uml:Interface" xmi:id="_SRSWoKN2EeG3w7qvw6JjpQ" name="Interface1"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Usage" xmi:id="_YvLAEKN2EeG3w7qvw6JjpQ" supplier="_SRSWoKN2EeG3w7qvw6JjpQ" client="_ItkHAKNdEeG3w7qvw6JjpQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_PDKqIKT9EeG2w-0mWLtLxA" name="operation1(parameter1)"/>
   </packagedElement>
 </uml:Model>
