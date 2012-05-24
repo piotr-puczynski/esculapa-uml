@@ -23,6 +23,9 @@
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_BfmXcKT9EeG2w-0mWLtLxA" name="Initial"/>
           <subvertex xmi:type="uml:State" xmi:id="_C6YTYKT9EeG2w-0mWLtLxA" name="Idle"/>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_JaZDwKT9EeG2w-0mWLtLxA" name="" kind="choice"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_t0dsgKWfEeGE6JECBjGQvw" name=""/>
+          <subvertex xmi:type="uml:State" xmi:id="_uuVTwKWfEeGE6JECBjGQvw" name="idle"/>
+          <subvertex xmi:type="uml:State" xmi:id="_0sFroqWfEeGE6JECBjGQvw" name="attr changed"/>
           <transition xmi:id="_EtkvUKT9EeG2w-0mWLtLxA" name="" source="_BfmXcKT9EeG2w-0mWLtLxA" target="_C6YTYKT9EeG2w-0mWLtLxA"/>
           <transition xmi:id="_LKo5YKT9EeG2w-0mWLtLxA" name="" source="_C6YTYKT9EeG2w-0mWLtLxA" target="_JaZDwKT9EeG2w-0mWLtLxA">
             <trigger xmi:id="_MSfSQKT9EeG2w-0mWLtLxA" name="" event="_PDKqIKT9EeG2w-0mWLtLxA"/>
@@ -34,7 +37,7 @@
                 <body>parameter1 = &quot;hello&quot;</body>
               </specification>
             </ownedRule>
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZZryAKT9EeG2w-0mWLtLxA" name="attribute1 := 15"/>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ZZryAKT9EeG2w-0mWLtLxA" name="attribute1 := 15; reply true"/>
           </transition>
           <transition xmi:id="_cg-TFKT9EeG2w-0mWLtLxA" name="Transition2" source="_JaZDwKT9EeG2w-0mWLtLxA" target="_C6YTYKT9EeG2w-0mWLtLxA" guard="_en2gAKT9EeG2w-0mWLtLxA">
             <ownedRule xmi:id="_en2gAKT9EeG2w-0mWLtLxA">
@@ -43,7 +46,12 @@
                 <body>else</body>
               </specification>
             </ownedRule>
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_qe8u8KWvEeGE6JECBjGQvw" name="reply false"/>
           </transition>
+          <transition xmi:id="_4VzkVKWfEeGE6JECBjGQvw" name="[parameter1 = &quot;hello&quot;] operation1(parameter1) /[attribute1 = 15]" source="_uuVTwKWfEeGE6JECBjGQvw" target="_0sFroqWfEeGE6JECBjGQvw"/>
+          <transition xmi:id="_5HzB9aWfEeGE6JECBjGQvw" name="" source="_t0dsgKWfEeGE6JECBjGQvw" target="_uuVTwKWfEeGE6JECBjGQvw"/>
+          <transition xmi:id="_KO669KWgEeGE6JECBjGQvw" name="" source="_0sFroqWfEeGE6JECBjGQvw" target="_uuVTwKWfEeGE6JECBjGQvw"/>
+          <transition xmi:id="_MFMgFaWgEeGE6JECBjGQvw" name="operation1(parameter1) /" source="_uuVTwKWfEeGE6JECBjGQvw" target="_uuVTwKWfEeGE6JECBjGQvw"/>
         </region>
       </ownedBehavior>
       <interfaceRealization xmi:id="_i-NwUKNdEeG3w7qvw6JjpQ" name="InterfaceRealization1" supplier="_g5b1IKNdEeG3w7qvw6JjpQ" client="_ItkHAKNdEeG3w7qvw6JjpQ" contract="_g5b1IKNdEeG3w7qvw6JjpQ"/>
@@ -112,5 +120,29 @@
     </packagedElement>
     <packagedElement xmi:type="uml:Usage" xmi:id="_YvLAEKN2EeG3w7qvw6JjpQ" supplier="_SRSWoKN2EeG3w7qvw6JjpQ" client="_ItkHAKNdEeG3w7qvw6JjpQ"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_PDKqIKT9EeG2w-0mWLtLxA" name="operation1(parameter1)"/>
+    <packagedElement xmi:type="uml:Collaboration" xmi:id="_JhIfgKWuEeGE6JECBjGQvw">
+      <ownedBehavior xmi:type="uml:Interaction" xmi:id="_JhIfgaWuEeGE6JECBjGQvw">
+        <ownedAttribute xmi:id="_NR_iAKWuEeGE6JECBjGQvw" name="Property1" type="_ItkHAKNdEeG3w7qvw6JjpQ"/>
+        <ownedConnector xmi:id="_NR_iAaWuEeGE6JECBjGQvw" name="Connector1">
+          <end xmi:id="_NR_iAqWuEeGE6JECBjGQvw" role="_NR_iAKWuEeGE6JECBjGQvw"/>
+        </ownedConnector>
+        <lifeline xmi:id="_KUwU0KWuEeGE6JECBjGQvw" name="Piotr" coveredBy="_QrzWcKWuEeGE6JECBjGQvw _STyn8aWuEeGE6JECBjGQvw _O892EKWuEeGE6JECBjGQvw"/>
+        <lifeline xmi:id="_MVcaMKWuEeGE6JECBjGQvw" name="Lifeline1" represents="_NR_iAKWuEeGE6JECBjGQvw" coveredBy="_QrzWcaWuEeGE6JECBjGQvw _STyn8KWuEeGE6JECBjGQvw _PelVYKWuEeGE6JECBjGQvw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_STyn8KWuEeGE6JECBjGQvw" name="MessageOccurrenceSpecification3" covered="_MVcaMKWuEeGE6JECBjGQvw" event="_STyn8qWuEeGE6JECBjGQvw" message="_STyn86WuEeGE6JECBjGQvw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_STyn8aWuEeGE6JECBjGQvw" name="MessageOccurrenceSpecification4" covered="_KUwU0KWuEeGE6JECBjGQvw" event="_STyn8qWuEeGE6JECBjGQvw" message="_STyn86WuEeGE6JECBjGQvw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_QrzWcKWuEeGE6JECBjGQvw" name="MessageOccurrenceSpecification1" covered="_KUwU0KWuEeGE6JECBjGQvw" event="_QrzWcqWuEeGE6JECBjGQvw" message="_QrzWc6WuEeGE6JECBjGQvw"/>
+        <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_QrzWcaWuEeGE6JECBjGQvw" name="MessageOccurrenceSpecification2" covered="_MVcaMKWuEeGE6JECBjGQvw" event="_QrzWcqWuEeGE6JECBjGQvw" message="_QrzWc6WuEeGE6JECBjGQvw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_PelVYKWuEeGE6JECBjGQvw" name="BehaviorExecutionSpecification2" covered="_MVcaMKWuEeGE6JECBjGQvw" start="_QrzWcaWuEeGE6JECBjGQvw" finish="_STyn8KWuEeGE6JECBjGQvw"/>
+        <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_O892EKWuEeGE6JECBjGQvw" name="BehaviorExecutionSpecification1" covered="_KUwU0KWuEeGE6JECBjGQvw" start="_QrzWcKWuEeGE6JECBjGQvw" finish="_STyn8aWuEeGE6JECBjGQvw"/>
+        <message xmi:id="_QrzWc6WuEeGE6JECBjGQvw" name="operation1" receiveEvent="_QrzWcaWuEeGE6JECBjGQvw" sendEvent="_QrzWcKWuEeGE6JECBjGQvw">
+          <argument xmi:type="uml:LiteralString" xmi:id="_ReO48aWuEeGE6JECBjGQvw" name="parameter1" value="hello">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </argument>
+        </message>
+        <message xmi:id="_STyn86WuEeGE6JECBjGQvw" name="true" messageSort="reply" receiveEvent="_STyn8aWuEeGE6JECBjGQvw" sendEvent="_STyn8KWuEeGE6JECBjGQvw"/>
+      </ownedBehavior>
+    </packagedElement>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_QrzWcqWuEeGE6JECBjGQvw" name="CallEvent1" operation="_KBAr4KNdEeG3w7qvw6JjpQ"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_STyn8qWuEeGE6JECBjGQvw" name="CallEvent2"/>
   </packagedElement>
 </uml:Model>
