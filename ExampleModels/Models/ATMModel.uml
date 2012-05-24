@@ -19,11 +19,13 @@
             <end xmi:id="_maXOYKGtEeGYhJ-ocQUHyA" role="_3TtOQaGmEeGYhJ-ocQUHyA"/>
             <end xmi:id="_tdJ7saGtEeGYhJ-ocQUHyA" role="_tdJ7sKGtEeGYhJ-ocQUHyA"/>
           </ownedConnector>
-          <lifeline xmi:id="_iSQJgKGtEeGYhJ-ocQUHyA" name="Piotr" represents="_3TtOQaGmEeGYhJ-ocQUHyA" coveredBy="_3N8gUKGtEeGYhJ-ocQUHyA _8gpwEKGtEeGYhJ-ocQUHyA _DwBg0KGuEeGYhJ-ocQUHyA _osYe4KGuEeGYhJ-ocQUHyA _ruhaMaGuEeGYhJ-ocQUHyA _uprZMKGtEeGYhJ-ocQUHyA"/>
-          <lifeline xmi:id="_rK5lMKGtEeGYhJ-ocQUHyA" name="atm20" represents="_tdJ7sKGtEeGYhJ-ocQUHyA" coveredBy="_3N8gUaGtEeGYhJ-ocQUHyA _8gpwEaGtEeGYhJ-ocQUHyA _DwBg0aGuEeGYhJ-ocQUHyA _osZF8KGuEeGYhJ-ocQUHyA _ruhaMKGuEeGYhJ-ocQUHyA _v4bEQKGtEeGYhJ-ocQUHyA _7114gqGtEeGYhJ-ocQUHyA _CnHYAKGuEeGYhJ-ocQUHyA _mxCzkKGuEeGYhJ-ocQUHyA"/>
+          <lifeline xmi:id="_iSQJgKGtEeGYhJ-ocQUHyA" name="Piotr" represents="_3TtOQaGmEeGYhJ-ocQUHyA" coveredBy="_3N8gUKGtEeGYhJ-ocQUHyA _cl7k8KWUEeGFUugUTqOh4w _osYe4KGuEeGYhJ-ocQUHyA _ruhaMaGuEeGYhJ-ocQUHyA _8gpwEKGtEeGYhJ-ocQUHyA _DwBg0KGuEeGYhJ-ocQUHyA _uprZMKGtEeGYhJ-ocQUHyA"/>
+          <lifeline xmi:id="_rK5lMKGtEeGYhJ-ocQUHyA" name="atm20" represents="_tdJ7sKGtEeGYhJ-ocQUHyA" coveredBy="_3N8gUaGtEeGYhJ-ocQUHyA _cl7k8aWUEeGFUugUTqOh4w _8gpwEaGtEeGYhJ-ocQUHyA _DwBg0aGuEeGYhJ-ocQUHyA _osZF8KGuEeGYhJ-ocQUHyA _ruhaMKGuEeGYhJ-ocQUHyA _v4bEQKGtEeGYhJ-ocQUHyA _7114gqGtEeGYhJ-ocQUHyA _CnHYAKGuEeGYhJ-ocQUHyA _mxCzkKGuEeGYhJ-ocQUHyA _a4lSUqWUEeGFUugUTqOh4w"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_cl7k8KWUEeGFUugUTqOh4w" name="MessageOccurrenceSpecification11" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_cl7k8qWUEeGFUugUTqOh4w" message="_cl7k86WUEeGFUugUTqOh4w"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_cl7k8aWUEeGFUugUTqOh4w" name="MessageOccurrenceSpecification12" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_cl7k8qWUEeGFUugUTqOh4w" message="_cl7k86WUEeGFUugUTqOh4w"/>
+          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_osYe4KGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification7" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_osZtAKGuEeGYhJ-ocQUHyA" message="_osZtAaGuEeGYhJ-ocQUHyA"/>
           <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_ruhaMKGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification9" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_ruhaMqGuEeGYhJ-ocQUHyA" message="_ruhaM6GuEeGYhJ-ocQUHyA"/>
           <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_ruhaMaGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification10" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_ruhaMqGuEeGYhJ-ocQUHyA" message="_ruhaM6GuEeGYhJ-ocQUHyA"/>
-          <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_osYe4KGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification7" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_osZtAKGuEeGYhJ-ocQUHyA" message="_osZtAaGuEeGYhJ-ocQUHyA"/>
           <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_osZF8KGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification8" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_osZtAKGuEeGYhJ-ocQUHyA" message="_osZtAaGuEeGYhJ-ocQUHyA"/>
           <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_DwBg0KGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification5" covered="_iSQJgKGtEeGYhJ-ocQUHyA" event="_DwCH4KGuEeGYhJ-ocQUHyA" message="_DwCH4aGuEeGYhJ-ocQUHyA"/>
           <fragment xmi:type="uml:MessageOccurrenceSpecification" xmi:id="_DwBg0aGuEeGYhJ-ocQUHyA" name="MessageOccurrenceSpecification6" covered="_rK5lMKGtEeGYhJ-ocQUHyA" event="_DwCH4KGuEeGYhJ-ocQUHyA" message="_DwCH4aGuEeGYhJ-ocQUHyA"/>
@@ -35,6 +37,7 @@
           <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_v4bEQKGtEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification2" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_3N8gUaGtEeGYhJ-ocQUHyA" finish="_3N8gUaGtEeGYhJ-ocQUHyA"/>
           <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_7114gqGtEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification3" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_8gpwEaGtEeGYhJ-ocQUHyA" finish="_8gpwEaGtEeGYhJ-ocQUHyA"/>
           <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_CnHYAKGuEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification4" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_DwBg0aGuEeGYhJ-ocQUHyA" finish="_DwBg0aGuEeGYhJ-ocQUHyA"/>
+          <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_a4lSUqWUEeGFUugUTqOh4w" name="BehaviorExecutionSpecification6" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_cl7k8aWUEeGFUugUTqOh4w" finish="_cl7k8aWUEeGFUugUTqOh4w"/>
           <fragment xmi:type="uml:BehaviorExecutionSpecification" xmi:id="_mxCzkKGuEeGYhJ-ocQUHyA" name="BehaviorExecutionSpecification5" covered="_rK5lMKGtEeGYhJ-ocQUHyA" start="_osZF8KGuEeGYhJ-ocQUHyA" finish="_ruhaMKGuEeGYhJ-ocQUHyA"/>
           <message xmi:id="_3N8gU6GtEeGYhJ-ocQUHyA" name="insertCard" receiveEvent="_3N8gUaGtEeGYhJ-ocQUHyA" sendEvent="_3N8gUKGtEeGYhJ-ocQUHyA">
             <argument xmi:type="uml:LiteralString" xmi:id="_4G1QIKGtEeGYhJ-ocQUHyA" name="cardNo" value="555">
@@ -53,6 +56,7 @@
           </message>
           <message xmi:id="_osZtAaGuEeGYhJ-ocQUHyA" name="takeMoney" receiveEvent="_osZF8KGuEeGYhJ-ocQUHyA" sendEvent="_osYe4KGuEeGYhJ-ocQUHyA"/>
           <message xmi:id="_ruhaM6GuEeGYhJ-ocQUHyA" name="100" messageSort="reply" receiveEvent="_ruhaMaGuEeGYhJ-ocQUHyA" sendEvent="_ruhaMKGuEeGYhJ-ocQUHyA"/>
+          <message xmi:id="_cl7k86WUEeGFUugUTqOh4w" name="takeCard" receiveEvent="_cl7k8aWUEeGFUugUTqOh4w" sendEvent="_cl7k8KWUEeGFUugUTqOh4w"/>
         </ownedBehavior>
       </packagedElement>
       <packagedElement xmi:type="uml:Association" xmi:id="_3TtOQKGmEeGYhJ-ocQUHyA" name="A_&lt;client>_&lt;withdraw money from ATM>" memberEnd="_3TtOQaGmEeGYhJ-ocQUHyA _3TtORKGmEeGYhJ-ocQUHyA">
@@ -80,6 +84,7 @@
           <value xmi:type="uml:InstanceValue" xmi:id="_X7LOtKGyEeGYhJ-ocQUHyA" type="_qe57gKGlEeGYhJ-ocQUHyA" instance="_VajFAKGyEeGYhJ-ocQUHyA"/>
         </slot>
       </packagedElement>
+      <packagedElement xmi:type="uml:CallEvent" xmi:id="_cl7k8qWUEeGFUugUTqOh4w" name="CallEvent6" operation="_kJ4UAKWTEeGFUugUTqOh4w"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_43Ae8KGkEeGYhJ-ocQUHyA" name="ATM" classifierBehavior="_QEWHQKGwEeGYhJ-ocQUHyA">
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_QEWHQKGwEeGYhJ-ocQUHyA" name="ATM Behavior">
@@ -91,6 +96,7 @@
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_444QwKGwEeGYhJ-ocQUHyA" name="" kind="choice"/>
           <subvertex xmi:type="uml:State" xmi:id="_FPpZIKGxEeGYhJ-ocQUHyA" name="verified"/>
           <subvertex xmi:type="uml:State" xmi:id="_dItgAKGxEeGYhJ-ocQUHyA" name="amount selected"/>
+          <subvertex xmi:type="uml:State" xmi:id="_zLPaYqWTEeGFUugUTqOh4w" name="card taken"/>
           <transition xmi:id="_U1uLkKGwEeGYhJ-ocQUHyA" name="" source="_QoDRQKGwEeGYhJ-ocQUHyA" target="_Sfc3wKGwEeGYhJ-ocQUHyA"/>
           <transition xmi:id="_dW7-tKGwEeGYhJ-ocQUHyA" name="Transition1" source="_Sfc3wKGwEeGYhJ-ocQUHyA" target="_Y_Ra4KGwEeGYhJ-ocQUHyA">
             <trigger xmi:id="_fi8jQKGwEeGYhJ-ocQUHyA" event="_huOvEKGwEeGYhJ-ocQUHyA"/>
@@ -119,9 +125,12 @@
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_sxQiMKGxEeGYhJ-ocQUHyA" name="bank.deductMoneyFromCard(cardNo, amount)"/>
             <trigger xmi:id="_hc4D4KGxEeGYhJ-ocQUHyA" event="_k9MI8KGxEeGYhJ-ocQUHyA"/>
           </transition>
-          <transition xmi:id="_0xfIJKGxEeGYhJ-ocQUHyA" name="Transition6" source="_dItgAKGxEeGYhJ-ocQUHyA" target="_Sfc3wKGwEeGYhJ-ocQUHyA">
+          <transition xmi:id="_0xfIJKGxEeGYhJ-ocQUHyA" name="Transition6" source="_zLPaYqWTEeGFUugUTqOh4w" target="_Sfc3wKGwEeGYhJ-ocQUHyA">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6NdooKGxEeGYhJ-ocQUHyA" name="reply amount"/>
             <trigger xmi:id="_2ikEMKGxEeGYhJ-ocQUHyA" event="_4hiSUKGxEeGYhJ-ocQUHyA"/>
+          </transition>
+          <transition xmi:id="_4FJvpKWTEeGFUugUTqOh4w" name="Transition7" source="_dItgAKGxEeGYhJ-ocQUHyA" target="_zLPaYqWTEeGFUugUTqOh4w">
+            <trigger xmi:id="_4_BW4KWTEeGFUugUTqOh4w" name="" event="_7s8VsKWTEeGFUugUTqOh4w"/>
           </transition>
         </region>
       </ownedBehavior>
@@ -145,6 +154,7 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
       </ownedOperation>
+      <ownedOperation xmi:id="_kJ4UAKWTEeGFUugUTqOh4w" name="takeCard"/>
     </packagedElement>
     <packagedElement xmi:type="uml:Class" xmi:id="_qe57gKGlEeGYhJ-ocQUHyA" name="Bank" classifierBehavior="_wp3WAKGyEeGYhJ-ocQUHyA">
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_wp3WAKGyEeGYhJ-ocQUHyA" name="Bank Behavior">
@@ -193,5 +203,6 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_4hiSUKGxEeGYhJ-ocQUHyA" name="takeMoney()" operation="_jr7L0KGlEeGYhJ-ocQUHyA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_8ZkeYKGyEeGYhJ-ocQUHyA" name="isCardValid(cardNo)" operation="_tnA78qGlEeGYhJ-ocQUHyA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_FhazsKGzEeGYhJ-ocQUHyA" name="deductMoneyFromCard(cardNo, amount)" operation="_MNPeYKGmEeGYhJ-ocQUHyA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_7s8VsKWTEeGFUugUTqOh4w" name="takeCard()" operation="_kJ4UAKWTEeGFUugUTqOh4w"/>
   </packagedElement>
 </uml:Model>
