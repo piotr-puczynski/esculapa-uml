@@ -99,7 +99,7 @@
           <subvertex xmi:type="uml:State" xmi:id="_zLPaYqWTEeGFUugUTqOh4w" name="card taken"/>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_sqA_gKppEeGpv-kgGwGVBA" name="" kind="choice"/>
           <subvertex xmi:type="uml:State" xmi:id="_SEuGcKpqEeGpv-kgGwGVBA" name="pin entered"/>
-          <subvertex xmi:type="uml:State" xmi:id="_BGbHYKpsEeGpv-kgGwGVBA" name="dispose money"/>
+          <subvertex xmi:type="uml:State" xmi:id="_BGbHYKpsEeGpv-kgGwGVBA" name="bills disposed"/>
           <transition xmi:id="_U1uLkKGwEeGYhJ-ocQUHyA" name="" source="_QoDRQKGwEeGYhJ-ocQUHyA" target="_Sfc3wKGwEeGYhJ-ocQUHyA"/>
           <transition xmi:id="_dW7-tKGwEeGYhJ-ocQUHyA" name="Transition1" source="_Sfc3wKGwEeGYhJ-ocQUHyA" target="_Y_Ra4KGwEeGYhJ-ocQUHyA">
             <trigger xmi:id="_fi8jQKGwEeGYhJ-ocQUHyA" event="_huOvEKGwEeGYhJ-ocQUHyA"/>
