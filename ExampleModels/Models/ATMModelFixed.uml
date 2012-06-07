@@ -99,7 +99,7 @@
           <subvertex xmi:type="uml:State" xmi:id="_zLPaYqWTEeGFUugUTqOh4w" name="card taken"/>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_sqA_gKppEeGpv-kgGwGVBA" name="" kind="choice"/>
           <subvertex xmi:type="uml:State" xmi:id="_SEuGcKpqEeGpv-kgGwGVBA" name="pin entered"/>
-          <subvertex xmi:type="uml:State" xmi:id="_BGbHYKpsEeGpv-kgGwGVBA" name="bills disposed"/>
+          <subvertex xmi:type="uml:State" xmi:id="_BGbHYKpsEeGpv-kgGwGVBA" name="money disposed"/>
           <transition xmi:id="_U1uLkKGwEeGYhJ-ocQUHyA" name="" source="_QoDRQKGwEeGYhJ-ocQUHyA" target="_Sfc3wKGwEeGYhJ-ocQUHyA"/>
           <transition xmi:id="_dW7-tKGwEeGYhJ-ocQUHyA" name="Transition1" source="_Sfc3wKGwEeGYhJ-ocQUHyA" target="_Y_Ra4KGwEeGYhJ-ocQUHyA">
             <trigger xmi:id="_fi8jQKGwEeGYhJ-ocQUHyA" event="_huOvEKGwEeGYhJ-ocQUHyA"/>
@@ -162,7 +162,7 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_Oc5CQKGlEeGYhJ-ocQUHyA" name="verifyPIN">
+      <ownedOperation xmi:id="_Oc5CQKGlEeGYhJ-ocQUHyA" name="enterPIN">
         <ownedParameter xmi:id="_RbceEKGlEeGYhJ-ocQUHyA" name="pinNo">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
@@ -234,6 +234,6 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_8ZkeYKGyEeGYhJ-ocQUHyA" name="isCardValid(cardNo)" operation="_tnA78qGlEeGYhJ-ocQUHyA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_FhazsKGzEeGYhJ-ocQUHyA" name="deductMoneyFromCard(cardNo, pinNo, amount)" operation="_MNPeYKGmEeGYhJ-ocQUHyA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_7s8VsKWTEeGFUugUTqOh4w" name="takeCard()" operation="_kJ4UAKWTEeGFUugUTqOh4w"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_dGNd8KpqEeGpv-kgGwGVBA" name="verifyPIN(pinNo)" operation="_Oc5CQKGlEeGYhJ-ocQUHyA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_dGNd8KpqEeGpv-kgGwGVBA" name="enterPIN(pinNo)" operation="_Oc5CQKGlEeGYhJ-ocQUHyA"/>
   </packagedElement>
 </uml:Model>

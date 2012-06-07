@@ -54,11 +54,7 @@
               <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
             </argument>
           </message>
-          <message xmi:id="_osZtAaGuEeGYhJ-ocQUHyA" name="takeMoney" receiveEvent="_osZF8KGuEeGYhJ-ocQUHyA" sendEvent="_osYe4KGuEeGYhJ-ocQUHyA">
-            <argument xmi:type="uml:LiteralString" xmi:id="_O9hTMLCEEeGlB8U_7q5hxg" name="return">
-              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-            </argument>
-          </message>
+          <message xmi:id="_osZtAaGuEeGYhJ-ocQUHyA" name="takeMoney" receiveEvent="_osZF8KGuEeGYhJ-ocQUHyA" sendEvent="_osYe4KGuEeGYhJ-ocQUHyA"/>
           <message xmi:id="_ruhaM6GuEeGYhJ-ocQUHyA" name="100" messageSort="reply" receiveEvent="_ruhaMaGuEeGYhJ-ocQUHyA" sendEvent="_ruhaMKGuEeGYhJ-ocQUHyA"/>
           <message xmi:id="_cl7k86WUEeGFUugUTqOh4w" name="takeCard" receiveEvent="_cl7k8aWUEeGFUugUTqOh4w" sendEvent="_cl7k8KWUEeGFUugUTqOh4w"/>
         </ownedBehavior>
@@ -101,6 +97,9 @@
           <subvertex xmi:type="uml:State" xmi:id="_FPpZIKGxEeGYhJ-ocQUHyA" name="verified"/>
           <subvertex xmi:type="uml:State" xmi:id="_dItgAKGxEeGYhJ-ocQUHyA" name="amount selected"/>
           <subvertex xmi:type="uml:State" xmi:id="_zLPaYqWTEeGFUugUTqOh4w" name="card taken"/>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_sqA_gKppEeGpv-kgGwGVBA" name="" kind="choice"/>
+          <subvertex xmi:type="uml:State" xmi:id="_SEuGcKpqEeGpv-kgGwGVBA" name="pin entered"/>
+          <subvertex xmi:type="uml:State" xmi:id="_BGbHYKpsEeGpv-kgGwGVBA" name="money disposed"/>
           <transition xmi:id="_U1uLkKGwEeGYhJ-ocQUHyA" name="" source="_QoDRQKGwEeGYhJ-ocQUHyA" target="_Sfc3wKGwEeGYhJ-ocQUHyA"/>
           <transition xmi:id="_dW7-tKGwEeGYhJ-ocQUHyA" name="Transition1" source="_Sfc3wKGwEeGYhJ-ocQUHyA" target="_Y_Ra4KGwEeGYhJ-ocQUHyA">
             <trigger xmi:id="_fi8jQKGwEeGYhJ-ocQUHyA" event="_huOvEKGwEeGYhJ-ocQUHyA"/>
@@ -125,16 +124,36 @@
               </specification>
             </ownedRule>
           </transition>
-          <transition xmi:id="_gzyDlKGxEeGYhJ-ocQUHyA" name="Transition5" source="_FPpZIKGxEeGYhJ-ocQUHyA" target="_dItgAKGxEeGYhJ-ocQUHyA">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_sxQiMKGxEeGYhJ-ocQUHyA" name="bank.deductMoneyFromCard(cardNo, amount)"/>
+          <transition xmi:id="_gzyDlKGxEeGYhJ-ocQUHyA" name="Transition5" source="_SEuGcKpqEeGpv-kgGwGVBA" target="_dItgAKGxEeGYhJ-ocQUHyA">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_sxQiMKGxEeGYhJ-ocQUHyA" name="pinValid := bank.deductMoneyFromCard(cardNo, pinNo, amount)"/>
             <trigger xmi:id="_hc4D4KGxEeGYhJ-ocQUHyA" event="_k9MI8KGxEeGYhJ-ocQUHyA"/>
           </transition>
-          <transition xmi:id="_0xfIJKGxEeGYhJ-ocQUHyA" name="Transition6" source="_zLPaYqWTEeGFUugUTqOh4w" target="_Sfc3wKGwEeGYhJ-ocQUHyA">
+          <transition xmi:id="_0xfIJKGxEeGYhJ-ocQUHyA" name="Transition6" source="_BGbHYKpsEeGpv-kgGwGVBA" target="_Sfc3wKGwEeGYhJ-ocQUHyA">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_6NdooKGxEeGYhJ-ocQUHyA" name="reply amount"/>
             <trigger xmi:id="_2ikEMKGxEeGYhJ-ocQUHyA" event="_4hiSUKGxEeGYhJ-ocQUHyA"/>
           </transition>
           <transition xmi:id="_4FJvpKWTEeGFUugUTqOh4w" name="Transition7" source="_dItgAKGxEeGYhJ-ocQUHyA" target="_zLPaYqWTEeGFUugUTqOh4w">
             <trigger xmi:id="_4_BW4KWTEeGFUugUTqOh4w" name="" event="_7s8VsKWTEeGFUugUTqOh4w"/>
+          </transition>
+          <transition xmi:id="_e4w2IKppEeGpv-kgGwGVBA" name="Transition8" source="_sqA_gKppEeGpv-kgGwGVBA" target="_Sfc3wKGwEeGYhJ-ocQUHyA" guard="_g1XFsKppEeGpv-kgGwGVBA">
+            <ownedRule xmi:id="_g1XFsKppEeGpv-kgGwGVBA" name="">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_kMy7kKppEeGpv-kgGwGVBA" name="else">
+                <language>ocl</language>
+                <body>else</body>
+              </specification>
+            </ownedRule>
+          </transition>
+          <transition xmi:id="_2drR9KppEeGpv-kgGwGVBA" name="" source="_zLPaYqWTEeGFUugUTqOh4w" target="_sqA_gKppEeGpv-kgGwGVBA"/>
+          <transition xmi:id="_V5QIAKpqEeGpv-kgGwGVBA" name="Transition9" source="_Y_Ra4KGwEeGYhJ-ocQUHyA" target="_SEuGcKpqEeGpv-kgGwGVBA">
+            <trigger xmi:id="_YmVZUKpqEeGpv-kgGwGVBA" event="_dGNd8KpqEeGpv-kgGwGVBA"/>
+          </transition>
+          <transition xmi:id="_EEjFZKpsEeGpv-kgGwGVBA" name="Transition10" source="_sqA_gKppEeGpv-kgGwGVBA" target="_BGbHYKpsEeGpv-kgGwGVBA" guard="_KOeRAKpsEeGpv-kgGwGVBA">
+            <ownedRule xmi:id="_KOeRAKpsEeGpv-kgGwGVBA">
+              <specification xmi:type="uml:OpaqueExpression" xmi:id="_N5aRsKpsEeGpv-kgGwGVBA" name="pinValid">
+                <language>ocl</language>
+                <body>pinValid</body>
+              </specification>
+            </ownedRule>
           </transition>
         </region>
       </ownedBehavior>
@@ -171,6 +190,7 @@
             <trigger xmi:id="_5xDkAKGyEeGYhJ-ocQUHyA" name="" event="_8ZkeYKGyEeGYhJ-ocQUHyA"/>
           </transition>
           <transition xmi:id="__WNOpKGyEeGYhJ-ocQUHyA" name="Transition2" source="_yP778KGyEeGYhJ-ocQUHyA" target="_yP778KGyEeGYhJ-ocQUHyA">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_wkZm4KpoEeGpv-kgGwGVBA" name="reply true"/>
             <trigger xmi:id="_CcXuUKGzEeGYhJ-ocQUHyA" name="" event="_FhazsKGzEeGYhJ-ocQUHyA"/>
           </transition>
         </region>
@@ -187,13 +207,13 @@
         <ownedParameter xmi:id="_OXnrQKGmEeGYhJ-ocQUHyA" name="cardNo">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_tK1mYLCEEeGlB8U_7q5hxg" name="pinNo">
+        <ownedParameter xmi:id="_gwJZEKpqEeGpv-kgGwGVBA" name="pinNo">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
         <ownedParameter xmi:id="_R8mN4KGmEeGYhJ-ocQUHyA" name="amount">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_RIeH0LCEEeGlB8U_7q5hxg" name="return" direction="return">
+        <ownedParameter xmi:id="_qdFqYKpoEeGpv-kgGwGVBA" name="return" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
         </ownedParameter>
       </ownedOperation>
@@ -212,7 +232,8 @@
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_k9MI8KGxEeGYhJ-ocQUHyA" name="selectAmountToWithdraw(amount)" operation="_Ygf1MqGlEeGYhJ-ocQUHyA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_4hiSUKGxEeGYhJ-ocQUHyA" name="takeMoney()" operation="_jr7L0KGlEeGYhJ-ocQUHyA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_8ZkeYKGyEeGYhJ-ocQUHyA" name="isCardValid(cardNo)" operation="_tnA78qGlEeGYhJ-ocQUHyA"/>
-    <packagedElement xmi:type="uml:CallEvent" xmi:id="_FhazsKGzEeGYhJ-ocQUHyA" name="deductMoneyFromCard(cardNo, amount)" operation="_MNPeYKGmEeGYhJ-ocQUHyA"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_FhazsKGzEeGYhJ-ocQUHyA" name="deductMoneyFromCard(cardNo, pinNo, amount)" operation="_MNPeYKGmEeGYhJ-ocQUHyA"/>
     <packagedElement xmi:type="uml:CallEvent" xmi:id="_7s8VsKWTEeGFUugUTqOh4w" name="takeCard()" operation="_kJ4UAKWTEeGFUugUTqOh4w"/>
+    <packagedElement xmi:type="uml:CallEvent" xmi:id="_dGNd8KpqEeGpv-kgGwGVBA" name="enterPIN(pinNo)" operation="_Oc5CQKGlEeGYhJ-ocQUHyA"/>
   </packagedElement>
 </uml:Model>
