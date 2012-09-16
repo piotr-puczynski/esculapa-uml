@@ -178,7 +178,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 				if (null != transitionToTake) {
 					// detection of loops created by completion transitions
 					if (null == transitionToTake.getGuard() && transitionToTake.getSource() == transitionToTake.getTarget()) {
-						checker.addOtherProblem(Diagnostic.ERROR, "Transition is ill-formed. Loop has been detected during firing of completion transitions.",
+						checker.addOtherProblem(Diagnostic.ERROR, "Transition is ill-formed. An infinite loop has been detected during firing of completion transitions.",
 								transitionToTake);
 						break;
 					}
@@ -257,8 +257,8 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 		if (isExecuting) {
 			// self-call error
 			if (event.isSynchronousCall()) {
-				checker.addOtherProblem(Diagnostic.ERROR, "StateMachine instance \"" + instanceSpecification.getName() + "\" cannot accept self-calls of \""
-						+ event.getOperation().getLabel() + "\" that is not query operation.", event.getErrorContext());
+				checker.addOtherProblem(Diagnostic.ERROR, "Deadlock detected. State machine instance \"" + instanceSpecification.getName() + "\" cannot accept self-calls of \""
+						+ event.getOperation().getLabel() + "\" that is not a query operation.", event.getErrorContext());
 				return null;
 			} else {
 				checker.addOtherProblem(Diagnostic.WARNING, "StateMachine instance \"" + instanceSpecification.getName()
@@ -276,7 +276,7 @@ public class BehaviorExecutor extends AbstractInstanceExecutor {
 			}
 			if (null == goodTransition) {
 				if (event.isSynchronousCall()) {
-					checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is not ready to respond to an event '"
+					checker.addOtherProblem(Diagnostic.ERROR, "Instance '" + instanceSpecification.getName() + "' is not ready to respond to the event '"
 							+ event.getOperation().getLabel() + "'.", event.getErrorContext());
 				} else {
 					// warning, the machine is not able to process an operation

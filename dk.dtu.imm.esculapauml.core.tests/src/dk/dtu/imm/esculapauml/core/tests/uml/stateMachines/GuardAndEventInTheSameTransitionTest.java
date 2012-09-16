@@ -47,6 +47,6 @@ public class GuardAndEventInTheSameTransitionTest extends LoggingTest {
 		assertEquals(Diagnostic.ERROR, diagnostics.getSeverity());
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostics).size());
 		// error is
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Instance 'Lifeline2' is not ready to respond to an event 'm'."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostics, Diagnostic.ERROR, "Instance 'Lifeline2' is not ready to respond to the event 'm'."));
 	}
 }

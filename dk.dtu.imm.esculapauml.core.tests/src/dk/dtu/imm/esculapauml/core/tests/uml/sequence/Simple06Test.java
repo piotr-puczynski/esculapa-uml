@@ -47,7 +47,7 @@ public class Simple06Test extends LoggingTest {
 		assertEquals(1, TestUtils.getDiagnosticErrorsAndWarnings(diagnostic).size());
 		// a error is...
 		// TestUtils.printDiagnostic(diagnostic);
-		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR, "Instance 'testInstance' is not ready to respond to an event 's'."));
+		assertTrue(TestUtils.diagnosticMessageExists(diagnostic, Diagnostic.ERROR, "Instance 'testInstance' is not ready to respond to the event 's'."));
 	}
 
 }
